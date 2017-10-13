@@ -1,0 +1,22 @@
+﻿  compilation object save succeeded; see C:\Users\yamadatsuyoshi\Desktop\星結\SimplSample021\media\Shaders\PSPCTSprite.cso
+  compilation object save succeeded; see C:\Users\yamadatsuyoshi\Desktop\星結\SimplSample021\media\Shaders\PSPNTStatic.cso
+  compilation object save succeeded; see C:\Users\yamadatsuyoshi\Desktop\星結\SimplSample021\media\Shaders\VSPCTSprite.cso
+  compilation object save succeeded; see C:\Users\yamadatsuyoshi\Desktop\星結\SimplSample021\media\Shaders\VSPNTStatic.cso
+  stdafx.cpp
+  WinMain.cpp
+  Scene.cpp
+  ProjectShader.cpp
+  ProjectBehavior.cpp
+  Player.cpp
+  GameStage.cpp
+  DrawObjects.cpp
+  Character.cpp
+  XmlDoc.cpp
+  MeshHelper.cpp
+  BaseHelper.cpp
+  App.cpp
+  VertexHelper.cpp
+  DeviceResources.cpp
+  コードを生成中...
+  BaseCrossDx11.vcxproj -> C:\Users\yamadatsuyoshi\Desktop\星結\SimplSample021\Debug\BaseCrossDx11.exe
+  BaseCrossDx11.vcxproj -> C:\Users\yamadatsuyoshi\Desktop\星結\SimplSample021\Debug\BaseCrossDx11.pdb (Full PDB)

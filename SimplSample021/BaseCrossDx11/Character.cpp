@@ -65,7 +65,6 @@ namespace basecross {
 		shptr->AddDrawMesh(m_PtrObj);
 	}
 
-
 	//--------------------------------------------------------------------------------------
 	///	ラッピング処理されたスプライト
 	//--------------------------------------------------------------------------------------
@@ -210,67 +209,6 @@ namespace basecross {
 		//後始末
 		Dev->InitializeStates();
 	}
-	//--------------------------------------------------------------------------------------
-	///	回転するスプライト
-	//--------------------------------------------------------------------------------------
-	RotateSprite::RotateSprite(const shared_ptr<Stage>& StagePtr,
-		const wstring& TextureResName, 
-		const Vec2& StartScale,
-		float StartRot,
-		const Vec2& StartPos,
-		UINT XWrap, UINT YWrap):
-		SpriteBase(StagePtr, TextureResName, StartScale, StartRot, StartPos, XWrap, YWrap),
-		m_TotalTime(0)
-	{
-		SetBlendState(BlendState::Additive);
-	}
-
-	void RotateSprite::AdjustVertex() {
-		//頂点色を変更する
-		for (size_t i = 0; i < m_BackupVertices.size();i++) {
-			switch (i) {
-			case 0:
-				m_BackupVertices[i].color = Col4(1.0f, 0.0f, 0.0f, 1.0f);
-				break;
-			case 1:
-				m_BackupVertices[i].color = Col4(0.0f, 1.0f, 0.0f, 1.0f);
-				break;
-			case 2:
-				m_BackupVertices[i].color = Col4(0.0f, 0.0f, 1.0f, 1.0f);
-				break;
-			case 3:
-				m_BackupVertices[i].color = Col4(1.0f, 1.0f, 0, 1.0);
-				break;
-			}
-		}
-	}
-
-	void RotateSprite::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
-		m_Rot += ElapsedTime;
-		if (m_Rot >= XM_2PI) {
-			m_Rot = 0;
-		}
-		m_TotalTime += ElapsedTime;
-		if (m_TotalTime >= 1.0f) {
-			m_TotalTime = 0;
-		}
-		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
-			Vec2 UV(m_BackupVertices[i].textureCoordinate);
-			if (UV.x == 0.0f) {
-				UV.x = m_TotalTime;
-			}
-			else if (UV.x == 4.0f) {
-				UV.x += m_TotalTime;
-			}
-			vertices[i] = VertexPositionColorTexture(
-				m_BackupVertices[i].position,
-				m_BackupVertices[i].color,
-				UV
-			);
-		}
-
-
-	}
 
 
 	//--------------------------------------------------------------------------------------
@@ -309,7 +247,37 @@ namespace basecross {
 		}
 	}
 
+	//--------------------------------------------------------------------------------------
+	///	かぐや姫のスプライト
+	//--------------------------------------------------------------------------------------
+	PrincessSprite::PrincessSprite(const shared_ptr<Stage>& StagePtr,
+		const wstring& TextureResName,
+		const Vec2& StartScale,
+		float StartRot,
+		const Vec2& StartPos,
+		UINT XWrap, UINT YWrap) :
+		SpriteBase(StagePtr, TextureResName, StartScale, StartRot, StartPos, XWrap, YWrap),
+		m_TotalTime(0)
+	{
+		SetBlendState(BlendState::Additive);
+	}
 
+	void PrincessSprite::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
+		m_TotalTime += ElapsedTime;
+		if (m_TotalTime >= 1.0f) {
+			m_TotalTime = 0;
+		}
+		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
+			Vec2 UV(m_BackupVertices[i].textureCoordinate);
+			vertices[i] = VertexPositionColorTexture(
+				m_BackupVertices[i].position,
+				m_BackupVertices[i].color,
+				UV
+			);
+		}
+
+
+	}
 
 }
 //end basecross

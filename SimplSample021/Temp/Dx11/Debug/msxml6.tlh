@@ -1,9 +1,9 @@
-﻿// Created by Microsoft (R) C/C++ Compiler Version 14.00.24215.1 (7206508d).
+﻿// Created by Microsoft (R) C/C++ Compiler Version 14.00.24215.1 (f53737d0).
 //
-// c:\users\yamadatsuyoshi\desktop\星結\simplsample021\temp\dx11\debug\msxml6.tlh
+// c:\users\yamadatsuyoshi\documents\basecross\simplsample021\temp\dx11\debug\msxml6.tlh
 //
 // C++ source equivalent of Win32 type library msxml6.dll
-// compiler-generated file created 10/13/17 at 13:37:12 - DO NOT EDIT!
+// compiler-generated file created 10/24/17 at 14:31:10 - DO NOT EDIT!
 
 #pragma once
 #pragma pack(push, 8)

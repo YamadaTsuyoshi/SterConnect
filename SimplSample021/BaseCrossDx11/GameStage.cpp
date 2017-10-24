@@ -31,7 +31,7 @@ namespace basecross {
 
 		//プレイヤーの作成
 		AddGameObject<Player>(
-			L"TRACE_TX", 
+			L"PRINCESS_TX", 
 			true, 
 			Vec3(0.0f, 0.125f, 0.0f)
 			);
@@ -40,12 +40,12 @@ namespace basecross {
 		AddGameObject<PNTDrawObject>();
 
 		//回転するスプライトの作成
-		AddGameObject<RotateSprite>(
-			L"TRACE_TX",
+		AddGameObject<PrincessSprite>(
+			L"PRINCESS_TX",
 			Vec2(160, 160),
 			0.0f,
 			Vec2(-480, 260),
-			4, 4
+			1, 1
 			);
 
 

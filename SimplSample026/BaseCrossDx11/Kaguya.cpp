@@ -1,8 +1,3 @@
-/*!
-@file Player.cpp
-@brief プレイヤー実体
-*/
-
 #include "stdafx.h"
 #include "Project.h"
 
@@ -11,7 +6,7 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	///	球体のプレイヤー実体
 	//--------------------------------------------------------------------------------------
-	Player::Player(const shared_ptr<Stage>& StagePtr,
+	Kaguya::Kaguya(const shared_ptr<Stage>& StagePtr,
 		const wstring& TextureResName, bool Trace, const Vec3& Pos) :
 		GameObject(StagePtr),
 		m_TextureResName(TextureResName),
@@ -20,9 +15,9 @@ namespace basecross {
 		m_Posision(Pos),
 		m_JumpLock(false)
 	{}
-	Player::~Player() {}
+	Kaguya::~Kaguya() {}
 
-	Vec3 Player::GetMoveVector() {
+	Vec3 Kaguya::GetMoveVector() {
 		Vec3 Angle(0, 0, 0);
 		auto PtrGameStage = GetStage<GameStage>();
 		Vec3 CameraEye, CameraAt;
@@ -31,49 +26,25 @@ namespace basecross {
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (CntlVec[0].bConnected) {
-			if (CntlVec[0].fThumbLX != 0|| CntlVec[0].fThumbLY != 0) {
-				float MoveLength = 0;	//動いた時のスピード
-										//進行方向の向きを計算
-				Vec3 Front = m_Rigidbody->m_Pos - CameraEye;
-				Front.z = 0;
-				Front.normalize();
-				//進行方向向きからの角度を算出
-				float FrontAngle = atan2(Front.z, Front.x);
-				//コントローラの向き計算
-				float MoveX = CntlVec[0].fThumbLX;
-				float MoveY = CntlVec[0].fThumbLY;
-				Vec2 MoveVec(MoveX, MoveY);
-				float MoveSize = length(MoveVec);
-				//コントローラの向きから角度を計算
-				float CntlAngle = atan2(MoveX, MoveY);
-				//トータルの角度を算出
-				float TotalAngle = FrontAngle + CntlAngle;
-				//角度からベクトルを作成
-				Angle = Vec3(sin(TotalAngle), cos(TotalAngle), 0);
-				//正規化する
-				Angle.normalize();
-				//移動サイズを設定。
-				Angle *= MoveSize;
-				//Y軸は変化させない
-				Angle.z = 0;
+			if (CntlVec[0].fThumbLX != 0) {
 				
 			}
 		}
 		return Angle;
 	}
 
-	Vec3 Player::GetPosition() {
+	Vec3 Kaguya::GetPosition() {
 		return m_Rigidbody->m_Pos;
 	}
 
-	void Player::OnCreate() {
+	void Kaguya::OnCreate() {
 		vector<VertexPositionNormalTexture> vertices;
 		vector<uint16_t> indices;
 		MeshUtill::CreateSphere(1.0f, 18, vertices, indices);
 		//メッシュの作成（変更できない）
 		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
 		//タグの追加
-		AddTag(L"Player");
+		AddTag(L"Kaguya");
 		//Rigidbodyの初期化
 		auto PtrGameStage = GetStage<GameStage>();
 		Rigidbody body;
@@ -83,7 +54,7 @@ namespace basecross {
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;
-//		body.m_IsDrawActive = true;
+		//		body.m_IsDrawActive = true;
 		body.SetToBefore();
 
 		m_Rigidbody = PtrGameStage->AddRigidbody(body);
@@ -116,32 +87,119 @@ namespace basecross {
 
 
 	}
-	void Player::OnUpdate() {
+	void Kaguya::OnUpdate() {
 		//前回のターンからの経過時間を求める
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (CntlVec[0].bConnected) {
+			if (!m_JumpLock) {
 				//Aボタン
 				if (CntlVec[0].wButtons & XINPUT_GAMEPAD_A) {
+					if (m_Rigidbody->m_Pos.y <= 1.0f) {
+						m_Rigidbody->m_BeforePos.y += 0.01f;
+						m_Rigidbody->m_Pos.y += 0.01f;
+						m_Rigidbody->m_Velocity += Vec3(0, 15.0f, 0);
+						m_JumpLock = true;
+						//fireの送出
+						auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
+						Vec3 Emitter = m_Rigidbody->m_Pos;
+						Emitter.y -= 0.125f;
+						FirePtr->InsertFire(Emitter);
+					}
+				}
+				else if (m_Rigidbody->m_Pos.y <= 1.0f) {
+					m_Rigidbody->m_BeforePos.y += 0.01f;
+					m_Rigidbody->m_Pos.y += 0.01f;
+					m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
+					m_JumpLock = true;
+					//fireの送出
+					auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
+					Vec3 Emitter = m_Rigidbody->m_Pos;
+					Emitter.y -= 0.125f;
+					FirePtr->InsertFire(Emitter);
 				}
 			}
 			Vec3 Direction = GetMoveVector();
 			if (length(Direction) < 0.1f) {
-				m_Rigidbody->m_Velocity *= 0.9f;
+				m_Rigidbody->m_Velocity.x *= 0.9f;
+				m_Rigidbody->m_Velocity.z *= 0.9f;
 			}
 			else {
-				m_Rigidbody->m_Velocity = Direction * 5.0f;
+				//フォースで変更する場合は以下のように記述
+				//body.m_Force += Direction * 10.0f;
+				//速度で変更する場合は以下のように記述
+				m_Rigidbody->m_Velocity += Direction * 0.5f;
+				Vec2 TempVelo(m_Rigidbody->m_Velocity.x, m_Rigidbody->m_Velocity.z);
+				TempVelo = XMVector2ClampLength(TempVelo, 0, 5.0f);
+				m_Rigidbody->m_Velocity.x = TempVelo.x;
+				m_Rigidbody->m_Velocity.z = TempVelo.y;
 			}
-		m_Rigidbody->m_Pos += (m_Rigidbody->m_Velocity * ElapsedTime);
+		}
+		m_Rigidbody->m_Force += m_Rigidbody->m_Gravity * m_Rigidbody->m_Mass;
 	}
 
-	void Player::OnUpdate2() {
+	void Kaguya::OnUpdate2() {
+		if (m_Rigidbody->m_Pos.y <= m_BaseY) {
+			m_Rigidbody->m_Pos.y = m_BaseY;
+			m_Rigidbody->m_Velocity.y = 0;
+			if (m_JumpLock) {
+				Vec3 Emitter = m_Rigidbody->m_Pos;
+				Emitter.y -= 0.125f;
+				//Spaerkの送出
+				auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+				SpaerkPtr->InsertSpark(Emitter);
+			}
+			m_JumpLock = false;
+		}
+		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
+		for (auto& v : StateVec) {
+			if (v.m_Src == m_Rigidbody.get()) {
+				Vec3 Normal = v.m_SrcHitNormal;
+				Normal.normalize();
+				Vec4 v = (Vec4)XMVector3AngleBetweenNormals(Vec3(0, 1, 0), Normal);
+				if (v.x < 0.1f) {
+					if (m_JumpLock) {
+						Vec3 Emitter = m_Rigidbody->m_Pos;
+						Emitter.y -= 0.125f;
+						//Spaerkの送出
+						auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+						SpaerkPtr->InsertSpark(Emitter);
+					}
+					m_JumpLock = false;
+					break;
+				}
+			}
+			else if (v.m_Dest == m_Rigidbody.get()) {
+				Vec3 Normal = v.m_SrcHitNormal;
+				Normal.normalize();
+				Vec4 v = (Vec4)XMVector3AngleBetweenNormals(Vec3(0, 1, 0), Normal);
+				if (v.x < 0.1f) {
+					if (m_JumpLock) {
+						Vec3 Emitter = m_Rigidbody->m_Pos;
+						Emitter.y -= 0.125f;
+						//Spaerkの送出
+						auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+						SpaerkPtr->InsertSpark(Emitter);
+					}
+					m_JumpLock = false;
+					break;
+				}
+			}
+		}
+		auto LenVec = m_Rigidbody->m_Pos - m_Rigidbody->m_BeforePos;
+		LenVec.y = 0;
+		auto Len = LenVec.length();
+		if (Len > 0) {
+			Vec3 Cross = cross(Vec3(0, 1, 0), LenVec);
+			Quat Span(Cross, Len / 0.5f);
+			m_Rigidbody->m_Quat *= Span;
+		}
 		//プレイヤーのＺ位置は強制的に0.0にする
 		m_Rigidbody->m_Pos.z = 0.0f;
 	}
 
-	void Player::OnDrawShadowmap() {
+	void Kaguya::OnDrawShadowmap() {
 		//行列の定義
 		Mat4x4 World;
 		World.affineTransformation(
@@ -163,7 +221,7 @@ namespace basecross {
 	}
 
 
-	void Player::OnDraw() {
+	void Kaguya::OnDraw() {
 		//行列の定義
 		Mat4x4 World;
 		World.affineTransformation(

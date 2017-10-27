@@ -65,11 +65,23 @@ namespace basecross {
 			Vec3(0, -0.5f, 0)
 			);
 
+		AddGameObject<SimpleBox>(
+			L"TRACE_TX",
+			Vec3(100.0f, 20.0f, 1.0f),
+			Vec3(0, 8.0f, 10)
+			);
+
 
 		//ÉvÉåÉCÉÑÅ[ÇÃçÏê¨
 		AddGameObject<Player>(
 			L"TRACE_TX", 
 			true, 
+			Vec3(0.0f, 0.25f, 0.0f)
+			);
+
+		AddGameObject<Kaguya>(
+			L"KAGUYA_TX",
+			true,
 			Vec3(0.0f, 0.125f, 0.0f)
 			);
 
@@ -197,7 +209,7 @@ namespace basecross {
 				}
 			}
 
-			camera.m_CamerAt = FindTagGameObject<GameObject>(L"Player")->GetPosition();
+			camera.m_CamerAt = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition();
 			camera.m_CamerAt.y += 0.25f;
 			Vec3 CameraLocalEye =
 				Vec3(

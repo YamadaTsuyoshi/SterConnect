@@ -39,25 +39,48 @@ namespace basecross {
 				Vec3 Front = m_Pos - CameraEye;
 				Front.z = 0;
 				Front.normalize();
-				//進行方向向きからの角度を算出
-				float FrontAngle = atan2(Front.y, Front.x);
-				//コントローラの向き計算
-				float MoveX = CntlVec[0].fThumbLX;
-				float MoveY = CntlVec[0].fThumbLY;
-				Vec2 MoveVec(MoveX, MoveY);
-				float MoveSize = length(MoveVec);
-				//コントローラの向きから角度を計算
-				float CntlAngle = atan2(MoveX, -MoveY);
-				//トータルの角度を算出
-				float TotalAngle = FrontAngle + CntlAngle;
-				//角度からベクトルを作成
-				Angle = Vec3(cos(TotalAngle), sin(TotalAngle), 0);
-				//正規化する
-				Angle.normalize();
-				//移動サイズを設定。
-				Angle *= MoveSize;
-				//Y軸は変化させない
-				Angle.z = 0;
+				if (m_Pos.x <= 0) {
+					//進行方向向きからの角度を算出
+					float FrontAngle = atan2(Front.y, Front.x);
+					//コントローラの向き計算
+					float MoveX = CntlVec[0].fThumbLX;
+					float MoveY = CntlVec[0].fThumbLY;
+					Vec2 MoveVec(MoveX, MoveY);
+					float MoveSize = length(MoveVec);
+					//コントローラの向きから角度を計算
+					float CntlAngle = atan2(-MoveX, MoveY);
+					//トータルの角度を算出
+					float TotalAngle = FrontAngle + CntlAngle;
+					//角度からベクトルを作成
+					Angle = Vec3(cos(TotalAngle), sin(TotalAngle), 0);
+					//正規化する
+					Angle.normalize();
+					//移動サイズを設定。
+					Angle *= MoveSize;
+					//Y軸は変化させない
+					Angle.z = 0;
+				}
+				else {
+					//進行方向向きからの角度を算出
+					float FrontAngle = atan2(Front.y, Front.x);
+					//コントローラの向き計算
+					float MoveX = CntlVec[0].fThumbLX;
+					float MoveY = CntlVec[0].fThumbLY;
+					Vec2 MoveVec(MoveX, MoveY);
+					float MoveSize = length(MoveVec);
+					//コントローラの向きから角度を計算
+					float CntlAngle = atan2(MoveX, -MoveY);
+					//トータルの角度を算出
+					float TotalAngle = FrontAngle + CntlAngle;
+					//角度からベクトルを作成
+					Angle = Vec3(cos(TotalAngle), sin(TotalAngle), 0);
+					//正規化する
+					Angle.normalize();
+					//移動サイズを設定。
+					Angle *= MoveSize;
+					//Y軸は変化させない
+					Angle.z = 0;
+				}
 			}
 		}
 		return Angle;

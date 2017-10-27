@@ -108,6 +108,7 @@
     <ClInclude Include="DrawObjects.h" />
     <ClInclude Include="GameStage.h" />
     <ClInclude Include="DrawObjectsEx.h" />
+    <ClInclude Include="Kaguya.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Project.h" />
     <ClInclude Include="ProjectBehavior.h" />
@@ -129,6 +130,7 @@
     <ClCompile Include="DrawObjects.cpp" />
     <ClCompile Include="GameStage.cpp" />
     <ClCompile Include="DrawObjectsEx.cpp" />
+    <ClCompile Include="Kaguya.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProjectBehavior.cpp" />
     <ClCompile Include="ProjectShader.cpp" />

@@ -190,27 +190,36 @@ namespace basecross {
 		auto& camera = GetCamera();
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		if (CntlVec[0].bConnected) {
+		//if (CntlVec[0].bConnected) {
 
-			//Dパッド下
-			if (CntlVec[0].wButtons & XINPUT_GAMEPAD_DPAD_DOWN) {
-				//カメラ位置を引く
-				camera.m_CameraArmLen += 0.1f;
-				if (GetCamera().m_CameraArmLen >= 50.0f) {
-					GetCamera().m_CameraArmLen = 50.0f;
-				}
-			}
-			//Dパッド上
-			if (CntlVec[0].wButtons & XINPUT_GAMEPAD_DPAD_UP) {
-				//カメラ位置を寄る
-				camera.m_CameraArmLen -= 0.1f;
-				if (GetCamera().m_CameraArmLen <= 2.0f) {
-					camera.m_CameraArmLen = 2.0f;
-				}
-			}
-
-			camera.m_CamerAt = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition();
-			camera.m_CamerAt.y += 0.25f;
+		//	//Dパッド下
+		//	if (CntlVec[0].wButtons & XINPUT_GAMEPAD_DPAD_DOWN) {
+		//		//カメラ位置を引く
+		//		camera.m_CameraArmLen += 0.1f;
+		//		if (GetCamera().m_CameraArmLen >= 50.0f) {
+		//			GetCamera().m_CameraArmLen = 50.0f;
+		//		}
+		//	}
+		//	//Dパッド上
+		//	if (CntlVec[0].wButtons & XINPUT_GAMEPAD_DPAD_UP) {
+		//		//カメラ位置を寄る
+		//		camera.m_CameraArmLen -= 0.1f;
+		//		if (GetCamera().m_CameraArmLen <= 2.0f) {
+		//			camera.m_CameraArmLen = 2.0f;
+		//		}
+		//	}
+			//camera.m_CamerAt = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition();
+			//camera.m_CamerAt.y += 0.25f;
+		auto kaguya = FindTagGameObject<Kaguya>(L"Kaguya");
+		auto Body = kaguya->GetRigidbody();
+		if (Body->m_Force.y <= 0.0f) {
+			maxPosition = camera.m_CamerAt;
+			camera.m_CamerAt = maxPosition;
+		}
+		else if (kaguya->GetPosition().y >= camera.m_CamerAt.y) {
+			camera.m_CamerAt.y +=  Body->m_Force.y;
+		}
+		
 			Vec3 CameraLocalEye =
 				Vec3(
 					sin(camera.m_CameraXZRad) * camera.m_CameraArmLen * sin(camera.m_CameraYRad),
@@ -222,7 +231,7 @@ namespace basecross {
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToEmptyStage");
 			}
-		}
+		
 
 		auto fps = App::GetApp()->GetStepTimer().GetFramesPerSecond();
 		wstring FPS(L"FPS: ");

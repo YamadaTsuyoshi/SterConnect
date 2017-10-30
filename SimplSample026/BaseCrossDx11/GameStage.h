@@ -21,6 +21,8 @@ namespace basecross {
 		shared_ptr<StringDrawObject> m_StringDrawObject;
 		//PCTボックスの登録（リソース登録する）
 		void RegisterPctlBox();
+
+		Vec3 maxPosition;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!

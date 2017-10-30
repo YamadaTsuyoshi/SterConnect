@@ -97,6 +97,11 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
+
+		shared_ptr<Rigidbody> GetRigidbody()
+		{
+			return m_Rigidbody;
+		}
 	};
 
 

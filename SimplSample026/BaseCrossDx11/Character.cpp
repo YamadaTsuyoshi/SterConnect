@@ -194,7 +194,7 @@ namespace basecross {
 	}
 
 	void SimpleSquare::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
-		m_TotalTime += ElapsedTime;
+		//m_TotalTime += ElapsedTime;
 		if (m_TotalTime >= 1.0f) {
 			m_TotalTime = 0;
 		}
@@ -204,7 +204,7 @@ namespace basecross {
 				UV.x = m_TotalTime;
 			}
 			else if (UV.x == 4.0f) {
-				UV.x += m_TotalTime;
+				//UV.x += m_TotalTime;
 			}
 			vertices[i] = VertexPositionColorTexture(
 				m_BackupVertices[i].position,

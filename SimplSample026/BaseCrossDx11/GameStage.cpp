@@ -45,30 +45,30 @@ namespace basecross {
 		//PCTボックスの登録（リソース登録する）
 		RegisterPctlBox();
 
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				float x = -15.0f + 10.0f * (float)i + (float)j * 2.0f;
-				float z = 1.0f - (float)j * 0.1f;
-				//Static描画スタティックな3D平面(何もしない。正規化のみ)
-				AddGameObject<SimpleSquare>(
-					L"SKY_TX",
-					Vec3(1.0f, 0.5f, 2.0f),
-					Vec3(x, 0.25f, z),
-					SquareDrawOption::Normal
-					);
-			}
-		}
-
-		AddGameObject<SimpleBox>(
+		AddGameObject<SimpleSquare>(
 			L"SKY_TX",
-			Vec3(50.0f, 1.0f, 50.0f),
-			Vec3(0, -0.5f, 0)
+			Vec3(0.5f, 10.0f, 2.0f),
+			Vec3(6.25f, 0.0f, 0.0f),
+			SquareDrawOption::Normal
+			);
+		AddGameObject<SimpleSquare>(
+			L"SKY_TX",
+			Vec3(0.5f, 10.0f, 2.0f),
+			Vec3(-6.25f, 0.0f, 0.0f),
+			SquareDrawOption::Normal
 			);
 
 		AddGameObject<SimpleBox>(
-			L"TRACE_TX",
-			Vec3(100.0f, 20.0f, 1.0f),
-			Vec3(0, 8.0f, 10)
+			L"SKY_TX",
+			Vec3(2.0f, 0.5f, 50.0f),
+			Vec3(0, -0.5f, 0)
+			);
+
+		AddGameObject<SimpleSquare>(
+			L"BG_TX",
+			Vec3(15.0f, 15.0f, 1.0f),
+			Vec3(0, 0.0f, 10),
+			SquareDrawOption::Normal
 			);
 
 

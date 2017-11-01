@@ -22,7 +22,7 @@ namespace basecross {
 		//PCTボックスの登録（リソース登録する）
 		void RegisterPctlBox();
 
-		Vec3 maxPosition;
+		float maxPosition;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!

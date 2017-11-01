@@ -210,7 +210,7 @@ namespace basecross {
 		//	}
 			//camera.m_CamerAt = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition();
 			//camera.m_CamerAt.y += 0.25f;
-		auto kaguya = FindTagGameObject<Kaguya>(L"Kaguya");
+		/*auto kaguya = FindTagGameObject<Kaguya>(L"Kaguya");
 		auto Body = kaguya->GetRigidbody();
 		if (Body->m_Force.y <= 0.0f) {
 			maxPosition = camera.m_CamerAt;
@@ -218,8 +218,17 @@ namespace basecross {
 		}
 		else if (kaguya->GetPosition().y >= camera.m_CamerAt.y) {
 			camera.m_CamerAt.y +=  Body->m_Force.y;
+		}*/
+		camera.m_CamerAt = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition();
+		if (camera.m_CamerAt.y > maxPosition) {
+			maxPosition = camera.m_CamerAt.y;
 		}
-		
+
+		else if (camera.m_CamerAt.y < maxPosition) {
+			camera.m_CamerAt.y= maxPosition;
+			//maxPosition = camera.m_CamerAt.y;
+		}
+
 			Vec3 CameraLocalEye =
 				Vec3(
 					sin(camera.m_CameraXZRad) * camera.m_CameraArmLen * sin(camera.m_CameraYRad),
@@ -235,10 +244,10 @@ namespace basecross {
 
 		auto fps = App::GetApp()->GetStepTimer().GetFramesPerSecond();
 		wstring FPS(L"FPS: ");
-		FPS += Util::UintToWStr(fps);
+		FPS += Util::UintToWStr(camera.m_CamerAt.y);
 		FPS += L"\nElapsedTime: ";
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		FPS += Util::FloatToWStr(ElapsedTime);
+		FPS += Util::FloatToWStr(maxPosition);
 		FPS += L"\n";
 		if (!m_StringDrawObject) {
 			m_StringDrawObject = FindTagGameObject<StringDrawObject>(L"StringDrawObject");

@@ -104,7 +104,7 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		SimpleSquare(const shared_ptr<Stage>& StagePtr,
 			const wstring& TextureResName,
-			const Vec3& Scale, const Vec3& Pos, SquareDrawOption Option);
+			const Vec3& Scale, const Vec3& Pos, const Quat& Qt, SquareDrawOption Option);
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief デストラクタ

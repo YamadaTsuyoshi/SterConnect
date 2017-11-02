@@ -143,11 +143,12 @@ namespace basecross {
 	//ç\ízÇ∆îjä¸
 	SimpleSquare::SimpleSquare(const shared_ptr<Stage>& StagePtr,
 		const wstring& TextureResName,
-		const Vec3& Scale, const Vec3& Pos, SquareDrawOption Option):
+		const Vec3& Scale, const Vec3& Pos, const Quat& Qt,
+		SquareDrawOption Option):
 		GameObject(StagePtr),
 		m_TextureResName(TextureResName),
 		m_Scale(Scale),
-		m_Qt(),
+		m_Qt(Qt),
 		m_Pos(Pos),
 		m_DrawOption(Option),
 		m_TotalTime(0)

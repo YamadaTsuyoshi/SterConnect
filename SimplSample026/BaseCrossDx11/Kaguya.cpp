@@ -11,7 +11,7 @@ namespace basecross {
 		GameObject(StagePtr),
 		m_TextureResName(TextureResName),
 		m_Trace(Trace),
-		m_BaseY(0.25f / 2.0f),
+		m_BaseY(-5.0f),
 		m_Posision(Pos),
 		m_JumpLock(false)
 	{}
@@ -49,12 +49,12 @@ namespace basecross {
 		auto PtrGameStage = GetStage<GameStage>();
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
-		body.m_Mass = 1.0f;
+		body.m_Mass = 0.75f;
 		body.m_Scale = Vec3(0.25f);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;
-		//		body.m_IsDrawActive = true;
+		//body.m_IsDrawActive = true;
 		body.SetToBefore();
 
 		m_Rigidbody = PtrGameStage->AddRigidbody(body);
@@ -92,34 +92,30 @@ namespace basecross {
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		if (CntlVec[0].bConnected) {
-			if (!m_JumpLock) {
+		if (!m_JumpLock) {
+			if (CntlVec[0].bConnected) {
 				//Aボタン
 				if (CntlVec[0].wButtons & XINPUT_GAMEPAD_A) {
-					if (m_Rigidbody->m_Pos.y <= 1.0f) {
-						m_Rigidbody->m_BeforePos.y += 0.01f;
-						m_Rigidbody->m_Pos.y += 0.01f;
-						m_Rigidbody->m_Velocity += Vec3(0, 15.0f, 0);
-						m_JumpLock = true;
-						//fireの送出
-						auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
-						Vec3 Emitter = m_Rigidbody->m_Pos;
-						Emitter.y -= 0.125f;
-						FirePtr->InsertFire(Emitter);
-					}
-				}
-				else if (m_Rigidbody->m_Pos.y <= 1.0f) {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
+					m_Rigidbody->m_Velocity += Vec3(0, 15.0f, 0);
 					m_JumpLock = true;
-					//fireの送出
-					auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
-					Vec3 Emitter = m_Rigidbody->m_Pos;
-					Emitter.y -= 0.125f;
-					FirePtr->InsertFire(Emitter);
+					////fireの送出
+					//auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
+					//Vec3 Emitter = m_Rigidbody->m_Pos;
+					//Emitter.y -= 0.125f;
+					//FirePtr->InsertFire(Emitter);
 				}
 			}
+			m_Rigidbody->m_BeforePos.y += 0.01f;
+			m_Rigidbody->m_Pos.y += 0.01f;
+			m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
+			m_JumpLock = true;
+			////fireの送出
+			//auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
+			//Vec3 Emitter = m_Rigidbody->m_Pos;
+			//Emitter.y -= 0.125f;
+			//FirePtr->InsertFire(Emitter);
 			Vec3 Direction = GetMoveVector();
 			if (length(Direction) < 0.1f) {
 				m_Rigidbody->m_Velocity.x *= 0.9f;
@@ -127,7 +123,7 @@ namespace basecross {
 			}
 			else {
 				//フォースで変更する場合は以下のように記述
-				//body.m_Force += Direction * 10.0f;
+				//m_Rigidbody->m_Force += Direction * 10.0f;
 				//速度で変更する場合は以下のように記述
 				m_Rigidbody->m_Velocity += Direction * 0.5f;
 				Vec2 TempVelo(m_Rigidbody->m_Velocity.x, m_Rigidbody->m_Velocity.z);
@@ -144,11 +140,11 @@ namespace basecross {
 			m_Rigidbody->m_Pos.y = m_BaseY;
 			m_Rigidbody->m_Velocity.y = 0;
 			if (m_JumpLock) {
-				Vec3 Emitter = m_Rigidbody->m_Pos;
-				Emitter.y -= 0.125f;
-				//Spaerkの送出
-				auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
-				SpaerkPtr->InsertSpark(Emitter);
+				//Vec3 Emitter = m_Rigidbody->m_Pos;
+				//Emitter.y -= 0.125f;
+				////Spaerkの送出
+				//auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+				//SpaerkPtr->InsertSpark(Emitter);
 			}
 			m_JumpLock = false;
 		}
@@ -160,11 +156,11 @@ namespace basecross {
 				Vec4 v = (Vec4)XMVector3AngleBetweenNormals(Vec3(0, 1, 0), Normal);
 				if (v.x < 0.1f) {
 					if (m_JumpLock) {
-						Vec3 Emitter = m_Rigidbody->m_Pos;
-						Emitter.y -= 0.125f;
-						//Spaerkの送出
-						auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
-						SpaerkPtr->InsertSpark(Emitter);
+						//Vec3 Emitter = m_Rigidbody->m_Pos;
+						//Emitter.y -= 0.125f;
+						////Spaerkの送出
+						//auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+						//SpaerkPtr->InsertSpark(Emitter);
 					}
 					m_JumpLock = false;
 					break;
@@ -176,11 +172,11 @@ namespace basecross {
 				Vec4 v = (Vec4)XMVector3AngleBetweenNormals(Vec3(0, 1, 0), Normal);
 				if (v.x < 0.1f) {
 					if (m_JumpLock) {
-						Vec3 Emitter = m_Rigidbody->m_Pos;
-						Emitter.y -= 0.125f;
-						//Spaerkの送出
-						auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
-						SpaerkPtr->InsertSpark(Emitter);
+						//Vec3 Emitter = m_Rigidbody->m_Pos;
+						//Emitter.y -= 0.125f;
+						////Spaerkの送出
+						//auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+						//SpaerkPtr->InsertSpark(Emitter);
 					}
 					m_JumpLock = false;
 					break;

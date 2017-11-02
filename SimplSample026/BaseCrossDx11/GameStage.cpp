@@ -58,10 +58,11 @@ namespace basecross {
 			SquareDrawOption::Normal
 			);
 
-		AddGameObject<SimpleBox>(
+		AddGameObject<SimpleSquare>(
 			L"SKY_TX",
-			Vec3(2.0f, 0.5f, 50.0f),
-			Vec3(0, -0.5f, 0)
+			Vec3(2.0f, 0.5f, 2.0f),
+			Vec3(0.0f, -0.5f, 0.0f),
+			SquareDrawOption::Normal
 			);
 
 		AddGameObject<SimpleSquare>(
@@ -244,7 +245,7 @@ namespace basecross {
 
 		auto fps = App::GetApp()->GetStepTimer().GetFramesPerSecond();
 		wstring FPS(L"FPS: ");
-		FPS += Util::UintToWStr(camera.m_CamerAt.y);
+		FPS += Util::FloatToWStr(camera.m_CamerAt.y);
 		FPS += L"\nElapsedTime: ";
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		FPS += Util::FloatToWStr(maxPosition);

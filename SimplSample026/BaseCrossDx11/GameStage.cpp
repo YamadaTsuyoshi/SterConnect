@@ -49,12 +49,14 @@ namespace basecross {
 			L"SKY_TX",
 			Vec3(0.5f, 10.0f, 2.0f),
 			Vec3(6.25f, 0.0f, 0.0f),
+			Quat(0.0f, 0.0f, 0.0f, 1.0f), 
 			SquareDrawOption::Normal
 			);
 		AddGameObject<SimpleSquare>(
 			L"SKY_TX",
 			Vec3(0.5f, 10.0f, 2.0f),
 			Vec3(-6.25f, 0.0f, 0.0f),
+			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
 			);
 
@@ -62,6 +64,7 @@ namespace basecross {
 			L"SKY_TX",
 			Vec3(2.0f, 0.5f, 2.0f),
 			Vec3(0.0f, -0.5f, 0.0f),
+			Quat(0.0f, 0.0f, 0.1f, 1.0f),
 			SquareDrawOption::Normal
 			);
 
@@ -69,6 +72,7 @@ namespace basecross {
 			L"BG_TX",
 			Vec3(15.0f, 15.0f, 1.0f),
 			Vec3(0, 0.0f, 10),
+			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
 			);
 

@@ -67,7 +67,7 @@ namespace basecross {
 			L"SKY_TX",
 			Vec3(2.0f, 0.5f, 2.0f),
 			Vec3(0.0f, -0.5f, 0.0f),
-			Quat(0.0f, 0.0f, 0.1f, 1.0f),
+			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
 			);
 
@@ -89,7 +89,12 @@ namespace basecross {
 		AddGameObject<Player>(
 			L"TRACE_TX", 
 			true, 
-			Vec3(0.0f, 0.25f, 0.0f)
+			Vec3(1.0f, 0.25f, 0.0f)
+			);
+		AddGameObject<P_child>(
+			L"TRACE_TX",
+			true,
+			Vec3(1.0f, 0.25f, 0.0f)
 			);
 
 		AddGameObject<Kaguya>(

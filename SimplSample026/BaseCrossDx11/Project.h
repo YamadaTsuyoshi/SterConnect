@@ -15,6 +15,7 @@
 #include "DrawObjectsEx.h"
 #include "Character.h"
 #include "Player.h"
+#include "P_Child.h"
 #include "GameStage.h"
 #include "Kaguya.h"
 

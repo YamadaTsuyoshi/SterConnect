@@ -98,7 +98,7 @@ namespace basecross {
 				if (CntlVec[0].wButtons & XINPUT_GAMEPAD_A) {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0, 15.0f, 0);
+					m_Rigidbody->m_Velocity += Vec3(0.0f, 15.0f, 0);
 					m_JumpLock = true;
 					////fireの送出
 					//auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
@@ -118,7 +118,7 @@ namespace basecross {
 			//FirePtr->InsertFire(Emitter);
 			Vec3 Direction = GetMoveVector();
 			if (length(Direction) < 0.1f) {
-				m_Rigidbody->m_Velocity.x *= 0.9f;
+				m_Rigidbody->m_Velocity.x *= 1.0f;
 				m_Rigidbody->m_Velocity.z *= 0.9f;
 			}
 			else {
@@ -154,7 +154,18 @@ namespace basecross {
 				Vec3 Normal = v.m_SrcHitNormal;
 				Normal.normalize();
 				Vec4 v = (Vec4)XMVector3AngleBetweenNormals(Vec3(0, 1, 0), Normal);
-				if (v.x < 0.1f) {
+				if (v.x > 0.1f) {
+					if (m_JumpLock) {
+						//Vec3 Emitter = m_Rigidbody->m_Pos;
+						//Emitter.y -= 0.125f;
+						////Spaerkの送出
+						//auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+						//SpaerkPtr->InsertSpark(Emitter);
+					}
+					m_JumpLock = false;
+					break;
+				}
+				else {
 					if (m_JumpLock) {
 						//Vec3 Emitter = m_Rigidbody->m_Pos;
 						//Emitter.y -= 0.125f;
@@ -170,7 +181,18 @@ namespace basecross {
 				Vec3 Normal = v.m_SrcHitNormal;
 				Normal.normalize();
 				Vec4 v = (Vec4)XMVector3AngleBetweenNormals(Vec3(0, 1, 0), Normal);
-				if (v.x < 0.1f) {
+				if (v.x > 0.1f) {
+					if (m_JumpLock) {
+						//Vec3 Emitter = m_Rigidbody->m_Pos;
+						//Emitter.y -= 0.125f;
+						////Spaerkの送出
+						//auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+						//SpaerkPtr->InsertSpark(Emitter);
+					}
+					m_JumpLock = false;
+					break;
+				}
+				else {
 					if (m_JumpLock) {
 						//Vec3 Emitter = m_Rigidbody->m_Pos;
 						//Emitter.y -= 0.125f;
@@ -185,12 +207,12 @@ namespace basecross {
 		}
 		auto LenVec = m_Rigidbody->m_Pos - m_Rigidbody->m_BeforePos;
 		LenVec.y = 0;
-		auto Len = LenVec.length();
+		/*auto Len = LenVec.length();
 		if (Len > 0) {
 			Vec3 Cross = cross(Vec3(0, 1, 0), LenVec);
 			Quat Span(Cross, Len / 0.5f);
 			m_Rigidbody->m_Quat *= Span;
-		}
+		}*/
 		//プレイヤーのＺ位置は強制的に0.0にする
 		m_Rigidbody->m_Pos.z = 0.0f;
 	}

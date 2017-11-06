@@ -97,6 +97,8 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
+
+		void setPos(Vec3 Vec) { m_Posision = Vec; };
 	};
 
 

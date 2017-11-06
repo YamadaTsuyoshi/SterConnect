@@ -18,8 +18,10 @@ namespace basecross {
 	P_child::~P_child() {}
 
 	Vec3 P_child::GetMoveVector() {
-		Vec3 Angle(0, 0, 0);
 		auto PtrGameStage = GetStage<GameStage>();
+		Vec3 Angle = m_Posision;
+		//Vec3 Angle = Vec3(0, 0, 0);
+		 //Vec3 Angle = PtrGameStage->GetP_Pos();
 		//Vec3 CameraEye, CameraAt;
 		//PtrGameStage->GetCamera().GetCameraEyeAt(CameraEye, CameraAt);
 
@@ -28,30 +30,6 @@ namespace basecross {
 		if (CntlVec[0].bConnected) {
 			if (CntlVec[0].fThumbRX != 0 || CntlVec[0].fThumbRY != 0) {
 				float MoveLength = 0;	//動いた時のスピード
-										//進行方向の向きを計算
-										//Vec3 Front = m_Rigidbody->m_Pos - CameraEye;
-										//Front.z = 0;
-										//Front.normalize();
-										////進行方向向きからの角度を算出
-										//float FrontAngle = atan2(Front.z, Front.x);
-										////コントローラの向き計算
-										//float MoveX = CntlVec[0].fThumbLX;
-										//float MoveY = CntlVec[0].fThumbLY;
-										//Vec2 MoveVec(MoveX, MoveY);
-										//float MoveSize = length(MoveVec);
-										////コントローラの向きから角度を計算
-										//float CntlAngle = atan2(MoveX, MoveY);
-										////トータルの角度を算出
-										//float TotalAngle = FrontAngle + CntlAngle;
-										////角度からベクトルを作成
-										//Angle = Vec3(sin(TotalAngle), cos(TotalAngle), 0);
-										////正規化する
-										//Angle.normalize();
-										////移動サイズを設定。
-										//Angle *= MoveSize;
-										////Y軸は変化させない
-										//Angle.z = 0;
-
 				Vec3 Front = m_Rigidbody->m_Pos;
 				Front.z = 0;
 				Front.normalize();
@@ -71,7 +49,7 @@ namespace basecross {
 				//正規化する
 				Angle.normalize();
 				//移動サイズを設定。
-				Angle *= MoveSize;
+				Angle *= 2;
 				//Y軸は変化させない
 				Angle.z = 0;
 
@@ -91,13 +69,13 @@ namespace basecross {
 		//メッシュの作成（変更できない）
 		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
 		//タグの追加
-		AddTag(L"Player");
+		AddTag(L"P_child");
 		//Rigidbodyの初期化
 		auto PtrGameStage = GetStage<GameStage>();
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 1.0f;
-		body.m_Scale = Vec3(0.25f);
+		body.m_Scale = Vec3(0.125f);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;
@@ -135,23 +113,18 @@ namespace basecross {
 
 	}
 	void P_child::OnUpdate() {
-		//前回のターンからの経過時間を求める
-		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		if (CntlVec[0].bConnected) {
-			//Aボタン
-			if (CntlVec[0].wButtons & XINPUT_GAMEPAD_A) {
-			}
+		if (CntlVec[0].fThumbRX != 0 || CntlVec[0].fThumbRY != 0) {
+			m_Rigidbody->m_Pos = m_Posision + GetMoveVector();
 		}
-		Vec3 Direction = GetMoveVector();
-		if (length(Direction) < 0.1f) {
-			m_Rigidbody->m_Velocity *= 0.9f;
+		else
+		{
+			m_Rigidbody->m_Pos = m_Posision;
+			m_Rigidbody->m_Pos.x += 0.2f;
+			m_Rigidbody->m_Pos.y -= 0.2f;
 		}
-		else {
-			m_Rigidbody->m_Velocity = Direction * 5.0f;
-		}
-		m_Rigidbody->m_Pos += (m_Rigidbody->m_Velocity * ElapsedTime);
+		//m_Rigidbody->m_Pos = m_Posision;
+		m_Rigidbody->m_Pos.z = 6.0;
 	}
 
 	void P_child::OnUpdate2() {

@@ -91,6 +91,7 @@ namespace basecross {
 			true, 
 			Vec3(1.0f, 0.25f, 0.0f)
 			);
+
 		AddGameObject<P_child>(
 			L"TRACE_TX",
 			true,
@@ -271,6 +272,12 @@ namespace basecross {
 			m_StringDrawObject = FindTagGameObject<StringDrawObject>(L"StringDrawObject");
 		}
 		m_StringDrawObject->SetText(FPS);
+
+		//Žq‹Ÿ‚ª‚Â‚¢‚Ä‚­‚é
+		Vec3 C_Pos = FindTagGameObject<GameObject>(L"Player")->GetPosition();
+		P_Pos = FindTagGameObject<GameObject>(L"Player")->GetPosition();
+		FindTagGameObject<P_child>(L"P_child")->setPos(C_Pos);
+		
 	}
 
 	void GameStage::OnDrawStage() {

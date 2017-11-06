@@ -157,6 +157,7 @@ namespace basecross {
 				m_Rigidbody->m_Velocity = Direction * 5.0f;
 			}
 		m_Rigidbody->m_Pos += (m_Rigidbody->m_Velocity * ElapsedTime);
+		m_Rigidbody->m_Pos.z = 5.0;
 	}
 
 	void Player::OnUpdate2() {

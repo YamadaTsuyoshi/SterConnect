@@ -23,6 +23,8 @@ namespace basecross {
 		void RegisterPctlBox();
 
 		float maxPosition;
+
+		Vec3 P_Pos;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -71,6 +73,8 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
+
+		Vec3 GetP_Pos() { return P_Pos; }
 	};
 
 

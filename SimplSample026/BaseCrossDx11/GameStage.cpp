@@ -38,6 +38,9 @@ namespace basecross {
 
 	void GameStage::OnCreate() {
 
+		float v = 0;
+		int BGS = 5;
+
 		//シャドウマップの描画デバイスの取得
 		auto Dev = App::GetApp()->GetDeviceResources();
 		Dev->GetShadowMapRenderTarget(2048.0f);
@@ -68,13 +71,18 @@ namespace basecross {
 			SquareDrawOption::Normal
 			);
 
-		AddGameObject<SimpleSquare>(
-			L"BG_TX",
-			Vec3(15.0f, 15.0f, 1.0f),
-			Vec3(0, 0.0f, 10),
-			Quat(0.0f, 0.0f, 0.0f, 1.0f),
-			SquareDrawOption::Normal
-			);
+		for (int i = 0; i < BGS; i++)
+		{
+			AddGameObject<SimpleSquare>(
+				L"BG_TX",
+				Vec3(15.0f, 15.0f, 1.0f),
+				Vec3(0, 0.0f+v, 10),
+				Quat(0.0f, 0.0f, 0.0f, 1.0f),
+				SquareDrawOption::Normal
+				);
+			v += 15.0f;
+		}
+
 
 
 		//プレイヤーの作成

@@ -30,13 +30,19 @@ namespace basecross {
 		shared_ptr<ShadowmapObject> m_PtrShadowmapObj;
 		//シャドウマップ描画オブジェクト(weak_ptr)
 		weak_ptr<ShadowmapRenderer> m_ShadowmapRenderer;
+		//スティックフラグ
+		bool CrBarflg = false;
+		bool flg = false;
+
+		Vec3 P_pos;
+		Vec3 P_pos2;
+		Vec3 _angle;
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	コントローラから方向ベクトルを得る
 		@return	方向ベクトル
 		*/
 		//--------------------------------------------------------------------------------------
-		Vec3 GetMoveVector();
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -99,6 +105,12 @@ namespace basecross {
 		virtual void OnDraw()override;
 
 		void setPos(Vec3 Vec) { m_Posision = Vec; };
+		Vec3 GetMoveVector();
+		void setBarflg(bool flg) { CrBarflg = flg; };
+		bool getBarflg() { return CrBarflg; };
+		void setP_Pos(Vec3 pos) { P_pos = pos; };
+		Vec3 getP_Pos() { P_pos2.z = 0; return P_pos2; };
+		Vec3 getAngle() { return _angle; };
 	};
 
 

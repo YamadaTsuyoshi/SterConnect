@@ -18,6 +18,7 @@ namespace basecross {
 	P_child::~P_child() {}
 
 	Vec3 P_child::GetMoveVector() {
+		flg = true;
 		auto PtrGameStage = GetStage<GameStage>();
 		Vec3 Angle = m_Posision;
 		//Vec3 Angle = Vec3(0, 0, 0);
@@ -46,8 +47,10 @@ namespace basecross {
 				float TotalAngle = +CntlAngle;
 				//角度からベクトルを作成
 				Angle = Vec3(sin(TotalAngle), cos(TotalAngle), 0);
+				_angle = Vec3(sin(TotalAngle), cos(TotalAngle), 0);
 				//正規化する
 				Angle.normalize();
+				_angle.normalize();
 				//移動サイズを設定。
 				Angle *= 2;
 				//Y軸は変化させない
@@ -119,6 +122,15 @@ namespace basecross {
 		}
 		else
 		{
+			if (flg == true)
+			{
+				CrBarflg = true;
+				flg = false;
+				P_pos2 = P_pos + (m_Rigidbody->m_Pos - P_pos)/2;
+			}
+			else {
+				CrBarflg = false;
+			}
 			m_Rigidbody->m_Pos = m_Posision;
 			m_Rigidbody->m_Pos.x += 0.2f;
 			m_Rigidbody->m_Pos.y -= 0.2f;
@@ -128,8 +140,6 @@ namespace basecross {
 	}
 
 	void P_child::OnUpdate2() {
-		//プレイヤーのＺ位置は強制的に0.0にする
-		m_Rigidbody->m_Pos.z = 0.0f;
 	}
 
 	void P_child::OnDrawShadowmap() {

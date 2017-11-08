@@ -206,6 +206,10 @@ namespace basecross {
 
 
 	void GameStage::OnUpdate() {
+
+		auto Time = App::GetApp()->GetElapsedTime();
+		m_Time += Time;
+		interval_Time += Time;
 		auto& camera = GetCamera();
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
@@ -274,10 +278,23 @@ namespace basecross {
 		m_StringDrawObject->SetText(FPS);
 
 		//子供がついてくる
-		Vec3 C_Pos = FindTagGameObject<GameObject>(L"Player")->GetPosition();
-		P_Pos = FindTagGameObject<GameObject>(L"Player")->GetPosition();
-		FindTagGameObject<P_child>(L"P_child")->setPos(C_Pos);
-		
+		auto Player = FindTagGameObject<GameObject>(L"Player");
+		Vec3 P_Pos = Player->GetPosition();
+		auto C_Prayer = FindTagGameObject<P_child>(L"P_child");
+		C_Prayer->setPos(P_Pos);
+		C_Prayer->setP_Pos(P_Pos);
+		auto angle = C_Prayer->getAngle();
+		if (C_Prayer->getBarflg()&& interval_Time > 0.2f)
+		{
+			AddGameObject<SimpleSquare>(
+				L"SKY_TX",
+				Vec3(2.0f, 0.1f, 2.0f),
+				C_Prayer->getP_Pos(),
+				Quat(0.0f, 0.0f, 0.0f, 1.0f),
+				SquareDrawOption::Normal
+				);
+			interval_Time = 0;
+		}
 	}
 
 	void GameStage::OnDrawStage() {

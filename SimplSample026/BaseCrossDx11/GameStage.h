@@ -25,6 +25,11 @@ namespace basecross {
 		float maxPosition;
 
 		Vec3 P_Pos;
+
+		float m_Time;
+
+		float interval_Time;
+
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!

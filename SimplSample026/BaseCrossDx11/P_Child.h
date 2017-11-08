@@ -36,7 +36,7 @@ namespace basecross {
 
 		Vec3 P_pos;
 		Vec3 P_pos2;
-		Vec3 _angle;
+		float _angle;
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	コントローラから方向ベクトルを得る
@@ -110,7 +110,7 @@ namespace basecross {
 		bool getBarflg() { return CrBarflg; };
 		void setP_Pos(Vec3 pos) { P_pos = pos; };
 		Vec3 getP_Pos() { P_pos2.z = 0; return P_pos2; };
-		Vec3 getAngle() { return _angle; };
+		float getAngle() { return _angle; };
 	};
 
 

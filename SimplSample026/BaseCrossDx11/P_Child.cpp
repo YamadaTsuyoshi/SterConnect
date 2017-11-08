@@ -45,12 +45,11 @@ namespace basecross {
 				float CntlAngle = atan2(MoveX, MoveY);
 				//トータルの角度を算出
 				float TotalAngle = +CntlAngle;
+				_angle = TotalAngle;
 				//角度からベクトルを作成
 				Angle = Vec3(sin(TotalAngle), cos(TotalAngle), 0);
-				_angle = Vec3(sin(TotalAngle), cos(TotalAngle), 0);
 				//正規化する
 				Angle.normalize();
-				_angle.normalize();
 				//移動サイズを設定。
 				Angle *= 2;
 				//Y軸は変化させない

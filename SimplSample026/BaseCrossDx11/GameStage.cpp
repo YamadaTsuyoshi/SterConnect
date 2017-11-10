@@ -48,26 +48,26 @@ namespace basecross {
 		//PCTボックスの登録（リソース登録する）
 		RegisterPctlBox();
 
-		AddGameObject<SimpleSquare>(
-			L"SKY_TX",
-			Vec3(1.0f, 15.0f, 2.0f),
-			Vec3(6.2f, 0.0f, 0.0f),
+		AddGameObject<SquareSprite>(
+			L"WALL_TX",
+			Vec3(2.0f, 15.0f, 2.0f),
+			Vec3(6.5f, 0.0f, 0.0f),
 			Quat(0.0f, 0.0f, 0.0f, 1.0f), 
 			SquareDrawOption::Normal
 			);
-		AddGameObject<SimpleSquare>(
-			L"SKY_TX",
-			Vec3(1.0f, 15.0f, 2.0f),
-			Vec3(-6.2f, 0.0f, 0.0f),
+		AddGameObject<SquareSprite>(
+			L"WALL_TX",
+			Vec3(2.0f, 15.0f, 2.0f),
+			Vec3(-6.5f, 0.0f, 0.0f),
 			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
 			);
 
-		AddGameObject<SimpleSquare>(
-			L"SKY_TX",
+		AddGameObject<SquareSprite>(
+			L"BAR_TX",
 			Vec3(2.0f, 0.5f, 2.0f),
 			Vec3(0.0f, -0.5f, 0.0f),
-			Quat(0.0f, 0.0f, 0.1f, 1.0f),
+			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
 			);
 
@@ -87,13 +87,13 @@ namespace basecross {
 
 		//プレイヤーの作成
 		AddGameObject<Player>(
-			L"TRACE_TX", 
+			L"SUBARU_TX", 
 			true, 
 			Vec3(1.0f, 0.25f, 0.0f)
 			);
 
 		AddGameObject<P_child>(
-			L"TRACE_TX",
+			L"SUBARU_TX",
 			true,
 			Vec3(1.0f, 0.25f, 0.0f)
 			);
@@ -113,14 +113,14 @@ namespace basecross {
 		CreateDrawObjects();
 
 
-		//回転するスプライトの作成
-		AddGameObject<RotateSprite>(
-			L"TRACE_TX",
-			Vec2(160, 160),
-			0.0f,
-			Vec2(-480, 260),
-			4, 4
-			);
+		////回転するスプライトの作成
+		//AddGameObject<RotateSprite>(
+		//	L"TRACE_TX",
+		//	Vec2(160, 160),
+		//	0.0f,
+		//	Vec2(-480, 260),
+		//	4, 4
+		//	);
 
 
 		//メッセージを表示するスプライトの作成
@@ -289,7 +289,7 @@ namespace basecross {
 		{
 			Quat qt(Vec3(0, 0, 1), (angle - 1.5f)*-1);
 			AddGameObject<SimpleSquare>(
-				L"SKY_TX",
+				L"BAR_TX",
 				Vec3(2.0f, 0.1f, 2.0f),
 				C_Prayer->getP_Pos(),
 				qt,

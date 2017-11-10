@@ -109,18 +109,18 @@ namespace basecross {
 		//App::GetApp()->GetAssetsDirectory(DataDir);
 		//各ゲームは以下のようにデータディレクトリを取得すべき
 		App::GetApp()->GetDataDirectory(DataDir);
-		wstring strTexture = DataDir + L"Texture\\sky.jpg";
-		App::GetApp()->RegisterTexture(L"SKY_TX", strTexture);
-		strTexture = DataDir + L"Texture\\player_image_prot.png";
+		wstring strTexture = DataDir + L"Texture\\Line_Yellow.png";
+		App::GetApp()->RegisterTexture(L"BAR_TX", strTexture);
+		strTexture = DataDir + L"Texture\\kaguDeA.png";
 		App::GetApp()->RegisterTexture(L"KAGUYA_TX", strTexture);
 		strTexture = DataDir + L"Texture\\StageMessage.png";
 		App::GetApp()->RegisterTexture(L"MESSAGE_TX", strTexture);
-		strTexture = DataDir + L"Texture\\trace.png";
-		App::GetApp()->RegisterTexture(L"TRACE_TX", strTexture);
+		strTexture = DataDir + L"Texture\\SUBARU_noAnime.png";
+		App::GetApp()->RegisterTexture(L"SUBARU_TX", strTexture);
 		strTexture = DataDir + L"Texture\\BackGr.png";
 		App::GetApp()->RegisterTexture(L"BG_TX", strTexture);
 
-		strTexture = DataDir + L"Texture\\wall.jpg";
+		strTexture = DataDir + L"Texture\\Sasa.png";
 		App::GetApp()->RegisterTexture(L"WALL_TX", strTexture);
 		strTexture = DataDir + L"Texture\\wall_normal.png";
 		App::GetApp()->RegisterTexture(L"WALL_NORMAL_TX", strTexture);

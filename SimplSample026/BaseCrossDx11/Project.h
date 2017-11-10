@@ -18,6 +18,7 @@
 #include "P_Child.h"
 #include "GameStage.h"
 #include "Kaguya.h"
+#include "KaguyaManager.h"
 
 
 

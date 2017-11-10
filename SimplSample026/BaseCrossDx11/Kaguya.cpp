@@ -11,9 +11,11 @@ namespace basecross {
 		GameObject(StagePtr),
 		m_TextureResName(TextureResName),
 		m_Trace(Trace),
+		m_BaseX(5.5f),
 		m_BaseY(-5.0f),
 		m_Posision(Pos),
-		m_JumpLock(false)
+		m_JumpLock(false),
+		m_UnderRefLock(false)
 	{}
 	Kaguya::~Kaguya() {}
 
@@ -98,7 +100,7 @@ namespace basecross {
 				if (CntlVec[0].wButtons & XINPUT_GAMEPAD_A) {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0.0f, 15.0f, 0);
+					m_Rigidbody->m_Velocity += Vec3(0.0f, 3.0f, 0);
 					m_JumpLock = true;
 					////fireの送出
 					//auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
@@ -111,6 +113,20 @@ namespace basecross {
 			m_Rigidbody->m_Pos.y += 0.01f;
 			m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
 			m_JumpLock = true;
+
+			if (!m_UnderRefLock) {
+				//Aボタン
+				if (CntlVec[0].wButtons & XINPUT_GAMEPAD_A) {
+					m_Rigidbody->m_BeforePos.y += 0.01f;
+					m_Rigidbody->m_Pos.y += 0.01f;
+					m_Rigidbody->m_Velocity += Vec3(0.0f, -3.0f, 0);
+					m_UnderRefLock = true;
+				}
+				m_Rigidbody->m_BeforePos.y += 0.01f;
+				m_Rigidbody->m_Pos.y += 0.01f;
+				m_Rigidbody->m_Velocity += Vec3(0, 0.0f, 0);
+				m_UnderRefLock = true;
+			}
 			////fireの送出
 			//auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
 			//Vec3 Emitter = m_Rigidbody->m_Pos;
@@ -125,7 +141,7 @@ namespace basecross {
 				//フォースで変更する場合は以下のように記述
 				//m_Rigidbody->m_Force += Direction * 10.0f;
 				//速度で変更する場合は以下のように記述
-				m_Rigidbody->m_Velocity += Direction * 0.5f;
+				m_Rigidbody->m_Velocity += Direction * 1.0f;
 				Vec2 TempVelo(m_Rigidbody->m_Velocity.x, m_Rigidbody->m_Velocity.z);
 				TempVelo = XMVector2ClampLength(TempVelo, 0, 5.0f);
 				m_Rigidbody->m_Velocity.x = TempVelo.x;
@@ -148,13 +164,23 @@ namespace basecross {
 			}
 			m_JumpLock = false;
 		}
+
+		if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+			m_Rigidbody->m_Pos.x = m_BaseX;
+			m_Rigidbody->m_Velocity.x *= -1;
+		}
+		else if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
+			m_Rigidbody->m_Pos.x = -m_BaseX;
+			m_Rigidbody->m_Velocity.x *= -1;
+		}
+
 		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
 		for (auto& v : StateVec) {
 			if (v.m_Src == m_Rigidbody.get()) {
 				Vec3 Normal = v.m_SrcHitNormal;
 				Normal.normalize();
 				Vec4 v = (Vec4)XMVector3AngleBetweenNormals(Vec3(0, 1, 0), Normal);
-				if (v.x > 0.1f) {
+				if (v.x < 0.1f) {
 					if (m_JumpLock) {
 						//Vec3 Emitter = m_Rigidbody->m_Pos;
 						//Emitter.y -= 0.125f;
@@ -181,7 +207,7 @@ namespace basecross {
 				Vec3 Normal = v.m_SrcHitNormal;
 				Normal.normalize();
 				Vec4 v = (Vec4)XMVector3AngleBetweenNormals(Vec3(0, 1, 0), Normal);
-				if (v.x > 0.1f) {
+				if (v.x < 0.1f) {
 					if (m_JumpLock) {
 						//Vec3 Emitter = m_Rigidbody->m_Pos;
 						//Emitter.y -= 0.125f;
@@ -206,6 +232,9 @@ namespace basecross {
 			}
 		}
 		auto LenVec = m_Rigidbody->m_Pos - m_Rigidbody->m_BeforePos;
+		if (LenVec.y > 0) {
+			m_UnderRefLock = false;
+		}
 		LenVec.y = 0;
 		/*auto Len = LenVec.length();
 		if (Len > 0) {

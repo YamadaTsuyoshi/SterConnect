@@ -53,9 +53,9 @@ namespace basecross {
 			else {
 				View = XMMatrixLookAtLH(m_CamerEye, m_CamerAt, m_CamerUp);
 				float w = static_cast<float>(App::GetApp()->GetGameWidth());
-				w /= 100.0f;
+				w /= 50;
 				float h = static_cast<float>(App::GetApp()->GetGameHeight());
-				h /= 100.0f;
+				h /= 50;
 
 				Proj = XMMatrixOrthographicLH(w, h, 1.0f, 100.0f);
 

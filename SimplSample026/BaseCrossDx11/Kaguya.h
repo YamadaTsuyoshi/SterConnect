@@ -12,6 +12,8 @@ namespace basecross {
 		shared_ptr<MeshResource> m_SphereMesh;
 		///テクスチャリソース名
 		wstring m_TextureResName;
+		///壁の地点
+		float m_BaseX;
 		///スケーリングベースの最下地点
 		float m_BaseY;
 		///位置
@@ -20,6 +22,7 @@ namespace basecross {
 		bool m_Trace;
 		///ジャンプのロック
 		bool m_JumpLock;
+		bool m_UnderRefLock;
 		//Rigidbodyのshared_ptr
 		shared_ptr<Rigidbody> m_Rigidbody;
 		///描画データ

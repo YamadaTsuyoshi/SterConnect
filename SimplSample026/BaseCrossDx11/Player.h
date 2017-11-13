@@ -17,6 +17,8 @@ namespace basecross {
 		shared_ptr<MeshResource> m_SphereMesh;
 		///テクスチャリソース名
 		wstring m_TextureResName;
+		//壁
+		float m_BaseX;
 		///スケーリングベースの最下地点
 		float m_BaseY;
 		///位置

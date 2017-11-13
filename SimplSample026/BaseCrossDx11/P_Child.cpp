@@ -11,6 +11,7 @@ namespace basecross {
 		GameObject(StagePtr),
 		m_TextureResName(TextureResName),
 		m_Trace(Trace),
+		m_BaseX(5.35f),
 		m_BaseY(0.25f / 2.0f),
 		m_Posision(Pos),
 		m_JumpLock(false)
@@ -135,10 +136,19 @@ namespace basecross {
 			m_Rigidbody->m_Pos.y -= 0.2f;
 		}
 		//m_Rigidbody->m_Pos = m_Posision;
-		m_Rigidbody->m_Pos.z = 6.0;
+		if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+			m_Rigidbody->m_Pos.x = m_BaseX;
+			m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
+		}
+		else if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
+			m_Rigidbody->m_Pos.x = -m_BaseX;
+			m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
+		}
+		m_Rigidbody->m_Pos.z = 3.0f;
 	}
 
 	void P_child::OnUpdate2() {
+		m_Rigidbody->m_Pos.z = 3.0f;
 	}
 
 	void P_child::OnDrawShadowmap() {

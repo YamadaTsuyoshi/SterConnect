@@ -48,16 +48,16 @@ namespace basecross {
 		//PCTボックスの登録（リソース登録する）
 		RegisterPctlBox();
 
-		AddGameObject<SquareSprite>(
+		auto R_WALL = AddGameObject<Wall>(
 			L"WALL_TX",
-			Vec3(2.0f, 15.0f, 2.0f),
+			Vec3(2.0f, 16.0f, 2.0f),
 			Vec3(6.5f, 0.0f, 0.0f),
 			Quat(0.0f, 0.0f, 0.0f, 1.0f), 
 			SquareDrawOption::Normal
 			);
-		AddGameObject<SquareSprite>(
+		auto L_WALL = AddGameObject<Wall>(
 			L"WALL_TX",
-			Vec3(2.0f, 15.0f, 2.0f),
+			Vec3(2.0f, 16.0f, 2.0f),
 			Vec3(-6.5f, 0.0f, 0.0f),
 			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
@@ -242,7 +242,7 @@ namespace basecross {
 		else if (kaguya->GetPosition().y >= camera.m_CamerAt.y) {
 			camera.m_CamerAt.y +=  Body->m_Force.y;
 		}*/
-		camera.m_CamerAt = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition();
+		camera.m_CamerAt.y = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y;
 		if (camera.m_CamerAt.y > maxPosition) {
 			maxPosition = camera.m_CamerAt.y;
 		}
@@ -287,13 +287,9 @@ namespace basecross {
 		if (C_Prayer->getBarflg()&& interval_Time > 0.2f)
 		{
 			Quat qt(Vec3(0, 0, 1), (angle - 1.5f)*-1);
-<<<<<<< HEAD
-			AddGameObject<SimpleSquare>(
-				L"BAR_TX",
-=======
+
 			AddGameObject<Bar>(
 				L"LINE_TX",
->>>>>>> Taguchi
 				Vec3(2.0f, 0.1f, 2.0f),
 				C_Prayer->getP_Pos(),
 				qt,

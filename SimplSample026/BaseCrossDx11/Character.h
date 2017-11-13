@@ -595,6 +595,87 @@ namespace basecross {
 		virtual void OnDraw()override;
 	};
 
+	//--------------------------------------------------------------------------------------
+	///	Wall
+	//--------------------------------------------------------------------------------------
+	class Wall : public GameObject {
+		//バックアップしておく頂点データ
+		vector<VertexPositionColorTexture> m_BackupVertices;
+		//メッシュ
+		shared_ptr<MeshResource> m_SquareMesh;
+		//テクスチャリソース名
+		wstring m_TextureResName;
+		//回転の描画オプション
+		SquareDrawOption m_DrawOption;
+		Vec3 m_Scale;				///<スケーリング
+		Quat m_Qt;			///<回転
+		Vec3 m_Pos;				///<位置
+		float m_TotalTime;
+		Rigidbody body;
+		//描画データ
+		shared_ptr<SimpleDrawObject> m_PtrObj;
+		//描画オブジェクト(weak_ptr)
+		weak_ptr<SimplePCTStaticRenderer> m_Renderer;
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brief 頂点の作成
+		@param[in]	WrapX	X方向のタイリング
+		@param[in]	WrapY	Y方向のタイリング
+		@return	なし
+		*/
+		//--------------------------------------------------------------------------------------
+		void CreateBuffers(float WrapX, float WrapY);
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brief 頂点の変更
+		@param[in]	ElapsedTime	ターン時間
+		@param[out]	vertices	マップされた頂点データ
+		@return	なし
+		*/
+		//--------------------------------------------------------------------------------------
+		void UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices);
+	public:
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brief コンストラクタ
+		@param[in]	StagePtr	ステージのポインタ
+		@param[in]	TextureResName	テクスチャリソース名
+		@param[in]	Scale	スケーリング
+		@param[in]	Pos	位置
+		@param[in]	Option	描画オプション
+		*/
+		//--------------------------------------------------------------------------------------
+		Wall(const shared_ptr<Stage>& StagePtr,
+			const wstring& TextureResName,
+			const Vec3& Scale, const Vec3& Pos, const Quat& Qt, SquareDrawOption Option);
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brief デストラクタ
+		*/
+		//--------------------------------------------------------------------------------------
+		virtual ~Wall();
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brief 初期化
+		@return	なし
+		*/
+		//--------------------------------------------------------------------------------------
+		virtual void OnCreate() override;
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brief 更新
+		@return	なし
+		*/
+		//--------------------------------------------------------------------------------------
+		virtual void OnUpdate()override;
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brief 描画
+		@return	なし
+		*/
+		//--------------------------------------------------------------------------------------
+		virtual void OnDraw()override;
+	};
 
 
 }

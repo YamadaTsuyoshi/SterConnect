@@ -16,6 +16,7 @@ namespace basecross {
 		GameObject(StagePtr),
 		m_TextureResName(TextureResName),
 		m_Trace(Trace),
+		m_BaseX(5.35f),
 		m_BaseY(0.25f / 2.0f),
 		m_Posision(Pos),
 		m_JumpLock(false)
@@ -157,12 +158,21 @@ namespace basecross {
 				m_Rigidbody->m_Velocity = Direction * 5.0f;
 			}
 		m_Rigidbody->m_Pos += (m_Rigidbody->m_Velocity * ElapsedTime);
-		m_Rigidbody->m_Pos.z = 5.0;
+
+		if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+			m_Rigidbody->m_Pos.x = m_BaseX;
+			m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
+		}
+		else if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
+			m_Rigidbody->m_Pos.x = -m_BaseX;
+			m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
+		}
+
 	}
 
 	void Player::OnUpdate2() {
 		//プレイヤーのＺ位置は強制的に0.0にする
-		m_Rigidbody->m_Pos.z = 0.0f;
+		m_Rigidbody->m_Pos.z = 2.0f;
 	}
 
 	void Player::OnDrawShadowmap() {

@@ -267,8 +267,7 @@ namespace basecross {
 
 		auto fps = App::GetApp()->GetStepTimer().GetFramesPerSecond();
 		wstring FPS(L"FPS: ");
-		auto C_Prayer2 = FindTagGameObject<P_child>(L"P_child");
-		FPS += Util::FloatToWStr(C_Prayer2->getAngle());
+		FPS += Util::FloatToWStr(CntlVec[0].fThumbRX);
 		FPS += L"\nElapsedTime: ";
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		FPS += Util::FloatToWStr(maxPosition);
@@ -288,8 +287,13 @@ namespace basecross {
 		if (C_Prayer->getBarflg()&& interval_Time > 0.2f)
 		{
 			Quat qt(Vec3(0, 0, 1), (angle - 1.5f)*-1);
+<<<<<<< HEAD
 			AddGameObject<SimpleSquare>(
 				L"BAR_TX",
+=======
+			AddGameObject<Bar>(
+				L"LINE_TX",
+>>>>>>> Taguchi
 				Vec3(2.0f, 0.1f, 2.0f),
 				C_Prayer->getP_Pos(),
 				qt,

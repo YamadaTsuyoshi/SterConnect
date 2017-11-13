@@ -530,6 +530,7 @@ namespace basecross {
 		Quat m_Qt;			///<回転
 		Vec3 m_Pos;				///<位置
 		float m_TotalTime;
+		float Time;
 		//描画データ
 		shared_ptr<SimpleDrawObject> m_PtrObj;
 		//描画オブジェクト(weak_ptr)

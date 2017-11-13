@@ -288,7 +288,7 @@ namespace basecross {
 		{
 			Quat qt(Vec3(0, 0, 1), (angle - 1.5f)*-1);
 
-			AddGameObject<Bar>(
+			    auto a =AddGameObject<Bar>(
 				L"LINE_TX",
 				Vec3(2.0f, 0.1f, 2.0f),
 				C_Prayer->getP_Pos(),

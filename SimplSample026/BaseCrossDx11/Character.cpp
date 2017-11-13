@@ -856,7 +856,8 @@ namespace basecross {
 	void Bar::OnUpdate() {
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		auto Dev = App::GetApp()->GetDeviceResources();
-		auto pD3D11DeviceContext = Dev->GetD3DDeviceContext();
+		auto pD3D11DeviceContext = Dev->GetD3DDeviceContext(); 
+		Time += ElapsedTime;
 		//頂点の変更
 		//D3D11_MAP_WRITE_DISCARDは重要。この処理により、GPUに邪魔されない
 		D3D11_MAP mapType = D3D11_MAP_WRITE_DISCARD;
@@ -900,6 +901,9 @@ namespace basecross {
 		default:
 			m_Qt.normalize();
 			break;
+		}
+
+		if (Time >3.0f) {
 		}
 	}
 

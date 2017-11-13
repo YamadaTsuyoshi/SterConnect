@@ -130,6 +130,9 @@ namespace basecross {
 		strTexture = DataDir + L"Texture\\normal2.png";
 		App::GetApp()->RegisterTexture(L"NORMAL2_TX", strTexture);
 
+		strTexture = DataDir + L"Texture\\Line_Blue.png";
+		App::GetApp()->RegisterTexture(L"LINE_TX", strTexture);
+
 
 		//ボーンモデルのリソース
 		auto ModelMesh = MeshResource::CreateBoneModelMesh(DataDir, L"temp\\Chara_R.bmf");

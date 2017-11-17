@@ -7,8 +7,9 @@ namespace basecross {
 	///	ゲームステージ
 	//--------------------------------------------------------------------------------------
 	// 構築と破棄
-	KaguyaManager::KaguyaManager(const shared_ptr<Stage>& StagePtr):
-		GameObject(StagePtr)
+	KaguyaManager::KaguyaManager(const shared_ptr<Stage>& StagePtr, const Vec3& StartPos):
+		GameObject(StagePtr),
+		m_Pos(StartPos)
 	{}
 
 	// 初期化

@@ -95,43 +95,48 @@ namespace basecross {
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (!m_JumpLock) {
-			if (CntlVec[0].bConnected) {
-				//Aボタン
-				if (CntlVec[0].wButtons & XINPUT_GAMEPAD_A) {
-					m_Rigidbody->m_BeforePos.y += 0.01f;
-					m_Rigidbody->m_Pos.y += 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0.0f, 3.0f, 0);
-					m_JumpLock = true;
-					////fireの送出
-					//auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
-					//Vec3 Emitter = m_Rigidbody->m_Pos;
-					//Emitter.y -= 0.125f;
-					//FirePtr->InsertFire(Emitter);
-				}
-			}
-			m_Rigidbody->m_BeforePos.y += 0.01f;
-			m_Rigidbody->m_Pos.y += 0.01f;
-			m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
-			m_JumpLock = true;
 
 			if (!m_UnderRefLock) {
 				//Aボタン
 				if (CntlVec[0].wButtons & XINPUT_GAMEPAD_A) {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
-					m_Rigidbody->m_Pos.y += 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0.0f, -3.0f, 0);
+					m_Rigidbody->m_Pos.y -= 0.01f;
+					m_Rigidbody->m_Velocity += Vec3(0.0f, -1.0f, 0);
 					m_UnderRefLock = true;
+					m_JumpLock = true;
 				}
 				m_Rigidbody->m_BeforePos.y += 0.01f;
-				m_Rigidbody->m_Pos.y += 0.01f;
-				m_Rigidbody->m_Velocity += Vec3(0, 0.0f, 0);
+				m_Rigidbody->m_Pos.y -= 0.01f;
+				m_Rigidbody->m_Velocity += Vec3(0,0.0f, 0);
 				m_UnderRefLock = true;
+				m_JumpLock = true;
 			}
 			////fireの送出
 			//auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
 			//Vec3 Emitter = m_Rigidbody->m_Pos;
 			//Emitter.y -= 0.125f;
 			//FirePtr->InsertFire(Emitter);
+			else {
+				if (CntlVec[0].bConnected) {
+					//Aボタン
+					if (CntlVec[0].wButtons & XINPUT_GAMEPAD_A) {
+						m_Rigidbody->m_BeforePos.y += 0.01f;
+						m_Rigidbody->m_Pos.y += 0.01f;
+						m_Rigidbody->m_Velocity += Vec3(0.0f, 3.0f, 0);
+						m_JumpLock = true;
+						////fireの送出
+						//auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
+						//Vec3 Emitter = m_Rigidbody->m_Pos;
+						//Emitter.y -= 0.125f;
+						//FirePtr->InsertFire(Emitter);
+					}
+				}
+				m_Rigidbody->m_BeforePos.y += 0.01f;
+				m_Rigidbody->m_Pos.y += 0.01f;
+				m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
+				m_JumpLock = true;
+			}
+
 			Vec3 Direction = GetMoveVector();
 			if (length(Direction) < 0.1f) {
 				m_Rigidbody->m_Velocity.x *= 1.0f;

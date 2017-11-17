@@ -5,11 +5,13 @@ namespace basecross {
 
 	class KaguyaManager : public GameObject
 	{
+		Vec3 m_Pos;
+
 		unique_ptr<StateMachine<KaguyaManager>> m_StateMachine;	// ステートマシン
 
 	public:
 		// 構築と破棄
-		KaguyaManager(const shared_ptr<Stage>& StagePtr);
+		KaguyaManager(const shared_ptr<Stage>& StagePtr, const Vec3& StartPos);
 		virtual ~KaguyaManager() {}
 
 		// ステートマシン

@@ -120,6 +120,11 @@ namespace basecross {
 		strTexture = DataDir + L"Texture\\BackGr.png";
 		App::GetApp()->RegisterTexture(L"BG_TX", strTexture);
 
+		strTexture = DataDir + L"Texture\\hoshi_title.png";
+		App::GetApp()->RegisterTexture(L"TITLE_TX", strTexture);
+		strTexture = DataDir + L"Texture\\stage_select.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_TX", strTexture);
+
 		strTexture = DataDir + L"Texture\\Sasa.png";
 		App::GetApp()->RegisterTexture(L"WALL_TX", strTexture);
 		strTexture = DataDir + L"Texture\\wall_normal.png";
@@ -169,7 +174,7 @@ namespace basecross {
 		CreateResources();
 		//自分自身にイベントを送る
 		//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
-		PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToGameStage");
+		PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToTitle");
 	}
 
 	void Scene::OnUpdate() {
@@ -181,7 +186,15 @@ namespace basecross {
 	}
 
 	void Scene::OnEvent(const shared_ptr<Event>& event) {
-		if (event->m_MsgStr == L"ToGameStage") {
+		if (event->m_MsgStr == L"ToTitle") {
+			//アクティブステージをEmptyStageに設定
+			ResetActiveStage<Title>();
+		}
+		else if (event->m_MsgStr == L"ToStageSelect") {
+			//アクティブステージをEmptyStageに設定
+			ResetActiveStage<StageSelect>();
+		}
+		else if (event->m_MsgStr == L"ToGameStage") {
 			//アクティブステージをGameStageに設定
 			ResetActiveStage<GameStage>();
 		}

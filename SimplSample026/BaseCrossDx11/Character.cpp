@@ -157,7 +157,7 @@ namespace basecross {
 
 	//‰Šú‰»
 	void SimpleSquare::OnCreate() {
-		CreateBuffers(5.0f, 5.0f);
+		CreateBuffers(5.0f, 20.0f);
 
 		//Rigidbody‚Ì‰Šú‰»
 		auto PtrGameStage = GetStage<GameStage>();

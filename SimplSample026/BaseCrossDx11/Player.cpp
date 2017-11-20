@@ -168,6 +168,8 @@ namespace basecross {
 			m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
 		}
 
+		ColorChanger();
+
 	}
 
 	void Player::OnUpdate2() {
@@ -217,7 +219,27 @@ namespace basecross {
 		shptr->AddDrawObject(m_PtrObj);
 	}
 
+	void Player::ColorChanger()
+	{
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (CntlVec[0].bConnected) {
+			if (CntlVec[0].wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) {
+				P_color++;
+			}
+			if (CntlVec[0].wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+				P_color--;
+			}
+		}
+		if (P_color < Yellow) {
 
+			P_color = Blue;
+		}
+		//“ï‚µ‚¢‚©‚ç‚â‚³‚µ‚¢‚Ö
+		if (P_color > Blue) {
+
+			P_color = Yellow;
+		}
+	}
 
 
 }

@@ -64,7 +64,7 @@ namespace basecross {
 			);
 
 		AddGameObject<SquareSprite>(
-			L"BAR_TX",
+			L"BARY_TX",
 			Vec3(2.0f, 0.5f, 2.0f),
 			Vec3(0.0f, -0.5f, 0.0f),
 			Quat(0.0f, 0.0f, 0.0f, 1.0f),
@@ -311,7 +311,14 @@ namespace basecross {
 			auto a = AddGameObject<P_child>(
 				L"SUBARU_TX",
 				true,
-				Vec3(1.0f, 0.25f, 0.0f)
+				Vec3(0.1f, 1.0f, 0.0f)
+				);
+			AddGameObject<SquareSprite>(
+				L"BARY_TX",
+				Vec3(0.1f, 1.0f, 1.0f),
+				Vec3(P_Pos.x, P_Pos.y,-1),
+				Quat(0,0,0,1),
+				SquareDrawOption::Normal
 				);
 			a->setPos(P_Pos);
 			PointPos1 = P_Pos;
@@ -321,7 +328,7 @@ namespace basecross {
 			auto a = AddGameObject<P_child>(
 				L"SUBARU_TX",
 				true,
-				Vec3(1.0f, 0.25f, 0.0f)
+				Vec3(1.0f, 0.5f, 0.0f)
 				);
 			a->setPos(P_Pos);
 			PointPos2 = P_Pos;
@@ -330,6 +337,11 @@ namespace basecross {
 		else if (PointCount == 2)
 		{
 			Barflag = true;
+			PointCount = 0;
+		}
+
+		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_X)
+		{
 			PointCount = 0;
 		}
 
@@ -382,12 +394,32 @@ namespace basecross {
 
 		float Scale = sqrt(s);
 
-		auto a = AddGameObject<Bar>(
-			L"LINE_TX",
-			Vec3(Scale, 0.1f, 2.0f),
-			Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2,0),
-			qt,
-			SquareDrawOption::Normal);
+		P_color = player->getP_color();
+
+		if (P_color == Yellow) {
+			auto a = AddGameObject<Bar>(
+				L"BARY_TX",
+				Vec3(Scale, 0.1f, 2.0f),
+				Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
+				qt,
+				SquareDrawOption::Normal);
+		}
+		else if (P_color == Blue) {
+			auto a = AddGameObject<Bar>(
+				L"BARB_TX",
+				Vec3(Scale, 0.1f, 2.0f),
+				Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
+				qt,
+				SquareDrawOption::Normal);
+		}
+		else if (P_color == Red) {
+			auto a = AddGameObject<Bar>(
+				L"BARR_TX",
+				Vec3(Scale, 0.1f, 2.0f),
+				Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
+				qt,
+				SquareDrawOption::Normal);
+		}
 	}
 
 	//--------------------------------------------------------------------------------------

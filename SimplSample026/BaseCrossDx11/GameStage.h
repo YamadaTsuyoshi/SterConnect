@@ -37,6 +37,14 @@ namespace basecross {
 		Vec3 PointPos1;
 		Vec3 PointPos2;
 
+		typedef enum {
+			Yellow,
+			Red,
+			Blue
+		} eMenu;
+
+		int P_color = 0;
+
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!

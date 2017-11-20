@@ -37,6 +37,16 @@ namespace basecross {
 		shared_ptr<ShadowmapObject> m_PtrShadowmapObj;
 		//シャドウマップ描画オブジェクト(weak_ptr)
 		weak_ptr<ShadowmapRenderer> m_ShadowmapRenderer;
+		//黄色：０　赤：１　青：２
+		typedef enum {
+			Yellow,
+			Red,
+			Blue
+		} eMenu;
+
+		int P_color = 0;
+		float DifficultyDisplay;
+		bool SelectFlag = false;
 
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -45,6 +55,8 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		Vec3 GetMoveVector();
+
+		
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -105,6 +117,10 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
+
+		void ColorChanger();
+
+		int getP_color() { return P_color; };
 	};
 
 

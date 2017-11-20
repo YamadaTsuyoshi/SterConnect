@@ -109,9 +109,7 @@ namespace basecross {
 		//App::GetApp()->GetAssetsDirectory(DataDir);
 		//各ゲームは以下のようにデータディレクトリを取得すべき
 		App::GetApp()->GetDataDirectory(DataDir);
-		wstring strTexture = DataDir + L"Texture\\Line_Yellow.png";
-		App::GetApp()->RegisterTexture(L"BAR_TX", strTexture);
-		strTexture = DataDir + L"Texture\\kaguDeA.png";
+		wstring strTexture = DataDir + L"Texture\\kaguDeA.png";
 		App::GetApp()->RegisterTexture(L"KAGUYA_TX", strTexture);
 		strTexture = DataDir + L"Texture\\StageMessage.png";
 		App::GetApp()->RegisterTexture(L"MESSAGE_TX", strTexture);
@@ -135,8 +133,13 @@ namespace basecross {
 		strTexture = DataDir + L"Texture\\normal2.png";
 		App::GetApp()->RegisterTexture(L"NORMAL2_TX", strTexture);
 
+		//Bar
 		strTexture = DataDir + L"Texture\\Line_Blue.png";
-		App::GetApp()->RegisterTexture(L"LINE_TX", strTexture);
+		App::GetApp()->RegisterTexture(L"BARB_TX", strTexture);
+		strTexture = DataDir + L"Texture\\Line_Yellow.png";
+		App::GetApp()->RegisterTexture(L"BARY_TX", strTexture);
+		strTexture = DataDir + L"Texture\\Line_Red.png";
+		App::GetApp()->RegisterTexture(L"BARR_TX", strTexture);
 
 
 		//ボーンモデルのリソース

@@ -719,6 +719,41 @@ namespace basecross {
 
 	}
 
+	//--------------------------------------------------------------------------------------
+	///	スプライト
+	//--------------------------------------------------------------------------------------
+	StageSprite::StageSprite(const shared_ptr<Stage>& StagePtr,
+		const wstring& TextureResName,
+		const Vec2& StartScale,
+		float StartRot,
+		const Vec2& StartPos,
+		UINT XWrap, UINT YWrap) :
+		SpriteBase(StagePtr, TextureResName, StartScale, StartRot, StartPos, XWrap, YWrap),
+		m_TotalTime(0)
+	{
+		SetBlendState(BlendState::Trace);
+	}
+
+	void StageSprite::AdjustVertex() {
+		//ここでは何もしない
+	}
+
+	void  StageSprite::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
+		m_TotalTime += (ElapsedTime * 5.0f);
+		if (m_TotalTime >= XM_2PI) {
+			m_TotalTime = 0;
+		}
+		float sin_val = sin(m_TotalTime) * 0.5f + 0.5f;
+		Col4 UpdateCol(1.0f, 1.0f, 1.0f, 1.0f);
+		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
+			vertices[i] = VertexPositionColorTexture(
+				m_BackupVertices[i].position,
+				UpdateCol,
+				m_BackupVertices[i].textureCoordinate
+			);
+
+		}
+	}
 
 	//--------------------------------------------------------------------------------------
 	///	メッセージを表示するスプライト

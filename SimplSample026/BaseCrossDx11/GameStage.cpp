@@ -268,7 +268,7 @@ namespace basecross {
 			camera.m_CamerEye = camera.m_CamerAt + CameraLocalEye;
 			//Bƒ{ƒ^ƒ“
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
-				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToEmptyStage");
+				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
 			}
 		
 

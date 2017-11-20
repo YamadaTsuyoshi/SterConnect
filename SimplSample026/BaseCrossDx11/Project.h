@@ -19,6 +19,8 @@
 #include "GameStage.h"
 #include "Kaguya.h"
 #include "KaguyaManager.h"
+#include "Title.h"
+#include "StageSelect.h"
 
 
 

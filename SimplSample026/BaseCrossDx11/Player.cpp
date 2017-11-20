@@ -168,6 +168,17 @@ namespace basecross {
 			m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
 		}
 
+
+		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && !Pointflag) {
+			Pointflag=true;
+			PointCount++;
+		}
+
+		if (PointCount=2) {
+			Barflag = true;
+			PointCount = 0;
+		}
+
 	}
 
 	void Player::OnUpdate2() {

@@ -37,6 +37,10 @@ namespace basecross {
 		shared_ptr<ShadowmapObject> m_PtrShadowmapObj;
 		//シャドウマップ描画オブジェクト(weak_ptr)
 		weak_ptr<ShadowmapRenderer> m_ShadowmapRenderer;
+
+		bool Pointflag = false;
+		bool Barflag = false;
+		int PointCount;
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	コントローラから方向ベクトルを得る
@@ -104,6 +108,11 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
+
+		void setPointflag(bool flg) { Pointflag = flg; };
+		bool getPointflag() { return Pointflag; };
+		void setBarflag(bool flg) { Barflag = flg; };
+		bool getBarflag() { return Barflag; };
 	};
 
 

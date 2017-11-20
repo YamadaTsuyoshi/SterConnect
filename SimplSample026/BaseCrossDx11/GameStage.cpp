@@ -71,17 +71,24 @@ namespace basecross {
 			SquareDrawOption::Normal
 			);
 
-		for (int i = 0; i < BGS; i++)
-		{
-			AddGameObject<SimpleSquare>(
-				L"BG_TX",
-				Vec3(15.0f, 15.0f, 1.0f),
-				Vec3(0, 0.0f+v, 10),
-				Quat(0.0f, 0.0f, 0.0f, 1.0f),
-				SquareDrawOption::Normal
-				);
-			v += 15.0f;
-		}
+		//for (int i = 0; i < BGS; i++)
+		//{
+			//AddGameObject<SimpleSquare>(
+			//	L"BG_TX",
+			//	Vec3(15.0f, 15.0f, 1.0f),
+			//	Vec3(0, 0.0f+v, 10),
+			//	Quat(0.0f, 0.0f, 0.0f, 1.0f),
+			//	SquareDrawOption::Normal
+			//	);
+			//v += 15.0f;
+		//}
+		AddGameObject<SimpleSquare>(
+			L"BG_TX",
+			Vec3(15.0f, 60.0f, 1.0f),
+			Vec3(0, 20.0f, 10),
+			Quat(0.0f, 0.0f, 0.0f, 1.0f),
+			SquareDrawOption::Normal
+			);
 
 
 

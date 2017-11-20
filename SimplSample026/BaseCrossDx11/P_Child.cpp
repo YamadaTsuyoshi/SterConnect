@@ -117,33 +117,33 @@ namespace basecross {
 	}
 	void P_child::OnUpdate() {
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		if (CntlVec[0].fThumbRX != 0 || CntlVec[0].fThumbRY != 0) {
-			m_Rigidbody->m_Pos = m_Posision + GetMoveVector();
-		}
-		else
-		{
-			if (flg == true)
-			{
-				CrBarflg = true;
-				flg = false;
-				P_pos2 = P_pos + (m_Rigidbody->m_Pos - P_pos)/2;
-			}
-			else {
-				CrBarflg = false;
-			}
-			m_Rigidbody->m_Pos = m_Posision;
-			m_Rigidbody->m_Pos.x += 0.2f;
-			m_Rigidbody->m_Pos.y -= 0.2f;
-		}
-		//m_Rigidbody->m_Pos = m_Posision;
-		if (m_Rigidbody->m_Pos.x >= m_BaseX) {
-			m_Rigidbody->m_Pos.x = m_BaseX;
-			m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
-		}
-		else if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
-			m_Rigidbody->m_Pos.x = -m_BaseX;
-			m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
-		}
+		//if (CntlVec[0].fThumbRX != 0 || CntlVec[0].fThumbRY != 0) {
+		//	m_Rigidbody->m_Pos = m_Posision + GetMoveVector();
+		//}
+		//else
+		//{
+		//	if (flg == true)
+		//	{
+		//		CrBarflg = true;
+		//		flg = false;
+		//		P_pos2 = P_pos + (m_Rigidbody->m_Pos - P_pos)/2;
+		//	}
+		//	else {
+		//		CrBarflg = false;
+		//	}
+		m_Rigidbody->m_Pos = m_Posision;
+		//	m_Rigidbody->m_Pos.x += 0.2f;
+		//	m_Rigidbody->m_Pos.y -= 0.2f;
+		//}
+		////m_Rigidbody->m_Pos = m_Posision;
+		//if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+		//	m_Rigidbody->m_Pos.x = m_BaseX;
+		//	m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
+		//}
+		//else if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
+		//	m_Rigidbody->m_Pos.x = -m_BaseX;
+		//	m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
+		//}
 		m_Rigidbody->m_Pos.z = 3.0f;
 	}
 

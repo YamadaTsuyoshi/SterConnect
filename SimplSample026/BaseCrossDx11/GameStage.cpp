@@ -99,11 +99,11 @@ namespace basecross {
 			Vec3(1.0f, 0.25f, 0.0f)
 			);
 
-		AddGameObject<P_child>(
+		/*AddGameObject<P_child>(
 			L"SUBARU_TX",
 			true,
 			Vec3(1.0f, 0.25f, 0.0f)
-			);
+			);*/
 
 		AddGameObject<Kaguya>(
 			L"KAGUYA_TX",
@@ -284,7 +284,7 @@ namespace basecross {
 		}
 		m_StringDrawObject->SetText(FPS);
 
-		//Žq‹Ÿ‚ª‚Â‚¢‚Ä‚­‚é
+		/*//Žq‹Ÿ‚ª‚Â‚¢‚Ä‚­‚é
 		auto Player = FindTagGameObject<GameObject>(L"Player");
 		Vec3 P_Pos = Player->GetPosition();
 		auto C_Prayer = FindTagGameObject<P_child>(L"P_child");
@@ -303,6 +303,40 @@ namespace basecross {
 				SquareDrawOption::Normal
 				);
 			interval_Time = 0;
+		}*/
+
+		auto player = FindTagGameObject<Player>(L"Player");
+		Vec3 P_Pos = player->GetPosition();
+		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount==0) {
+			auto a = AddGameObject<P_child>(
+				L"SUBARU_TX",
+				true,
+				Vec3(1.0f, 0.25f, 0.0f)
+				);
+			a->setPos(P_Pos);
+			PointPos1 = P_Pos;
+			PointCount++;
+		}
+		else if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount== 1) {
+			auto a = AddGameObject<P_child>(
+				L"SUBARU_TX",
+				true,
+				Vec3(1.0f, 0.25f, 0.0f)
+				);
+			a->setPos(P_Pos);
+			PointPos2 = P_Pos;
+			PointCount++;
+		}
+		else if (PointCount == 2)
+		{
+			Barflag = true;
+			PointCount = 0;
+		}
+
+		if (Barflag)
+		{
+			CrBar();
+			Barflag=false;
 		}
 	}
 
@@ -335,6 +369,25 @@ namespace basecross {
 
 	void GameStage::OnDraw() {
 		m_RigidbodyManager->OnDraw();
+	}
+
+	void GameStage::CrBar()
+	{
+		auto player = FindTagGameObject<Player>(L"Player");
+		Vec3 P_Pos = player->GetPosition();
+		float vec = atan2(PointPos1.y- PointPos2.y, PointPos1.x-PointPos2.x);
+		Quat qt(Vec3(0, 0, 1), vec);
+
+		float s = ((PointPos2.x - PointPos1.x)*(PointPos2.x - PointPos1.x)) + ((PointPos2.y - PointPos1.y)*(PointPos2.y - PointPos1.y));
+
+		float Scale = sqrt(s);
+
+		auto a = AddGameObject<Bar>(
+			L"LINE_TX",
+			Vec3(Scale, 0.1f, 2.0f),
+			Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2,0),
+			qt,
+			SquareDrawOption::Normal);
 	}
 
 	//--------------------------------------------------------------------------------------

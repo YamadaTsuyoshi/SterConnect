@@ -30,6 +30,13 @@ namespace basecross {
 
 		float interval_Time;
 
+		bool Pointflag = false;
+		bool Barflag = false;
+		int PointCount = 0;
+
+		Vec3 PointPos1;
+		Vec3 PointPos2;
+
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -80,6 +87,8 @@ namespace basecross {
 		virtual void OnDraw()override;
 
 		Vec3 GetP_Pos() { return P_Pos; }
+
+		void CrBar();
 	};
 
 

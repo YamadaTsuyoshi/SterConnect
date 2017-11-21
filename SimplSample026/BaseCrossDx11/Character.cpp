@@ -938,7 +938,8 @@ namespace basecross {
 			break;
 		}
 
-		if (Time >3.0f) {
+		if (Time >5.0f) {
+			ThisDelete();
 		}
 	}
 
@@ -959,6 +960,11 @@ namespace basecross {
 			m_Renderer = shptr;
 		}
 		shptr->AddDrawObject(m_PtrObj);
+	}
+
+	void Bar::ThisDelete()
+	{
+		GetStage<GameStage>()->RemoveGameObject<GameObject>(GetThis<Bar>());
 	}
 
 	//--------------------------------------------------------------------------------------

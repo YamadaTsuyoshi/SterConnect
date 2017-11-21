@@ -233,10 +233,6 @@ namespace basecross {
 			    R_Now == 0) {
 					P_color -= 1;
 			}
-			else
-			{
-				
-			}
 
 		}
 		if (P_color < Yellow) {

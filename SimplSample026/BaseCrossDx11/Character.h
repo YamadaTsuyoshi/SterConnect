@@ -725,7 +725,5 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
 	};
-
-
 }
 //end basecross

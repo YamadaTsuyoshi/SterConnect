@@ -224,14 +224,13 @@ namespace basecross {
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (CntlVec[0].bConnected) {
 			if (CntlVec[0].wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) {
-				P_color++;
+				P_color+=1;
 			}
 			if (CntlVec[0].wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
-				P_color--;
+				P_color-=1;
 			}
 		}
 		if (P_color < Yellow) {
-
 			P_color = Blue;
 		}
 		//“ï‚µ‚¢‚©‚ç‚â‚³‚µ‚¢‚Ö

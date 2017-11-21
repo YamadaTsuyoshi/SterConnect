@@ -267,7 +267,7 @@ namespace basecross {
 				);
 			camera.m_CamerEye = camera.m_CamerAt + CameraLocalEye;
 			//Bボタン
-			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_Y) {
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
 			}
 		
@@ -403,6 +403,7 @@ namespace basecross {
 				Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
 				qt,
 				SquareDrawOption::Normal);
+			a->AddTag(L"Yellow");
 		}
 		else if (P_color == Blue) {
 			auto a = AddGameObject<Bar>(
@@ -411,6 +412,7 @@ namespace basecross {
 				Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
 				qt,
 				SquareDrawOption::Normal);
+			a->AddTag(L"Blue");
 		}
 		else if (P_color == Red) {
 			auto a = AddGameObject<Bar>(
@@ -419,6 +421,7 @@ namespace basecross {
 				Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
 				qt,
 				SquareDrawOption::Normal);
+			a->AddTag(L"Red");
 		}
 	}
 
@@ -446,7 +449,7 @@ namespace basecross {
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (CntlVec[0].bConnected) {
 			//Bボタン
-			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_Y) {
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
 			}
 		}

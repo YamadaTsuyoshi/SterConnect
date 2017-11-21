@@ -106,6 +106,8 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
 
+		void ThisDelete();
+
 		void setPos(Vec3 Vec) { m_Posision = Vec; };
 		Vec3 GetMoveVector();
 		void setBarflg(bool flg) { CrBarflg = flg; };
@@ -114,6 +116,7 @@ namespace basecross {
 		Vec3 getP_Pos() { P_pos2.z = 0; return P_pos2; };
 		float getAngle() { return _angle; };
 	};
+
 
 
 }

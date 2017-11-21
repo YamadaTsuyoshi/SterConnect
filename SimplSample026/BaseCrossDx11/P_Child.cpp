@@ -145,6 +145,11 @@ namespace basecross {
 		//	m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
 		//}
 		m_Rigidbody->m_Pos.z = 3.0f;
+
+		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+		{
+			ThisDelete();
+		}
 	}
 
 	void P_child::OnUpdate2() {
@@ -174,6 +179,7 @@ namespace basecross {
 
 
 	void P_child::OnDraw() {
+		
 		//s—ñ‚Ì’è‹`
 		Mat4x4 World;
 		World.affineTransformation(
@@ -193,6 +199,10 @@ namespace basecross {
 		shptr->AddDrawObject(m_PtrObj);
 	}
 
+	void P_child::ThisDelete()
+	{
+		GetStage<GameStage>()->RemoveGameObject<GameObject>(GetThis<P_child>());
+	}
 
 
 

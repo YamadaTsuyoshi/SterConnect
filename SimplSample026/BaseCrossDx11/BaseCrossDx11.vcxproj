@@ -116,6 +116,7 @@
     <ClInclude Include="ProjectShader.h" />
     <ClInclude Include="P_Child.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Result.h" />
     <ClInclude Include="RigidbodyManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="StageSelect.h" />
@@ -140,6 +141,7 @@
     <ClCompile Include="ProjectBehavior.cpp" />
     <ClCompile Include="ProjectShader.cpp" />
     <ClCompile Include="P_Child.cpp" />
+    <ClCompile Include="Result.cpp" />
     <ClCompile Include="RigidbodyManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="StageSelect.cpp" />

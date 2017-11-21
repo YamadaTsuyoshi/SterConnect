@@ -270,6 +270,12 @@ namespace basecross {
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
 			}
+			else if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_DPAD_UP) {
+				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
+			}
+			else if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_DPAD_DOWN) {
+				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+			}
 		
 
 		auto fps = App::GetApp()->GetStepTimer().GetFramesPerSecond();

@@ -45,7 +45,8 @@ namespace basecross {
 		} eMenu;
 
 		int P_color = 0;
-		float DifficultyDisplay;
+		WORD L_Now=0;
+		WORD R_Now=0;
 		bool SelectFlag = false;
 
 		//--------------------------------------------------------------------------------------

@@ -138,7 +138,7 @@ namespace basecross {
 		//描画データの行列をコピー
 		m_PtrShadowmapObj->m_WorldMatrix = World;
 
-
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 	}
 	void Player::OnUpdate() {
 		//前回のターンからの経過時間を求める
@@ -169,6 +169,8 @@ namespace basecross {
 		}
 
 		ColorChanger();
+		L_Now = CntlVec[0].wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER;
+		R_Now = CntlVec[0].wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER;
 
 	}
 
@@ -223,19 +225,25 @@ namespace basecross {
 	{
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (CntlVec[0].bConnected) {
-			if (CntlVec[0].wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) {
-				P_color+=1;
+			if (CntlVec[0].wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER && 
+				L_Now == 0) {
+					P_color += 1;
 			}
-			if (CntlVec[0].wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
-				P_color-=1;
+			else if (CntlVec[0].wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER &&
+			    R_Now == 0) {
+					P_color -= 1;
 			}
+			else
+			{
+				
+			}
+
 		}
 		if (P_color < Yellow) {
 			P_color = Blue;
 		}
 		//難しいからやさしいへ
 		if (P_color > Blue) {
-
 			P_color = Yellow;
 		}
 	}

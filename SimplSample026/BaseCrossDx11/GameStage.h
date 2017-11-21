@@ -44,6 +44,7 @@ namespace basecross {
 		} eMenu;
 
 		int P_color = 0;
+		bool PointDeleteflag = false;
 
 	public:
 		//--------------------------------------------------------------------------------------
@@ -97,6 +98,9 @@ namespace basecross {
 		Vec3 GetP_Pos() { return P_Pos; }
 
 		void CrBar();
+
+		bool getPointDeleteFlag() { return PointDeleteflag; };
+
 	};
 
 

@@ -314,17 +314,11 @@ namespace basecross {
 		auto player = FindTagGameObject<Player>(L"Player");
 		Vec3 P_Pos = player->GetPosition();
 		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount==0) {
+			PointDeleteflag = false;
 			auto a = AddGameObject<P_child>(
 				L"SUBARU_TX",
 				true,
 				Vec3(0.1f, 1.0f, 0.0f)
-				);
-			AddGameObject<SquareSprite>(
-				L"BARY_TX",
-				Vec3(0.1f, 1.0f, 1.0f),
-				Vec3(P_Pos.x, P_Pos.y,-1),
-				Quat(0,0,0,1),
-				SquareDrawOption::Normal
 				);
 			a->setPos(P_Pos);
 			PointPos1 = P_Pos;
@@ -355,6 +349,7 @@ namespace basecross {
 		{
 			CrBar();
 			Barflag=false;
+			PointDeleteflag = true;
 		}
 	}
 

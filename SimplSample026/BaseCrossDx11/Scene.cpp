@@ -109,7 +109,7 @@ namespace basecross {
 		//App::GetApp()->GetAssetsDirectory(DataDir);
 		//各ゲームは以下のようにデータディレクトリを取得すべき
 		App::GetApp()->GetDataDirectory(DataDir);
-		wstring strTexture = DataDir + L"Texture\\kaguDeA.png";
+		wstring strTexture = DataDir + L"Texture\\kaguya-01.png";
 		App::GetApp()->RegisterTexture(L"KAGUYA_TX", strTexture);
 		strTexture = DataDir + L"Texture\\StageMessage.png";
 		App::GetApp()->RegisterTexture(L"MESSAGE_TX", strTexture);
@@ -117,6 +117,8 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"SUBARU_TX", strTexture);
 		strTexture = DataDir + L"Texture\\BackGr.png";
 		App::GetApp()->RegisterTexture(L"BG_TX", strTexture);
+		strTexture = DataDir + L"Texture\\go-ru.png";
+		App::GetApp()->RegisterTexture(L"GOAL_TX", strTexture);
 
 		strTexture = DataDir + L"Texture\\hoshi_title.png";
 		App::GetApp()->RegisterTexture(L"TITLE_TX", strTexture);

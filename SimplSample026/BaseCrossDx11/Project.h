@@ -21,6 +21,7 @@
 #include "KaguyaManager.h"
 #include "Title.h"
 #include "StageSelect.h"
+#include "Result.h"
 
 
 

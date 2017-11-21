@@ -122,6 +122,13 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"TITLE_TX", strTexture);
 		strTexture = DataDir + L"Texture\\stage_select.png";
 		App::GetApp()->RegisterTexture(L"STAGESELECT_TX", strTexture);
+		strTexture = DataDir + L"Texture\\clear.PNG";
+		App::GetApp()->RegisterTexture(L"CLEAR_TX", strTexture);
+		strTexture = DataDir + L"Texture\\gameover.PNG";
+		App::GetApp()->RegisterTexture(L"GAMEOVER_TX", strTexture);
+
+		strTexture = DataDir + L"Texture\\anybo.png";
+		App::GetApp()->RegisterTexture(L"HUTON_TX", strTexture);
 
 		strTexture = DataDir + L"Texture\\Sasa.png";
 		App::GetApp()->RegisterTexture(L"WALL_TX", strTexture);
@@ -200,6 +207,14 @@ namespace basecross {
 		else if (event->m_MsgStr == L"ToGameStage") {
 			//アクティブステージをGameStageに設定
 			ResetActiveStage<GameStage>();
+		}
+		else if (event->m_MsgStr == L"ToClearResult") {
+			//アクティブステージをGameStageに設定
+			ResetActiveStage<ClearResult>();
+		}
+		else if (event->m_MsgStr == L"ToGameover") {
+			//アクティブステージをGameStageに設定
+			ResetActiveStage<Gameover>();
 		}
 		else if (event->m_MsgStr == L"ToEmptyStage") {
 			//アクティブステージをEmptyStageに設定

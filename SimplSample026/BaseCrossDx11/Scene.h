@@ -24,7 +24,7 @@ namespace basecross {
 		bool m_IsPerspective;			//‰“‹ß–@‚ðŽg‚¤‚©‚Ç‚¤‚©
 		Camera():
 			m_CamerEye(0, 0.25f, -50.0f),
-			m_CamerAt(0, 0.25f, 0),
+			m_CamerAt(2.4, 0.25f, 0),
 			m_CamerUp(0, 1.0f, 0),
 			m_FovY(0.05f),
 			m_CameraXZRad(0.0f),

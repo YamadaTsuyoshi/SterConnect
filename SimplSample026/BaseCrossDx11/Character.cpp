@@ -964,7 +964,8 @@ namespace basecross {
 
 	void Bar::ThisDelete()
 	{
-		GetStage<GameStage>()->RemoveGameObject<GameObject>(GetThis<Bar>());
+		GetStage<GameStage>()->RemoveGameObject<Bar>(GetThis<Bar>());
+		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<Bar>());
 	}
 
 	//--------------------------------------------------------------------------------------

@@ -202,7 +202,8 @@ namespace basecross {
 
 	void P_child::ThisDelete()
 	{
-		GetStage<GameStage>()->RemoveGameObject<GameObject>(GetThis<P_child>());
+		GetStage<GameStage>()->RemoveGameObject<P_child>(GetThis<P_child>());
+		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<P_child>());
 	}
 
 

@@ -15,7 +15,8 @@ namespace basecross {
 		m_BaseY(-5.0f),
 		m_Posision(Pos),
 		m_JumpLock(false),
-		m_UnderRefLock(false)
+		m_UnderRefLock(false),
+		m_BarColor("yellow")
 	{}
 	Kaguya::~Kaguya() {}
 
@@ -97,44 +98,48 @@ namespace basecross {
 		if (!m_JumpLock) {
 
 			if (!m_UnderRefLock) {
-				//Aボタン
-				if (CntlVec[0].wButtons & XINPUT_GAMEPAD_A) {
+				if (m_BarColor == "blue") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y -= 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0.0f, -1.0f, 0);
 					m_UnderRefLock = true;
 					m_JumpLock = true;
 				}
-				m_Rigidbody->m_BeforePos.y += 0.01f;
-				m_Rigidbody->m_Pos.y -= 0.01f;
-				m_Rigidbody->m_Velocity += Vec3(0,0.0f, 0);
-				m_UnderRefLock = true;
-				m_JumpLock = true;
-			}
-			////fireの送出
-			//auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
-			//Vec3 Emitter = m_Rigidbody->m_Pos;
-			//Emitter.y -= 0.125f;
-			//FirePtr->InsertFire(Emitter);
-			else {
-				if (CntlVec[0].bConnected) {
-					//Aボタン
-					if (CntlVec[0].wButtons & XINPUT_GAMEPAD_A) {
-						m_Rigidbody->m_BeforePos.y += 0.01f;
-						m_Rigidbody->m_Pos.y += 0.01f;
-						m_Rigidbody->m_Velocity += Vec3(0.0f, 3.0f, 0);
-						m_JumpLock = true;
-						////fireの送出
-						//auto FirePtr = GetStage<GameStage>()->FindTagGameObject<MultiFire>(L"MultiFire");
-						//Vec3 Emitter = m_Rigidbody->m_Pos;
-						//Emitter.y -= 0.125f;
-						//FirePtr->InsertFire(Emitter);
-					}
+				else if (m_BarColor == "yellow") {
+					m_Rigidbody->m_BeforePos.y += 0.01f;
+					m_Rigidbody->m_Pos.y -= 0.01f;
+					m_Rigidbody->m_Velocity += Vec3(0, -0.5f, 0);
+					m_UnderRefLock = true;
+					m_JumpLock = true;
 				}
-				m_Rigidbody->m_BeforePos.y += 0.01f;
-				m_Rigidbody->m_Pos.y += 0.01f;
-				m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
-				m_JumpLock = true;
+				else if (m_BarColor == "red") {
+					m_Rigidbody->m_BeforePos.y += 0.01f;
+					m_Rigidbody->m_Pos.y -= 0.01f;
+					m_Rigidbody->m_Velocity += Vec3(0, 0.0f, 0);
+					m_UnderRefLock = true;
+					m_JumpLock = true;
+				}
+
+			}
+			else {
+				if (m_BarColor == "blue") {
+					m_Rigidbody->m_BeforePos.y += 0.01f;
+					m_Rigidbody->m_Pos.y += 0.01f;
+					m_Rigidbody->m_Velocity += Vec3(0.0f, 15.0f, 0);
+					m_JumpLock = true;
+				}
+				else if (m_BarColor == "yellow") {
+					m_Rigidbody->m_BeforePos.y += 0.01f;
+					m_Rigidbody->m_Pos.y += 0.01f;
+					m_Rigidbody->m_Velocity += Vec3(0, 10.0f, 0);
+					m_JumpLock = true;
+				}
+				else if (m_BarColor == "red") {
+					m_Rigidbody->m_BeforePos.y += 0.01f;
+					m_Rigidbody->m_Pos.y += 0.01f;
+					m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
+					m_JumpLock = true;
+				}
 			}
 
 			Vec3 Direction = GetMoveVector();
@@ -160,13 +165,6 @@ namespace basecross {
 		if (m_Rigidbody->m_Pos.y <= m_BaseY) {
 			m_Rigidbody->m_Pos.y = m_BaseY;
 			m_Rigidbody->m_Velocity.y = 0;
-			if (m_JumpLock) {
-				//Vec3 Emitter = m_Rigidbody->m_Pos;
-				//Emitter.y -= 0.125f;
-				////Spaerkの送出
-				//auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
-				//SpaerkPtr->InsertSpark(Emitter);
-			}
 			m_JumpLock = false;
 		}
 
@@ -179,6 +177,21 @@ namespace basecross {
 			m_Rigidbody->m_Velocity.x *= -1;
 		}
 
+		auto& OtherVec = GetStage<GameStage>()->GetGameObjectVec();
+		for (auto& v : OtherVec) {
+			//auto PlayerPtr = GetThis<GameObject>();
+			//if (v != PlayerPtr) {
+				if (v->FindTag(L"Blue")) {
+					m_BarColor = "blue";
+				}
+				else if (v->FindTag(L"Yellow")) {
+					m_BarColor = "yellow";
+				}
+				else if (v->FindTag(L"Red")) {
+					m_BarColor = "red";
+				}
+			//}
+		}
 		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
 		for (auto& v : StateVec) {
 			if (v.m_Src == m_Rigidbody.get()) {
@@ -186,24 +199,10 @@ namespace basecross {
 				Normal.normalize();
 				Vec4 v = (Vec4)XMVector3AngleBetweenNormals(Vec3(0, 1, 0), Normal);
 				if (v.x < 0.1f) {
-					if (m_JumpLock) {
-						//Vec3 Emitter = m_Rigidbody->m_Pos;
-						//Emitter.y -= 0.125f;
-						////Spaerkの送出
-						//auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
-						//SpaerkPtr->InsertSpark(Emitter);
-					}
 					m_JumpLock = false;
 					break;
 				}
 				else {
-					if (m_JumpLock) {
-						//Vec3 Emitter = m_Rigidbody->m_Pos;
-						//Emitter.y -= 0.125f;
-						////Spaerkの送出
-						//auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
-						//SpaerkPtr->InsertSpark(Emitter);
-					}
 					m_JumpLock = false;
 					break;
 				}
@@ -213,24 +212,10 @@ namespace basecross {
 				Normal.normalize();
 				Vec4 v = (Vec4)XMVector3AngleBetweenNormals(Vec3(0, 1, 0), Normal);
 				if (v.x < 0.1f) {
-					if (m_JumpLock) {
-						//Vec3 Emitter = m_Rigidbody->m_Pos;
-						//Emitter.y -= 0.125f;
-						////Spaerkの送出
-						//auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
-						//SpaerkPtr->InsertSpark(Emitter);
-					}
 					m_JumpLock = false;
 					break;
 				}
 				else {
-					if (m_JumpLock) {
-						//Vec3 Emitter = m_Rigidbody->m_Pos;
-						//Emitter.y -= 0.125f;
-						////Spaerkの送出
-						//auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
-						//SpaerkPtr->InsertSpark(Emitter);
-					}
 					m_JumpLock = false;
 					break;
 				}
@@ -241,12 +226,6 @@ namespace basecross {
 			m_UnderRefLock = false;
 		}
 		LenVec.y = 0;
-		/*auto Len = LenVec.length();
-		if (Len > 0) {
-			Vec3 Cross = cross(Vec3(0, 1, 0), LenVec);
-			Quat Span(Cross, Len / 0.5f);
-			m_Rigidbody->m_Quat *= Span;
-		}*/
 		//プレイヤーのＺ位置は強制的に0.0にする
 		m_Rigidbody->m_Pos.z = 0.0f;
 	}

@@ -23,6 +23,8 @@ namespace basecross {
 		///ジャンプのロック
 		bool m_JumpLock;
 		bool m_UnderRefLock;
+		//色
+		string m_BarColor;
 		//Rigidbodyのshared_ptr
 		shared_ptr<Rigidbody> m_Rigidbody;
 		///描画データ

@@ -53,7 +53,7 @@ namespace basecross {
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 0.75f;
-		body.m_Scale = Vec3(0.25f);
+		body.m_Scale = Vec3(0.5f);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;

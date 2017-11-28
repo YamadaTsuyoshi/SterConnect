@@ -157,7 +157,7 @@ namespace basecross {
 
 	//初期化
 	void SimpleSquare::OnCreate() {
-		CreateBuffers(5.0f, 20.0f);
+		CreateBuffers(5.0f, 30.0f);
 
 		//Rigidbodyの初期化
 		auto PtrGameStage = GetStage<GameStage>();
@@ -169,7 +169,7 @@ namespace basecross {
 		body.m_Pos = m_Pos;
 		body.m_CollType = CollType::typeOBB;
 		body.m_IsFixed = true;
-		body.m_IsDrawActive = true;
+		//body.m_IsDrawActive = true;
 		body.SetToBefore();
 		PtrGameStage->AddRigidbody(body);
 
@@ -1006,7 +1006,7 @@ namespace basecross {
 
 	//初期化
 	void Wall::OnCreate() {
-		CreateBuffers(1.0f, 1.0f);
+		CreateBuffers(1.0f, 20.0f);
 		AddTag(L"Wall");
 		//Rigidbodyの初期化
 		auto PtrGameStage = GetStage<GameStage>();
@@ -1091,29 +1091,29 @@ namespace basecross {
 		pD3D11DeviceContext->Unmap(m_SquareMesh->GetVertexBuffer().Get(), 0);
 
 
-		auto PtrStage = GetStage<Stage>();
-		//カメラの位置
-		Vec3 CameraEye = PtrStage->GetCamera().m_CamerEye;
-		Vec3 CameraAt = PtrStage->GetCamera().m_CamerAt;
-		m_Pos.y = CameraEye.y;
-		switch (m_DrawOption) {
-		case SquareDrawOption::Billboard:
-		{
-			m_Qt.facing(CameraAt - CameraEye);
-		}
-		break;
-		case SquareDrawOption::Faceing:
-		{
-			m_Qt.facing(m_Pos - CameraEye);
-		}
-		break;
-		case SquareDrawOption::FaceingY:
-			m_Qt.facingY(m_Pos - CameraEye);
-			break;
-		default:
-			m_Qt.normalize();
-			break;
-		}
+		//auto PtrStage = GetStage<Stage>();
+		////カメラの位置
+		//Vec3 CameraEye = PtrStage->GetCamera().m_CamerEye;
+		//Vec3 CameraAt = PtrStage->GetCamera().m_CamerAt;
+		//m_Pos.y = CameraEye.y;
+		//switch (m_DrawOption) {
+		//case SquareDrawOption::Billboard:
+		//{
+		//	m_Qt.facing(CameraAt - CameraEye);
+		//}
+		//break;
+		//case SquareDrawOption::Faceing:
+		//{
+		//	m_Qt.facing(m_Pos - CameraEye);
+		//}
+		//break;
+		//case SquareDrawOption::FaceingY:
+		//	m_Qt.facingY(m_Pos - CameraEye);
+		//	break;
+		//default:
+		//	m_Qt.normalize();
+		//	break;
+		//}
 		
 	}
 

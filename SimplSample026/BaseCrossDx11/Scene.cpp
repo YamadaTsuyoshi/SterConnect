@@ -132,7 +132,7 @@ namespace basecross {
 		strTexture = DataDir + L"Texture\\anybo.png";
 		App::GetApp()->RegisterTexture(L"HUTON_TX", strTexture);
 
-		strTexture = DataDir + L"Texture\\Sasa.png";
+		strTexture = DataDir + L"Texture\\take_A.png";
 		App::GetApp()->RegisterTexture(L"WALL_TX", strTexture);
 		strTexture = DataDir + L"Texture\\wall_normal.png";
 		App::GetApp()->RegisterTexture(L"WALL_NORMAL_TX", strTexture);

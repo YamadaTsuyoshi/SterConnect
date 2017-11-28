@@ -50,15 +50,15 @@ namespace basecross {
 
 		auto R_WALL = AddGameObject<Wall>(
 			L"WALL_TX",
-			Vec3(2.0f, 16.0f, 2.0f),
-			Vec3(6.5f, 0.0f, 0.0f),
+			Vec3(1.5f, 100.0f, 2.0f),
+			Vec3(6.75f, 40.0f, 0.0f),
 			Quat(0.0f, 0.0f, 0.0f, 1.0f), 
 			SquareDrawOption::Normal
 			);
 		auto L_WALL = AddGameObject<Wall>(
 			L"WALL_TX",
-			Vec3(2.0f, 16.0f, 2.0f),
-			Vec3(-6.5f, 0.0f, 0.0f),
+			Vec3(1.5f, 100.0f, 2.0f),
+			Vec3(-6.75f, 40.0f, 0.0f),
 			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
 			);
@@ -84,8 +84,8 @@ namespace basecross {
 		//}
 		AddGameObject<SimpleSquare>(
 			L"BG_TX",
-			Vec3(15.0f, 60.0f, 1.0f),
-			Vec3(0, 20.0f, 10),
+			Vec3(15.0f, 100.0f, 1.0f),
+			Vec3(0, 40.0f, 10),
 			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
 			);

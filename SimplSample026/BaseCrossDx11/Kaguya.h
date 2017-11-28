@@ -23,6 +23,10 @@ namespace basecross {
 		///ジャンプのロック
 		bool m_JumpLock;
 		bool m_UnderRefLock;
+		///敵に当たったか
+		bool m_EnemyHit;
+		//ライフ
+		int m_Life;
 		//色
 		string m_BarColor;
 		//Rigidbodyのshared_ptr

@@ -172,13 +172,14 @@ namespace basecross {
 			SquareDrawOption::Normal
 			);
 
-		AddGameObject<SquareSprite>(
+		auto Startbar = AddGameObject<SquareSprite>(
 			L"BARY_TX",
-			Vec3(2.0f, 0.5f, 2.0f),
+			Vec3(2.0f, 0.1f, 2.0f),
 			Vec3(0.0f, -0.5f, 0.0f),
 			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
 			);
+		Startbar->AddTag(L"Yellow");
 
 		//for (int i = 0; i < BGS; i++)
 		//{

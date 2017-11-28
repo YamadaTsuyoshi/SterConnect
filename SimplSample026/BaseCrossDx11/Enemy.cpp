@@ -9,7 +9,7 @@ namespace basecross {
 		Enemy(StagePtr),
 		m_TextureResName(TextureResName),
 		m_Trace(Trace),
-		m_BaseX(5.35f),
+		m_BaseX(5.65f),
 		m_BaseY(0.25f / 2.0f),
 		m_Posision(Pos)
 	{}

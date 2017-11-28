@@ -259,6 +259,14 @@ namespace basecross {
 			//maxPosition = camera.m_CamerAt.y;
 		}
 
+		if (maxPosition >= 83.0f) {
+			camera.m_CamerAt.y = 83.0f;
+		}
+		if (FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y <= (maxPosition - 7.0f) ) {
+			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+		}
+
+
 			Vec3 CameraLocalEye =
 				Vec3(
 					sin(camera.m_CameraXZRad) * camera.m_CameraArmLen * sin(camera.m_CameraYRad),
@@ -269,12 +277,6 @@ namespace basecross {
 			//Bƒ{ƒ^ƒ“
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_Y) {
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
-			}
-			else if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_DPAD_UP) {
-				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
-			}
-			else if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_DPAD_DOWN) {
-				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 			}
 		
 

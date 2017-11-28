@@ -159,6 +159,10 @@ namespace basecross {
 			}
 		}
 		m_Rigidbody->m_Force += m_Rigidbody->m_Gravity * m_Rigidbody->m_Mass;
+
+		if (m_Rigidbody->m_Pos.y >= 85) {
+			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
+		}
 	}
 
 	void Kaguya::OnUpdate2() {

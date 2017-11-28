@@ -106,6 +106,7 @@
   <ItemGroup>
     <ClInclude Include="Character.h" />
     <ClInclude Include="DrawObjects.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameStage.h" />
     <ClInclude Include="DrawObjectsEx.h" />
     <ClInclude Include="Kaguya.h" />
@@ -133,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="DrawObjects.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameStage.cpp" />
     <ClCompile Include="DrawObjectsEx.cpp" />
     <ClCompile Include="Kaguya.cpp" />

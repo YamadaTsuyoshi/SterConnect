@@ -22,6 +22,7 @@
 #include "Title.h"
 #include "StageSelect.h"
 #include "Result.h"
+#include "Enemy.h"
 
 
 

@@ -46,6 +46,12 @@ namespace basecross {
 		int P_color = 0;
 		bool PointDeleteflag = false;
 
+		//CSV
+		CsvFile m_Csv;
+
+		//DataID‚ğŠÇ—‚·‚éƒtƒ‰ƒO
+		bool dataIdFlag = false;
+
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -100,6 +106,8 @@ namespace basecross {
 		void CrBar();
 
 		bool getPointDeleteFlag() { return PointDeleteflag; };
+
+		void Csv();
 
 	};
 

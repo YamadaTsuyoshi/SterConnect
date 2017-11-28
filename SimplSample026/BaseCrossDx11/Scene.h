@@ -625,6 +625,9 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		void CreateResources();
+		int m_StageNumberCount = 1;
+		int m_StageNumber;
+		wstring m_DirectoryFile;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -682,6 +685,24 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual void OnEvent(const shared_ptr<Event>& event) override;
+
+		
+		void SetStageNumber(int StageNumber) {
+			m_StageNumber = StageNumber;
+		}
+
+		int GetStageNumber() {
+			return m_StageNumber;
+		}
+		void SetDirectoryFile(wstring DirectoryFile) {
+			m_DirectoryFile = DirectoryFile;
+		}
+		wstring GetDirectoryFile() {
+			return m_DirectoryFile;
+		}
+		int GetStageNumberCount() {
+			return m_StageNumberCount;
+		}
 	};
 
 

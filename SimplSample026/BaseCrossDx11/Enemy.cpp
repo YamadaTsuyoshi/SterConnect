@@ -70,7 +70,19 @@ namespace basecross {
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 	}
 	void Rabbit::OnUpdate() {
+		if(rightMove)
+		m_Rigidbody->m_Velocity.x = Speed.x;
+		if (!rightMove)
+		m_Rigidbody->m_Velocity.x = -Speed.x;
+	}
 
+	void Rabbit::OnUpdate2() {
+		if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+			rightMove = false;
+		}
+		if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
+			rightMove = true;
+		}
 	}
 
 	void Rabbit::OnDrawShadowmap() {

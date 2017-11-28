@@ -39,6 +39,10 @@ namespace basecross {
 		//シャドウマップ描画オブジェクト(weak_ptr)
 		weak_ptr<ShadowmapRenderer> m_ShadowmapRenderer;
 
+		Vec3 Speed=Vec3(1.5f,1.5f,1.5f);
+
+		bool rightMove = true;
+
 	public:
 		//構築と破棄
 		Rabbit(const shared_ptr<Stage>& StagePtr,
@@ -48,6 +52,7 @@ namespace basecross {
 		virtual Vec3 GetPosition() override;
 		virtual void OnCreate() override;
 		virtual void OnUpdate()override;
+		virtual void OnUpdate2()override;
 		virtual void OnDrawShadowmap() override;
 		virtual void OnDraw()override;
 	};

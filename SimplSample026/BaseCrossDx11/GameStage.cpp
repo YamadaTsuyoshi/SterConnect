@@ -107,6 +107,8 @@ namespace basecross {
 					);
 			}
 
+
+
 			if (!stringflag)
 			{
 				throw BaseException

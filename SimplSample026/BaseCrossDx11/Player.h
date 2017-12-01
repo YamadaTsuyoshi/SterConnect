@@ -57,6 +57,8 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		Vec3 GetMoveVector();
 
+		float P_LightGage = 200;
+
 		
 	public:
 		//--------------------------------------------------------------------------------------
@@ -122,6 +124,9 @@ namespace basecross {
 		void ColorChanger();
 
 		int getP_color() { return P_color; };
+
+		float getP_LightGage() { return P_LightGage; };
+		void setP_LightGage(float a ) {  P_LightGage = a; };
 	};
 
 

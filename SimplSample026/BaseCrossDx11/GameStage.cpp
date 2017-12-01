@@ -100,12 +100,11 @@ namespace basecross {
 			if (MapVec[0] == L"Rabbit")
 			{
 				stringflag = true;
-				auto rabbit = AddGameObject<Rabbit>(
-					L"SUBARU_TX",
+				AddGameObject<Rabbit>(
+					L"RABBIT_TX",
 					true,
 					Pos
 					);
-				rabbit->AddTag(L"Enemy");
 			}
 
 
@@ -153,6 +152,7 @@ namespace basecross {
 		float v = 0;
 		int BGS = 5;
 
+		Csv();
 		//シャドウマップの描画デバイスの取得
 		auto Dev = App::GetApp()->GetDeviceResources();
 		Dev->GetShadowMapRenderTarget(2048.0f);
@@ -203,7 +203,32 @@ namespace basecross {
 			SquareDrawOption::Normal
 			);
 
-		Csv();
+		AddGameObject<LightGage_F>(
+			L"LIGHTGAGE_A_TX",
+			Vec2(256*1.2, 64*1.2),
+			0.0f,
+			Vec2(490, 200),
+			1, 1
+			);
+		AddGameObject<LightGage_B>(
+			L"LIGHTGAGE_B_TX",
+			Vec2(278.0f, 6.0f),
+			0.0f,
+			Vec2(503, 190.8f),
+			1, 1
+			);
+
+		for (int i = 0; i <= life; i++) {
+			AddGameObject<Life>(
+				L"LIFE_TX",
+				Vec2(50, 50),
+				0.0f,
+				Vec2(360.0f + life_x, 120.0f),
+				1, 1
+				);
+			life_x += 50.0f;
+		}
+
 
 		////プレイヤーの作成
 		//AddGameObject<Player>(
@@ -502,6 +527,7 @@ namespace basecross {
 	void GameStage::CrBar()
 	{
 		auto player = FindTagGameObject<Player>(L"Player");
+		lightbar = player->getP_LightGage();
 		Vec3 P_Pos = player->GetPosition();
 		float vec = atan2(PointPos1.y- PointPos2.y, PointPos1.x-PointPos2.x);
 		Quat qt(Vec3(0, 0, 1), vec);
@@ -512,7 +538,7 @@ namespace basecross {
 
 		P_color = player->getP_color();
 
-		if (P_color == Yellow) {
+		if (P_color == Yellow && lightbar>=10) {
 			auto a = AddGameObject<Bar>(
 				L"BARY_TX",
 				Vec3(Scale, 0.1f, 2.0f),
@@ -520,8 +546,10 @@ namespace basecross {
 				qt,
 				SquareDrawOption::Normal);
 			a->AddTag(L"Yellow");
+			lightbar -= 10;
+			player->setP_LightGage(lightbar);
 		}
-		else if (P_color == Blue) {
+		else if (P_color == Blue && lightbar >= 20) {
 			auto a = AddGameObject<Bar>(
 				L"BARB_TX",
 				Vec3(Scale, 0.1f, 2.0f),
@@ -529,8 +557,10 @@ namespace basecross {
 				qt,
 				SquareDrawOption::Normal);
 			a->AddTag(L"Blue");
+			lightbar -= 20;
+			player->setP_LightGage(lightbar);
 		}
-		else if (P_color == Red) {
+		else if (P_color == Red && lightbar >= 20) {
 			auto a = AddGameObject<Bar>(
 				L"BARR_TX",
 				Vec3(Scale, 0.1f, 2.0f),
@@ -538,6 +568,8 @@ namespace basecross {
 				qt,
 				SquareDrawOption::Normal);
 			a->AddTag(L"Red");
+			lightbar -= 20;
+			player->setP_LightGage(lightbar);
 		}
 	}
 

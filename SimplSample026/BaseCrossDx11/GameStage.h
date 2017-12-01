@@ -52,6 +52,11 @@ namespace basecross {
 		//DataID‚ğŠÇ—‚·‚éƒtƒ‰ƒO
 		bool dataIdFlag = false;
 
+		float life_x = 0;
+		int life = 5;
+
+		float lightbar;
+
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -107,7 +112,11 @@ namespace basecross {
 
 		bool getPointDeleteFlag() { return PointDeleteflag; };
 
+		float GetmaxPosition() { return maxPosition; }
+
 		void Csv();
+
+
 
 	};
 

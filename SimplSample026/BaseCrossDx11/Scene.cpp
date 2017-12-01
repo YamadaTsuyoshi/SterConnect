@@ -150,6 +150,23 @@ namespace basecross {
 		strTexture = DataDir + L"Texture\\Line_Red.png";
 		App::GetApp()->RegisterTexture(L"BARR_TX", strTexture);
 
+		//敵
+		strTexture = DataDir + L"Texture\\WhiteRabbit_noAnime.png";
+		App::GetApp()->RegisterTexture(L"RABBIT_TX", strTexture);
+		strTexture = DataDir + L"Texture\\Bullet.png";
+		App::GetApp()->RegisterTexture(L"RABBIT_BULLET_TX", strTexture);
+
+		//光ゲージ
+		strTexture = DataDir + L"Texture\\Hikarigage_Base.png";
+		App::GetApp()->RegisterTexture(L"LIGHTGAGE_A_TX", strTexture);
+		strTexture = DataDir + L"Texture\\Hikarigage_gage.png";
+		App::GetApp()->RegisterTexture(L"LIGHTGAGE_B_TX", strTexture);
+		
+		//ライフ
+		strTexture = DataDir + L"Texture\\LifeHeal.png";
+		App::GetApp()->RegisterTexture(L"LIFE_TX", strTexture);
+		
+
 
 		//ボーンモデルのリソース
 		auto ModelMesh = MeshResource::CreateBoneModelMesh(DataDir, L"temp\\Chara_R.bmf");

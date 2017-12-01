@@ -23,8 +23,8 @@ namespace basecross {
 		///ジャンプのロック
 		bool m_JumpLock;
 		bool m_UnderRefLock;
-		///敵に当たったか
-		bool m_EnemyHit;
+		bool m_LeftRefLock;
+		bool m_RightRefLock;
 		//ライフ
 		int m_Life;
 		//色

@@ -11,12 +11,15 @@ namespace basecross {
 		GameObject(StagePtr),
 		m_TextureResName(TextureResName),
 		m_Trace(Trace),
-		m_BaseX(5.65f),
+		m_BaseX(5.15f),
 		m_BaseY(-5.0f),
 		m_Posision(Pos),
 		m_JumpLock(false),
 		m_UnderRefLock(false),
-		m_BarColor("yellow")
+		m_LeftRefLock(false),
+		m_RightRefLock(false),
+		m_BarColor("yellow"),
+		m_Life(5)
 	{}
 	Kaguya::~Kaguya() {}
 
@@ -96,7 +99,20 @@ namespace basecross {
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (!m_JumpLock) {
-
+			//if (!m_LeftRefLock) {
+			//	m_Rigidbody->m_BeforePos.x += 0.01f;
+			//	m_Rigidbody->m_Pos.x += 0.01f;
+			//	m_Rigidbody->m_Velocity += Vec3(1.0f, 0.0f, 0);
+			////	m_Rigidbody->m_Velocity.x *= -1;
+			//	m_LeftRefLock = true;
+			//}
+			//else if (!m_RightRefLock) {
+			//	m_Rigidbody->m_BeforePos.x += 0.01f;
+			//	m_Rigidbody->m_Pos.x -= 0.01f;
+			//	m_Rigidbody->m_Velocity += Vec3(-1.0f, 0.0f, 0);
+			////	m_Rigidbody->m_Velocity.x *= -1;
+			//	m_RightRefLock = true;
+			//}
 			if (!m_UnderRefLock) {
 				if (m_BarColor == "blue") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
@@ -119,7 +135,15 @@ namespace basecross {
 					m_UnderRefLock = true;
 					m_JumpLock = true;
 				}
-
+				else if (m_BarColor == "enemy") {
+					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+					m_Life += -1;
+					m_Rigidbody->m_BeforePos.y += 0.01f;
+					m_Rigidbody->m_Pos.y -= 0.01f;
+					m_Rigidbody->m_Velocity += Vec3(0, 0.0f, 0);
+					m_UnderRefLock = true;
+					m_JumpLock = true;
+				}
 			}
 			else {
 				if (m_BarColor == "blue") {
@@ -135,6 +159,14 @@ namespace basecross {
 					m_JumpLock = true;
 				}
 				else if (m_BarColor == "red") {
+					m_Rigidbody->m_BeforePos.y += 0.01f;
+					m_Rigidbody->m_Pos.y += 0.01f;
+					m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
+					m_JumpLock = true;
+				}
+				else if (m_BarColor == "enemy") {
+					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+					m_Life += -1;
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
@@ -163,6 +195,9 @@ namespace basecross {
 		if (m_Rigidbody->m_Pos.y >= 85) {
 			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
 		}
+		if (m_Life <= 0) {
+			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+		}
 	}
 
 	void Kaguya::OnUpdate2() {
@@ -183,8 +218,6 @@ namespace basecross {
 
 		auto& OtherVec = GetStage<GameStage>()->GetGameObjectVec();
 		for (auto& v : OtherVec) {
-			//auto PlayerPtr = GetThis<GameObject>();
-			//if (v != PlayerPtr) {
 				if (v->FindTag(L"Blue")) {
 					m_BarColor = "blue";
 				}
@@ -194,7 +227,15 @@ namespace basecross {
 				else if (v->FindTag(L"Red")) {
 					m_BarColor = "red";
 				}
-			//}
+				else if (v->FindTag(L"Enemy")) {
+					m_BarColor = "enemy";
+				}/*
+				else {
+					m_BarColor = "";
+				}*/
+			/*auto PlayerPtr = GetThis<GameObject>();
+			if (v != PlayerPtr) {
+			}*/
 		}
 		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
 		for (auto& v : StateVec) {
@@ -228,6 +269,12 @@ namespace basecross {
 		auto LenVec = m_Rigidbody->m_Pos - m_Rigidbody->m_BeforePos;
 		if (LenVec.y > 0) {
 			m_UnderRefLock = false;
+		}
+		if (LenVec.x > 0) {
+			m_LeftRefLock = false;
+		}
+		if (LenVec.x < 0) {
+			m_RightRefLock = false;
 		}
 		LenVec.y = 0;
 		//プレイヤーのＺ位置は強制的に0.0にする

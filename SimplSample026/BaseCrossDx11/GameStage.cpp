@@ -100,11 +100,12 @@ namespace basecross {
 			if (MapVec[0] == L"Rabbit")
 			{
 				stringflag = true;
-				AddGameObject<Rabbit>(
+				auto rabbit = AddGameObject<Rabbit>(
 					L"SUBARU_TX",
 					true,
 					Pos
 					);
+				rabbit->AddTag(L"Enemy");
 			}
 
 
@@ -174,10 +175,10 @@ namespace basecross {
 			SquareDrawOption::Normal
 			);
 
-		auto Startbar = AddGameObject<SquareSprite>(
+		auto Startbar = AddGameObject<Bar>(
 			L"BARY_TX",
 			Vec3(2.0f, 0.1f, 2.0f),
-			Vec3(0.0f, -0.5f, 0.0f),
+			Vec3(0.0f, -1.5f, 0.0f),
 			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
 			);

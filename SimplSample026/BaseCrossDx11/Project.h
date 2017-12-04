@@ -23,7 +23,7 @@
 #include "StageSelect.h"
 #include "Result.h"
 #include "Enemy.h"
-
+#include "SpriteStudio5.h"
 
 
 

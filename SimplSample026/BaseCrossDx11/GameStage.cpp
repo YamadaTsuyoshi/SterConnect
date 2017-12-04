@@ -107,6 +107,18 @@ namespace basecross {
 					);
 			}
 
+			if (MapVec[0] == L"Goal")
+			{
+				stringflag = true;
+				AddGameObject<Goal>(
+				L"GOAL2_TX",
+					Vec3(5, 5, 1.0f),
+					Pos,
+					Quat(0.0f, 0.0f, 0.0f, 1.0f),
+					SquareDrawOption::Normal);
+			}
+
+
 
 
 			if (!stringflag)

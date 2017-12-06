@@ -58,6 +58,7 @@ namespace basecross {
 		Vec3 GetMoveVector();
 
 		float P_LightGage = 200;
+		const float P_MaxLightGage = 200;
 
 		
 	public:
@@ -127,6 +128,7 @@ namespace basecross {
 
 		float getP_LightGage() { return P_LightGage; };
 		void setP_LightGage(float a ) {  P_LightGage = a; };
+		float getP_MaxLightGage() { return P_MaxLightGage; };
 	};
 
 

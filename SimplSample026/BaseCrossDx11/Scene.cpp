@@ -537,6 +537,8 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"LIGHTGAGE_A_TX", strTexture);
 		strTexture = DataDir + L"Texture\\Hikarigage_gage.png";
 		App::GetApp()->RegisterTexture(L"LIGHTGAGE_B_TX", strTexture);
+		strTexture = DataDir + L"Texture\\Hikarigage_gage_R.png";
+		App::GetApp()->RegisterTexture(L"LIGHTGAGE_B_R_TX", strTexture);
 		
 		//ƒ‰ƒCƒt
 		strTexture = DataDir + L"Texture\\LifeHeal.png";

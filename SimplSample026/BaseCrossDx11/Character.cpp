@@ -1207,28 +1207,24 @@ namespace basecross {
 
 		}
 
+	}
 
-		//auto player = GetStage<GameStage>()->FindTagGameObject<Player>(L"Player");
-		//float a = player->getP_LightGage()/200;
-		////m_TotalTime += ElapsedTime;
-		///*if (m_TotalTime >= 1.0f) {
-		//	m_TotalTime = 0;
-		//}*/
-		//for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
-		//	Vec2 UV(m_BackupVertices[i].textureCoordinate);
-		//	if (UV.x == 0.0f) {
-		//		UV.x = a;
-		//	}
-		//	else if (UV.x == 4.0f) {
-		//		UV.x += a;
-		//	}
-		//	vertices[i] = VertexPositionColorTexture(
-		//		m_BackupVertices[i].position,
-		//		m_BackupVertices[i].color,
-		//		UV
-		//	);
-		//}
-
+	void LightGage_B::OnUpdate()
+	{
+		auto player = GetStage<GameStage>()->FindTagGameObject<Player>(L"Player");
+		float HP = player->getP_LightGage();
+		float MaxHP = player->getP_MaxLightGage();
+		float Width = HP / MaxHP;
+		this->m_Scale = Vec2(278.0f* Width, 6.0f);
+		if (!(w== Width)) {
+			float a = (278.0f - 278.0f * Width)*0.5;
+			this->m_Pos.x = 502-a;
+			w = Width;
+		}
+		if (Width>0.2)
+		this->m_TextureResName= wstring(L"LIGHTGAGE_B_TX");
+		else
+		this->m_TextureResName = wstring(L"LIGHTGAGE_B_R_TX");
 	}
 
 	//--------------------------------------------------------------------------------------

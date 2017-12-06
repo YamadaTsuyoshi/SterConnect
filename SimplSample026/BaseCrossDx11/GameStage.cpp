@@ -226,7 +226,7 @@ namespace basecross {
 			L"LIGHTGAGE_B_TX",
 			Vec2(278.0f, 6.0f),
 			0.0f,
-			Vec2(503, 190.8f),
+			Vec2(502, 190.8f),
 			1, 1
 			);
 

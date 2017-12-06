@@ -177,6 +177,9 @@ namespace basecross {
 	void Player::OnUpdate2() {
 		//プレイヤーのＺ位置は強制的に0.0にする
 		m_Rigidbody->m_Pos.z = 2.0f;
+
+		if (P_LightGage <= P_MaxLightGage)
+			P_LightGage += 0.1f;
 	}
 
 	void Player::OnDrawShadowmap() {
@@ -238,7 +241,6 @@ namespace basecross {
 		if (P_color < Yellow) {
 			P_color = Blue;
 		}
-		//難しいからやさしいへ
 		if (P_color > Blue) {
 			P_color = Yellow;
 		}

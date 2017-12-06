@@ -529,7 +529,7 @@ namespace basecross {
 		//“G
 		strTexture = DataDir + L"Texture\\WhiteRabbit_noAnime.png";
 		App::GetApp()->RegisterTexture(L"RABBIT_TX", strTexture);
-		strTexture = DataDir + L"Texture\\Bullet.png";
+		strTexture = DataDir + L"Texture\\dango.png";
 		App::GetApp()->RegisterTexture(L"RABBIT_BULLET_TX", strTexture);
 
 		//ŒõƒQ[ƒW

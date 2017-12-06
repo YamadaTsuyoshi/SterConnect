@@ -27,7 +27,7 @@ namespace basecross {
 	void Rabbit::OnCreate() {
 		vector<VertexPositionNormalTexture> vertices;
 		vector<uint16_t> indices;
-		MeshUtill::CreateSphere(1.0f, 18, vertices, indices);
+		MeshUtill::CreateSquare(1.0f, vertices, indices);
 		//メッシュの作成（変更できない）
 		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
 		//タグの追加
@@ -180,7 +180,7 @@ namespace basecross {
 	void RabbitBullet::OnCreate() {
 		vector<VertexPositionNormalTexture> vertices;
 		vector<uint16_t> indices;
-		MeshUtill::CreateSphere(1.0f, 18, vertices, indices);
+		MeshUtill::CreateSquare(1.0f, vertices, indices);
 		//メッシュの作成（変更できない）
 		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
 		//タグの追加

@@ -18,7 +18,7 @@ namespace basecross {
 		m_UnderRefLock(false),
 		m_LeftRefLock(false),
 		m_RightRefLock(false),
-		m_BarColor("yellow"),
+		m_HitObj("yellow"),
 		m_Life(5)
 	{}
 	Kaguya::~Kaguya() {}
@@ -46,7 +46,7 @@ namespace basecross {
 	void Kaguya::OnCreate() {
 		vector<VertexPositionNormalTexture> vertices;
 		vector<uint16_t> indices;
-		MeshUtill::CreateSphere(1.0f, 18, vertices, indices);
+		MeshUtill::CreateSquare(1.0f, vertices, indices);
 		//メッシュの作成（変更できない）
 		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
 		//タグの追加
@@ -114,28 +114,28 @@ namespace basecross {
 			//	m_RightRefLock = true;
 			//}
 			if (!m_UnderRefLock) {
-				if (m_BarColor == "blue") {
+				if (m_HitObj == "blue") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y -= 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0.0f, -1.0f, 0);
 					m_UnderRefLock = true;
 					m_JumpLock = true;
 				}
-				else if (m_BarColor == "yellow") {
+				else if (m_HitObj == "yellow") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y -= 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, -0.5f, 0);
 					m_UnderRefLock = true;
 					m_JumpLock = true;
 				}
-				else if (m_BarColor == "red") {
+				else if (m_HitObj == "red") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y -= 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, 0.0f, 0);
 					m_UnderRefLock = true;
 					m_JumpLock = true;
 				}
-				else if (m_BarColor == "enemy") {
+				else if (m_HitObj == "enemy") {
 					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 					m_Life += -1;
 					m_Rigidbody->m_BeforePos.y += 0.01f;
@@ -146,25 +146,25 @@ namespace basecross {
 				}
 			}
 			else {
-				if (m_BarColor == "blue") {
+				if (m_HitObj == "blue") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0.0f, 15.0f, 0);
 					m_JumpLock = true;
 				}
-				else if (m_BarColor == "yellow") {
+				else if (m_HitObj == "yellow") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, 10.0f, 0);
 					m_JumpLock = true;
 				}
-				else if (m_BarColor == "red") {
+				else if (m_HitObj == "red") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
 					m_JumpLock = true;
 				}
-				else if (m_BarColor == "enemy") {
+				else if (m_HitObj == "enemy") {
 					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 					m_Life += -1;
 					m_Rigidbody->m_BeforePos.y += 0.01f;
@@ -216,54 +216,51 @@ namespace basecross {
 			m_Rigidbody->m_Velocity.x *= -1;
 		}
 
-		auto& OtherVec = GetStage<GameStage>()->GetGameObjectVec();
-		for (auto& v : OtherVec) {
-				if (v->FindTag(L"Blue")) {
-					m_BarColor = "blue";
-				}
-				else if (v->FindTag(L"Yellow")) {
-					m_BarColor = "yellow";
-				}
-				else if (v->FindTag(L"Red")) {
-					m_BarColor = "red";
-				}
-				else if (v->FindTag(L"Enemy")) {
-					m_BarColor = "enemy";
-				}/*
-				else {
-					m_BarColor = "";
-				}*/
-			/*auto PlayerPtr = GetThis<GameObject>();
-			if (v != PlayerPtr) {
-			}*/
+		//auto& OtherVec = GetStage<GameStage>()->GetGameObjectVec();
+		//if (m_Rigidbody.get()) {
+		//	for (auto& v : OtherVec) {
+		//		if (v->FindTag(L"Yellow")) {
+		//			m_HitObj = "yellow";
+		//		}
+		//		else if (v->FindTag(L"Blue")) {
+		//			m_HitObj = "blue";
+		//		}
+		//		else if (v->FindTag(L"Red")) {
+		//			m_HitObj = "red";
+		//		}
+		//		else if (v->FindTag(L"Enemy")) {
+		//			m_HitObj = "enemy";
+		//		}
+		//		/*auto PlayerPtr = GetThis<GameObject>();
+		//		if (v != PlayerPtr) {
+		//		}*/
+		//	}
+		//}
+
+		if (m_Rigidbody.get()) {
+			if (GetStage<GameStage>()->FindTagGameObject<Enemy>(L"Enemy", false)) {
+				m_HitObj = "enemy";
+			}
+			if (GetStage<GameStage>()->FindTagGameObject<Bar>(L"Blue", false)) {
+				m_HitObj = "blue";
+			}
+			else if (GetStage<GameStage>()->FindTagGameObject<Bar>(L"Yellow", false)) {
+				m_HitObj = "yellow";
+			}
+			else if (GetStage<GameStage>()->FindTagGameObject<Bar>(L"Red", false)) {
+				m_HitObj = "red";
+			}
 		}
+
 		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
 		for (auto& v : StateVec) {
 			if (v.m_Src == m_Rigidbody.get()) {
-				Vec3 Normal = v.m_SrcHitNormal;
-				Normal.normalize();
-				Vec4 v = (Vec4)XMVector3AngleBetweenNormals(Vec3(0, 1, 0), Normal);
-				if (v.x < 0.1f) {
-					m_JumpLock = false;
-					break;
-				}
-				else {
-					m_JumpLock = false;
-					break;
-				}
+				m_JumpLock = false;
+				break;
 			}
 			else if (v.m_Dest == m_Rigidbody.get()) {
-				Vec3 Normal = v.m_SrcHitNormal;
-				Normal.normalize();
-				Vec4 v = (Vec4)XMVector3AngleBetweenNormals(Vec3(0, 1, 0), Normal);
-				if (v.x < 0.1f) {
-					m_JumpLock = false;
-					break;
-				}
-				else {
-					m_JumpLock = false;
-					break;
-				}
+				m_JumpLock = false;
+				break;
 			}
 		}
 		auto LenVec = m_Rigidbody->m_Pos - m_Rigidbody->m_BeforePos;
@@ -301,7 +298,6 @@ namespace basecross {
 		}
 		shptr->AddDrawObject(m_PtrShadowmapObj);
 	}
-
 
 	void Kaguya::OnDraw() {
 		//行列の定義

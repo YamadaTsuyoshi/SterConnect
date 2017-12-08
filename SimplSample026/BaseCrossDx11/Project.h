@@ -24,6 +24,7 @@
 #include "StageSelect.h"
 #include "Result.h"
 #include "Enemy.h"
+#include "Vibration.h"
 
 
 

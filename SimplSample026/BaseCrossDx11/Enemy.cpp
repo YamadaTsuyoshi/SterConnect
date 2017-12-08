@@ -184,7 +184,7 @@ namespace basecross {
 		//メッシュの作成（変更できない）
 		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
 		//タグの追加
-		AddTag(L"Enemy1");
+		AddTag(L"Enemy_Bullet");
 		//Rigidbodyの初期化
 		auto PtrGameStage = GetStage<GameStage>();
 		Rigidbody body;

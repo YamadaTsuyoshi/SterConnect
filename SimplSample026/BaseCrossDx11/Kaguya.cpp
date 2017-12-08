@@ -247,6 +247,11 @@ namespace basecross {
 				}
 				else if (shptr && shptr->FindTag(L"Enemy")) {
 					m_HitObj = L"enemy";
+					Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
+				}
+				else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					m_HitObj = L"enemy";
+					Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
 				}
 				m_JumpLock = false;
 				break;
@@ -265,6 +270,11 @@ namespace basecross {
 				}
 				else if (shptr && shptr->FindTag(L"Enemy")) {
 					m_HitObj = L"enemy";
+					Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
+				}
+				else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					m_HitObj = L"enemy";
+					Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
 				}
 				m_JumpLock = false;
 				break;

@@ -28,7 +28,7 @@ namespace basecross {
 		//ライフ
 		int m_Life;
 		//色
-		string m_HitObj;
+		wstring m_HitObj;
 		//Rigidbodyのshared_ptr
 		shared_ptr<Rigidbody> m_Rigidbody;
 		///描画データ

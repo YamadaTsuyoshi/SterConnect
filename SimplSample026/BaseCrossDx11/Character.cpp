@@ -1217,7 +1217,7 @@ namespace basecross {
 		float Width = HP / MaxHP;
 		this->m_Scale = Vec2(278.0f* Width, 6.0f);
 		if (!(w== Width)) {
-			float a = (278.0f - 278.0f * Width)*0.5;
+			float a = (278.0f - 278.0f * Width)*0.5f;
 			this->m_Pos.x = 502-a;
 			w = Width;
 		}

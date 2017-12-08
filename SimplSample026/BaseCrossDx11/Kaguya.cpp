@@ -18,7 +18,7 @@ namespace basecross {
 		m_UnderRefLock(false),
 		m_LeftRefLock(false),
 		m_RightRefLock(false),
-		m_HitObj("yellow"),
+		m_HitObj(L"yellow"),
 		m_Life(5)
 	{}
 	Kaguya::~Kaguya() {}
@@ -114,28 +114,28 @@ namespace basecross {
 			//	m_RightRefLock = true;
 			//}
 			if (!m_UnderRefLock) {
-				if (m_HitObj == "blue") {
+				if (m_HitObj == L"blue") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y -= 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0.0f, -1.0f, 0);
 					m_UnderRefLock = true;
 					m_JumpLock = true;
 				}
-				else if (m_HitObj == "yellow") {
+				else if (m_HitObj == L"yellow") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y -= 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, -0.5f, 0);
 					m_UnderRefLock = true;
 					m_JumpLock = true;
 				}
-				else if (m_HitObj == "red") {
+				else if (m_HitObj == L"red") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y -= 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, 0.0f, 0);
 					m_UnderRefLock = true;
 					m_JumpLock = true;
 				}
-				else if (m_HitObj == "enemy") {
+				else if (m_HitObj == L"enemy") {
 					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 					m_Life += -1;
 					m_Rigidbody->m_BeforePos.y += 0.01f;
@@ -146,25 +146,25 @@ namespace basecross {
 				}
 			}
 			else {
-				if (m_HitObj == "blue") {
+				if (m_HitObj == L"blue") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0.0f, 15.0f, 0);
 					m_JumpLock = true;
 				}
-				else if (m_HitObj == "yellow") {
+				else if (m_HitObj == L"yellow") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, 10.0f, 0);
 					m_JumpLock = true;
 				}
-				else if (m_HitObj == "red") {
+				else if (m_HitObj == L"red") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
 					m_JumpLock = true;
 				}
-				else if (m_HitObj == "enemy") {
+				else if (m_HitObj == L"enemy") {
 					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 					m_Life += -1;
 					m_Rigidbody->m_BeforePos.y += 0.01f;
@@ -215,54 +215,48 @@ namespace basecross {
 			m_Rigidbody->m_Pos.x = -m_BaseX;
 			m_Rigidbody->m_Velocity.x *= -1;
 		}
-
-		//auto& OtherVec = GetStage<GameStage>()->GetGameObjectVec();
-		//if (m_Rigidbody.get()) {
-		//	for (auto& v : OtherVec) {
-		//		if (v->FindTag(L"Yellow")) {
-		//			m_HitObj = "yellow";
-		//		}
-		//		else if (v->FindTag(L"Blue")) {
-		//			m_HitObj = "blue";
-		//		}
-		//		else if (v->FindTag(L"Red")) {
-		//			m_HitObj = "red";
-		//		}
-		//		else if (v->FindTag(L"Enemy")) {
-		//			m_HitObj = "enemy";
-		//		}
-		//		/*auto PlayerPtr = GetThis<GameObject>();
-		//		if (v != PlayerPtr) {
-		//		}*/
-		//	}
-		//}
-
-		if (m_Rigidbody.get()) {
-			if (GetStage<GameStage>()->FindTagGameObject<Enemy>(L"Enemy", false)) {
-				m_HitObj = "enemy";
-			}
-			if (GetStage<GameStage>()->FindTagGameObject<Bar>(L"Blue", false)) {
-				m_HitObj = "blue";
-			}
-			else if (GetStage<GameStage>()->FindTagGameObject<Bar>(L"Yellow", false)) {
-				m_HitObj = "yellow";
-			}
-			else if (GetStage<GameStage>()->FindTagGameObject<Bar>(L"Red", false)) {
-				m_HitObj = "red";
-			}
-		}
+		m_HitObj = L"";
 
 		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
 		for (auto& v : StateVec) {
 			if (v.m_Src == m_Rigidbody.get()) {
+				//Destにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Dest->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Yellow")) {
+					m_HitObj = L"yellow";
+				}
+				else if (shptr && shptr->FindTag(L"Blue")) {
+					m_HitObj = L"blue";
+				}
+				else if (shptr && shptr->FindTag(L"Red")) {
+					m_HitObj = L"red";
+				}
+				else if (shptr && shptr->FindTag(L"Enemy")) {
+					m_HitObj = L"enemy";
+				}
 				m_JumpLock = false;
 				break;
 			}
-			else if (v.m_Dest == m_Rigidbody.get()) {
+			if (v.m_Dest == m_Rigidbody.get()) {
+				//Srcにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Src->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Yellow")) {
+					m_HitObj = L"yellow";
+				}
+				else if (shptr && shptr->FindTag(L"Blue")) {
+					m_HitObj = L"blue";
+				}
+				else if (shptr && shptr->FindTag(L"Red")) {
+					m_HitObj = L"red";
+				}
+				else if (shptr && shptr->FindTag(L"Enemy")) {
+					m_HitObj = L"enemy";
+				}
 				m_JumpLock = false;
 				break;
 			}
 		}
+
 		auto LenVec = m_Rigidbody->m_Pos - m_Rigidbody->m_BeforePos;
 		if (LenVec.y > 0) {
 			m_UnderRefLock = false;

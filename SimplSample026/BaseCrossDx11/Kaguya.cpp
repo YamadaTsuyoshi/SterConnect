@@ -11,7 +11,7 @@ namespace basecross {
 		GameObject(StagePtr),
 		m_TextureResName(TextureResName),
 		m_Trace(Trace),
-		m_BaseX(5.15f),
+		m_BaseX(5.6f),
 		m_BaseY(-5.0f),
 		m_Posision(Pos),
 		m_JumpLock(false),
@@ -19,7 +19,7 @@ namespace basecross {
 		m_LeftRefLock(false),
 		m_RightRefLock(false),
 		m_HitObj(L"yellow"),
-		m_Life(5)
+		m_Life(50)
 	{}
 	Kaguya::~Kaguya() {}
 
@@ -99,20 +99,6 @@ namespace basecross {
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (!m_JumpLock) {
-			//if (!m_LeftRefLock) {
-			//	m_Rigidbody->m_BeforePos.x += 0.01f;
-			//	m_Rigidbody->m_Pos.x += 0.01f;
-			//	m_Rigidbody->m_Velocity += Vec3(1.0f, 0.0f, 0);
-			////	m_Rigidbody->m_Velocity.x *= -1;
-			//	m_LeftRefLock = true;
-			//}
-			//else if (!m_RightRefLock) {
-			//	m_Rigidbody->m_BeforePos.x += 0.01f;
-			//	m_Rigidbody->m_Pos.x -= 0.01f;
-			//	m_Rigidbody->m_Velocity += Vec3(-1.0f, 0.0f, 0);
-			////	m_Rigidbody->m_Velocity.x *= -1;
-			//	m_RightRefLock = true;
-			//}
 			if (!m_UnderRefLock) {
 				if (m_HitObj == L"blue") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
@@ -131,19 +117,33 @@ namespace basecross {
 				else if (m_HitObj == L"red") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y -= 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0, 0.0f, 0);
+					m_Rigidbody->m_Velocity += Vec3(0, -0.1f, 0);
 					m_UnderRefLock = true;
 					m_JumpLock = true;
 				}
 				else if (m_HitObj == L"enemy") {
-					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+					//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 					m_Life += -1;
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y -= 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0, 0.0f, 0);
+					m_Rigidbody->m_Velocity += Vec3(0, -0.1f, 0);
 					m_UnderRefLock = true;
 					m_JumpLock = true;
 				}
+				//if (!m_LeftRefLock) {
+				//	m_Rigidbody->m_BeforePos.x += 0.01f;
+				//	m_Rigidbody->m_Pos.x += 0.01f;
+				//	m_Rigidbody->m_Velocity += Vec3(1.0f, 0.0f, 0);
+				////	m_Rigidbody->m_Velocity.x *= -1;
+				//	m_LeftRefLock = true;
+				//}
+				//else if (!m_RightRefLock) {
+				//	m_Rigidbody->m_BeforePos.x += 0.01f;
+				//	m_Rigidbody->m_Pos.x -= 0.01f;
+				//	m_Rigidbody->m_Velocity += Vec3(-1.0f, 0.0f, 0);
+				////	m_Rigidbody->m_Velocity.x *= -1;
+				//	m_RightRefLock = true;
+				//}
 			}
 			else {
 				if (m_HitObj == L"blue") {
@@ -165,13 +165,27 @@ namespace basecross {
 					m_JumpLock = true;
 				}
 				else if (m_HitObj == L"enemy") {
-					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+					//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 					m_Life += -1;
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
 					m_JumpLock = true;
 				}
+				//if (!m_LeftRefLock) {
+				//	m_Rigidbody->m_BeforePos.x += 0.01f;
+				//	m_Rigidbody->m_Pos.x += 0.01f;
+				//	m_Rigidbody->m_Velocity += Vec3(1.0f, 0.0f, 0);
+				//	//	m_Rigidbody->m_Velocity.x *= -1;
+				//	m_LeftRefLock = true;
+				//}
+				//else if (!m_RightRefLock) {
+				//	m_Rigidbody->m_BeforePos.x += 0.01f;
+				//	m_Rigidbody->m_Pos.x -= 0.01f;
+				//	m_Rigidbody->m_Velocity += Vec3(-1.0f, 0.0f, 0);
+				//	//	m_Rigidbody->m_Velocity.x *= -1;
+				//	m_RightRefLock = true;
+				//}
 			}
 
 			Vec3 Direction = GetMoveVector();
@@ -261,12 +275,12 @@ namespace basecross {
 		if (LenVec.y > 0) {
 			m_UnderRefLock = false;
 		}
-		if (LenVec.x > 0) {
-			m_LeftRefLock = false;
-		}
-		if (LenVec.x < 0) {
-			m_RightRefLock = false;
-		}
+		//if (LenVec.x < 0) {
+		//	m_LeftRefLock = false;
+		//}
+		//if (LenVec.x > 0) {
+		//	m_RightRefLock = false;
+		//}
 		LenVec.y = 0;
 		//プレイヤーのＺ位置は強制的に0.0にする
 		m_Rigidbody->m_Pos.z = 0.0f;

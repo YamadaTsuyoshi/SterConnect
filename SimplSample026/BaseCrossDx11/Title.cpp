@@ -15,18 +15,18 @@ namespace basecross {
 			0.0f,
 			Vec2(0, 0),
 			1, 1);
-		/*m_HutonSprite = ObjectFactory::Create<StageSprite>(
+		m_HutonSprite = ObjectFactory::Create<MessageSprite>(
 			GetThis<Stage>(),
 			L"HUTON_TX",
 			Vec2(200, 200),
 			0.0f,
 			Vec2(0, -250),
-			1, 1);*/
+			1, 1);
 	}
 	void Title::OnUpdateStage() {
 		//スプライトの更新
 		m_MessageSprite->OnUpdate();
-		//m_HutonSprite->OnUpdate();
+		m_HutonSprite->OnUpdate();
 		//自分自身の更新
 		this->OnUpdate();
 	}

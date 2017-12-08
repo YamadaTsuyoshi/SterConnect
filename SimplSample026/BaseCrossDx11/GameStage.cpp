@@ -293,6 +293,15 @@ namespace basecross {
 		AddGameObject<StringDrawObject>();
 
 
+		wstring Path = App::GetApp()->GetDataDirWString();
+
+		//ファイル名の設定
+		wstring Map = Path + L"\\Kaguya\\";
+
+		//Chaera1の作成
+		AddGameObject<Chara1>(Map);
+
+
 	}
 
 	//描画オブジェクトの追加

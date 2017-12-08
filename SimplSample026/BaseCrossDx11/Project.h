@@ -13,6 +13,7 @@
 #include "RigidbodyManager.h"
 #include "DrawObjects.h"
 #include "DrawObjectsEx.h"
+#include "SpriteStudio5.h"
 #include "Character.h"
 #include "Player.h"
 #include "P_Child.h"
@@ -23,7 +24,7 @@
 #include "StageSelect.h"
 #include "Result.h"
 #include "Enemy.h"
-#include "SpriteStudio5.h"
+
 
 
 

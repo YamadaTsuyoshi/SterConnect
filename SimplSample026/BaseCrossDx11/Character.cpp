@@ -1751,6 +1751,36 @@ namespace basecross {
 		//	break;
 		//}
 
+		/*auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
+		for (auto& v : StateVec) {
+			if (v.m_Src == m_Rigidbody.get()) {
+				//Destにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Dest->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (this->FindTag(L"BambooB"))
+					{
+						if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetHitObj() == L"red") {
+							ThisDelete();
+						}
+					}
+				}
+				break;
+			}
+			if (v.m_Dest == m_Rigidbody.get()) {
+				//Srcにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Src->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (this->FindTag(L"BambooB"))
+					{
+						if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetHitObj() == L"red") {
+							ThisDelete();
+						}
+					}
+				}
+				break;
+			}
+		}*/
+
 	}
 
 	void Bamboo::OnDraw() {
@@ -1772,5 +1802,10 @@ namespace basecross {
 		shptr->AddDrawObject(m_PtrObj);
 	}
 
+	void Bamboo::ThisDelete()
+	{
+		GetStage<GameStage>()->RemoveGameObject<Bar>(GetThis<Bar>());
+		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<Bar>());
+	}
 }
 //end basecross

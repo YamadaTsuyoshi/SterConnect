@@ -1043,7 +1043,7 @@ namespace basecross {
 	};
 
 	//--------------------------------------------------------------------------------------
-	///	Wall
+	///	Take
 	//--------------------------------------------------------------------------------------
 	class Bamboo : public GameObject {
 		//バックアップしておく頂点データ
@@ -1063,6 +1063,9 @@ namespace basecross {
 		shared_ptr<SimpleDrawObject> m_PtrObj;
 		//描画オブジェクト(weak_ptr)
 		weak_ptr<SimplePCTStaticRenderer> m_Renderer;
+		//Rigidbodyのshared_ptr
+		shared_ptr<Rigidbody> m_Rigidbody;
+
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief 頂点の作成
@@ -1122,6 +1125,7 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
+		void ThisDelete();
 	};
 
 

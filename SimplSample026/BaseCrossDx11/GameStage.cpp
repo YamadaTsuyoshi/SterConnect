@@ -133,13 +133,14 @@ namespace basecross {
 			if (MapVec[0] == L"BambooB")
 			{
 				stringflag = true;
-				AddGameObject<Bamboo>(
+				auto bamboo = AddGameObject<Bamboo>(
 					L"Bamboo_B_TX",
 					Vec3(1.0f, 1.0f, 1.0f),
 					Pos,
 					Quat(0.0f, 0.0f, 0.0f, 1.0f),
 					SquareDrawOption::Normal
 					);
+				bamboo->AddTag(L"BambooB");
 			}
 
 
@@ -473,7 +474,7 @@ namespace basecross {
 		FPS += Util::FloatToWStr(CntlVec[0].fThumbRX);
 		FPS += L"\nElapsedTime: ";
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		FPS += Util::FloatToWStr(maxPosition);
+		//FPS += FindTagGameObject<Kaguya>(L"Kaguya")->GetHitObj();
 		FPS += L"\n";
 		if (!m_StringDrawObject) {
 			m_StringDrawObject = FindTagGameObject<StringDrawObject>(L"StringDrawObject");

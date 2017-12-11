@@ -246,33 +246,6 @@ namespace basecross {
 			SquareDrawOption::Normal
 			);
 
-		AddGameObject<LightGage_F>(
-			L"LIGHTGAGE_A_TX",
-			Vec2(256*1.2, 64*1.2),
-			0.0f,
-			Vec2(490, 200),
-			1, 1
-			);
-		AddGameObject<LightGage_B>(
-			L"LIGHTGAGE_B_TX",
-			Vec2(278.0f, 6.0f),
-			0.0f,
-			Vec2(502, 190.8f),
-			1, 1
-			);
-
-		for (int i = 0; i <= life; i++) {
-			AddGameObject<Life>(
-				L"LIFE_TX",
-				Vec2(50, 50),
-				0.0f,
-				Vec2(360.0f + life_x, 120.0f),
-				1, 1
-				);
-			life_x += 50.0f;
-		}
-
-
 		////プレイヤーの作成
 		//AddGameObject<Player>(
 		//	L"SUBARU_TX", 
@@ -310,6 +283,31 @@ namespace basecross {
 		//	4, 4
 		//	);
 
+		AddGameObject<LightGage_F>(
+			L"LIGHTGAGE_A_TX",
+			Vec2(256 * 1.2, 64 * 1.2),
+			0.0f,
+			Vec2(490, 200),
+			1, 1
+			);
+		AddGameObject<LightGage_B>(
+			L"LIGHTGAGE_B_TX",
+			Vec2(278.0f, 6.0f),
+			0.0f,
+			Vec2(502, 190.8f),
+			1, 1
+			);
+
+		for (int i = 0; i <= life; i++) {
+			AddGameObject<Life>(
+				L"LIFE_TX",
+				Vec2(50, 50),
+				0.0f,
+				Vec2(360.0f + life_x, 120.0f),
+				1, 1
+				);
+			life_x += 50.0f;
+		}
 
 		//メッセージを表示するスプライトの作成
 		AddGameObject<MessageSprite>(

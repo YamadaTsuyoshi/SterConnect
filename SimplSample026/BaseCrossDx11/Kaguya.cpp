@@ -11,7 +11,7 @@ namespace basecross {
 		GameObject(StagePtr),
 		m_TextureResName(TextureResName),
 		m_Trace(Trace),
-		m_BaseX(5.6f),
+		m_BaseX(5.4f),
 		m_BaseY(-5.0f),
 		m_Posision(Pos),
 		m_JumpLock(false),
@@ -61,7 +61,7 @@ namespace basecross {
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 0.75f;
-		body.m_Scale = Vec3(1.5f);
+		body.m_Scale = Vec3(1.8f);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;

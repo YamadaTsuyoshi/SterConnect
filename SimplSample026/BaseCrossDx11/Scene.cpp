@@ -547,6 +547,10 @@ namespace basecross {
 		//goal
 		strTexture = DataDir + L"Texture\\Cloud&Ship.png";
 		App::GetApp()->RegisterTexture(L"GOAL2_TX", strTexture);
+
+		//Take
+		strTexture = DataDir + L"Texture\\take_B.png";
+		App::GetApp()->RegisterTexture(L"Bamboo_B_TX", strTexture);
 		
 
 

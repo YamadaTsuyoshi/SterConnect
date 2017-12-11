@@ -1475,7 +1475,7 @@ namespace basecross {
 	//‰Šú‰»
 	void Bamboo::OnCreate() {
 		CreateBuffers(1.0f,1.0f);
-		AddTag(L"Wall");
+		AddTag(L"Bamboo");
 		//Rigidbody‚Ì‰Šú‰»
 		auto PtrGameStage = GetStage<GameStage>();
 

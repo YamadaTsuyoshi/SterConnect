@@ -118,7 +118,29 @@ namespace basecross {
 					SquareDrawOption::Normal);
 			}
 
+			if (MapVec[0] == L"Bamboo")
+			{
+				stringflag = true;
+				AddGameObject<Bamboo>(
+					L"WALL_TX",
+					Vec3(1.0f, 1.0f, 1.0f),
+					Pos,
+					Quat(0.0f, 0.0f, 0.0f, 1.0f),
+					SquareDrawOption::Normal
+					);
+			}
 
+			if (MapVec[0] == L"BambooB")
+			{
+				stringflag = true;
+				AddGameObject<Bamboo>(
+					L"Bamboo_B_TX",
+					Vec3(1.0f, 1.0f, 1.0f),
+					Pos,
+					Quat(0.0f, 0.0f, 0.0f, 1.0f),
+					SquareDrawOption::Normal
+					);
+			}
 
 
 			if (!stringflag)
@@ -186,13 +208,7 @@ namespace basecross {
 			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
 			);
-		AddGameObject<Bamboo>(
-			L"WALL_TX",
-			Vec3(1.0f, 1.0f, 2.0f),
-			Vec3(6.0f, 5.0f, 0.0f),
-			Quat(0.0f, 0.0f, 0.0f, 1.0f),
-			SquareDrawOption::Normal
-			);
+		
 
 		auto Startbar = AddGameObject<Bar>(
 			L"BARY_TX",

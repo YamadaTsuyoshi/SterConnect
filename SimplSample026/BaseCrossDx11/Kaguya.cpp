@@ -18,8 +18,9 @@ namespace basecross {
 		m_UnderRefLock(false),
 		m_LeftRefLock(false),
 		m_RightRefLock(false),
-		m_HitObj(L"yellow"),
-		m_Life(50)
+		m_HitObj(L""),
+		m_Life(5),
+		m_Attackflag(false)
 	{}
 	Kaguya::~Kaguya() {}
 
@@ -43,8 +44,8 @@ namespace basecross {
 		return m_Rigidbody->m_Pos;
 	}
 
-	wstring Kaguya::GetHitObj() {
-		return m_HitObj;
+	bool Kaguya::GetAttack() {
+		return m_Attackflag;
 	}
 
 
@@ -98,6 +99,16 @@ namespace basecross {
 
 
 	}
+	void Kaguya::SetMutekiTime(float time, int CntNum)
+	{
+		if (!m_isNullHit[CntNum])
+		{
+			Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
+			m_Life += -1;
+			m_isNullHit[CntNum] = true;
+			m_Interval[CntNum] = time;
+		}
+	}
 	void Kaguya::OnUpdate() {
 		//前回のターンからの経過時間を求める
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
@@ -128,7 +139,6 @@ namespace basecross {
 				}
 				else if (m_HitObj == L"enemy") {
 					//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
-					m_Life += -1;
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y -= 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, -0.1f, 0);
@@ -171,7 +181,6 @@ namespace basecross {
 				}
 				else if (m_HitObj == L"enemy") {
 					//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
-					m_Life += -1;
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
@@ -217,6 +226,24 @@ namespace basecross {
 		if (m_Life <= 0) {
 			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 		}
+		for (int i = 0; i < ARRAYSIZE(m_isNullHit); i++)
+		{
+			if (m_isNullHit[i])
+			{
+				float delta = App::GetApp()->GetElapsedTime();
+				m_Count[i] += delta;
+
+				if (m_Count[i] > m_Interval[i])
+				{
+					m_isNullHit[i] = false;
+					m_Count[i] = 0;
+
+					if (m_HitObj == L"enemy") {
+						m_HitObj = L"Red";
+					}
+				}
+			}
+		}
 	}
 
 	void Kaguya::OnUpdate2() {
@@ -243,20 +270,23 @@ namespace basecross {
 				auto shptr = v.m_Dest->m_Owner.lock();
 				if (shptr && shptr->FindTag(L"Yellow")) {
 					m_HitObj = L"yellow";
+					m_Attackflag = false;
 				}
 				else if (shptr && shptr->FindTag(L"Blue")) {
 					m_HitObj = L"blue";
+					m_Attackflag = false;
 				}
 				else if (shptr && shptr->FindTag(L"Red")) {
 					m_HitObj = L"red";
+					m_Attackflag = true;
 				}
-				else if (shptr && shptr->FindTag(L"Enemy")) {
+				if (shptr && shptr->FindTag(L"Enemy")) {
 					m_HitObj = L"enemy";
-					Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
+					SetMutekiTime(3.0f);
 				}
 				else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					m_HitObj = L"enemy";
-					Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
+					SetMutekiTime(3.0f);
 				}
 				m_JumpLock = false;
 				break;
@@ -275,11 +305,11 @@ namespace basecross {
 				}
 				else if (shptr && shptr->FindTag(L"Enemy")) {
 					m_HitObj = L"enemy";
-					Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
+					SetMutekiTime(3.0f);
 				}
 				else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					m_HitObj = L"enemy";
-					Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
+					SetMutekiTime(3.0f);
 				}
 				m_JumpLock = false;
 				break;

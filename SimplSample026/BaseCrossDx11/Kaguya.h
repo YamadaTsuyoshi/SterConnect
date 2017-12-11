@@ -29,6 +29,8 @@ namespace basecross {
 		int m_Life;
 		//色
 		wstring m_HitObj;
+		//アタックフラグ
+		bool m_Attackflag;
 		//Rigidbodyのshared_ptr
 		shared_ptr<Rigidbody> m_Rigidbody;
 		///描画データ
@@ -46,8 +48,12 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		Vec3 GetMoveVector();
-		wstring GetHitObj();
+	protected:
+		float m_Count[4] = {};
+		float m_Interval[4] = {};
+		bool m_isNullHit[4] = {};
 	public:
+		bool GetAttack();
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief コンストラクタ
@@ -79,6 +85,7 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual void OnCreate() override;
+		virtual void SetMutekiTime(float time, int CntNum=0);
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief 更新

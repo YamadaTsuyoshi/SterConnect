@@ -493,6 +493,8 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"SUBARU_TX", strTexture);
 		strTexture = DataDir + L"Texture\\BackGr.png";
 		App::GetApp()->RegisterTexture(L"BG_TX", strTexture);
+		strTexture = DataDir + L"Texture\\UIspace.png";
+		App::GetApp()->RegisterTexture(L"UI_BG_TX", strTexture);
 		strTexture = DataDir + L"Texture\\go-ru.png";
 		App::GetApp()->RegisterTexture(L"GOAL_TX", strTexture);
 

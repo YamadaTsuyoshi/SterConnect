@@ -215,6 +215,14 @@ namespace basecross {
 			SquareDrawOption::Normal
 			);
 
+		AddGameObject<BG>(
+			L"UI_BG_TX",
+			Vec3(25.0f, 15.0f, 1.0f),
+			Vec3(0, 0.0f, 20),
+			Quat(0.0f, 0.0f, 0.0f, 1.0f),
+			SquareDrawOption::Normal
+			);
+
 		AddGameObject<LightGage_F>(
 			L"LIGHTGAGE_A_TX",
 			Vec2(256*1.2, 64*1.2),

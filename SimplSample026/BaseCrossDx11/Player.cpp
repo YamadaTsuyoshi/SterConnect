@@ -172,6 +172,10 @@ namespace basecross {
 		L_Now = CntlVec[0].wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER;
 		R_Now = CntlVec[0].wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER;
 
+		//auto PtrStage = GetStage<Stage>();
+		////ƒJƒƒ‰‚ÌˆÊ’u
+		//Vec3 CameraEye = PtrStage->GetCamera().m_CamerEye;
+		//m_Rigidbody->m_Pos.y = CameraEye.y;
 	}
 
 	void Player::OnUpdate2() {

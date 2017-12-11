@@ -43,6 +43,11 @@ namespace basecross {
 		return m_Rigidbody->m_Pos;
 	}
 
+	wstring Kaguya::GetHitObj() {
+		return m_HitObj;
+	}
+
+
 	void Kaguya::OnCreate() {
 		vector<VertexPositionNormalTexture> vertices;
 		vector<uint16_t> indices;

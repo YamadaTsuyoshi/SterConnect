@@ -186,6 +186,13 @@ namespace basecross {
 			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
 			);
+		AddGameObject<Bamboo>(
+			L"WALL_TX",
+			Vec3(1.0f, 1.0f, 2.0f),
+			Vec3(6.0f, 5.0f, 0.0f),
+			Quat(0.0f, 0.0f, 0.0f, 1.0f),
+			SquareDrawOption::Normal
+			);
 
 		auto Startbar = AddGameObject<Bar>(
 			L"BARY_TX",

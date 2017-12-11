@@ -14,7 +14,7 @@ namespace basecross {
 		Enemy(StagePtr),
 		m_TextureResName(TextureResName),
 		m_Trace(Trace),
-		m_BaseX(6.0f),
+		m_BaseX(5.5f),
 		m_BaseY(0.25f / 2.0f),
 		m_Posision(Pos)
 	{}
@@ -37,7 +37,7 @@ namespace basecross {
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 1.0f;
-		body.m_Scale = Vec3(0.6f);
+		body.m_Scale = Vec3(1.0f);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;

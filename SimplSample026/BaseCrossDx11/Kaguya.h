@@ -31,6 +31,7 @@ namespace basecross {
 		wstring m_HitObj;
 		//アタックフラグ
 		bool m_Attackflag;
+		bool m_Alphaflag;
 		//Rigidbodyのshared_ptr
 		shared_ptr<Rigidbody> m_Rigidbody;
 		///描画データ

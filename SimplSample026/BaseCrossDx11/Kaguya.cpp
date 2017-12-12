@@ -86,10 +86,11 @@ namespace basecross {
 		m_PtrObj->m_TextureRes = TexPtr;
 		m_PtrObj->m_WorldMatrix = World;
 		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
-		m_PtrObj->m_OwnShadowmapActive = false;
+		m_PtrObj->m_OwnShadowmapActive = true;
 		m_PtrObj->m_ShadowmapUse = true;
 		m_PtrObj->m_BlendState = BlendState::AlphaBlend;
 		m_PtrObj->m_RasterizerState = RasterizerState::DoubleDraw;
+		m_PtrObj->m_Alpha = 1.0f;
 
 		//シャドウマップ描画データの構築
 		m_PtrShadowmapObj = make_shared<ShadowmapObject>();
@@ -233,14 +234,29 @@ namespace basecross {
 				float delta = App::GetApp()->GetElapsedTime();
 				m_Count[i] += delta;
 
+				if (m_HitObj == L"enemy") {
+					m_HitObj = L"Red";
+				}
+
+				if (m_Alphaflag) {
+					m_PtrObj->m_Alpha += -0.3f;
+				}
+				else if (!m_Alphaflag) {
+					m_PtrObj->m_Alpha += 0.3f;
+				}
+
+				if (m_PtrObj->m_Alpha >= 1.0f) {
+					m_Alphaflag = true;
+				}
+				else if (m_PtrObj->m_Alpha <= 0.4f) {
+					m_Alphaflag = false;
+				}
+
 				if (m_Count[i] > m_Interval[i])
 				{
 					m_isNullHit[i] = false;
 					m_Count[i] = 0;
-
-					if (m_HitObj == L"enemy") {
-						m_HitObj = L"Red";
-					}
+					m_PtrObj->m_Alpha = 1.0f;
 				}
 			}
 		}

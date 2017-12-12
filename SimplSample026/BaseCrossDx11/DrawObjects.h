@@ -1211,7 +1211,7 @@ namespace basecross {
 			m_Emissive(0.0f, 0.0f, 0.0f, 0.0),
 			m_Diffuse(1.0f, 1.0f, 1.0f, 1.0f),
 			m_SpecularColorAndPower(0.0f, 0.0f, 0.0f, 1.0f),
-			m_LightingEnabled(true),
+			m_LightingEnabled(false),
 			m_FogEnabled(false),
 			m_FogStart(-25.0f),
 			m_FogEnd(-40.0f),

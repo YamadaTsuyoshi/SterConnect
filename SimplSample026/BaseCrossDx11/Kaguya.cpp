@@ -329,6 +329,7 @@ namespace basecross {
 		LenVec.y = 0;
 		//プレイヤーのＺ位置は強制的に0.0にする
 		m_Rigidbody->m_Pos.z = 0.0f;
+		AddTag(L"Kaguya");
 	}
 
 	void Kaguya::OnDrawShadowmap() {

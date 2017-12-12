@@ -1042,68 +1042,59 @@ namespace basecross {
 		void ThisDelete();
 	};
 
+
 	//--------------------------------------------------------------------------------------
 	///	Take
 	//--------------------------------------------------------------------------------------
 	class Bamboo : public GameObject {
-		//バックアップしておく頂点データ
-		vector<VertexPositionColorTexture> m_BackupVertices;
-		//メッシュ
-		shared_ptr<MeshResource> m_SquareMesh;
-		//テクスチャリソース名
+		///メッシュ
+		shared_ptr<MeshResource> m_SphereMesh;
+		///テクスチャリソース名
 		wstring m_TextureResName;
-		//回転の描画オプション
-		SquareDrawOption m_DrawOption;
-		Vec3 m_Scale;				///<スケーリング
-		Quat m_Qt;			///<回転
-		Vec3 m_Pos;				///<位置
-		float m_TotalTime;
-		Rigidbody body;
-		//描画データ
-		shared_ptr<SimpleDrawObject> m_PtrObj;
-		//描画オブジェクト(weak_ptr)
-		weak_ptr<SimplePCTStaticRenderer> m_Renderer;
+		///壁の地点
+		float m_BaseX;
+		///スケーリングベースの最下地点
+		float m_BaseY;
+		///位置
+		Vec3 m_Posision;
+		///透明処理するかどうか
+		bool m_Trace;
 		//Rigidbodyのshared_ptr
 		shared_ptr<Rigidbody> m_Rigidbody;
-
-		//--------------------------------------------------------------------------------------
-		/*!
-		@brief 頂点の作成
-		@param[in]	WrapX	X方向のタイリング
-		@param[in]	WrapY	Y方向のタイリング
-		@return	なし
-		*/
-		//--------------------------------------------------------------------------------------
-		void CreateBuffers(float WrapX, float WrapY);
-		//--------------------------------------------------------------------------------------
-		/*!
-		@brief 頂点の変更
-		@param[in]	ElapsedTime	ターン時間
-		@param[out]	vertices	マップされた頂点データ
-		@return	なし
-		*/
-		//--------------------------------------------------------------------------------------
-		void UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices);
+		///描画データ
+		shared_ptr<BcDrawObject> m_PtrObj;
+		//描画オブジェクト(weak_ptr)
+		weak_ptr<BcPNTStaticRenderer> m_Renderer;
+		///シャドウマップ用描画データ
+		shared_ptr<ShadowmapObject> m_PtrShadowmapObj;
+		//シャドウマップ描画オブジェクト(weak_ptr)
+		weak_ptr<ShadowmapRenderer> m_ShadowmapRenderer;
+	protected:
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief コンストラクタ
 		@param[in]	StagePtr	ステージのポインタ
 		@param[in]	TextureResName	テクスチャリソース名
-		@param[in]	Scale	スケーリング
+		@param[in]	Trace	透明処理するかどうか
 		@param[in]	Pos	位置
-		@param[in]	Option	描画オプション
 		*/
 		//--------------------------------------------------------------------------------------
 		Bamboo(const shared_ptr<Stage>& StagePtr,
-			const wstring& TextureResName,
-			const Vec3& Scale, const Vec3& Pos, const Quat& Qt, SquareDrawOption Option);
+			const wstring& TextureResName, bool Trace, const Vec3& Pos);
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief デストラクタ
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual ~Bamboo();
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brief 位置を得る
+		@return	位置
+		*/
+		//--------------------------------------------------------------------------------------
+		virtual Vec3 GetPosition() override;
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief 初期化
@@ -1120,6 +1111,20 @@ namespace basecross {
 		virtual void OnUpdate()override;
 		//--------------------------------------------------------------------------------------
 		/*!
+		@brief 更新
+		@return	なし
+		*/
+		//--------------------------------------------------------------------------------------
+		virtual void OnUpdate2()override;
+		//--------------------------------------------------------------------------------------
+		/*!
+		@brief	シャドウマップの描画処理(仮想関数)
+		@return	なし
+		*/
+		//--------------------------------------------------------------------------------------
+		virtual void OnDrawShadowmap() override;
+		//--------------------------------------------------------------------------------------
+		/*!
 		@brief 描画
 		@return	なし
 		*/
@@ -1127,6 +1132,7 @@ namespace basecross {
 		virtual void OnDraw()override;
 		void ThisDelete();
 	};
+
 
 
 }

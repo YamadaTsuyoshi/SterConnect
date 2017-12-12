@@ -123,10 +123,8 @@ namespace basecross {
 				stringflag = true;
 				AddGameObject<Bamboo>(
 					L"WALL_TX",
-					Vec3(1.0f, 1.0f, 1.0f),
-					Pos,
-					Quat(0.0f, 0.0f, 0.0f, 1.0f),
-					SquareDrawOption::Normal
+					true,
+					Pos
 					);
 			}
 
@@ -135,10 +133,8 @@ namespace basecross {
 				stringflag = true;
 				auto bamboo = AddGameObject<Bamboo>(
 					L"Bamboo_B_TX",
-					Vec3(1.0f, 1.0f, 1.0f),
-					Pos,
-					Quat(0.0f, 0.0f, 0.0f, 1.0f),
-					SquareDrawOption::Normal
+					true,
+					Pos
 					);
 				bamboo->AddTag(L"BambooB");
 			}

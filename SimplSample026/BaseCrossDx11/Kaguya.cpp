@@ -296,6 +296,14 @@ namespace basecross {
 					m_HitObj = L"red";
 					m_Attackflag = true;
 				}
+				else if (shptr && shptr->FindTag(L"Bamboo")) {
+					m_HitObj = L"yellow";
+					m_Attackflag = false;
+				}
+				else if (shptr && shptr->FindTag(L"BambooB")) {
+					m_HitObj = L"yellow";
+					m_Attackflag = false;
+				}
 				if (shptr && shptr->FindTag(L"Enemy")) {
 					m_HitObj = L"enemy";
 					SetMutekiTime(3.0f);
@@ -312,12 +320,23 @@ namespace basecross {
 				auto shptr = v.m_Src->m_Owner.lock();
 				if (shptr && shptr->FindTag(L"Yellow")) {
 					m_HitObj = L"yellow";
+					m_Attackflag = false;
 				}
 				else if (shptr && shptr->FindTag(L"Blue")) {
 					m_HitObj = L"blue";
+					m_Attackflag = false;
 				}
 				else if (shptr && shptr->FindTag(L"Red")) {
 					m_HitObj = L"red";
+					m_Attackflag = true;
+				}
+				else if (shptr && shptr->FindTag(L"Bamboo")) {
+					m_HitObj = L"yellow";
+					m_Attackflag = false;
+				}
+				else if (shptr && shptr->FindTag(L"BambooB")) {
+					m_HitObj = L"yellow";
+					m_Attackflag = false;
 				}
 				else if (shptr && shptr->FindTag(L"Enemy")) {
 					m_HitObj = L"enemy";

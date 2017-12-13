@@ -579,6 +579,8 @@ namespace basecross {
 		Vec3 m_Pos;				///<位置
 		float m_TotalTime;
 		float Time;
+		float D_Time;
+		bool D_flag = false;
 		//描画データ
 		shared_ptr<SimpleDrawObject> m_PtrObj;
 		//描画オブジェクト(weak_ptr)
@@ -643,6 +645,7 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
 		void ThisDelete();
+		void SetD_flag(bool a) { D_flag = true; }
 	};
 
 

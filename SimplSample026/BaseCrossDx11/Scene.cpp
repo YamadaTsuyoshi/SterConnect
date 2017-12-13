@@ -489,8 +489,6 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"KAGUYA_TX", strTexture);
 		strTexture = DataDir + L"Texture\\StageMessage.png";
 		App::GetApp()->RegisterTexture(L"MESSAGE_TX", strTexture);
-		strTexture = DataDir + L"Texture\\SUBARU_noAnime.png";
-		App::GetApp()->RegisterTexture(L"SUBARU_TX", strTexture);
 		strTexture = DataDir + L"Texture\\BackGr.png";
 		App::GetApp()->RegisterTexture(L"BG_TX", strTexture);
 		strTexture = DataDir + L"Texture\\UIspace.png";
@@ -553,6 +551,14 @@ namespace basecross {
 		//Take
 		strTexture = DataDir + L"Texture\\take_B.png";
 		App::GetApp()->RegisterTexture(L"Bamboo_B_TX", strTexture);
+
+		//ƒXƒoƒ‹
+		strTexture = DataDir + L"Texture\\SUBARU_noAnime.png";
+		App::GetApp()->RegisterTexture(L"SUBARU_Y_TX", strTexture);
+		strTexture = DataDir + L"Texture\\ao.png";
+		App::GetApp()->RegisterTexture(L"SUBARU_B_TX", strTexture);
+		strTexture = DataDir + L"Texture\\aka.png";
+		App::GetApp()->RegisterTexture(L"SUBARU_R_TX", strTexture);
 		
 
 

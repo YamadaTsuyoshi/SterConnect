@@ -95,7 +95,7 @@ namespace basecross {
 			Time += ElapsedTime;
 			if (Time > 4.0f) {
 				Vec3 v = m_Rigidbody->m_Pos;
-				v.y -= 0.6f;
+				v.y -= 0.8f;
 				GetStage<Stage>()->AddGameObject<RabbitBullet>(
 					L"RABBIT_BULLET_TX",
 					true,
@@ -115,6 +115,57 @@ namespace basecross {
 						ThisDelete();
 					}
 				}
+				if (shptr && shptr->FindTag(L"Yellow")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Blue")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Red")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Bamboo")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"BambooB")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					ThisDelete();
+				}
 				break;
 			}
 			if (v.m_Dest == m_Rigidbody.get()) {
@@ -124,6 +175,57 @@ namespace basecross {
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						ThisDelete();
 					}
+				}
+				if (shptr && shptr->FindTag(L"Yellow")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Blue")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Red")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Bamboo")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"BambooB")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					ThisDelete();
 				}
 				break;
 			}
@@ -273,6 +375,27 @@ namespace basecross {
 				if (shptr && shptr->FindTag(L"Kaguya")) {
 						ThisDelete();
 				}
+				if (shptr && shptr->FindTag(L"Yellow")) {
+					Speed.y *= -1;
+				}
+				if (shptr && shptr->FindTag(L"Blue")) {
+					Speed.y *= -1;
+				}
+				if (shptr && shptr->FindTag(L"Red")) {
+					Speed.y *= -1;
+				}
+				if (shptr && shptr->FindTag(L"Bamboo")) {
+					Speed.y *= -1;
+				}
+				if (shptr && shptr->FindTag(L"BambooB")) {
+					Speed.y *= -1;
+				}
+				if (shptr && shptr->FindTag(L"Enemy")) {
+					Speed.y *= -1;
+				}
+				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					Speed.y *= -1;
+				}
 				break;
 			}
 			if (v.m_Dest == m_Rigidbody.get()) {
@@ -280,6 +403,27 @@ namespace basecross {
 				auto shptr = v.m_Src->m_Owner.lock();
 				if (shptr && shptr->FindTag(L"Kaguya")) {
 						ThisDelete();
+				}
+				if (shptr && shptr->FindTag(L"Yellow")) {
+					Speed.y *= -1;
+				}
+				if (shptr && shptr->FindTag(L"Blue")) {
+					Speed.y *= -1;
+				}
+				if (shptr && shptr->FindTag(L"Red")) {
+					Speed.y *= -1;
+				}
+				if (shptr && shptr->FindTag(L"Bamboo")) {
+					Speed.y *= -1;
+				}
+				if (shptr && shptr->FindTag(L"BambooB")) {
+					Speed.y *= -1;
+				}
+				if (shptr && shptr->FindTag(L"Enemy")) {
+					Speed.y *= -1;
+				}
+				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					Speed.y *= -1;
 				}
 				break;
 			}

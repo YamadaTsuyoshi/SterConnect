@@ -7,6 +7,10 @@ namespace basecross {
 	///	空のステージ（メッセージのみある）
 	//--------------------------------------------------------------------------------------
 	void Title::OnCreate() {
+		//BGMの再生
+		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
+		m_AudioObjectPtr->AddAudioResource(L"TITLE_BGM");
+		m_AudioObjectPtr->Start(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 0.5f);
 		//メッセージスプライト
 		m_MessageSprite = ObjectFactory::Create<StageSprite>(
 			GetThis<Stage>(),
@@ -36,6 +40,7 @@ namespace basecross {
 		if (CntlVec[0].bConnected) {
 			//Bボタン
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+				m_AudioObjectPtr->Stop(L"TITLE_BGM");
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToStageSelect");
 			}
 		}

@@ -56,6 +56,9 @@ namespace basecross {
 	///	空のステージ（メッセージのみある）
 	//--------------------------------------------------------------------------------------
 	void Gameover::OnCreate() {
+		//m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
+		//m_AudioObjectPtr->AddAudioResource(L"BGM");
+		//m_AudioObjectPtr->Start(L"BGM", XAUDIO2_LOOP_INFINITE, 0.5f);
 		//メッセージスプライト
 		m_MessageSprite = ObjectFactory::Create<StageSprite>(
 			GetThis<Stage>(),

@@ -349,10 +349,16 @@ namespace basecross {
 				}
 				else if (shptr && shptr->FindTag(L"Enemy")) {
 					m_HitObj = L"enemy";
+					if (m_Attackflag) {
+						break;
+					}
 					SetMutekiTime(3.0f);
 				}
 				else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					m_HitObj = L"enemy";
+					if (m_Attackflag) {
+						break;
+					}
 					SetMutekiTime(3.0f);
 				}
 				m_JumpLock = false;

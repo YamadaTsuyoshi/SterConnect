@@ -78,7 +78,7 @@ namespace basecross {
 			m_BeforePos = m_Pos;
 		}
 		Rigidbody() :
-			m_Gravity(0, -9.8f, 0),
+			m_Gravity(0, -9.8f*1/3, 0),
 			m_Mass(0),
 			m_Force(0),
 			m_Velocity(0),

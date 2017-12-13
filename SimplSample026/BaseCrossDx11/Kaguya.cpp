@@ -168,26 +168,26 @@ namespace basecross {
 				if (m_HitObj == L"blue") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0.0f, 15.0f, 0);
+					m_Rigidbody->m_Velocity += Vec3(0.0f, 15.0f/2, 0);
 					m_JumpLock = true;
 				}
 				else if (m_HitObj == L"yellow") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0, 10.0f, 0);
+					m_Rigidbody->m_Velocity += Vec3(0, 10.0f/2, 0);
 					m_JumpLock = true;
 				}
 				else if (m_HitObj == L"red") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
+					m_Rigidbody->m_Velocity += Vec3(0, 10.0f/2, 0);
 					m_JumpLock = true;
 				}
 				else if (m_HitObj == L"enemy") {
 					//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0, 5.0f, 0);
+					m_Rigidbody->m_Velocity += Vec3(0, 5.0f/2, 0);
 					m_JumpLock = true;
 				}
 				//if (!m_LeftRefLock) {

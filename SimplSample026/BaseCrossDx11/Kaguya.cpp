@@ -290,14 +290,20 @@ namespace basecross {
 				if (shptr && shptr->FindTag(L"Yellow")) {
 					m_HitObj = L"yellow";
 					m_Attackflag = false;
+					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+					a->SetD_flag(true);
 				}
 				else if (shptr && shptr->FindTag(L"Blue")) {
 					m_HitObj = L"blue";
 					m_Attackflag = false;
+					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+					a->SetD_flag(true);
 				}
 				else if (shptr && shptr->FindTag(L"Red")) {
 					m_HitObj = L"red";
 					m_Attackflag = true;
+					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+					a->SetD_flag(true);
 				}
 				else if (shptr && shptr->FindTag(L"Bamboo")) {
 					m_HitObj = L"yellow";
@@ -330,14 +336,20 @@ namespace basecross {
 				if (shptr && shptr->FindTag(L"Yellow")) {
 					m_HitObj = L"yellow";
 					m_Attackflag = false;
+					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+					a->SetD_flag(true);
 				}
 				else if (shptr && shptr->FindTag(L"Blue")) {
 					m_HitObj = L"blue";
 					m_Attackflag = false;
+					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+					a->SetD_flag(true);
 				}
 				else if (shptr && shptr->FindTag(L"Red")) {
 					m_HitObj = L"red";
-					m_Attackflag = true;
+					m_Attackflag = true; 
+					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+					a->SetD_flag(true);
 				}
 				else if (shptr && shptr->FindTag(L"Bamboo")) {
 					m_HitObj = L"yellow";

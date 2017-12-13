@@ -186,6 +186,23 @@ namespace basecross {
 			P_LightGage += 0.1f;
 		}
 		
+
+		switch (P_color) {
+		case Yellow:
+			m_TextureResName = L"SUBARU_Y_TX";
+			break;
+		case Blue:
+			m_TextureResName = L"SUBARU_B_TX";
+			break;
+		case Red:
+			m_TextureResName = L"SUBARU_R_TX";
+			break;
+		default:
+			break;
+		}
+		auto TexPtr = App::GetApp()->GetResource<TextureResource>(m_TextureResName);
+		m_PtrObj->m_TextureRes = TexPtr;
+
 	}
 
 	void Player::OnDrawShadowmap() {

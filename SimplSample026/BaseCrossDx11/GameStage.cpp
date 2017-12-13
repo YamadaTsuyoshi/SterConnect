@@ -81,7 +81,7 @@ namespace basecross {
 			{
 				stringflag = true;
 				AddGameObject<Player>(
-					L"SUBARU_TX", 
+					L"SUBARU_Y_TX", 
 					true, 
 					Pos
 					);
@@ -112,7 +112,7 @@ namespace basecross {
 				stringflag = true;
 				AddGameObject<Goal>(
 				L"GOAL2_TX",
-					Vec3(5, 5, 1.0f),
+					Vec3(1, 1, 1.0f),
 					Pos,
 					Quat(0.0f, 0.0f, 0.0f, 1.0f),
 					SquareDrawOption::Normal);
@@ -500,10 +500,25 @@ namespace basecross {
 
 		auto player = FindTagGameObject<Player>(L"Player");
 		Vec3 P_Pos = player->GetPosition();
+		P_color = player->getP_color();
+		wstring TextureResName;
+		switch (P_color) {
+		case Yellow:
+			TextureResName = L"SUBARU_Y_TX";
+			break;
+		case Blue:
+			TextureResName = L"SUBARU_B_TX";
+			break;
+		case Red:
+			TextureResName = L"SUBARU_R_TX";
+			break;
+		default:
+			break;
+		}
 		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount==0) {
 			PointDeleteflag = false;
 			auto a = AddGameObject<P_child>(
-				L"SUBARU_TX",
+				TextureResName,
 				true,
 				Vec3(0.1f, 1.0f, 0.0f)
 				);
@@ -513,7 +528,7 @@ namespace basecross {
 		}
 		else if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount== 1) {
 			auto a = AddGameObject<P_child>(
-				L"SUBARU_TX",
+				TextureResName,
 				true,
 				Vec3(1.0f, 0.5f, 0.0f)
 				);

@@ -588,8 +588,18 @@ namespace basecross {
 		strTexture = DataDir + L"temp\\fire.png";
 		App::GetApp()->RegisterTexture(L"FIRE_TX", strTexture);
 
-
-
+		//サウンド
+		wstring CursorWav = DataDir + L"Sound\\se1.wav";
+		App::GetApp()->RegisterWav(L"SE", CursorWav);
+		//タイトルBGM
+		wstring strMusic = DataDir + L"Sound\\Title.wav";
+		App::GetApp()->RegisterWav(L"TITLE_BGM", strMusic);
+		//ステージセレクトBGM
+		strMusic = DataDir + L"Sound\\StageSelect.wav";
+		App::GetApp()->RegisterWav(L"STAGESELECT_BGM", strMusic);
+		//ゲームBGM
+		strMusic = DataDir + L"Sound\\GameStage.wav";
+		App::GetApp()->RegisterWav(L"GAMESTAGE_BGM", strMusic);
 	}
 
 

@@ -225,9 +225,13 @@ namespace basecross {
 		m_Rigidbody->m_Force += m_Rigidbody->m_Gravity * m_Rigidbody->m_Mass;
 
 		if (m_Rigidbody->m_Pos.y >= 85) {
+			auto gamestage = GetStage<GameStage>();
+			gamestage->StopBGM();
 			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
 		}
 		if (m_Life <= 0) {
+			auto gamestage = GetStage<GameStage>();
+			gamestage->StopBGM();
 			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 		}
 		for (int i = 0; i < ARRAYSIZE(m_isNullHit); i++)

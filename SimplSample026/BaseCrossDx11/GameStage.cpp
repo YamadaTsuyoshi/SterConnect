@@ -179,6 +179,9 @@ namespace basecross {
 	}
 
 	void GameStage::OnCreate() {
+		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
+		m_AudioObjectPtr->AddAudioResource(L"GAMESTAGE_BGM");
+		m_AudioObjectPtr->Start(L"GAMESTAGE_BGM", XAUDIO2_LOOP_INFINITE, 0.5f);
 
 		float v = 0;
 		int BGS = 5;
@@ -448,6 +451,7 @@ namespace basecross {
 			camera.m_CamerAt.y = 83.0f;
 		}
 		if (FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y <= (maxPosition - 7.0f) ) {
+			m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
 			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 		}
 
@@ -461,6 +465,7 @@ namespace basecross {
 			camera.m_CamerEye = camera.m_CamerAt + CameraLocalEye;
 			//Bƒ{ƒ^ƒ“
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_Y) {
+				m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
 			}
 		
@@ -633,6 +638,10 @@ namespace basecross {
 			lightbar -= 20;
 			player->setP_LightGage(lightbar);
 		}
+	}
+
+	void GameStage::StopBGM() {
+		m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
 	}
 
 	//--------------------------------------------------------------------------------------

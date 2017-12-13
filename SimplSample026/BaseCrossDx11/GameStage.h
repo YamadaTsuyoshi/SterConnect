@@ -19,6 +19,7 @@ namespace basecross {
 		//以下、別に保存しておく
 		//文字列描画オブジェクト
 		shared_ptr<StringDrawObject> m_StringDrawObject;
+		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
 		//PCTボックスの登録（リソース登録する）
 		void RegisterPctlBox();
 
@@ -115,7 +116,7 @@ namespace basecross {
 
 		void Csv();
 
-
+		void StopBGM();
 
 	};
 

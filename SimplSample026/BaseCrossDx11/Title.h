@@ -6,6 +6,7 @@ namespace basecross {
 	class Title : public Stage {
 		shared_ptr<StageSprite> m_MessageSprite;		///<メッセージを表示するスプライト
 		shared_ptr<MessageSprite> m_HutonSprite;
+		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!

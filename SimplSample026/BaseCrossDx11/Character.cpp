@@ -964,6 +964,10 @@ namespace basecross {
 
 	void Bar::ThisDelete()
 	{
+		Vec3 Emitter = m_Pos;
+		//Spaerk‚Ì‘—o
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
 		GetStage<GameStage>()->RemoveGameObject<Bar>(GetThis<Bar>());
 		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<Bar>());
 	}
@@ -1753,6 +1757,10 @@ namespace basecross {
 
 	void Bamboo::ThisDelete()
 	{
+		Vec3 Emitter = m_Rigidbody->m_Pos;
+		//Spaerk‚Ì‘—o
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
 		GetStage<GameStage>()->RemoveGameObject<Bamboo>(GetThis<Bamboo>());
 		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<Bamboo>());
 	}

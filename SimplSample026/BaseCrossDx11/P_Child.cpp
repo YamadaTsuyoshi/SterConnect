@@ -202,6 +202,10 @@ namespace basecross {
 
 	void P_child::ThisDelete()
 	{
+		Vec3 Emitter = m_Rigidbody->m_Pos;
+		//Spaerk‚Ì‘—o
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
 		GetStage<GameStage>()->RemoveGameObject<P_child>(GetThis<P_child>());
 		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<P_child>());
 	}

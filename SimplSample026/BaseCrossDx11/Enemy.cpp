@@ -105,6 +105,30 @@ namespace basecross {
 			}
 		}
 
+		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
+		for (auto& v : StateVec) {
+			if (v.m_Src == m_Rigidbody.get()) {
+				//Destにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Dest->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
+						ThisDelete();
+					}
+				}
+				break;
+			}
+			if (v.m_Dest == m_Rigidbody.get()) {
+				//Srcにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Src->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
+						ThisDelete();
+					}
+				}
+				break;
+			}
+		}
+
 		if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) - 7) {
 			ThisDelete();
 		}
@@ -155,6 +179,10 @@ namespace basecross {
 
 	void Rabbit::ThisDelete()
 	{
+		Vec3 Emitter = m_Rigidbody->m_Pos;
+		//Spaerkの送出
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
 		GetStage<GameStage>()->RemoveGameObject<Rabbit>(GetThis<Rabbit>());
 		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<Rabbit>());
 	}
@@ -236,6 +264,26 @@ namespace basecross {
 		if (Time >5.0f) {
 			ThisDelete();
 		}
+
+		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
+		for (auto& v : StateVec) {
+			if (v.m_Src == m_Rigidbody.get()) {
+				//Destにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Dest->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+						ThisDelete();
+				}
+				break;
+			}
+			if (v.m_Dest == m_Rigidbody.get()) {
+				//Srcにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Src->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+						ThisDelete();
+				}
+				break;
+			}
+		}
 	}
 
 	void RabbitBullet::OnDrawShadowmap() {
@@ -282,6 +330,10 @@ namespace basecross {
 
 	void RabbitBullet::ThisDelete()
 	{
+		Vec3 Emitter = m_Rigidbody->m_Pos;
+		//Spaerkの送出
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
 		GetStage<GameStage>()->RemoveGameObject<RabbitBullet>(GetThis<RabbitBullet>());
 		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<RabbitBullet>());
 	}

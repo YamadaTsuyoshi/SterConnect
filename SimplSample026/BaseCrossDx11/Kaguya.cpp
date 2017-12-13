@@ -301,11 +301,11 @@ namespace basecross {
 				}
 				else if (shptr && shptr->FindTag(L"Bamboo")) {
 					m_HitObj = L"yellow";
-					m_Attackflag = false;
+					//m_Attackflag = false;
 				}
 				else if (shptr && shptr->FindTag(L"BambooB")) {
 					m_HitObj = L"yellow";
-					m_Attackflag = false;
+					//m_Attackflag = false;
 				}
 				if (shptr && shptr->FindTag(L"Enemy")) {
 					m_HitObj = L"enemy";
@@ -341,11 +341,11 @@ namespace basecross {
 				}
 				else if (shptr && shptr->FindTag(L"Bamboo")) {
 					m_HitObj = L"yellow";
-					m_Attackflag = false;
+					//m_Attackflag = false;
 				}
 				else if (shptr && shptr->FindTag(L"BambooB")) {
 					m_HitObj = L"yellow";
-					m_Attackflag = false;
+					//m_Attackflag = false;
 				}
 				else if (shptr && shptr->FindTag(L"Enemy")) {
 					m_HitObj = L"enemy";

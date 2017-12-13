@@ -53,7 +53,6 @@ namespace basecross {
 		bool dataIdFlag = false;
 
 		float life_x = 0;
-		int life = 5;
 
 		float lightbar;
 

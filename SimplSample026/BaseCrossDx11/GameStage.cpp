@@ -294,9 +294,10 @@ namespace basecross {
 			Vec2(502, 190.8f),
 			1, 1
 			);
-
-		for (int i = 0; i <= life; i++) {
-			AddGameObject<Life>(
+		auto kaguya = FindTagGameObject<Kaguya>(L"Kaguya");
+		auto life = kaguya->GetLife();
+		for (int i = 1; i <= life; i++) {
+			auto lifeobj = AddGameObject<Life>(
 				L"LIFE_TX",
 				Vec2(50, 50),
 				0.0f,
@@ -398,7 +399,6 @@ namespace basecross {
 
 
 	void GameStage::OnUpdate() {
-
 		auto Time = App::GetApp()->GetElapsedTime();
 		m_Time += Time;
 		interval_Time += Time;

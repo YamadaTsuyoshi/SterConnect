@@ -48,6 +48,9 @@ namespace basecross {
 		return m_Attackflag;
 	}
 
+	int Kaguya::GetLife() {
+		return m_Life;
+	}
 
 	void Kaguya::OnCreate() {
 		vector<VertexPositionNormalTexture> vertices;
@@ -306,10 +309,16 @@ namespace basecross {
 				}
 				if (shptr && shptr->FindTag(L"Enemy")) {
 					m_HitObj = L"enemy";
+					if (m_Attackflag) {
+						break;
+					}
 					SetMutekiTime(3.0f);
 				}
 				else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					m_HitObj = L"enemy";
+					if (m_Attackflag) {
+						break;
+					}
 					SetMutekiTime(3.0f);
 				}
 				m_JumpLock = false;

@@ -55,6 +55,7 @@ namespace basecross {
 		bool m_isNullHit[4] = {};
 	public:
 		bool GetAttack();
+		int GetLife();
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief コンストラクタ

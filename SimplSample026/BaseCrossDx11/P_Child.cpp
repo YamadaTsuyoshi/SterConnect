@@ -146,7 +146,7 @@ namespace basecross {
 		//}
 		m_Rigidbody->m_Pos.z = 3.0f;
 
-		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_X ||
+		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B ||
 			GetStage<GameStage>()->getPointDeleteFlag())
 		{
 			ThisDelete();

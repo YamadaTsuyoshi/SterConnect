@@ -182,8 +182,10 @@ namespace basecross {
 		//プレイヤーのＺ位置は強制的に0.0にする
 		m_Rigidbody->m_Pos.z = 2.0f;
 
-		if (P_LightGage <= P_MaxLightGage)
+		if (P_LightGage <= P_MaxLightGage) {
 			P_LightGage += 0.1f;
+		}
+		
 	}
 
 	void Player::OnDrawShadowmap() {

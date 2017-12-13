@@ -527,7 +527,7 @@ namespace basecross {
 			PointCount = 0;
 		}
 
-		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_X)
+		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 		{
 			PointCount = 0;
 		}

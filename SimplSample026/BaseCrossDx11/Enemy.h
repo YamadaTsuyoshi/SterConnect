@@ -48,8 +48,6 @@ namespace basecross {
 		//シャドウマップ描画オブジェクト(weak_ptr)
 		weak_ptr<ShadowmapRenderer> m_ShadowmapRenderer;
 
-		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
-
 		Vec3 Speed=Vec3(1.5f,1.5f,1.5f);
 
 		bool rightMove = true;

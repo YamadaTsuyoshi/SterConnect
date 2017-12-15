@@ -25,7 +25,6 @@ namespace basecross {
 	}
 
 	void Rabbit::OnCreate() {
-		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
 		vector<VertexPositionNormalTexture> vertices;
 		vector<uint16_t> indices;
 		MeshUtill::CreateSquare(1.0f, vertices, indices);
@@ -243,8 +242,6 @@ namespace basecross {
 		if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) - 7) {
 			//auto gamestage = GetStage<GameStage>();
 			//gamestage->StartDestroySE();
-			m_AudioObjectPtr->AddAudioResource(L"DEST_SE");
-			m_AudioObjectPtr->Start(L"DEST_SE", 0, 0.5f);
 			ThisDelete();
 		}
 

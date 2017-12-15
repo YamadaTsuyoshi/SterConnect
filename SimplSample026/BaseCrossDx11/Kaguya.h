@@ -42,6 +42,8 @@ namespace basecross {
 		shared_ptr<ShadowmapObject> m_PtrShadowmapObj;
 		//シャドウマップ描画オブジェクト(weak_ptr)
 		weak_ptr<ShadowmapRenderer> m_ShadowmapRenderer;
+
+		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	コントローラから方向ベクトルを得る
@@ -116,6 +118,10 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
+
+		virtual void RndJampVo();
+
+		virtual int GetRandom(int min, int max);
 
 		shared_ptr<Rigidbody> GetRigidbody()
 		{

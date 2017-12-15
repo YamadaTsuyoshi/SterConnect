@@ -53,6 +53,7 @@ namespace basecross {
 	}
 
 	void Kaguya::OnCreate() {
+		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
 		vector<VertexPositionNormalTexture> vertices;
 		vector<uint16_t> indices;
 		MeshUtill::CreateSquare(1.0f, vertices, indices);
@@ -166,18 +167,21 @@ namespace basecross {
 			}
 			else {
 				if (m_HitObj == L"blue") {
+					RndJampVo();
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0.0f, 15.0f/2, 0);
 					m_JumpLock = true;
 				}
 				else if (m_HitObj == L"yellow") {
+					RndJampVo();
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, 10.0f/2, 0);
 					m_JumpLock = true;
 				}
 				else if (m_HitObj == L"red") {
+					RndJampVo();
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, 10.0f/2, 0);
@@ -439,8 +443,46 @@ namespace basecross {
 		shptr->AddDrawObject(m_PtrObj);
 	}
 
+	void Kaguya::RndJampVo()
+	{
+		int i;
+		i = GetRandom(0, 3);
+		switch (i)
+		{
+		case 0:
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_EI");
+			m_AudioObjectPtr->Start(L"VOICE_EI", 0, 0.5f);
+			break;
+		case 1:
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_TOU");
+			m_AudioObjectPtr->Start(L"VOICE_TOU", 0, 0.5f);
+			break;
+		case 2:
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_YAA");
+			m_AudioObjectPtr->Start(L"VOICE_YAA", 0, 0.5f);
+			break;
+		case 3:
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_YO");
+			m_AudioObjectPtr->Start(L"VOICE_YO", 0, 0.5f);
+			break;
+		default:
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_TOU");
+			m_AudioObjectPtr->Start(L"VOICE_TOU", 0, 0.5f);
+			break;
+		}
+	}
 
+	int Kaguya::GetRandom(int min, int max)
+	{
+		static int flag;
 
+		if (flag == 0) {
+			srand((unsigned int)time(NULL));
+			flag = 1;
+		}
+
+		return min + (int)(rand()*(max - min + 1.0) / (1.0 + RAND_MAX));
+	}
 
 }
 //end basecross

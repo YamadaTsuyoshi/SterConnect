@@ -31,6 +31,8 @@ namespace basecross {
 		if (CntlVec[0].bConnected) {
 			//Bƒ{ƒ^ƒ“
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+				m_AudioObjectPtr->AddAudioResource(L"PRESS_SE");
+				m_AudioObjectPtr->Start(L"PRESS_SE", 0, 0.5f);
 				m_AudioObjectPtr->Stop(L"STAGESELECT_BGM");
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
 			}

@@ -588,18 +588,33 @@ namespace basecross {
 		strTexture = DataDir + L"temp\\fire.png";
 		App::GetApp()->RegisterTexture(L"FIRE_TX", strTexture);
 
-		//サウンド
-		wstring CursorWav = DataDir + L"Sound\\se1.wav";
-		App::GetApp()->RegisterWav(L"SE", CursorWav);
 		//タイトルBGM
-		wstring strMusic = DataDir + L"Sound\\Title.wav";
+		wstring strMusic = DataDir + L"BGM\\Title.wav";
 		App::GetApp()->RegisterWav(L"TITLE_BGM", strMusic);
 		//ステージセレクトBGM
-		strMusic = DataDir + L"Sound\\StageSelect.wav";
+		strMusic = DataDir + L"BGM\\StageSelect.wav";
 		App::GetApp()->RegisterWav(L"STAGESELECT_BGM", strMusic);
 		//ゲームBGM
-		strMusic = DataDir + L"Sound\\GameStage.wav";
+		strMusic = DataDir + L"BGM\\GameStage.wav";
 		App::GetApp()->RegisterWav(L"GAMESTAGE_BGM", strMusic);
+		//反射時のSE
+		wstring SeWav = DataDir + L"SE\\Refrect.wav";
+		App::GetApp()->RegisterWav(L"REF_SE", SeWav);
+		//決定時のSE
+		SeWav = DataDir + L"SE\\Pressbutton.wav";
+		App::GetApp()->RegisterWav(L"PRESS_SE", SeWav);
+		//ボイス：えい！
+		wstring VoiceWav = DataDir + L"Voice\\line-girl1_ei1.wav";
+		App::GetApp()->RegisterWav(L"VOICE_EI", VoiceWav);
+		//ボイス：とう！
+		VoiceWav = DataDir + L"Voice\\line-girl1_tou1.wav";
+		App::GetApp()->RegisterWav(L"VOICE_TOU", VoiceWav);
+		//ボイス：やあ！
+		VoiceWav = DataDir + L"Voice\\line-girl1_yaa2.wav";
+		App::GetApp()->RegisterWav(L"VOICE_YAA", VoiceWav);
+		//ボイス：よ！
+		VoiceWav = DataDir + L"Voice\\line-girl1_yo1.wav";
+		App::GetApp()->RegisterWav(L"VOICE_YO", VoiceWav);
 	}
 
 

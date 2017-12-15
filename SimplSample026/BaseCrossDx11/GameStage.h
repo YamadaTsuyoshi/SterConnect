@@ -118,6 +118,8 @@ namespace basecross {
 
 		void StopBGM();
 
+		void StartDestroySE();
+
 	};
 
 

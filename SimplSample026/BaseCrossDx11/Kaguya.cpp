@@ -108,6 +108,8 @@ namespace basecross {
 	{
 		if (!m_isNullHit[CntNum])
 		{
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_UU");
+			m_AudioObjectPtr->Start(L"VOICE_UU", 0, 0.5f);
 			Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
 			m_Life += -1;
 			m_isNullHit[CntNum] = true;

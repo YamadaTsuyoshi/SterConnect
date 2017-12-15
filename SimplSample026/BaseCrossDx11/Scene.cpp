@@ -597,12 +597,18 @@ namespace basecross {
 		//ゲームBGM
 		strMusic = DataDir + L"BGM\\GameStage.wav";
 		App::GetApp()->RegisterWav(L"GAMESTAGE_BGM", strMusic);
+		//ゲームオーバーBGM
+		strMusic = DataDir + L"BGM\\Gameover.wav";
+		App::GetApp()->RegisterWav(L"GAMEOVER_BGM", strMusic);
 		//反射時のSE
 		wstring SeWav = DataDir + L"SE\\Refrect.wav";
 		App::GetApp()->RegisterWav(L"REF_SE", SeWav);
 		//決定時のSE
 		SeWav = DataDir + L"SE\\Pressbutton.wav";
 		App::GetApp()->RegisterWav(L"PRESS_SE", SeWav);
+		//敵を倒した時のSE
+		SeWav = DataDir + L"SE\\Destroy.wav";
+		App::GetApp()->RegisterWav(L"DESTROY_SE", SeWav);
 		//ボイス：えい！
 		wstring VoiceWav = DataDir + L"Voice\\line-girl1_ei1.wav";
 		App::GetApp()->RegisterWav(L"VOICE_EI", VoiceWav);
@@ -615,6 +621,9 @@ namespace basecross {
 		//ボイス：よ！
 		VoiceWav = DataDir + L"Voice\\line-girl1_yo1.wav";
 		App::GetApp()->RegisterWav(L"VOICE_YO", VoiceWav);
+		//ボイス：うぅ…
+		VoiceWav = DataDir + L"Voice\\line-girl1_uu1.wav";
+		App::GetApp()->RegisterWav(L"VOICE_UU", VoiceWav);
 	}
 
 

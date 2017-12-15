@@ -644,6 +644,11 @@ namespace basecross {
 		m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
 	}
 
+	void GameStage::StartDestroySE() {
+		m_AudioObjectPtr->AddAudioResource(L"DESTROY_SE");
+		m_AudioObjectPtr->Start(L"DESTROY_SE", 0, 0.5f);
+	}
+
 	//--------------------------------------------------------------------------------------
 	///	空のステージ（メッセージのみある）
 	//--------------------------------------------------------------------------------------

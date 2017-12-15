@@ -25,6 +25,7 @@ namespace basecross {
 	}
 
 	void Rabbit::OnCreate() {
+		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
 		vector<VertexPositionNormalTexture> vertices;
 		vector<uint16_t> indices;
 		MeshUtill::CreateSquare(1.0f, vertices, indices);
@@ -112,8 +113,8 @@ namespace basecross {
 				auto shptr = v.m_Dest->m_Owner.lock();
 				if (shptr && shptr->FindTag(L"Kaguya")) {
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
-						//auto gamestage = GetStage<GameStage>();
-						//gamestage->StartDestroySE();
+						auto gamestage = GetStage<GameStage>();
+						gamestage->StartDestroySE();
 						ThisDelete();
 					}
 				}
@@ -166,8 +167,8 @@ namespace basecross {
 					}
 				}
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
-					//auto gamestage = GetStage<GameStage>();
-					//gamestage->StartDestroySE();
+					auto gamestage = GetStage<GameStage>();
+					gamestage->StartDestroySE();
 					ThisDelete();
 				}
 				break;
@@ -177,8 +178,8 @@ namespace basecross {
 				auto shptr = v.m_Src->m_Owner.lock();
 				if (shptr && shptr->FindTag(L"Kaguya")) {
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
-						//auto gamestage = GetStage<GameStage>();
-						//gamestage->StartDestroySE();
+						auto gamestage = GetStage<GameStage>();
+						gamestage->StartDestroySE();
 						ThisDelete();
 					}
 				}
@@ -231,8 +232,8 @@ namespace basecross {
 					}
 				}
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
-					//auto gamestage = GetStage<GameStage>();
-					//gamestage->StartDestroySE();
+					auto gamestage = GetStage<GameStage>();
+					gamestage->StartDestroySE();
 					ThisDelete();
 				}
 				break;
@@ -240,6 +241,10 @@ namespace basecross {
 		}
 
 		if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) - 7) {
+			//auto gamestage = GetStage<GameStage>();
+			//gamestage->StartDestroySE();
+			m_AudioObjectPtr->AddAudioResource(L"DEST_SE");
+			m_AudioObjectPtr->Start(L"DEST_SE", 0, 0.5f);
 			ThisDelete();
 		}
 

@@ -607,8 +607,8 @@ namespace basecross {
 		SeWav = DataDir + L"SE\\Pressbutton.wav";
 		App::GetApp()->RegisterWav(L"PRESS_SE", SeWav);
 		//敵を倒した時のSE
-		SeWav = DataDir + L"SE\\Destroy.wav";
-		App::GetApp()->RegisterWav(L"DESTROY_SE", SeWav);
+		SeWav = DataDir + L"SE\\damage.wav";
+		App::GetApp()->RegisterWav(L"DEST_SE", SeWav);
 		//ボイス：えい！
 		wstring VoiceWav = DataDir + L"Voice\\line-girl1_ei1.wav";
 		App::GetApp()->RegisterWav(L"VOICE_EI", VoiceWav);

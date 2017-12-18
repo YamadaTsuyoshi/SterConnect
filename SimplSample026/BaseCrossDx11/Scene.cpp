@@ -521,6 +521,9 @@ namespace basecross {
 		strTexture = DataDir + L"Texture\\Side.png";
 		App::GetApp()->RegisterTexture(L"GAMEOVER_SIDE_TX", strTexture);
 
+		strTexture = DataDir + L"Texture\\gameover.png";
+		App::GetApp()->RegisterTexture(L"GAMEOVER_TX", strTexture);
+
 		strTexture = DataDir + L"Texture\\kagu_futon.png";
 		App::GetApp()->RegisterTexture(L"HUTON_TX", strTexture);
 

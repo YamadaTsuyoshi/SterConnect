@@ -677,29 +677,32 @@ namespace basecross {
 
 		float Scale = sqrt(s);
 
-		P_color = player->getP_color();
+		if (Scale >= 1.5f) {
 
-		if (P_color == Yellow && lightbar>=10) {
-			auto a = AddGameObject<Bar>(
-				L"BARY_TX",
-				Vec3(Scale, 0.1f, 2.0f),
-				Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
-				qt,
-				SquareDrawOption::Normal);
-			a->AddTag(L"Yellow");
-			lightbar -= 10;
-			player->setP_LightGage(lightbar);
-		}
-		else if (P_color == Red && lightbar >= 20) {
-			auto a = AddGameObject<Bar>(
-				L"BARR_TX",
-				Vec3(Scale, 0.1f, 2.0f),
-				Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
-				qt,
-				SquareDrawOption::Normal);
-			a->AddTag(L"Red");
-			lightbar -= 20;
-			player->setP_LightGage(lightbar);
+			P_color = player->getP_color();
+
+			if (P_color == Yellow && lightbar >= 10) {
+				auto a = AddGameObject<Bar>(
+					L"BARY_TX",
+					Vec3(Scale, 0.1f, 2.0f),
+					Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
+					qt,
+					SquareDrawOption::Normal);
+				a->AddTag(L"Yellow");
+				lightbar -= 10;
+				player->setP_LightGage(lightbar);
+			}
+			else if (P_color == Red && lightbar >= 20) {
+				auto a = AddGameObject<Bar>(
+					L"BARR_TX",
+					Vec3(Scale, 0.1f, 2.0f),
+					Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
+					qt,
+					SquareDrawOption::Normal);
+				a->AddTag(L"Red");
+				lightbar -= 20;
+				player->setP_LightGage(lightbar);
+			}
 		}
 	}
 

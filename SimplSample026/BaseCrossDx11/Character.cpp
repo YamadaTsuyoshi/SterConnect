@@ -946,7 +946,7 @@ namespace basecross {
 			D_flag = true;
 		}
 
-		if (D_Time >1.0f) {
+		if (D_Time >0.3f) {
 			ThisDelete();
 		}
 	}

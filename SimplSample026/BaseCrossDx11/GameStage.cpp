@@ -681,7 +681,7 @@ namespace basecross {
 
 			P_color = player->getP_color();
 
-			if (P_color == Yellow && lightbar >= 10) {
+			if (P_color == Yellow && lightbar >= Scale * 5) {
 				auto a = AddGameObject<Bar>(
 					L"BARY_TX",
 					Vec3(Scale, 0.1f, 2.0f),
@@ -689,10 +689,10 @@ namespace basecross {
 					qt,
 					SquareDrawOption::Normal);
 				a->AddTag(L"Yellow");
-				lightbar -= 10;
+				lightbar -= Scale*5;
 				player->setP_LightGage(lightbar);
 			}
-			else if (P_color == Red && lightbar >= 20) {
+			else if (P_color == Red && lightbar >= Scale * 10) {
 				auto a = AddGameObject<Bar>(
 					L"BARR_TX",
 					Vec3(Scale, 0.1f, 2.0f),
@@ -700,7 +700,7 @@ namespace basecross {
 					qt,
 					SquareDrawOption::Normal);
 				a->AddTag(L"Red");
-				lightbar -= 20;
+				lightbar -= Scale * 10;
 				player->setP_LightGage(lightbar);
 			}
 		}

@@ -238,19 +238,25 @@ namespace basecross {
 			SquareDrawOption::Normal
 			);
 
-		AddGameObject<BG>(
-			L"UI_BG_TX",
+		/*AddGameObject<BG>(
+			L"UI_S_TX",
 			Vec3(25.0f, 15.0f, 1.0f),
 			Vec3(0, 0.0f, 20),
 			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
-			);
+			);*/
 
-		/*AddGameObject<LightHeel>(
-			L"WALL_TX",
+		AddGameObject<LightHeel>(
+			L"STAR_TX",
 			true,
 			Vec3(0,10,0)
-			);*/
+			);
+
+		AddGameObject<Rabbit>(
+			L"RABBIT_TX",
+			true,
+			Vec3(6, 10, 0)
+			);
 
 		////ÉvÉåÉCÉÑÅ[ÇÃçÏê¨
 		//AddGameObject<Player>(
@@ -288,6 +294,14 @@ namespace basecross {
 		//	Vec2(-480, 260),
 		//	4, 4
 		//	);
+
+		AddGameObject<LightGage_F>(
+			L"UI_S_TX",
+			Vec2(310,800),
+			0.0f,
+			Vec2(490, 0),
+			1, 1
+			);
 
 		AddGameObject<LightGage_F>(
 			L"LIGHTGAGE_A_TX",

@@ -246,6 +246,12 @@ namespace basecross {
 			SquareDrawOption::Normal
 			);
 
+		/*AddGameObject<LightHeel>(
+			L"WALL_TX",
+			true,
+			Vec3(0,10,0)
+			);*/
+
 		////プレイヤーの作成
 		//AddGameObject<Player>(
 		//	L"SUBARU_TX", 
@@ -327,10 +333,10 @@ namespace basecross {
 		wstring Path = App::GetApp()->GetDataDirWString();
 
 		//ファイル名の設定
-		wstring Map = Path + L"\\Kaguya\\";
+		wstring Map = Path + L"\\GameOver\\";
 
 		//Chaera1の作成
-		AddGameObject<Chara1>(Map);
+		//AddGameObject<Chara1>(Map);
 
 
 	}

@@ -1786,5 +1786,167 @@ namespace basecross {
 		GetStage<GameStage>()->RemoveGameObject<Bamboo>(GetThis<Bamboo>());
 		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<Bamboo>());
 	}
+
+	//--------------------------------------------------------------------------------------
+	///	光ゲージ回復
+	//--------------------------------------------------------------------------------------
+	LightHeel::LightHeel(const shared_ptr<Stage>& StagePtr,
+		const wstring& TextureResName, bool Trace, const Vec3& Pos) :
+		GameObject(StagePtr),
+		m_TextureResName(TextureResName),
+		m_Trace(Trace),
+		m_BaseX(5.4f),
+		m_BaseY(-5.0f),
+		m_Posision(Pos)
+	{}
+	LightHeel::~LightHeel() {}
+
+	Vec3 LightHeel::GetPosition() {
+		return m_Rigidbody->m_Pos;
+	}
+
+	void LightHeel::OnCreate() {
+		vector<VertexPositionNormalTexture> vertices;
+		vector<uint16_t> indices;
+		MeshUtill::CreateSquare(1.0f, vertices, indices);
+		//メッシュの作成（変更できない）
+		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
+		//タグの追加
+		AddTag(L"LightHeel");
+		//Rigidbodyの初期化
+		auto PtrGameStage = GetStage<GameStage>();
+		Rigidbody body;
+		body.m_Owner = GetThis<GameObject>();
+		body.m_Mass = 0.75f;
+		body.m_Scale = Vec3(1.0f);
+		body.m_Quat = Quat();
+		body.m_Pos = m_Posision;
+		body.m_CollType = CollType::typeSPHERE;
+		//body.m_IsDrawActive = true;
+		body.SetToBefore();
+
+		m_Rigidbody = PtrGameStage->AddRigidbody(body);
+
+		
+
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			body.m_Scale,
+			Vec3(0, 0, 0),
+			body.m_Quat,
+			body.m_Pos
+		);
+
+		m_PtrObj = make_shared<BcDrawObject>();
+		auto TexPtr = App::GetApp()->GetResource<TextureResource>(m_TextureResName);
+		m_PtrObj->m_MeshRes = m_SphereMesh;
+		m_PtrObj->m_TextureRes = TexPtr;
+		m_PtrObj->m_WorldMatrix = World;
+		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
+		m_PtrObj->m_OwnShadowmapActive = false;
+		m_PtrObj->m_ShadowmapUse = true;
+		m_PtrObj->m_BlendState = BlendState::AlphaBlend;
+		m_PtrObj->m_RasterizerState = RasterizerState::DoubleDraw;
+
+		//シャドウマップ描画データの構築
+		m_PtrShadowmapObj = make_shared<ShadowmapObject>();
+		m_PtrShadowmapObj->m_MeshRes = m_SphereMesh;
+		//描画データの行列をコピー
+		m_PtrShadowmapObj->m_WorldMatrix = World;
+
+
+	}
+
+	void LightHeel::OnUpdate() {
+		//前回のターンからの経過時間を求める
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		//コントローラの取得
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+	}
+
+	void LightHeel::OnUpdate2() {
+		
+		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
+				for (auto& v : StateVec) {
+					if (v.m_Src == m_Rigidbody.get()) {
+						//Destにボックスタグがあるかどうか調べる
+						auto shptr = v.m_Dest->m_Owner.lock();
+						if (shptr && shptr->FindTag(L"Kaguya")) {
+							ThisDelete();
+						}
+						else {
+							m_Rigidbody->m_Scale = Vec3(0, 0, 0);
+						}
+						break;
+					}
+					if (v.m_Dest == m_Rigidbody.get()) {
+						//Srcにボックスタグがあるかどうか調べる
+						auto shptr = v.m_Src->m_Owner.lock();
+						if (shptr && shptr->FindTag(L"Kaguya")) {
+							ThisDelete();
+						}
+						else {
+							m_Rigidbody->m_Scale = Vec3(0, 0, 0);
+						}
+						break;
+					}
+					m_Rigidbody->m_Scale = Vec3(1.0f);
+				}
+		//プレイヤーのＺ位置は強制的に0.0にする
+		m_Rigidbody->m_Pos = m_Posision;
+	}
+
+	void LightHeel::OnDrawShadowmap() {
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			m_Rigidbody->m_Scale,
+			Vec3(0, 0, 0),
+			m_Rigidbody->m_Quat,
+			m_Rigidbody->m_Pos
+		);
+		//描画データの行列をコピー
+		m_PtrShadowmapObj->m_WorldMatrix = World;
+		m_PtrShadowmapObj->m_Camera = GetStage<Stage>()->GetCamera();
+
+		auto shptr = m_ShadowmapRenderer.lock();
+		if (!shptr) {
+			shptr = GetStage<Stage>()->FindTagGameObject<ShadowmapRenderer>(L"ShadowmapRenderer");
+			m_ShadowmapRenderer = shptr;
+		}
+		shptr->AddDrawObject(m_PtrShadowmapObj);
+	}
+
+	void LightHeel::OnDraw() {
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			m_Rigidbody->m_Scale,
+			Vec3(0, 0, 0),
+			m_Rigidbody->m_Quat,
+			m_Rigidbody->m_Pos
+		);
+		m_PtrObj->m_WorldMatrix = World;
+		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
+		auto shptr = m_Renderer.lock();
+		if (!shptr) {
+			auto PtrGameStage = GetStage<GameStage>();
+			shptr = PtrGameStage->FindTagGameObject<BcPNTStaticRenderer>(L"BcPNTStaticRenderer");
+			m_Renderer = shptr;
+		}
+		shptr->AddDrawObject(m_PtrObj);
+	}
+
+
+	void LightHeel::ThisDelete()
+	{
+		Vec3 Emitter = m_Rigidbody->m_Pos;
+		//Spaerkの送出
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
+		GetStage<GameStage>()->RemoveGameObject<LightHeel>(GetThis<LightHeel>());
+		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<LightHeel>());
+	}
 }
 //end basecross

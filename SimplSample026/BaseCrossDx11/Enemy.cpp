@@ -497,7 +497,7 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//ç\ízÇ∆îjä¸
 	Chara1::Chara1(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir) :
-		SS5ssae(StagePtr, BaseDir, L"WhiteRabbit.ssae", L"fly_full")
+		SS5ssae(StagePtr, BaseDir, L"GameOver_Kaguya.ssae", L"Anime")
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(
 			Vec3(0.1f, 0.1f, 1.0f),

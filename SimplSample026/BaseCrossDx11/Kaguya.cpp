@@ -123,14 +123,7 @@ namespace basecross {
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (!m_JumpLock) {
 			if (!m_UnderRefLock) {
-				if (m_HitObj == L"blue") {
-					m_Rigidbody->m_BeforePos.y += 0.01f;
-					m_Rigidbody->m_Pos.y -= 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0.0f, -1.0f, 0);
-					m_UnderRefLock = true;
-					m_JumpLock = true;
-				}
-				else if (m_HitObj == L"yellow") {
+				if (m_HitObj == L"yellow") {
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y -= 0.01f;
 					m_Rigidbody->m_Velocity += Vec3(0, -0.5f, 0);
@@ -168,14 +161,7 @@ namespace basecross {
 				//}
 			}
 			else {
-				if (m_HitObj == L"blue") {
-					RndJampVo();
-					m_Rigidbody->m_BeforePos.y += 0.01f;
-					m_Rigidbody->m_Pos.y += 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0.0f, 15.0f/2, 0);
-					m_JumpLock = true;
-				}
-				else if (m_HitObj == L"yellow") {
+				if (m_HitObj == L"yellow") {
 					RndJampVo();
 					m_Rigidbody->m_BeforePos.y += 0.01f;
 					m_Rigidbody->m_Pos.y += 0.01f;
@@ -303,12 +289,6 @@ namespace basecross {
 					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
 					a->SetD_flag(true);
 				}
-				else if (shptr && shptr->FindTag(L"Blue")) {
-					m_HitObj = L"blue";
-					m_Attackflag = false;
-					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
-					a->SetD_flag(true);
-				}
 				else if (shptr && shptr->FindTag(L"Red")) {
 					m_HitObj = L"red";
 					m_Attackflag = true;
@@ -345,12 +325,6 @@ namespace basecross {
 				auto shptr = v.m_Src->m_Owner.lock();
 				if (shptr && shptr->FindTag(L"Yellow")) {
 					m_HitObj = L"yellow";
-					m_Attackflag = false;
-					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
-					a->SetD_flag(true);
-				}
-				else if (shptr && shptr->FindTag(L"Blue")) {
-					m_HitObj = L"blue";
 					m_Attackflag = false;
 					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
 					a->SetD_flag(true);

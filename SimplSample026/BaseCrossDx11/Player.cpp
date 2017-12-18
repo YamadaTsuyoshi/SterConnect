@@ -194,9 +194,6 @@ namespace basecross {
 		case Yellow:
 			m_TextureResName = L"SUBARU_Y_TX";
 			break;
-		case Blue:
-			m_TextureResName = L"SUBARU_B_TX";
-			break;
 		case Red:
 			m_TextureResName = L"SUBARU_R_TX";
 			break;
@@ -267,9 +264,9 @@ namespace basecross {
 
 		}
 		if (P_color < Yellow) {
-			P_color = Blue;
+			P_color = Red;
 		}
-		if (P_color > Blue) {
+		if (P_color > Red) {
 			P_color = Yellow;
 		}
 	}

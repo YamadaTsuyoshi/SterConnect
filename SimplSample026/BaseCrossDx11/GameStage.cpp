@@ -588,9 +588,6 @@ namespace basecross {
 		case Yellow:
 			TextureResName = L"SUBARU_Y_TX";
 			break;
-		case Blue:
-			TextureResName = L"SUBARU_B_TX";
-			break;
 		case Red:
 			TextureResName = L"SUBARU_R_TX";
 			break;
@@ -691,17 +688,6 @@ namespace basecross {
 				SquareDrawOption::Normal);
 			a->AddTag(L"Yellow");
 			lightbar -= 10;
-			player->setP_LightGage(lightbar);
-		}
-		else if (P_color == Blue && lightbar >= 20) {
-			auto a = AddGameObject<Bar>(
-				L"BARB_TX",
-				Vec3(Scale, 0.1f, 2.0f),
-				Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
-				qt,
-				SquareDrawOption::Normal);
-			a->AddTag(L"Blue");
-			lightbar -= 20;
 			player->setP_LightGage(lightbar);
 		}
 		else if (P_color == Red && lightbar >= 20) {

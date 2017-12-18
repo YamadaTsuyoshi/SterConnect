@@ -37,11 +37,10 @@ namespace basecross {
 		shared_ptr<ShadowmapObject> m_PtrShadowmapObj;
 		//シャドウマップ描画オブジェクト(weak_ptr)
 		weak_ptr<ShadowmapRenderer> m_ShadowmapRenderer;
-		//黄色：０　赤：１　青：２
+		//黄色：０　赤：１
 		typedef enum {
 			Yellow,
 			Red,
-			Blue
 		} eMenu;
 
 		int P_color = 0;

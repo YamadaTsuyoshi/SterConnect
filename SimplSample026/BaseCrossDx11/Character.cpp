@@ -1871,7 +1871,7 @@ namespace basecross {
 		SPHERE t;
 		t.m_Center = m_Rigidbody->m_Pos;
 		t.m_Center.z = 0;
-		t.m_Radius = 1;
+		t.m_Radius = 0.5;
 
 		SPHERE p;
 		p.m_Center = GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetPosition();

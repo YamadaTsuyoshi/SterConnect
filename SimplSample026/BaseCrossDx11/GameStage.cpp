@@ -139,6 +139,15 @@ namespace basecross {
 				bamboo->AddTag(L"BambooB");
 			}
 
+			if (MapVec[0] == L"Heel")
+			{
+				stringflag = true;
+				AddGameObject<LightHeel>(
+					L"STAR_TX",
+					true,
+					Pos
+					);
+			}
 
 			if (!stringflag)
 			{
@@ -245,18 +254,6 @@ namespace basecross {
 			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
 			);*/
-
-		AddGameObject<LightHeel>(
-			L"STAR_TX",
-			true,
-			Vec3(0,10,0)
-			);
-
-		AddGameObject<Rabbit>(
-			L"RABBIT_TX",
-			true,
-			Vec3(6, 10, 0)
-			);
 
 		////ÉvÉåÉCÉÑÅ[ÇÃçÏê¨
 		//AddGameObject<Player>(
@@ -677,7 +674,7 @@ namespace basecross {
 
 		float Scale = sqrt(s);
 
-		if (Scale >= 1.5f) {
+		if (Scale >= 1.0f) {
 
 			P_color = player->getP_color();
 

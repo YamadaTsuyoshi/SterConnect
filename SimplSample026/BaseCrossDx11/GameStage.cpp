@@ -306,11 +306,18 @@ namespace basecross {
 		auto kaguya = FindTagGameObject<Kaguya>(L"Kaguya");
 		auto life = kaguya->GetLife();
 		for (int i = 1; i <= life; i++) {
-			lifeobj = AddGameObject<Life>(
-				L"LIFE_TX",
+			AddGameObject<Life>(
+				L"EMP_LIFE_TX",
 				Vec2(50, 50),
 				0.0f,
 				Vec2(360.0f + life_x, 120.0f),
+				1, 1
+				);
+			lifeobj = AddGameObject<Life>(
+				L"LIFE_TX",
+				Vec2(35.0f, 35.0f),
+				0.0f,
+				Vec2(360.5f + life_x, 120.5f),
 				1, 1
 				);
 			life_x += 50.0f;

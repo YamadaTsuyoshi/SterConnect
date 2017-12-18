@@ -502,10 +502,26 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"STAGESELECT_TX", strTexture);
 		strTexture = DataDir + L"Texture\\clear.PNG";
 		App::GetApp()->RegisterTexture(L"CLEAR_TX", strTexture);
-		strTexture = DataDir + L"Texture\\gameover.PNG";
-		App::GetApp()->RegisterTexture(L"GAMEOVER_TX", strTexture);
+		strTexture = DataDir + L"Texture\\gameover_Back.png";
+		App::GetApp()->RegisterTexture(L"GAMEOVER_BG_TX", strTexture);
+		strTexture = DataDir + L"Texture\\GameOverText.png";
+		App::GetApp()->RegisterTexture(L"GAMEOVER_TEXT_TX", strTexture);
+		strTexture = DataDir + L"Texture\\L1.png";
+		App::GetApp()->RegisterTexture(L"GAMEOVER_L1_TX", strTexture);
+		strTexture = DataDir + L"Texture\\L2.png";
+		App::GetApp()->RegisterTexture(L"GAMEOVER_L2_TX", strTexture);
+		strTexture = DataDir + L"Texture\\L3.png";
+		App::GetApp()->RegisterTexture(L"GAMEOVER_L3_TX", strTexture);
+		strTexture = DataDir + L"Texture\\N1.png";
+		App::GetApp()->RegisterTexture(L"GAMEOVER_N1_TX", strTexture);
+		strTexture = DataDir + L"Texture\\N2.png";
+		App::GetApp()->RegisterTexture(L"GAMEOVER_N2_TX", strTexture);
+		strTexture = DataDir + L"Texture\\N3.png";
+		App::GetApp()->RegisterTexture(L"GAMEOVER_N3_TX", strTexture);
+		strTexture = DataDir + L"Texture\\Side.png";
+		App::GetApp()->RegisterTexture(L"GAMEOVER_SIDE_TX", strTexture);
 
-		strTexture = DataDir + L"Texture\\anybo.png";
+		strTexture = DataDir + L"Texture\\kagu_futon.png";
 		App::GetApp()->RegisterTexture(L"HUTON_TX", strTexture);
 
 		strTexture = DataDir + L"Texture\\take_C.png";
@@ -541,8 +557,10 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"LIGHTGAGE_B_R_TX", strTexture);
 		
 		//ƒ‰ƒCƒt
-		strTexture = DataDir + L"Texture\\LifeHeal.png";
+		strTexture = DataDir + L"Texture\\heart1218.png";
 		App::GetApp()->RegisterTexture(L"LIFE_TX", strTexture);
+		strTexture = DataDir + L"Texture\\Hart_0.png";
+		App::GetApp()->RegisterTexture(L"EMP_LIFE_TX", strTexture);
 
 		//goal
 		strTexture = DataDir + L"Texture\\Cloud&Ship.png";

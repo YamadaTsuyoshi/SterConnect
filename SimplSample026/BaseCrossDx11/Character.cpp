@@ -1445,8 +1445,8 @@ namespace basecross {
 
 	void Life::ScaleChangeH(){
 		this->m_Scale += 2.0f;
-		if (this->m_Scale.x >= 50.0f&&this->m_Scale.y >= 50.0f) {
-			this->m_Scale = Vec2(50.0f);
+		if (this->m_Scale.x >= 35.0f&&this->m_Scale.y >= 35.0f) {
+			this->m_Scale = Vec2(35.0f,35.0f);
 		}
 	}
 

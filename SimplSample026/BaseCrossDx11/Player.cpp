@@ -185,6 +185,9 @@ namespace basecross {
 		if (P_LightGage <= P_MaxLightGage) {
 			P_LightGage += 0.1f;
 		}
+		if (P_LightGage >= P_MaxLightGage) {
+			P_LightGage = P_MaxLightGage;
+		}
 		
 
 		switch (P_color) {
@@ -202,6 +205,8 @@ namespace basecross {
 		}
 		auto TexPtr = App::GetApp()->GetResource<TextureResource>(m_TextureResName);
 		m_PtrObj->m_TextureRes = TexPtr;
+
+
 
 	}
 

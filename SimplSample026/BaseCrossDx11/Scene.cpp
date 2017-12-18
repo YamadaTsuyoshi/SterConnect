@@ -577,7 +577,14 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"SUBARU_B_TX", strTexture);
 		strTexture = DataDir + L"Texture\\aka.png";
 		App::GetApp()->RegisterTexture(L"SUBARU_R_TX", strTexture);
-		
+
+		//UISpace aaaaaaaaaaaaaaa
+		strTexture = DataDir + L"Texture\\aaaaaaaaaaaaaaa.png";
+		App::GetApp()->RegisterTexture(L"UI_S_TX", strTexture);
+
+		//光ゲージアイテム
+		strTexture = DataDir + L"Texture\\Star.png";
+		App::GetApp()->RegisterTexture(L"STAR_TX", strTexture);
 
 
 		//ボーンモデルのリソース

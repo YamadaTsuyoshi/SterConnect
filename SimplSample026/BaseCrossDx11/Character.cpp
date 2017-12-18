@@ -1295,6 +1295,8 @@ namespace basecross {
 			break;
 		}
 
+		
+
 	}
 
 	void BG::OnDraw() {
@@ -1866,7 +1868,24 @@ namespace basecross {
 	}
 
 	void LightHeel::OnUpdate2() {
+		SPHERE t;
+		t.m_Center = m_Rigidbody->m_Pos;
+		t.m_Center.z = 0;
+		t.m_Radius = 1;
+
+		SPHERE p;
+		p.m_Center = GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetPosition();
+		p.m_Center.z = 0;
+		p.m_Radius = 1;
 		
+		if (HitTest::SPHERE_SPHERE(t, p))
+		{
+			auto player = GetStage<GameStage>()->FindTagGameObject<Player>(L"Player");
+			auto gage = player->getP_LightGage() + 50;
+			player->setP_LightGage(gage);
+			ThisDelete();
+		}
+
 		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
 				for (auto& v : StateVec) {
 					if (v.m_Src == m_Rigidbody.get()) {
@@ -1874,9 +1893,6 @@ namespace basecross {
 						auto shptr = v.m_Dest->m_Owner.lock();
 						if (shptr && shptr->FindTag(L"Kaguya")) {
 							ThisDelete();
-						}
-						else {
-							m_Rigidbody->m_Scale = Vec3(0, 0, 0);
 						}
 						break;
 					}
@@ -1886,15 +1902,12 @@ namespace basecross {
 						if (shptr && shptr->FindTag(L"Kaguya")) {
 							ThisDelete();
 						}
-						else {
-							m_Rigidbody->m_Scale = Vec3(0, 0, 0);
-						}
 						break;
 					}
-					m_Rigidbody->m_Scale = Vec3(1.0f);
+					//m_Rigidbody->m_Pos = m_Posision;
 				}
 		//プレイヤーのＺ位置は強制的に0.0にする
-		m_Rigidbody->m_Pos = m_Posision;
+		m_Rigidbody->m_Pos.z = 10;
 	}
 
 	void LightHeel::OnDrawShadowmap() {

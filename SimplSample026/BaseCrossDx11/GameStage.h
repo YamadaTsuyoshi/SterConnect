@@ -56,6 +56,8 @@ namespace basecross {
 		float life_x = 0;
 
 		float lightbar;
+		shared_ptr<Life> lifeobj;
+		vector<shared_ptr<Life>> lifegroup;
 
 	public:
 		//--------------------------------------------------------------------------------------
@@ -105,6 +107,8 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
+
+		vector<shared_ptr<Life>> Getlifegroup(){ return lifegroup; };
 
 		Vec3 GetP_Pos() { return P_Pos; }
 

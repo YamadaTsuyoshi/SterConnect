@@ -300,7 +300,7 @@ namespace basecross {
 		auto kaguya = FindTagGameObject<Kaguya>(L"Kaguya");
 		auto life = kaguya->GetLife();
 		for (int i = 1; i <= life; i++) {
-			auto lifeobj = AddGameObject<Life>(
+			lifeobj = AddGameObject<Life>(
 				L"LIFE_TX",
 				Vec2(50, 50),
 				0.0f,
@@ -308,6 +308,7 @@ namespace basecross {
 				1, 1
 				);
 			life_x += 50.0f;
+			lifegroup.push_back(lifeobj);
 		}
 
 		//メッセージを表示するスプライトの作成
@@ -437,6 +438,55 @@ namespace basecross {
 		else if (kaguya->GetPosition().y >= camera.m_CamerAt.y) {
 			camera.m_CamerAt.y +=  Body->m_Force.y;
 		}*/
+
+		auto kaguya = FindTagGameObject<Kaguya>(L"Kaguya");
+		auto life = kaguya->GetLife();
+		switch (life)
+		{
+		case 0:
+			lifegroup[0]->ScaleChangeD();
+			lifegroup[1]->ScaleChangeD();
+			lifegroup[2]->ScaleChangeD();
+			lifegroup[3]->ScaleChangeD();
+			lifegroup[4]->ScaleChangeD();
+			break;
+		case 1:
+			lifegroup[0]->ScaleChangeH();
+			lifegroup[1]->ScaleChangeD();
+			lifegroup[2]->ScaleChangeD();
+			lifegroup[3]->ScaleChangeD();
+			lifegroup[4]->ScaleChangeD();
+			break;
+		case 2:
+			lifegroup[0]->ScaleChangeH();
+			lifegroup[1]->ScaleChangeH();
+			lifegroup[2]->ScaleChangeD();
+			lifegroup[3]->ScaleChangeD();
+			lifegroup[4]->ScaleChangeD();
+			break;
+		case 3:
+			lifegroup[0]->ScaleChangeH();
+			lifegroup[1]->ScaleChangeH();
+			lifegroup[2]->ScaleChangeH();
+			lifegroup[3]->ScaleChangeD();
+			lifegroup[4]->ScaleChangeD();
+			break;
+		case 4:
+			lifegroup[0]->ScaleChangeH();
+			lifegroup[1]->ScaleChangeH();
+			lifegroup[2]->ScaleChangeH();
+			lifegroup[3]->ScaleChangeH();
+			lifegroup[4]->ScaleChangeD();
+			break;
+		case 5:
+			lifegroup[0]->ScaleChangeH();
+			lifegroup[1]->ScaleChangeH();
+			lifegroup[2]->ScaleChangeH();
+			lifegroup[3]->ScaleChangeH();
+			lifegroup[4]->ScaleChangeH();
+			break;
+		}
+
 		camera.m_CamerAt.y = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y;
 		if (camera.m_CamerAt.y > maxPosition) {
 			maxPosition = camera.m_CamerAt.y;

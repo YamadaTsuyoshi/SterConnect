@@ -1426,7 +1426,7 @@ namespace basecross {
 		//‚±‚±‚Å‚Í‰½‚à‚µ‚È‚¢
 	}
 
-	void  Life::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
+	void Life::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
 		m_TotalTime += (ElapsedTime * 5.0f);
 		if (m_TotalTime >= XM_2PI) {
 			m_TotalTime = 0;
@@ -1440,6 +1440,20 @@ namespace basecross {
 				m_BackupVertices[i].textureCoordinate
 			);
 
+		}
+	}
+
+	void Life::ScaleChangeH(){
+		this->m_Scale += 2.0f;
+		if (this->m_Scale.x >= 50.0f&&this->m_Scale.y >= 50.0f) {
+			this->m_Scale = Vec2(50.0f);
+		}
+	}
+
+	void Life::ScaleChangeD(){
+		this->m_Scale -= 2.0f;
+		if (this->m_Scale.x <= 0.0f&&this->m_Scale.y <= 0.0f) {
+			this->m_Scale = Vec2(0.0f);
 		}
 	}
 

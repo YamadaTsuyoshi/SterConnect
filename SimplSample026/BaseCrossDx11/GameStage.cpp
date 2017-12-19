@@ -547,8 +547,8 @@ namespace basecross {
 		auto fps = App::GetApp()->GetStepTimer().GetFramesPerSecond();
 		wstring FPS(L"FPS: ");
 		FPS += Util::FloatToWStr(CntlVec[0].fThumbRX);
-		FPS += L"\nElapsedTime: ";
-		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		FPS += L"\nTime: ";
+		FPS += Util::FloatToWStr(m_Time);
 		//FPS += FindTagGameObject<Kaguya>(L"Kaguya")->GetHitObj();
 		FPS += L"\n";
 		if (!m_StringDrawObject) {

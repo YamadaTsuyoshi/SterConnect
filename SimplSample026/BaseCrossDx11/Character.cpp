@@ -1961,5 +1961,48 @@ namespace basecross {
 		GetStage<GameStage>()->RemoveGameObject<LightHeel>(GetThis<LightHeel>());
 		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<LightHeel>());
 	}
+
+	//--------------------------------------------------------------------------------------
+	///	Fade
+	//--------------------------------------------------------------------------------------
+	Fade::Fade(const shared_ptr<Stage>& StagePtr,
+		const wstring& TextureResName,
+		const Vec2& StartScale,
+		float StartRot,
+		const Vec2& StartPos,
+		UINT XWrap, UINT YWrap) :
+		SpriteBase(StagePtr, TextureResName, StartScale, StartRot, StartPos, XWrap, YWrap),
+		m_TotalTime(0)
+	{
+		SetBlendState(BlendState::Trace);
+	}
+
+	void Fade::AdjustVertex() {
+		//‚±‚±‚Å‚Í‰½‚à‚µ‚È‚¢
+	}
+
+	void  Fade::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
+		m_TotalTime += (ElapsedTime * 5.0f);
+		if (m_TotalTime >= XM_2PI) {
+			m_TotalTime = 0;
+		}
+		float sin_val = sin(m_TotalTime) * 0.5f + 0.5f;
+		float a = 0;
+		//if(Fadeflag)
+		Col4 UpdateCol(1.0f, 1.0f, 1.0f, a);
+		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
+			vertices[i] = VertexPositionColorTexture(
+				m_BackupVertices[i].position,
+				UpdateCol,
+				m_BackupVertices[i].textureCoordinate
+			);
+
+		}
+	}
+
+	void Fade::OnUpdate() {
+
+	}
+
 }
 //end basecross

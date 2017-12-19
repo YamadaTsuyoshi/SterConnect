@@ -26,11 +26,19 @@ namespace basecross {
 			0.0f,
 			Vec2(0, -250),
 			1, 1);
+		m_FadeSprite = ObjectFactory::Create<Fade>(
+			GetThis<Stage>(),
+			L"FADE_TX",
+			Vec2(1280, 830),
+			0.0f,
+			Vec2(0, 0),
+			1, 1);
 	}
 	void Title::OnUpdateStage() {
 		//スプライトの更新
 		m_MessageSprite->OnUpdate();
 		m_HutonSprite->OnUpdate();
+		//m_FadeSprite->OnUpdate();
 		//自分自身の更新
 		this->OnUpdate();
 	}
@@ -43,9 +51,18 @@ namespace basecross {
 				m_AudioObjectPtr->AddAudioResource(L"PRESS_SE");
 				m_AudioObjectPtr->Start(L"PRESS_SE", 0, 0.5f);
 				m_AudioObjectPtr->Stop(L"TITLE_BGM");
+				FadeFlag = true;
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToStageSelect");
 			}
 		}
+		/*if (FadeFlag)
+		{
+			m_FadeSprite->
+		}
+		if (FadeFlag2)
+		{
+			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToStageSelect");
+		}*/
 	}
 
 	void Title::OnDrawStage() {
@@ -57,6 +74,7 @@ namespace basecross {
 		//スプライト描画
 		m_MessageSprite->OnDraw();
 		//m_HutonSprite->OnDraw();
+		//m_FadeSprite->OnDraw();
 		//自分自身の描画
 		this->OnDraw();
 		//デフォルト描画の終了

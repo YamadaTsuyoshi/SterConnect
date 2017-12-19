@@ -589,6 +589,10 @@ namespace basecross {
 		strTexture = DataDir + L"Texture\\Star.png";
 		App::GetApp()->RegisterTexture(L"STAR_TX", strTexture);
 
+		//フェード用スプライト
+		strTexture = DataDir + L"Texture\\BackSprite.png";
+		App::GetApp()->RegisterTexture(L"FADE_TX", strTexture);
+
 
 		//ボーンモデルのリソース
 		auto ModelMesh = MeshResource::CreateBoneModelMesh(DataDir, L"temp\\Chara_R.bmf");

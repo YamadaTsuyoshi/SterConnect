@@ -354,7 +354,7 @@ namespace basecross {
 		wstring Map = Path + L"\\Kaguya\\";
 
 		//Chaera1�̍쐬
-		auto m_Kaguya=AddGameObject<Chara1>(Map);
+		auto m_Kaguya=AddGameObject<KaguyaSS>(Map);
 
 		m_FadeSprite = ObjectFactory::Create<Fade>(
 			GetThis<Stage>(),

@@ -464,10 +464,10 @@ namespace basecross {
 	}
 
 	//--------------------------------------------------------------------------------------
-	//	キャラ1
+	//	かぐやスプライトスタジオ
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
-	Chara1::Chara1(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir) :
+	KaguyaSS::KaguyaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir) :
 		SS5ssae(StagePtr, BaseDir, L"kaguyaanimeyou.ssae", L"Fly")
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(
@@ -480,7 +480,7 @@ namespace basecross {
 	}
 
 	//初期化
-	void Chara1::OnCreate() {
+	void KaguyaSS::OnCreate() {
 
 		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
 		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
@@ -500,7 +500,7 @@ namespace basecross {
 	}
 
 	//更新
-	void Chara1::OnUpdate() {
+	void KaguyaSS::OnUpdate() {
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		//アニメーションを更新する
 		auto PtrGameStage = GetStage<GameStage>();

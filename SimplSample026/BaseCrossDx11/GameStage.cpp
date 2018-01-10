@@ -354,7 +354,15 @@ namespace basecross {
 		wstring Map = Path + L"\\Kaguya\\";
 
 		//Chaera1の作成
-		auto m_Kaguya=AddGameObject<Chara1>(Map);
+		auto m_Kaguya=AddGameObject<KaguyaSS>(Map);
+
+		m_FadeSprite = ObjectFactory::Create<Fade>(
+			GetThis<Stage>(),
+			L"FADE_TX",
+			Vec2(1280, 830),
+			0.0f,
+			Vec2(0, 0),
+			1, 1);
 
 	}
 
@@ -422,6 +430,7 @@ namespace basecross {
 		this->OnUpdate();
 		//Rigidbodyマネージャの最終更新（衝突判定情報のクリア）
 		GetRigidbodyManager()->OnUpdate2();
+		m_FadeSprite->OnUpdate();
 	}
 
 
@@ -525,7 +534,8 @@ namespace basecross {
 		}
 		if (FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y <= (maxPosition - 7.0f) ) {
 			m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
-			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+			FadeFlag = true;
+			//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 		}
 
 
@@ -628,6 +638,23 @@ namespace basecross {
 			Barflag=false;
 			PointDeleteflag = true;
 		}
+
+		if (FadeFlag)
+		{
+			m_FadeSprite->SetFadeFlag(true);
+		}
+		if (m_FadeSprite->GetChangeFlag())
+		{
+			if (ClearFlag)
+			{
+				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
+			}
+			else
+			{
+				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+			}
+			
+		}
 	}
 
 	void GameStage::OnDrawStage() {
@@ -652,6 +679,7 @@ namespace basecross {
 		}
 		//自分自身の描画
 		this->OnDraw();
+		m_FadeSprite->OnDraw();
 		//デフォルト描画の終了
 		Dev->EndDefaultDraw();
 	}
@@ -659,6 +687,7 @@ namespace basecross {
 
 	void GameStage::OnDraw() {
 		m_RigidbodyManager->OnDraw();
+
 	}
 
 	void GameStage::CrBar()
@@ -750,6 +779,7 @@ namespace basecross {
 		Dev->StartDefaultDraw();
 		//スプライト描画
 		m_MessageSprite->OnDraw();
+
 		//自分自身の描画
 		this->OnDraw();
 		//デフォルト描画の終了

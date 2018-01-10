@@ -59,7 +59,13 @@ namespace basecross {
 		shared_ptr<Life> lifeobj;
 		vector<shared_ptr<Life>> lifegroup;
 
+		shared_ptr<Fade> m_FadeSprite;
+		
+
 	public:
+		bool FadeFlag = false;
+		bool FadeFlag2 = false;
+		bool ClearFlag = false;
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief コンストラクタ

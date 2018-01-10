@@ -57,10 +57,15 @@ namespace basecross {
 	class Gameover : public Stage {
 		shared_ptr<StageSprite> m_BG;
 		shared_ptr<StageSprite> m_Text;
+		shared_ptr<DefSp> L1;
+		shared_ptr<DefSp> L2;
+		shared_ptr<DefSp> L3;
 		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
 		shared_ptr<Fade> m_FadeSprite;
 		bool FadeFlag = false;
 		bool FadeFlag2 = false;
+		bool onectrl;
+		int Selecter=0;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!

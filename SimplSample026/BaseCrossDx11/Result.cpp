@@ -77,11 +77,69 @@ namespace basecross {
 			Vec2(0, 250),
 			1, 1);
 
+		 AddGameObject<DefSp>(
+			L"GAMEOVER_SIDE_TX",
+			Vec2(1250.0f, 100.0f),
+			0.0f,
+			Vec2(-5, -300.0f),
+			1, 1
+			);
+		 AddGameObject<DefSp>(
+			 L"GAMEOVER_N1_TX",
+			 Vec2(400.0f, 100.0f),
+			 0.0f,
+			 Vec2(-400, -300.0f),
+			 1, 1
+			 );
+		 AddGameObject<DefSp>(
+			 L"GAMEOVER_N2_TX",
+			 Vec2(400.0f, 100.0f),
+			 0.0f,
+			 Vec2(0, -300.0f),
+			 1, 1
+			 );
+		 AddGameObject<DefSp>(
+			 L"GAMEOVER_N3_TX",
+			 Vec2(400.0f, 100.0f),
+			 0.0f,
+			 Vec2(400, -300.0f),
+			 1, 1
+			 );
+		 L1=AddGameObject<DefSp>(
+			 L"GAMEOVER_L1_TX",
+			 Vec2(400.0f, 100.0f),
+			 0.0f,
+			 Vec2(-400, -300.0f),
+			 1, 1
+			 );
+		 L2 = AddGameObject<DefSp>(
+			 L"GAMEOVER_L2_TX",
+			 Vec2(400.0f, 100.0f),
+			 0.0f,
+			 Vec2(0, -300.0f),
+			 1, 1
+			 );
+		 L3 = AddGameObject<DefSp>(
+			 L"GAMEOVER_L3_TX",
+			 Vec2(400.0f, 100.0f),
+			 0.0f,
+			 Vec2(400, -300.0f),
+			 1, 1
+			 );
+
 	}
 	void Gameover::OnUpdateStage() {
 		//スプライトの更新
 		m_BG->OnUpdate();
 		m_Text->OnUpdate();
+		for (auto& v : GetGameObjectVec()) {
+			//各オブジェクトの更新
+			v->OnUpdate();
+		}
+		for (auto& v : GetGameObjectVec()) {
+			//各オブジェクトの最終更新
+			v->OnUpdate2();
+		}
 		//自分自身の更新
 		this->OnUpdate();
 	}
@@ -89,11 +147,58 @@ namespace basecross {
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (CntlVec[0].bConnected) {
-			//Bボタン
-			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
-				m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");
-				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
+			if (CntlVec[0].fThumbLX < -0.5 && Selecter != 0) {
+				if (onectrl == false)
+				{
+					onectrl = true;
+					Selecter += -1;
+				}
 			}
+			else if (CntlVec[0].fThumbLX > 0.5 && Selecter != 2) {
+				if (onectrl == false)
+				{
+					onectrl = true;
+					Selecter += 1;
+				}
+			}
+			else
+			{
+				onectrl = false;
+			}
+			switch (Selecter) {
+			case 0:
+				L1->ScaleControl(1.0f);
+				L2->ScaleControl(0.0f);
+				L3->ScaleControl(0.0f);
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+					m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");
+					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+				}
+				break;
+			case 1:
+				L1->ScaleControl(0.0f);
+				L2->ScaleControl(1.0f);
+				L3->ScaleControl(0.0f);
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+					m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");
+					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToStageSelect");
+				}
+				break;
+			case 2:
+				L1->ScaleControl(0.0f);
+				L2->ScaleControl(0.0f);
+				L3->ScaleControl(1.0f);
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+					m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");
+					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
+				}
+				break;
+			}
+			////Bボタン
+			//if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+			//	m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");
+			//	PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
+			//}
 		}
 	}
 
@@ -106,6 +211,10 @@ namespace basecross {
 		//スプライト描画
 		m_BG->OnDraw();
 		m_Text->OnDraw();
+		for (auto& v : GetGameObjectVec()) {
+			//各オブジェクトの描画
+			v->OnDraw();
+		}
 		//自分自身の描画
 		this->OnDraw();
 		//デフォルト描画の終了

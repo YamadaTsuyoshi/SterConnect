@@ -117,268 +117,273 @@ namespace basecross {
 		}
 	}
 	void Kaguya::OnUpdate() {
+		StartFlag = GetStage<GameStage>()->getStartFlag();
 		//前回のターンからの経過時間を求める
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		//コントローラの取得
-		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		if (!m_JumpLock) {
-			if (!m_UnderRefLock) {
-				if (m_HitObj == L"yellow") {
-					m_Rigidbody->m_BeforePos.y += 0.01f;
-					m_Rigidbody->m_Pos.y -= 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0, -0.5f, 0);
-					m_UnderRefLock = true;
-					m_JumpLock = true;
+		if (StartFlag) {
+			auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+			if (!m_JumpLock) {
+				if (!m_UnderRefLock) {
+					if (m_HitObj == L"yellow") {
+						m_Rigidbody->m_BeforePos.y += 0.01f;
+						m_Rigidbody->m_Pos.y -= 0.01f;
+						m_Rigidbody->m_Velocity += Vec3(0, -0.5f, 0);
+						m_UnderRefLock = true;
+						m_JumpLock = true;
+					}
+					else if (m_HitObj == L"red") {
+						m_Rigidbody->m_BeforePos.y += 0.01f;
+						m_Rigidbody->m_Pos.y -= 0.01f;
+						m_Rigidbody->m_Velocity += Vec3(0, -0.1f, 0);
+						m_UnderRefLock = true;
+						m_JumpLock = true;
+					}
+					else if (m_HitObj == L"enemy") {
+						//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+						m_Rigidbody->m_BeforePos.y += 0.01f;
+						m_Rigidbody->m_Pos.y -= 0.01f;
+						m_Rigidbody->m_Velocity += Vec3(0, -0.1f, 0);
+						m_UnderRefLock = true;
+						m_JumpLock = true;
+					}
+					//if (!m_LeftRefLock) {
+					//	m_Rigidbody->m_BeforePos.x += 0.01f;
+					//	m_Rigidbody->m_Pos.x += 0.01f;
+					//	m_Rigidbody->m_Velocity += Vec3(1.0f, 0.0f, 0);
+					////	m_Rigidbody->m_Velocity.x *= -1;
+					//	m_LeftRefLock = true;
+					//}
+					//else if (!m_RightRefLock) {
+					//	m_Rigidbody->m_BeforePos.x += 0.01f;
+					//	m_Rigidbody->m_Pos.x -= 0.01f;
+					//	m_Rigidbody->m_Velocity += Vec3(-1.0f, 0.0f, 0);
+					////	m_Rigidbody->m_Velocity.x *= -1;
+					//	m_RightRefLock = true;
+					//}
 				}
-				else if (m_HitObj == L"red") {
-					m_Rigidbody->m_BeforePos.y += 0.01f;
-					m_Rigidbody->m_Pos.y -= 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0, -0.1f, 0);
-					m_UnderRefLock = true;
-					m_JumpLock = true;
+				else {
+					if (m_HitObj == L"yellow") {
+						RndJampVo();
+						m_Rigidbody->m_BeforePos.y += 0.01f;
+						m_Rigidbody->m_Pos.y += 0.01f;
+						m_Rigidbody->m_Velocity += Vec3(0, 10.0f / 2, 0);
+						m_JumpLock = true;
+					}
+					else if (m_HitObj == L"red") {
+						RndJampVo();
+						m_Rigidbody->m_BeforePos.y += 0.01f;
+						m_Rigidbody->m_Pos.y += 0.01f;
+						m_Rigidbody->m_Velocity += Vec3(0, 10.0f / 2, 0);
+						m_JumpLock = true;
+					}
+					else if (m_HitObj == L"enemy") {
+						//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+						m_Rigidbody->m_BeforePos.y += 0.01f;
+						m_Rigidbody->m_Pos.y += 0.01f;
+						m_Rigidbody->m_Velocity += Vec3(0, 5.0f / 2, 0);
+						m_JumpLock = true;
+					}
+					//if (!m_LeftRefLock) {
+					//	m_Rigidbody->m_BeforePos.x += 0.01f;
+					//	m_Rigidbody->m_Pos.x += 0.01f;
+					//	m_Rigidbody->m_Velocity += Vec3(1.0f, 0.0f, 0);
+					//	//	m_Rigidbody->m_Velocity.x *= -1;
+					//	m_LeftRefLock = true;
+					//}
+					//else if (!m_RightRefLock) {
+					//	m_Rigidbody->m_BeforePos.x += 0.01f;
+					//	m_Rigidbody->m_Pos.x -= 0.01f;
+					//	m_Rigidbody->m_Velocity += Vec3(-1.0f, 0.0f, 0);
+					//	//	m_Rigidbody->m_Velocity.x *= -1;
+					//	m_RightRefLock = true;
+					//}
 				}
-				else if (m_HitObj == L"enemy") {
-					//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
-					m_Rigidbody->m_BeforePos.y += 0.01f;
-					m_Rigidbody->m_Pos.y -= 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0, -0.1f, 0);
-					m_UnderRefLock = true;
-					m_JumpLock = true;
-				}
-				//if (!m_LeftRefLock) {
-				//	m_Rigidbody->m_BeforePos.x += 0.01f;
-				//	m_Rigidbody->m_Pos.x += 0.01f;
-				//	m_Rigidbody->m_Velocity += Vec3(1.0f, 0.0f, 0);
-				////	m_Rigidbody->m_Velocity.x *= -1;
-				//	m_LeftRefLock = true;
-				//}
-				//else if (!m_RightRefLock) {
-				//	m_Rigidbody->m_BeforePos.x += 0.01f;
-				//	m_Rigidbody->m_Pos.x -= 0.01f;
-				//	m_Rigidbody->m_Velocity += Vec3(-1.0f, 0.0f, 0);
-				////	m_Rigidbody->m_Velocity.x *= -1;
-				//	m_RightRefLock = true;
-				//}
-			}
-			else {
-				if (m_HitObj == L"yellow") {
-					RndJampVo();
-					m_Rigidbody->m_BeforePos.y += 0.01f;
-					m_Rigidbody->m_Pos.y += 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0, 10.0f/2, 0);
-					m_JumpLock = true;
-				}
-				else if (m_HitObj == L"red") {
-					RndJampVo();
-					m_Rigidbody->m_BeforePos.y += 0.01f;
-					m_Rigidbody->m_Pos.y += 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0, 10.0f/2, 0);
-					m_JumpLock = true;
-				}
-				else if (m_HitObj == L"enemy") {
-					//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
-					m_Rigidbody->m_BeforePos.y += 0.01f;
-					m_Rigidbody->m_Pos.y += 0.01f;
-					m_Rigidbody->m_Velocity += Vec3(0, 5.0f/2, 0);
-					m_JumpLock = true;
-				}
-				//if (!m_LeftRefLock) {
-				//	m_Rigidbody->m_BeforePos.x += 0.01f;
-				//	m_Rigidbody->m_Pos.x += 0.01f;
-				//	m_Rigidbody->m_Velocity += Vec3(1.0f, 0.0f, 0);
-				//	//	m_Rigidbody->m_Velocity.x *= -1;
-				//	m_LeftRefLock = true;
-				//}
-				//else if (!m_RightRefLock) {
-				//	m_Rigidbody->m_BeforePos.x += 0.01f;
-				//	m_Rigidbody->m_Pos.x -= 0.01f;
-				//	m_Rigidbody->m_Velocity += Vec3(-1.0f, 0.0f, 0);
-				//	//	m_Rigidbody->m_Velocity.x *= -1;
-				//	m_RightRefLock = true;
-				//}
-			}
 
-			Vec3 Direction = GetMoveVector();
-			if (length(Direction) < 0.1f) {
-				m_Rigidbody->m_Velocity.x *= 1.0f;
-				m_Rigidbody->m_Velocity.z *= 0.9f;
+				Vec3 Direction = GetMoveVector();
+				if (length(Direction) < 0.1f) {
+					m_Rigidbody->m_Velocity.x *= 1.0f;
+					m_Rigidbody->m_Velocity.z *= 0.9f;
+				}
+				else {
+					//フォースで変更する場合は以下のように記述
+					//m_Rigidbody->m_Force += Direction * 10.0f;
+					//速度で変更する場合は以下のように記述
+					m_Rigidbody->m_Velocity += Direction * 1.0f;
+					Vec2 TempVelo(m_Rigidbody->m_Velocity.x, m_Rigidbody->m_Velocity.z);
+					TempVelo = XMVector2ClampLength(TempVelo, 0, 5.0f);
+					m_Rigidbody->m_Velocity.x = TempVelo.x;
+					m_Rigidbody->m_Velocity.z = TempVelo.y;
+				}
 			}
-			else {
-				//フォースで変更する場合は以下のように記述
-				//m_Rigidbody->m_Force += Direction * 10.0f;
-				//速度で変更する場合は以下のように記述
-				m_Rigidbody->m_Velocity += Direction * 1.0f;
-				Vec2 TempVelo(m_Rigidbody->m_Velocity.x, m_Rigidbody->m_Velocity.z);
-				TempVelo = XMVector2ClampLength(TempVelo, 0, 5.0f);
-				m_Rigidbody->m_Velocity.x = TempVelo.x;
-				m_Rigidbody->m_Velocity.z = TempVelo.y;
-			}
-		}
-		m_Rigidbody->m_Force += m_Rigidbody->m_Gravity * m_Rigidbody->m_Mass;
+			m_Rigidbody->m_Force += m_Rigidbody->m_Gravity * m_Rigidbody->m_Mass;
 
-		if (m_Rigidbody->m_Pos.y >= 85) {
-			auto gamestage = GetStage<GameStage>();
-			gamestage->StopBGM();
-			gamestage->FadeFlag = true;
-			gamestage->ClearFlag = true;
-			//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
-		}
-		if (m_Life <= 0) {
-			auto gamestage = GetStage<GameStage>();
-			gamestage->StopBGM();
-			gamestage->FadeFlag = true;
-			//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
-		}
-		for (int i = 0; i < ARRAYSIZE(m_isNullHit); i++)
-		{
-			if (m_isNullHit[i])
+			if (m_Rigidbody->m_Pos.y >= 85) {
+				auto gamestage = GetStage<GameStage>();
+				gamestage->StopBGM();
+				gamestage->FadeFlag = true;
+				gamestage->ClearFlag = true;
+				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
+			}
+			if (m_Life <= 0) {
+				auto gamestage = GetStage<GameStage>();
+				gamestage->StopBGM();
+				gamestage->FadeFlag = true;
+				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+			}
+			for (int i = 0; i < ARRAYSIZE(m_isNullHit); i++)
 			{
-				float delta = App::GetApp()->GetElapsedTime();
-				m_Count[i] += delta;
-
-				if (m_HitObj == L"enemy") {
-					m_HitObj = L"Red";
-				}
-
-				if (m_Alphaflag) {
-					m_PtrObj->m_Alpha += -0.3f;
-				}
-				else if (!m_Alphaflag) {
-					m_PtrObj->m_Alpha += 0.3f;
-				}
-
-				if (m_PtrObj->m_Alpha >= 1.0f) {
-					m_Alphaflag = true;
-				}
-				else if (m_PtrObj->m_Alpha <= 0.4f) {
-					m_Alphaflag = false;
-				}
-
-				if (m_Count[i] > m_Interval[i])
+				if (m_isNullHit[i])
 				{
-					m_isNullHit[i] = false;
-					m_Count[i] = 0;
-					m_PtrObj->m_Alpha = 1.0f;
+					float delta = App::GetApp()->GetElapsedTime();
+					m_Count[i] += delta;
+
+					if (m_HitObj == L"enemy") {
+						m_HitObj = L"Red";
+					}
+
+					if (m_Alphaflag) {
+						m_PtrObj->m_Alpha += -0.3f;
+					}
+					else if (!m_Alphaflag) {
+						m_PtrObj->m_Alpha += 0.3f;
+					}
+
+					if (m_PtrObj->m_Alpha >= 1.0f) {
+						m_Alphaflag = true;
+					}
+					else if (m_PtrObj->m_Alpha <= 0.4f) {
+						m_Alphaflag = false;
+					}
+
+					if (m_Count[i] > m_Interval[i])
+					{
+						m_isNullHit[i] = false;
+						m_Count[i] = 0;
+						m_PtrObj->m_Alpha = 1.0f;
+					}
 				}
 			}
 		}
 	}
 
 	void Kaguya::OnUpdate2() {
-		if (m_Rigidbody->m_Pos.y <= m_BaseY) {
-			m_Rigidbody->m_Pos.y = m_BaseY;
-			m_Rigidbody->m_Velocity.y = 0;
-			m_JumpLock = false;
-		}
-
-		if (m_Rigidbody->m_Pos.x >= m_BaseX) {
-			m_Rigidbody->m_Pos.x = m_BaseX;
-			m_Rigidbody->m_Velocity.x *= -1;
-		}
-		else if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
-			m_Rigidbody->m_Pos.x = -m_BaseX;
-			m_Rigidbody->m_Velocity.x *= -1;
-		}
-		m_HitObj = L"";
-
-		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
-		for (auto& v : StateVec) {
-			if (v.m_Src == m_Rigidbody.get()) {
-				//Destにボックスタグがあるかどうか調べる
-				auto shptr = v.m_Dest->m_Owner.lock();
-				if (shptr && shptr->FindTag(L"Yellow")) {
-					m_HitObj = L"yellow";
-					m_Attackflag = false;
-					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
-					a->SetD_flag(true);
-				}
-				else if (shptr && shptr->FindTag(L"Red")) {
-					m_HitObj = L"red";
-					m_Attackflag = true;
-					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
-					a->SetD_flag(true);
-				}
-				else if (shptr && shptr->FindTag(L"Bamboo")) {
-					m_HitObj = L"yellow";
-					//m_Attackflag = false;
-				}
-				else if (shptr && shptr->FindTag(L"BambooB")) {
-					m_HitObj = L"yellow";
-					//m_Attackflag = false;
-				}
-				if (shptr && shptr->FindTag(L"Enemy")) {
-					m_HitObj = L"enemy";
-					if (m_Attackflag) {
-						break;
-					}
-					SetMutekiTime(3.0f);
-				}
-				else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
-					m_HitObj = L"enemy";
-					if (m_Attackflag) {
-						break;
-					}
-					SetMutekiTime(3.0f);
-				}
+		if (StartFlag) {
+			if (m_Rigidbody->m_Pos.y <= m_BaseY) {
+				m_Rigidbody->m_Pos.y = m_BaseY;
+				m_Rigidbody->m_Velocity.y = 0;
 				m_JumpLock = false;
-				break;
 			}
-			if (v.m_Dest == m_Rigidbody.get()) {
-				//Srcにボックスタグがあるかどうか調べる
-				auto shptr = v.m_Src->m_Owner.lock();
-				if (shptr && shptr->FindTag(L"Yellow")) {
-					m_HitObj = L"yellow";
-					m_Attackflag = false;
-					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
-					a->SetD_flag(true);
-				}
-				else if (shptr && shptr->FindTag(L"Red")) {
-					m_HitObj = L"red";
-					m_Attackflag = true; 
-					shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
-					a->SetD_flag(true);
-				}
-				else if (shptr && shptr->FindTag(L"Bamboo")) {
-					m_HitObj = L"yellow";
-					//m_Attackflag = false;
-				}
-				else if (shptr && shptr->FindTag(L"BambooB")) {
-					m_HitObj = L"yellow";
-					//m_Attackflag = false;
-				}
-				else if (shptr && shptr->FindTag(L"Enemy")) {
-					m_HitObj = L"enemy";
-					if (m_Attackflag) {
-						break;
-					}
-					SetMutekiTime(3.0f);
-				}
-				else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
-					m_HitObj = L"enemy";
-					if (m_Attackflag) {
-						break;
-					}
-					SetMutekiTime(3.0f);
-				}
-				m_JumpLock = false;
-				break;
-			}
-		}
 
-		auto LenVec = m_Rigidbody->m_Pos - m_Rigidbody->m_BeforePos;
-		if (LenVec.y > 0) {
-			m_UnderRefLock = false;
+			if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+				m_Rigidbody->m_Pos.x = m_BaseX;
+				m_Rigidbody->m_Velocity.x *= -1;
+			}
+			else if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
+				m_Rigidbody->m_Pos.x = -m_BaseX;
+				m_Rigidbody->m_Velocity.x *= -1;
+			}
+			m_HitObj = L"";
+
+			auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
+			for (auto& v : StateVec) {
+				if (v.m_Src == m_Rigidbody.get()) {
+					//Destにボックスタグがあるかどうか調べる
+					auto shptr = v.m_Dest->m_Owner.lock();
+					if (shptr && shptr->FindTag(L"Yellow")) {
+						m_HitObj = L"yellow";
+						m_Attackflag = false;
+						shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+						a->SetD_flag(true);
+					}
+					else if (shptr && shptr->FindTag(L"Red")) {
+						m_HitObj = L"red";
+						m_Attackflag = true;
+						shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+						a->SetD_flag(true);
+					}
+					else if (shptr && shptr->FindTag(L"Bamboo")) {
+						m_HitObj = L"yellow";
+						//m_Attackflag = false;
+					}
+					else if (shptr && shptr->FindTag(L"BambooB")) {
+						m_HitObj = L"yellow";
+						//m_Attackflag = false;
+					}
+					if (shptr && shptr->FindTag(L"Enemy")) {
+						m_HitObj = L"enemy";
+						if (m_Attackflag) {
+							break;
+						}
+						SetMutekiTime(3.0f);
+					}
+					else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+						m_HitObj = L"enemy";
+						if (m_Attackflag) {
+							break;
+						}
+						SetMutekiTime(3.0f);
+					}
+					m_JumpLock = false;
+					break;
+				}
+				if (v.m_Dest == m_Rigidbody.get()) {
+					//Srcにボックスタグがあるかどうか調べる
+					auto shptr = v.m_Src->m_Owner.lock();
+					if (shptr && shptr->FindTag(L"Yellow")) {
+						m_HitObj = L"yellow";
+						m_Attackflag = false;
+						shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+						a->SetD_flag(true);
+					}
+					else if (shptr && shptr->FindTag(L"Red")) {
+						m_HitObj = L"red";
+						m_Attackflag = true;
+						shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+						a->SetD_flag(true);
+					}
+					else if (shptr && shptr->FindTag(L"Bamboo")) {
+						m_HitObj = L"yellow";
+						//m_Attackflag = false;
+					}
+					else if (shptr && shptr->FindTag(L"BambooB")) {
+						m_HitObj = L"yellow";
+						//m_Attackflag = false;
+					}
+					else if (shptr && shptr->FindTag(L"Enemy")) {
+						m_HitObj = L"enemy";
+						if (m_Attackflag) {
+							break;
+						}
+						SetMutekiTime(3.0f);
+					}
+					else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+						m_HitObj = L"enemy";
+						if (m_Attackflag) {
+							break;
+						}
+						SetMutekiTime(3.0f);
+					}
+					m_JumpLock = false;
+					break;
+				}
+			}
+
+			auto LenVec = m_Rigidbody->m_Pos - m_Rigidbody->m_BeforePos;
+			if (LenVec.y > 0) {
+				m_UnderRefLock = false;
+			}
+			//if (LenVec.x < 0) {
+			//	m_LeftRefLock = false;
+			//}
+			//if (LenVec.x > 0) {
+			//	m_RightRefLock = false;
+			//}
+			LenVec.y = 0;
+			//プレイヤーのＺ位置は強制的に0.0にする
+			m_Rigidbody->m_Pos.z = 0.0f;
+			AddTag(L"Kaguya");
 		}
-		//if (LenVec.x < 0) {
-		//	m_LeftRefLock = false;
-		//}
-		//if (LenVec.x > 0) {
-		//	m_RightRefLock = false;
-		//}
-		LenVec.y = 0;
-		//プレイヤーのＺ位置は強制的に0.0にする
-		m_Rigidbody->m_Pos.z = 0.0f;
-		AddTag(L"Kaguya");
 	}
 
 	void Kaguya::OnDrawShadowmap() {

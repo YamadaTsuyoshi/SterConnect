@@ -59,7 +59,7 @@ namespace basecross {
 		float P_LightGage = 200;
 		const float P_MaxLightGage = 200;
 
-		
+		bool Startflag = false;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!

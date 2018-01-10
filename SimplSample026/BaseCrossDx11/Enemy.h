@@ -54,6 +54,8 @@ namespace basecross {
 
 		float Time = 0;
 
+		bool Startflag = false;
+
 	public:
 		//\’z‚Æ”jŠü
 		Rabbit(const shared_ptr<Stage>& StagePtr,

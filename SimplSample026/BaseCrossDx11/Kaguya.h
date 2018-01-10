@@ -44,6 +44,8 @@ namespace basecross {
 		weak_ptr<ShadowmapRenderer> m_ShadowmapRenderer;
 
 		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
+
+		bool StartFlag=false;
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	コントローラから方向ベクトルを得る

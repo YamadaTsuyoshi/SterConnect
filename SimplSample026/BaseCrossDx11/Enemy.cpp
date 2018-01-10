@@ -83,33 +83,38 @@ namespace basecross {
 
 	}
 	void Rabbit::OnUpdate() {
-		if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition())+7) {
+		Startflag=GetStage<GameStage>()->getStartFlag();
+		if (Startflag) {
+		if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
 			if (rightMove)
 				m_Rigidbody->m_Velocity.x = Speed.x;
 			if (!rightMove)
 				m_Rigidbody->m_Velocity.x = -Speed.x;
 		}
 	}
+	}
 
 	void Rabbit::OnUpdate2() {
-		if ( m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition())+7) {
-			if (m_Rigidbody->m_Pos.x >= m_BaseX) {
-				rightMove = false;
-			}
-			if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
-				rightMove = true;
-			}
-			float ElapsedTime = App::GetApp()->GetElapsedTime();
-			Time += ElapsedTime;
-			if (Time > 4.0f) {
-				Vec3 v = m_Rigidbody->m_Pos;
-				v.y -= 0.8f;
-				GetStage<Stage>()->AddGameObject<RabbitBullet>(
-					L"RABBIT_BULLET_TX",
-					true,
-					v
-					);
-				Time = 0;
+		if(Startflag){
+			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
+				if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+					rightMove = false;
+				}
+				if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
+					rightMove = true;
+				}
+				float ElapsedTime = App::GetApp()->GetElapsedTime();
+				Time += ElapsedTime;
+				if (Time > 4.0f&&Startflag) {
+					Vec3 v = m_Rigidbody->m_Pos;
+					v.y -= 0.8f;
+					GetStage<Stage>()->AddGameObject<RabbitBullet>(
+						L"RABBIT_BULLET_TX",
+						true,
+						v
+						);
+					Time = 0;
+				}
 			}
 		}
 

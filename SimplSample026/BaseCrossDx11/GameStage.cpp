@@ -217,16 +217,6 @@ namespace basecross {
 			Quat(0.0f, 0.0f, 0.0f, 1.0f),
 			SquareDrawOption::Normal
 			);
-		
-
-		auto Startbar = AddGameObject<Bar>(
-			L"BARY_TX",
-			Vec3(2.0f, 0.1f, 2.0f),
-			Vec3(0.0f, -1.5f, 0.0f),
-			Quat(0.0f, 0.0f, 0.0f, 1.0f),
-			SquareDrawOption::Normal
-			);
-		Startbar->AddTag(L"Yellow");
 
 		//for (int i = 0; i < BGS; i++)
 		//{
@@ -436,88 +426,28 @@ namespace basecross {
 
 	void GameStage::OnUpdate() {
 		auto Time = App::GetApp()->GetElapsedTime();
-		m_Time += Time;
-		interval_Time += Time;
-		auto& camera = GetCamera();
-		//コントローラの取得
+
+		if(Startflag){
+			m_Time += Time;
+			interval_Time += Time;
+		}
+
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		//if (CntlVec[0].bConnected) {
-
-		//	//Dパッド下
-		//	if (CntlVec[0].wButtons & XINPUT_GAMEPAD_DPAD_DOWN) {
-		//		//カメラ位置を引く
-		//		camera.m_CameraArmLen += 0.1f;
-		//		if (GetCamera().m_CameraArmLen >= 50.0f) {
-		//			GetCamera().m_CameraArmLen = 50.0f;
-		//		}
-		//	}
-		//	//Dパッド上
-		//	if (CntlVec[0].wButtons & XINPUT_GAMEPAD_DPAD_UP) {
-		//		//カメラ位置を寄る
-		//		camera.m_CameraArmLen -= 0.1f;
-		//		if (GetCamera().m_CameraArmLen <= 2.0f) {
-		//			camera.m_CameraArmLen = 2.0f;
-		//		}
-		//	}
-			//camera.m_CamerAt = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition();
-			//camera.m_CamerAt.y += 0.25f;
-		/*auto kaguya = FindTagGameObject<Kaguya>(L"Kaguya");
-		auto Body = kaguya->GetRigidbody();
-		if (Body->m_Force.y <= 0.0f) {
-			maxPosition = camera.m_CamerAt;
-			camera.m_CamerAt = maxPosition;
-		}
-		else if (kaguya->GetPosition().y >= camera.m_CamerAt.y) {
-			camera.m_CamerAt.y +=  Body->m_Force.y;
-		}*/
-
-		auto kaguya = FindTagGameObject<Kaguya>(L"Kaguya");
-		auto life = kaguya->GetLife();
-		switch (life)
+		if (!Startflag&&CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 		{
-		case 0:
-			lifegroup[0]->ScaleChangeD();
-			lifegroup[1]->ScaleChangeD();
-			lifegroup[2]->ScaleChangeD();
-			lifegroup[3]->ScaleChangeD();
-			lifegroup[4]->ScaleChangeD();
-			break;
-		case 1:
-			lifegroup[0]->ScaleChangeH();
-			lifegroup[1]->ScaleChangeD();
-			lifegroup[2]->ScaleChangeD();
-			lifegroup[3]->ScaleChangeD();
-			lifegroup[4]->ScaleChangeD();
-			break;
-		case 2:
-			lifegroup[0]->ScaleChangeH();
-			lifegroup[1]->ScaleChangeH();
-			lifegroup[2]->ScaleChangeD();
-			lifegroup[3]->ScaleChangeD();
-			lifegroup[4]->ScaleChangeD();
-			break;
-		case 3:
-			lifegroup[0]->ScaleChangeH();
-			lifegroup[1]->ScaleChangeH();
-			lifegroup[2]->ScaleChangeH();
-			lifegroup[3]->ScaleChangeD();
-			lifegroup[4]->ScaleChangeD();
-			break;
-		case 4:
-			lifegroup[0]->ScaleChangeH();
-			lifegroup[1]->ScaleChangeH();
-			lifegroup[2]->ScaleChangeH();
-			lifegroup[3]->ScaleChangeH();
-			lifegroup[4]->ScaleChangeD();
-			break;
-		case 5:
-			lifegroup[0]->ScaleChangeH();
-			lifegroup[1]->ScaleChangeH();
-			lifegroup[2]->ScaleChangeH();
-			lifegroup[3]->ScaleChangeH();
-			lifegroup[4]->ScaleChangeH();
-			break;
+			auto Startbar = AddGameObject<Bar>(
+				L"BARY_TX",
+				Vec3(2.0f, 0.1f, 2.0f),
+				Vec3(0.0f, -1.5f, 0.0f),
+				Quat(0.0f, 0.0f, 0.0f, 1.0f),
+				SquareDrawOption::Normal
+				);
+			Startbar->AddTag(L"Yellow");
+			Startflag = true;
 		}
+
+		
+		auto& camera = GetCamera();
 
 		camera.m_CamerAt.y = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y;
 		if (camera.m_CamerAt.y > maxPosition) {
@@ -525,135 +455,218 @@ namespace basecross {
 		}
 
 		else if (camera.m_CamerAt.y < maxPosition) {
-			camera.m_CamerAt.y= maxPosition;
+			camera.m_CamerAt.y = maxPosition;
 			//maxPosition = camera.m_CamerAt.y;
 		}
+		Vec3 CameraLocalEye =
+			Vec3(
+				sin(camera.m_CameraXZRad) * camera.m_CameraArmLen * sin(camera.m_CameraYRad),
+				cos(camera.m_CameraYRad) * camera.m_CameraArmLen,
+				-cos(camera.m_CameraXZRad) * camera.m_CameraArmLen * sin(camera.m_CameraYRad)
+			);
+		camera.m_CamerEye = camera.m_CamerAt + CameraLocalEye;
 
-		if (maxPosition >= 83.0f) {
-			camera.m_CamerAt.y = 83.0f;
-		}
-		if (FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y <= (maxPosition - 7.0f) ) {
-			m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
-			FadeFlag = true;
-			//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
-		}
+		if (Startflag) {
+			//コントローラの取得
+			//if (CntlVec[0].bConnected) {
+
+			//	//Dパッド下
+			//	if (CntlVec[0].wButtons & XINPUT_GAMEPAD_DPAD_DOWN) {
+			//		//カメラ位置を引く
+			//		camera.m_CameraArmLen += 0.1f;
+			//		if (GetCamera().m_CameraArmLen >= 50.0f) {
+			//			GetCamera().m_CameraArmLen = 50.0f;
+			//		}
+			//	}
+			//	//Dパッド上
+			//	if (CntlVec[0].wButtons & XINPUT_GAMEPAD_DPAD_UP) {
+			//		//カメラ位置を寄る
+			//		camera.m_CameraArmLen -= 0.1f;
+			//		if (GetCamera().m_CameraArmLen <= 2.0f) {
+			//			camera.m_CameraArmLen = 2.0f;
+			//		}
+			//	}
+				//camera.m_CamerAt = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition();
+				//camera.m_CamerAt.y += 0.25f;
+			/*auto kaguya = FindTagGameObject<Kaguya>(L"Kaguya");
+			auto Body = kaguya->GetRigidbody();
+			if (Body->m_Force.y <= 0.0f) {
+				maxPosition = camera.m_CamerAt;
+				camera.m_CamerAt = maxPosition;
+			}
+			else if (kaguya->GetPosition().y >= camera.m_CamerAt.y) {
+				camera.m_CamerAt.y +=  Body->m_Force.y;
+			}*/
+
+			auto kaguya = FindTagGameObject<Kaguya>(L"Kaguya");
+			auto life = kaguya->GetLife();
+			switch (life)
+			{
+			case 0:
+				lifegroup[0]->ScaleChangeD();
+				lifegroup[1]->ScaleChangeD();
+				lifegroup[2]->ScaleChangeD();
+				lifegroup[3]->ScaleChangeD();
+				lifegroup[4]->ScaleChangeD();
+				break;
+			case 1:
+				lifegroup[0]->ScaleChangeH();
+				lifegroup[1]->ScaleChangeD();
+				lifegroup[2]->ScaleChangeD();
+				lifegroup[3]->ScaleChangeD();
+				lifegroup[4]->ScaleChangeD();
+				break;
+			case 2:
+				lifegroup[0]->ScaleChangeH();
+				lifegroup[1]->ScaleChangeH();
+				lifegroup[2]->ScaleChangeD();
+				lifegroup[3]->ScaleChangeD();
+				lifegroup[4]->ScaleChangeD();
+				break;
+			case 3:
+				lifegroup[0]->ScaleChangeH();
+				lifegroup[1]->ScaleChangeH();
+				lifegroup[2]->ScaleChangeH();
+				lifegroup[3]->ScaleChangeD();
+				lifegroup[4]->ScaleChangeD();
+				break;
+			case 4:
+				lifegroup[0]->ScaleChangeH();
+				lifegroup[1]->ScaleChangeH();
+				lifegroup[2]->ScaleChangeH();
+				lifegroup[3]->ScaleChangeH();
+				lifegroup[4]->ScaleChangeD();
+				break;
+			case 5:
+				lifegroup[0]->ScaleChangeH();
+				lifegroup[1]->ScaleChangeH();
+				lifegroup[2]->ScaleChangeH();
+				lifegroup[3]->ScaleChangeH();
+				lifegroup[4]->ScaleChangeH();
+				break;
+			}
+
+			
+
+			if (maxPosition >= 83.0f) {
+				camera.m_CamerAt.y = 83.0f;
+			}
+			if (FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y <= (maxPosition - 7.0f)) {
+				m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
+				FadeFlag = true;
+				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+			}
 
 
-			Vec3 CameraLocalEye =
-				Vec3(
-					sin(camera.m_CameraXZRad) * camera.m_CameraArmLen * sin(camera.m_CameraYRad),
-					cos(camera.m_CameraYRad) * camera.m_CameraArmLen,
-					-cos(camera.m_CameraXZRad) * camera.m_CameraArmLen * sin(camera.m_CameraYRad)
-				);
-			camera.m_CamerEye = camera.m_CamerAt + CameraLocalEye;
 			//Bボタン
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_Y) {
 				m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
 			}
-		
 
-		auto fps = App::GetApp()->GetStepTimer().GetFramesPerSecond();
-		wstring FPS(L"FPS: ");
-		FPS += Util::FloatToWStr(CntlVec[0].fThumbRX);
-		FPS += L"\nTime: ";
-		FPS += Util::FloatToWStr(m_Time);
-		//FPS += FindTagGameObject<Kaguya>(L"Kaguya")->GetHitObj();
-		FPS += L"\n";
-		if (!m_StringDrawObject) {
-			m_StringDrawObject = FindTagGameObject<StringDrawObject>(L"StringDrawObject");
-		}
-		m_StringDrawObject->SetText(FPS);
 
-		/*//子供がついてくる
-		auto Player = FindTagGameObject<GameObject>(L"Player");
-		Vec3 P_Pos = Player->GetPosition();
-		auto C_Prayer = FindTagGameObject<P_child>(L"P_child");
-		C_Prayer->setPos(P_Pos);
-		C_Prayer->setP_Pos(P_Pos);
-		auto angle = C_Prayer->getAngle();
-		if (C_Prayer->getBarflg()&& interval_Time > 0.2f)
-		{
-			Quat qt(Vec3(0, 0, 1), (angle - 1.5f)*-1);
-
-			    auto a =AddGameObject<Bar>(
-				L"LINE_TX",
-				Vec3(2.0f, 0.1f, 2.0f),
-				C_Prayer->getP_Pos(),
-				qt,
-				SquareDrawOption::Normal
-				);
-			interval_Time = 0;
-		}*/
-
-		auto player = FindTagGameObject<Player>(L"Player");
-		Vec3 P_Pos = player->GetPosition();
-		P_color = player->getP_color();
-		wstring TextureResName;
-		switch (P_color) {
-		case Yellow:
-			TextureResName = L"SUBARU_Y_TX";
-			break;
-		case Red:
-			TextureResName = L"SUBARU_R_TX";
-			break;
-		default:
-			break;
-		}
-		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount==0) {
-			PointDeleteflag = false;
-			auto a = AddGameObject<P_child>(
-				TextureResName,
-				true,
-				Vec3(0.1f, 1.0f, 0.0f)
-				);
-			a->setPos(P_Pos);
-			PointPos1 = P_Pos;
-			PointCount++;
-		}
-		else if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount== 1) {
-			auto a = AddGameObject<P_child>(
-				TextureResName,
-				true,
-				Vec3(1.0f, 0.5f, 0.0f)
-				);
-			a->setPos(P_Pos);
-			PointPos2 = P_Pos;
-			PointCount++;
-		}
-		else if (PointCount == 2)
-		{
-			Barflag = true;
-			PointCount = 0;
-		}
-
-		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
-		{
-			PointCount = 0;
-		}
-
-		if (Barflag)
-		{
-			CrBar();
-			Barflag=false;
-			PointDeleteflag = true;
-		}
-
-		if (FadeFlag)
-		{
-			m_FadeSprite->SetFadeFlag(true);
-		}
-		if (m_FadeSprite->GetChangeFlag())
-		{
-			if (ClearFlag)
-			{
-				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
+			auto fps = App::GetApp()->GetStepTimer().GetFramesPerSecond();
+			wstring FPS(L"FPS: ");
+			FPS += Util::FloatToWStr(CntlVec[0].fThumbRX);
+			FPS += L"\nTime: ";
+			FPS += Util::FloatToWStr(m_Time);
+			//FPS += FindTagGameObject<Kaguya>(L"Kaguya")->GetHitObj();
+			FPS += L"\n";
+			if (!m_StringDrawObject) {
+				m_StringDrawObject = FindTagGameObject<StringDrawObject>(L"StringDrawObject");
 			}
-			else
+			m_StringDrawObject->SetText(FPS);
+
+			/*//子供がついてくる
+			auto Player = FindTagGameObject<GameObject>(L"Player");
+			Vec3 P_Pos = Player->GetPosition();
+			auto C_Prayer = FindTagGameObject<P_child>(L"P_child");
+			C_Prayer->setPos(P_Pos);
+			C_Prayer->setP_Pos(P_Pos);
+			auto angle = C_Prayer->getAngle();
+			if (C_Prayer->getBarflg()&& interval_Time > 0.2f)
 			{
-				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+				Quat qt(Vec3(0, 0, 1), (angle - 1.5f)*-1);
+
+					auto a =AddGameObject<Bar>(
+					L"LINE_TX",
+					Vec3(2.0f, 0.1f, 2.0f),
+					C_Prayer->getP_Pos(),
+					qt,
+					SquareDrawOption::Normal
+					);
+				interval_Time = 0;
+			}*/
+
+			auto player = FindTagGameObject<Player>(L"Player");
+			Vec3 P_Pos = player->GetPosition();
+			P_color = player->getP_color();
+			wstring TextureResName;
+			switch (P_color) {
+			case Yellow:
+				TextureResName = L"SUBARU_Y_TX";
+				break;
+			case Red:
+				TextureResName = L"SUBARU_R_TX";
+				break;
+			default:
+				break;
 			}
-			
+			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount == 0) {
+				PointDeleteflag = false;
+				auto a = AddGameObject<P_child>(
+					TextureResName,
+					true,
+					Vec3(0.1f, 1.0f, 0.0f)
+					);
+				a->setPos(P_Pos);
+				PointPos1 = P_Pos;
+				PointCount++;
+			}
+			else if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount == 1) {
+				auto a = AddGameObject<P_child>(
+					TextureResName,
+					true,
+					Vec3(1.0f, 0.5f, 0.0f)
+					);
+				a->setPos(P_Pos);
+				PointPos2 = P_Pos;
+				PointCount++;
+			}
+			else if (PointCount == 2)
+			{
+				Barflag = true;
+				PointCount = 0;
+			}
+
+			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+			{
+				PointCount = 0;
+			}
+
+			if (Barflag)
+			{
+				CrBar();
+				Barflag = false;
+				PointDeleteflag = true;
+			}
+
+			if (FadeFlag)
+			{
+				m_FadeSprite->SetFadeFlag(true);
+			}
+			if (m_FadeSprite->GetChangeFlag())
+			{
+				if (ClearFlag)
+				{
+					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
+				}
+				else
+				{
+					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+				}
+
+			}
 		}
 	}
 

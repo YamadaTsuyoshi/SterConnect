@@ -141,11 +141,13 @@ namespace basecross {
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 	}
 	void Player::OnUpdate() {
-		//前回のターンからの経過時間を求める
-		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		//コントローラの取得
-		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
-		if (CntlVec[0].bConnected) {
+		Startflag = GetStage<GameStage>()->getStartFlag();
+		if (Startflag) {
+			//前回のターンからの経過時間を求める
+			float ElapsedTime = App::GetApp()->GetElapsedTime();
+			//コントローラの取得
+			auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+			if (CntlVec[0].bConnected) {
 				//Aボタン
 				if (CntlVec[0].wButtons & XINPUT_GAMEPAD_A) {
 				}
@@ -157,53 +159,55 @@ namespace basecross {
 			else {
 				m_Rigidbody->m_Velocity = Direction * 5.0f;
 			}
-		m_Rigidbody->m_Pos += (m_Rigidbody->m_Velocity * ElapsedTime);
+			m_Rigidbody->m_Pos += (m_Rigidbody->m_Velocity * ElapsedTime);
 
-		if (m_Rigidbody->m_Pos.x >= m_BaseX) {
-			m_Rigidbody->m_Pos.x = m_BaseX;
-			m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
+			if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+				m_Rigidbody->m_Pos.x = m_BaseX;
+				m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
+			}
+			else if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
+				m_Rigidbody->m_Pos.x = -m_BaseX;
+				m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
+			}
+
+			ColorChanger();
+			L_Now = CntlVec[0].wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER;
+			R_Now = CntlVec[0].wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER;
+
+			//auto PtrStage = GetStage<Stage>();
+			////カメラの位置
+			//Vec3 CameraEye = PtrStage->GetCamera().m_CamerEye;
+			//m_Rigidbody->m_Pos.y = CameraEye.y;
 		}
-		else if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
-			m_Rigidbody->m_Pos.x = -m_BaseX;
-			m_Rigidbody->m_Velocity.x = m_Rigidbody->m_Velocity.x;
-		}
-
-		ColorChanger();
-		L_Now = CntlVec[0].wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER;
-		R_Now = CntlVec[0].wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER;
-
-		//auto PtrStage = GetStage<Stage>();
-		////カメラの位置
-		//Vec3 CameraEye = PtrStage->GetCamera().m_CamerEye;
-		//m_Rigidbody->m_Pos.y = CameraEye.y;
 	}
 
-	void Player::OnUpdate2() {
-		//プレイヤーのＺ位置は強制的に0.0にする
-		m_Rigidbody->m_Pos.z = 2.0f;
+		void Player::OnUpdate2() {
+			if(Startflag){
+			//プレイヤーのＺ位置は強制的に0.0にする
+			m_Rigidbody->m_Pos.z = 2.0f;
 
-		if (P_LightGage <= P_MaxLightGage) {
-			P_LightGage += 0.1f;
+			if (P_LightGage <= P_MaxLightGage) {
+				P_LightGage += 0.1f;
+			}
+			if (P_LightGage >= P_MaxLightGage) {
+				P_LightGage = P_MaxLightGage;
+			}
+
+
+			switch (P_color) {
+			case Yellow:
+				m_TextureResName = L"SUBARU_Y_TX";
+				break;
+			case Red:
+				m_TextureResName = L"SUBARU_R_TX";
+				break;
+			default:
+				break;
+			}
+			auto TexPtr = App::GetApp()->GetResource<TextureResource>(m_TextureResName);
+			m_PtrObj->m_TextureRes = TexPtr;
+
 		}
-		if (P_LightGage >= P_MaxLightGage) {
-			P_LightGage = P_MaxLightGage;
-		}
-		
-
-		switch (P_color) {
-		case Yellow:
-			m_TextureResName = L"SUBARU_Y_TX";
-			break;
-		case Red:
-			m_TextureResName = L"SUBARU_R_TX";
-			break;
-		default:
-			break;
-		}
-		auto TexPtr = App::GetApp()->GetResource<TextureResource>(m_TextureResName);
-		m_PtrObj->m_TextureRes = TexPtr;
-
-
 
 	}
 

@@ -61,6 +61,7 @@ namespace basecross {
 
 		shared_ptr<Fade> m_FadeSprite;
 		
+		bool Startflag = false;
 
 	public:
 		bool FadeFlag = false;
@@ -130,6 +131,7 @@ namespace basecross {
 
 		void StartDestroySE();
 
+		bool getStartFlag() { return Startflag; };
 	};
 
 

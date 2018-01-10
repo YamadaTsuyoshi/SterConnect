@@ -219,12 +219,15 @@ namespace basecross {
 		if (m_Rigidbody->m_Pos.y >= 85) {
 			auto gamestage = GetStage<GameStage>();
 			gamestage->StopBGM();
-			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
+			gamestage->FadeFlag = true;
+			gamestage->ClearFlag = true;
+			//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
 		}
 		if (m_Life <= 0) {
 			auto gamestage = GetStage<GameStage>();
 			gamestage->StopBGM();
-			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+			gamestage->FadeFlag = true;
+			//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 		}
 		for (int i = 0; i < ARRAYSIZE(m_isNullHit); i++)
 		{

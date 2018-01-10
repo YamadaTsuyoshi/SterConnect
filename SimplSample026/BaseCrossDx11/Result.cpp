@@ -173,23 +173,25 @@ namespace basecross {
 		//ƒRƒ“ƒgƒ[ƒ‰‚ÌŽæ“¾
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (CntlVec[0].bConnected) {
-			if (CntlVec[0].fThumbLX < -0.5 && Selecter != 0) {
-				if (onectrl == false)
-				{
-					onectrl = true;
-					Selecter += -1;
+			if (!FadeFlag) {
+				if (CntlVec[0].fThumbLX < -0.5 && Selecter != 0) {
+					if (onectrl == false)
+					{
+						onectrl = true;
+						Selecter += -1;
+					}
 				}
-			}
-			else if (CntlVec[0].fThumbLX > 0.5 && Selecter != 2) {
-				if (onectrl == false)
-				{
-					onectrl = true;
-					Selecter += 1;
+				else if (CntlVec[0].fThumbLX > 0.5 && Selecter != 2) {
+					if (onectrl == false)
+					{
+						onectrl = true;
+						Selecter += 1;
+					}
 				}
-			}
-			else
-			{
-				onectrl = false;
+				else
+				{
+					onectrl = false;
+				}
 			}
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
 				m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");

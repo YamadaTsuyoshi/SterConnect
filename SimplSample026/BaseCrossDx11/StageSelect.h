@@ -6,6 +6,9 @@ namespace basecross {
 	class StageSelect : public Stage {
 		shared_ptr<StageSprite> m_MessageSprite;		///<メッセージを表示するスプライト
 		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
+		shared_ptr<Fade> m_FadeSprite;
+		bool FadeFlag = false;
+		bool FadeFlag2 = false;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!

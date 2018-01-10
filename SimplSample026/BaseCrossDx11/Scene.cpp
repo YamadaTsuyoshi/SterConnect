@@ -17,7 +17,6 @@ namespace basecross {
 			= ObjectFactory::Create<RigidbodyManager>(GetThis<Stage>());
 	}
 
-
 	//追加オブジェクトの指定
 	void Stage::PushBackGameObject(const shared_ptr<GameObject>& Ptr) {
 		//このステージはクリエイト後である
@@ -595,22 +594,22 @@ namespace basecross {
 
 
 		//ボーンモデルのリソース
-		auto ModelMesh = MeshResource::CreateBoneModelMesh(DataDir, L"temp\\Chara_R.bmf");
-		App::GetApp()->RegisterResource(L"Chara_R_MESH", ModelMesh);
+//		auto ModelMesh = MeshResource::CreateBoneModelMesh(DataDir, L"temp\\Chara_R.bmf");
+//		App::GetApp()->RegisterResource(L"Chara_R_MESH", ModelMesh);
 		//ボーンモデルのタンジェント付きリソース
-		ModelMesh = MeshResource::CreateBoneModelMeshWithTangent(DataDir, L"temp\\Chara_R.bmf");
-		App::GetApp()->RegisterResource(L"Chara_R_MESH_WITH_TAN", ModelMesh);
+//		ModelMesh = MeshResource::CreateBoneModelMeshWithTangent(DataDir, L"temp\\Chara_R.bmf");
+//		App::GetApp()->RegisterResource(L"Chara_R_MESH_WITH_TAN", ModelMesh);
 		//法線マップ
-		strTexture = DataDir + L"temp\\Chara_R_narmal.png";
-		App::GetApp()->RegisterTexture(L"Chara_R_NORMAL_TX", strTexture);
+//		strTexture = DataDir + L"temp\\Chara_R_narmal.png";
+//		App::GetApp()->RegisterTexture(L"Chara_R_NORMAL_TX", strTexture);
 
 		//スタティックモデルのリソースとして読み込み
-		auto StaticModelMesh = MeshResource::CreateStaticModelMesh(DataDir, L"temp\\Character_01.bmf");
-		App::GetApp()->RegisterResource(L"MODEL_MESH", StaticModelMesh);
+//		auto StaticModelMesh = MeshResource::CreateStaticModelMesh(DataDir, L"temp\\Character_01.bmf");
+//		App::GetApp()->RegisterResource(L"MODEL_MESH", StaticModelMesh);
 
 		//スタティックモデルのタンジェント付きリソースとして読み込み
-		StaticModelMesh = MeshResource::CreateStaticModelMeshWithTangent(DataDir, L"temp\\Character_01.bmf");
-		App::GetApp()->RegisterResource(L"MODEL_MESH_WITH_TAN", StaticModelMesh);
+//		StaticModelMesh = MeshResource::CreateStaticModelMeshWithTangent(DataDir, L"temp\\Character_01.bmf");
+//		App::GetApp()->RegisterResource(L"MODEL_MESH_WITH_TAN", StaticModelMesh);
 		//法線マップ
 		strTexture = DataDir + L"temp\\Character_2_normal.png";
 		App::GetApp()->RegisterTexture(L"MODEL_NORMAL_TX", strTexture);

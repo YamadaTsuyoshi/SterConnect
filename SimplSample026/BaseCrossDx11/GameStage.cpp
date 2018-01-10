@@ -351,11 +351,10 @@ namespace basecross {
 		wstring Path = App::GetApp()->GetDataDirWString();
 
 		//ƒtƒ@ƒCƒ‹–¼‚Ìİ’è
-		wstring Map = Path + L"\\GameOver\\";
+		wstring Map = Path + L"\\Kaguya\\";
 
 		//Chaera1‚Ìì¬
-		//AddGameObject<Chara1>(Map);
-
+		auto m_Kaguya=AddGameObject<Chara1>(Map);
 
 	}
 

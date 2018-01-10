@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<SpriteStudioProject version="1.00.03">
+<SpriteStudioProject version="1.02.02">
 	<name>kaguyaanimeyou</name>
 	<exportPath></exportPath>
 	<settings>
 		<animeBaseDirectory></animeBaseDirectory>
 		<cellMapBaseDirectory></cellMapBaseDirectory>
 		<imageBaseDirectory></imageBaseDirectory>
+		<effectBaseDirectory></effectBaseDirectory>
 		<exportBaseDirectory>Export</exportBaseDirectory>
 		<queryExportBaseDirectory>1</queryExportBaseDirectory>
 		<ssaxImport>
@@ -15,9 +16,10 @@
 		</ssaxImport>
 		<copyWhenImportImageIsOutside>1</copyWhenImportImageIsOutside>
 		<exportAnimeFileFormat>SSAX</exportAnimeFileFormat>
-		<exportCellMapFileFormat></exportCellMapFileFormat>
+		<exportCellMapFileFormat>invalid</exportCellMapFileFormat>
 		<exportCellMap>0</exportCellMap>
 		<copyImageWhenExportCellmap>1</copyImageWhenExportCellmap>
+		<ssConverterOptions></ssConverterOptions>
 		<ssaxExport>
 			<addAnimeNameEvenIfSingle>1</addAnimeNameEvenIfSingle>
 			<listAllCellMaps>1</listAllCellMaps>
@@ -57,6 +59,7 @@
 			<item>USER</item>
 			<item>IPRM</item>
 		</availableAttributes>
+		<availableFeatures />
 		<defaultSetAttributes>
 			<item>POSX</item>
 			<item>POSY</item>
@@ -66,7 +69,15 @@
 		<wrapMode>clamp</wrapMode>
 		<filterMode>linear</filterMode>
 		<interpolationType>linear</interpolationType>
-		<renderingOutputDirectory></renderingOutputDirectory>
+		<renderingSettings>
+			<outputFolder>/Users/sekinemanami/Desktop/星結/kaguya_Anime/Export</outputFolder>
+			<outputType>PNGs</outputType>
+			<bgColor>FFB6B6B6</bgColor>
+			<addAnimeName>0</addAnimeName>
+			<addTimeStamp>0</addTimeStamp>
+			<addAlphaChanel>1</addAlphaChanel>
+		</renderingSettings>
+		<cellTags />
 	</settings>
 	<animeSettings>
 		<fps>30</fps>
@@ -90,9 +101,11 @@
 		<value>kaguyaanimeyou.ssce</value>
 	</cellmapNames>
 	<animepackNames>
-	<value>kaguyaanimeyou.ssae</value>
+		<value>kaguyaanimeyou.ssae</value>
 	</animepackNames>
 	<lastAnimeFile>kaguyaanimeyou.ssae</lastAnimeFile>
-	<lastAnimeName>anime_1</lastAnimeName>
+	<lastAnimeName>Fall</lastAnimeName>
 	<lastCellMapFile>kaguyaanimeyou.ssce</lastCellMapFile>
+	<lastCell>Orange_R</lastCell>
+	<lastPart>Orange_R</lastPart>
 </SpriteStudioProject>

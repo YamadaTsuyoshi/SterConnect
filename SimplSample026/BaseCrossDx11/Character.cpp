@@ -1460,6 +1460,45 @@ namespace basecross {
 	}
 
 	//--------------------------------------------------------------------------------------
+	/// defaltsprite
+	//--------------------------------------------------------------------------------------
+	DefSp::DefSp(const shared_ptr<Stage>& StagePtr,
+		const wstring& TextureResName,
+		const Vec2& StartScale,
+		float StartRot,
+		const Vec2& StartPos,
+		UINT XWrap, UINT YWrap) :
+		SpriteBase(StagePtr, TextureResName, StartScale, StartRot, StartPos, XWrap, YWrap),
+		m_TotalTime(0)
+	{
+		SetBlendState(BlendState::Trace);
+	}
+
+	void DefSp::AdjustVertex() {
+		//‚±‚±‚Å‚Í‰½‚à‚µ‚È‚¢
+	}
+
+	void DefSp::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
+		m_TotalTime += (ElapsedTime * 5.0f);
+		if (m_TotalTime >= XM_2PI) {
+			m_TotalTime = 0;
+		}
+		float sin_val = sin(m_TotalTime) * 0.5f + 0.5f;
+		Col4 UpdateCol(1.0f, 1.0f, 1.0f, 1.0f);
+		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
+			vertices[i] = VertexPositionColorTexture(
+				m_BackupVertices[i].position,
+				m_BackupVertices[i].color,
+				m_BackupVertices[i].textureCoordinate
+			);
+
+		}
+	}
+	void DefSp::ScaleControl(float r) {
+		this->m_Scale = Vec2(400*r,100*r);
+	}
+
+	//--------------------------------------------------------------------------------------
 	///	Goal
 	//--------------------------------------------------------------------------------------
 	void Goal::CreateBuffers(float WrapX, float WrapY) {

@@ -55,7 +55,8 @@ namespace basecross {
 	};
 
 	class Gameover : public Stage {
-		shared_ptr<StageSprite> m_MessageSprite;		///<メッセージを表示するスプライト
+		shared_ptr<StageSprite> m_BG;
+		shared_ptr<StageSprite> m_Text;
 		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
 		shared_ptr<Fade> m_FadeSprite;
 		bool FadeFlag = false;

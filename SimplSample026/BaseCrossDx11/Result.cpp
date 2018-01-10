@@ -127,6 +127,14 @@ namespace basecross {
 			 1, 1
 			 );
 
+		 m_FadeSprite = ObjectFactory::Create<Fade>(
+			 GetThis<Stage>(),
+			 L"FADE_TX",
+			 Vec2(1280, 830),
+			 0.0f,
+			 Vec2(0, 0),
+			 1, 1);
+
 	}
 	void Gameover::OnUpdateStage() {
 		//スプライトの更新
@@ -140,10 +148,28 @@ namespace basecross {
 			//各オブジェクトの最終更新
 			v->OnUpdate2();
 		}
+		m_FadeSprite->OnUpdate();
 		//自分自身の更新
 		this->OnUpdate();
 	}
 	void Gameover::OnUpdate() {
+		switch (Selecter) {
+		case 0:
+			L1->ScaleControl(1.0f);
+			L2->ScaleControl(0.0f);
+			L3->ScaleControl(0.0f);
+			break;
+		case 1:
+			L1->ScaleControl(0.0f);
+			L2->ScaleControl(1.0f);
+			L3->ScaleControl(0.0f);
+			break;
+		case 2:
+			L1->ScaleControl(0.0f);
+			L2->ScaleControl(0.0f);
+			L3->ScaleControl(1.0f);
+			break;
+		}
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (CntlVec[0].bConnected) {
@@ -165,41 +191,34 @@ namespace basecross {
 			{
 				onectrl = false;
 			}
+			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+				m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");
+				FadeFlag = true;
+			}
+		}
+		if (FadeFlag)
+		{
+			m_FadeSprite->SetFadeFlag(true);
+		}
+		if (m_FadeSprite->GetChangeFlag())
+		{
 			switch (Selecter) {
 			case 0:
-				L1->ScaleControl(1.0f);
-				L2->ScaleControl(0.0f);
-				L3->ScaleControl(0.0f);
-				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
-					m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");
-					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
-				}
+				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
 				break;
 			case 1:
-				L1->ScaleControl(0.0f);
-				L2->ScaleControl(1.0f);
-				L3->ScaleControl(0.0f);
-				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
-					m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");
-					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToStageSelect");
-				}
+				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToStageSelect");
 				break;
 			case 2:
-				L1->ScaleControl(0.0f);
-				L2->ScaleControl(0.0f);
-				L3->ScaleControl(1.0f);
-				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
-					m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");
-					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
-				}
+				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
 				break;
 			}
+		}
 			////Bボタン
 			//if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
 			//	m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");
 			//	PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
 			//}
-		}
 	}
 
 	void Gameover::OnDrawStage() {
@@ -215,6 +234,7 @@ namespace basecross {
 			//各オブジェクトの描画
 			v->OnDraw();
 		}
+		m_FadeSprite->OnDraw();
 		//自分自身の描画
 		this->OnDraw();
 		//デフォルト描画の終了

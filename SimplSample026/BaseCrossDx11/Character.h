@@ -1234,6 +1234,9 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	class Fade : public SpriteBase {
 		float m_TotalTime;	//頂点変更に使用するタイム
+		bool Fadeflag = false;
+		bool Fadeflag2 = false;
+		float a = 0;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -1275,7 +1278,8 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual ~Fade() {}
-		virtual void OnUpdate() override;
+		void SetFadeFlag(bool f) { Fadeflag = f; };
+		bool GetChangeFlag() { return Fadeflag2; };
 	};
 
 

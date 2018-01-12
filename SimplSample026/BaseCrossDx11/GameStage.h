@@ -63,6 +63,8 @@ namespace basecross {
 		
 		bool Startflag = false;
 
+		Vec3 KaguyaPos;
+
 	public:
 		bool FadeFlag = false;
 		bool FadeFlag2 = false;
@@ -132,6 +134,9 @@ namespace basecross {
 		void StartDestroySE();
 
 		bool getStartFlag() { return Startflag; };
+
+		Vec3 GetKaguyaPos() { return KaguyaPos; }
+
 	};
 
 

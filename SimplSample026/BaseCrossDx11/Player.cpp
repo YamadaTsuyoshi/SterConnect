@@ -275,7 +275,46 @@ namespace basecross {
 		}
 	}
 
+	SubaruSS::SubaruSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir) :
+		SS5ssae(StagePtr, BaseDir, L"SUBARU_1027.ssae", L"Walk_Right_Y")
+	{
+		m_ToAnimeMatrixLeft.affineTransformation(
+			Vec3(0.1f, 0.1f, 1.0f),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0.0f)
+		);
 
+	}
+
+	//初期化
+	void SubaruSS::OnCreate() {
+
+		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
+		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
+
+		auto PtrT = GetTransform();
+		PtrT->SetScale(1.4f, 1.4f, 1.0f);
+		//PtrT->SetPosition(Vec3(0, 5.0f, 1.0f));
+		//親クラスのクリエイトを呼ぶ
+		SS5ssae::OnCreate();
+		//値は秒あたりのフレーム数
+		SetFps(30.0f);
+
+		//ChangeAnimation(L"run");
+		SetLooped(true);
+
+
+	}
+
+	//更新
+	void SubaruSS::OnUpdate() {
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		//アニメーションを更新する
+		auto PtrGameStage = GetStage<GameStage>();
+		GetTransform()->SetPosition(PtrGameStage->GetP_Pos());
+		UpdateAnimeTime(ElapsedTime);
+	}
 
 }
 //end basecross

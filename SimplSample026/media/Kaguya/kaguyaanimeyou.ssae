@@ -97,7 +97,7 @@
 				<show>1</show>
 				<locked>0</locked>
 				<expandAttribute>0</expandAttribute>
-				<expandChildren>1</expandChildren>
+				<expandChildren>0</expandChildren>
 			</value>
 			<value>
 				<name>BackHair</name>
@@ -118,7 +118,7 @@
 				<show>1</show>
 				<locked>0</locked>
 				<expandAttribute>0</expandAttribute>
-				<expandChildren>1</expandChildren>
+				<expandChildren>0</expandChildren>
 			</value>
 			<value>
 				<name>Rebbon_Hair</name>
@@ -2499,25 +2499,12 @@
 								<value>391</value>
 							</key>
 						</attribute>
-						<attribute tag="ROTY">
-							<key time="0" ipType="linear">
-								<value>0</value>
-							</key>
-							<key time="2" ipType="linear">
-								<value>-21</value>
-							</key>
-						</attribute>
 						<attribute tag="ROTZ">
 							<key time="0" ipType="linear">
 								<value>2</value>
 							</key>
 							<key time="2" ipType="linear">
 								<value>-5</value>
-							</key>
-						</attribute>
-						<attribute tag="SCLY">
-							<key time="0" ipType="linear">
-								<value>1</value>
 							</key>
 						</attribute>
 						<attribute tag="PRIO">
@@ -5046,10 +5033,12 @@
 							</key>
 						</attribute>
 						<attribute tag="ROTZ">
-							<key time="0" ipType="linear">
+							<key time="0" ipType="bezier">
+								<curve syncStartEnd="0">0 0 0 0</curve>
 								<value>115</value>
 							</key>
-							<key time="5" ipType="linear">
+							<key time="5" ipType="bezier">
+								<curve syncStartEnd="0">0 0 0 0</curve>
 								<value>108</value>
 							</key>
 							<key time="10" ipType="linear">
@@ -6308,6 +6297,9 @@
 							<key time="1" ipType="linear">
 								<value>1.10000002384186</value>
 							</key>
+							<key time="10" ipType="linear">
+								<value>1.10000002384186</value>
+							</key>
 						</attribute>
 						<attribute tag="SCLY">
 							<key time="0" ipType="linear">
@@ -6319,10 +6311,13 @@
 							<key time="6" ipType="linear">
 								<value>0.899999976158142</value>
 							</key>
+							<key time="10" ipType="linear">
+								<value>0.899999976158142</value>
+							</key>
 						</attribute>
 						<attribute tag="PRIO">
 							<key time="0" ipType="linear">
-								<value>50</value>
+								<value>48</value>
 							</key>
 							<key time="1" ipType="linear">
 								<value>48</value>
@@ -8692,7 +8687,7 @@
 						</attribute>
 						<attribute tag="PRIO">
 							<key time="0" ipType="linear">
-								<value>39</value>
+								<value>38</value>
 							</key>
 						</attribute>
 						<attribute tag="HIDE">

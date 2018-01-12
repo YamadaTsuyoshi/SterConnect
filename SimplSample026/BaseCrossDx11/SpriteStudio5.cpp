@@ -2131,10 +2131,12 @@ namespace basecross {
 				auto Pos = PtrT->GetWorldPosition();
 				bsm::Vec3 Z(0, 0, count);
 				Pos += Z;
+				PtrT->SetQuaternion(Quat());
 				PtrT->SetWorldPosition(Pos);
 				ptr->OnDraw();
 				PtrT->SetWorldPosition(TempPos);
-				count -= 0.001f;
+				count -= 0.05f;
+//				count -= 0.050f;
 			}
 		}
 	}

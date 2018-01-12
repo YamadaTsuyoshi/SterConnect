@@ -473,7 +473,7 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
 	KaguyaSS::KaguyaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir) :
-		SS5ssae(StagePtr, BaseDir, L"kaguyaanimeyou.ssae", L"Fly")
+		SS5ssae(StagePtr, BaseDir, L"kaguyaanimeyou.ssae", L"clear")
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(
 			Vec3(0.1f, 0.1f, 1.0f),
@@ -491,12 +491,12 @@ namespace basecross {
 		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
 
 		auto PtrT = GetTransform();
-		PtrT->SetScale(0.5f, 0.5f, 1.0f);
+		PtrT->SetScale(1.7f, 1.7f, 1.0f);
 		//PtrT->SetPosition(Vec3(0, 5.0f, 1.0f));
 		//親クラスのクリエイトを呼ぶ
 		SS5ssae::OnCreate();
 		//値は秒あたりのフレーム数
-		SetFps(10.0f);
+		SetFps(5.0f);
 
 		//ChangeAnimation(L"run");
 		SetLooped(true);
@@ -509,7 +509,7 @@ namespace basecross {
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		//アニメーションを更新する
 		auto PtrGameStage = GetStage<GameStage>();
-		GetTransform()->SetPosition(PtrGameStage->GetP_Pos());
+		GetTransform()->SetPosition(PtrGameStage->GetKaguyaPos());
 		UpdateAnimeTime(ElapsedTime);
 	}
 

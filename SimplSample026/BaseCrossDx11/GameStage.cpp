@@ -80,9 +80,14 @@ namespace basecross {
 			if (MapVec[0] == L"Player")
 			{
 				stringflag = true;
-				AddGameObject<Player>(
+				wstring Path = App::GetApp()->GetDataDirWString();
+				//ファイル名の設定
+				wstring Map = Path + L"\\Subaru\\";
+				//Chaera1の作成
+				AddGameObject<SubaruSS>(Map);
+				auto a = AddGameObject<Player>(
 					L"SUBARU_Y_TX", 
-					true, 
+					false, 
 					Pos
 					);
 			}
@@ -90,9 +95,14 @@ namespace basecross {
 			if (MapVec[0] == L"Kaguya")
 			{
 				stringflag = true;
+				wstring Path = App::GetApp()->GetDataDirWString();
+				//ファイル名の設定
+				wstring Map = Path + L"\\Kaguya\\";
+				//Chaera1の作成
+				AddGameObject<KaguyaSS>(Map);
 				AddGameObject<Kaguya>(
 					L"KAGUYA_TX",
-					true,
+					false,
 					Pos
 					);
 			}
@@ -337,15 +347,6 @@ namespace basecross {
 		//文字列描画オブジェクトの作成
 		AddGameObject<StringDrawObject>();
 
-
-		wstring Path = App::GetApp()->GetDataDirWString();
-
-		//ファイル名の設定
-		wstring Map = Path + L"\\Kaguya\\";
-
-		//Chaera1の作成
-		auto m_Kaguya=AddGameObject<KaguyaSS>(Map);
-
 		m_FadeSprite = ObjectFactory::Create<Fade>(
 			GetThis<Stage>(),
 			L"FADE_TX",
@@ -433,6 +434,12 @@ namespace basecross {
 		}
 
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+
+		if (Startflag&&CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_START)
+		{
+			Startflag = false;
+		}
+		
 		if (!Startflag&&CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 		{
 			auto Startbar = AddGameObject<Bar>(
@@ -450,6 +457,9 @@ namespace basecross {
 		auto& camera = GetCamera();
 
 		camera.m_CamerAt.y = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y;
+		KaguyaPos = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition();
+		auto player = FindTagGameObject<Player>(L"Player");
+		P_Pos = player->GetPosition();
 		if (camera.m_CamerAt.y > maxPosition) {
 			maxPosition = camera.m_CamerAt.y;
 		}
@@ -598,8 +608,7 @@ namespace basecross {
 				interval_Time = 0;
 			}*/
 
-			auto player = FindTagGameObject<Player>(L"Player");
-			Vec3 P_Pos = player->GetPosition();
+			
 			P_color = player->getP_color();
 			wstring TextureResName;
 			switch (P_color) {

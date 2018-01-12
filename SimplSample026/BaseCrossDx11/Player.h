@@ -130,6 +130,21 @@ namespace basecross {
 		float getP_MaxLightGage() { return P_MaxLightGage; };
 	};
 
+	//--------------------------------------------------------------------------------------
+	//	すばるスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+	class SubaruSS : public SS5ssae {
+		Mat4x4 m_ToAnimeMatrixLeft;
+	public:
+		//構築と破棄
+		SubaruSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir);
+		virtual ~SubaruSS() {}
+		//初期化
+		virtual void OnCreate() override;
+		//更新
+		virtual void OnUpdate() override;
+	};
+
 	
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <SpriteStudioProject version="1.02.02">
-	<name>kaguyaanimeyou</name>
+	<name>SUBARU_1027</name>
 	<exportPath></exportPath>
 	<settings>
 		<animeBaseDirectory></animeBaseDirectory>
@@ -59,7 +59,9 @@
 			<item>USER</item>
 			<item>IPRM</item>
 		</availableAttributes>
-		<availableFeatures />
+		<availableFeatures>
+			<value>effect</value>
+		</availableFeatures>
 		<defaultSetAttributes>
 			<item>POSX</item>
 			<item>POSY</item>
@@ -70,12 +72,12 @@
 		<filterMode>linear</filterMode>
 		<interpolationType>linear</interpolationType>
 		<renderingSettings>
-			<outputFolder>/Users/sekinemanami/Desktop/星結/kaguya_Anime/Export</outputFolder>
-			<outputType>PNGs</outputType>
-			<bgColor>FFB6B6B6</bgColor>
+			<outputFolder>/Users/Mizusawasuika/Desktop/星結/Export</outputFolder>
+			<outputType>GIF</outputType>
+			<bgColor>FF606060</bgColor>
 			<addAnimeName>0</addAnimeName>
 			<addTimeStamp>0</addTimeStamp>
-			<addAlphaChanel>1</addAlphaChanel>
+			<addAlphaChanel>0</addAlphaChanel>
 		</renderingSettings>
 		<cellTags />
 	</settings>
@@ -98,14 +100,14 @@
 		<padding>1</padding>
 	</texPackSettings>
 	<cellmapNames>
-		<value>kaguyaanimeyou.ssce</value>
+		<value>SUBARU_1027.ssce</value>
 	</cellmapNames>
 	<animepackNames>
-		<value>kaguyaanimeyou.ssae</value>
+		<value>SUBARU_1027.ssae</value>
 	</animepackNames>
-	<lastAnimeFile>kaguyaanimeyou.ssae</lastAnimeFile>
-	<lastAnimeName>Fall</lastAnimeName>
-	<lastCellMapFile>kaguyaanimeyou.ssce</lastCellMapFile>
-	<lastCell>EyeBrows_R</lastCell>
-	<lastPart>Back</lastPart>
+	<lastAnimeFile>SUBARU_1027.ssae</lastAnimeFile>
+	<lastAnimeName>Start_Right_Y</lastAnimeName>
+	<lastCellMapFile>SUBARU_1027.ssce</lastCellMapFile>
+	<lastCell>Arm_right_Y</lastCell>
+	<lastPart>Arm_right_Y</lastPart>
 </SpriteStudioProject>

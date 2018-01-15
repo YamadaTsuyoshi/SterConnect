@@ -497,7 +497,7 @@ namespace basecross {
 
 		strTexture = DataDir + L"Texture\\hoshi_title.png";
 		App::GetApp()->RegisterTexture(L"TITLE_TX", strTexture);
-		strTexture = DataDir + L"Texture\\stage_select.png";
+		strTexture = DataDir + L"Texture\\StageSelect_Ver2.0.png";
 		App::GetApp()->RegisterTexture(L"STAGESELECT_TX", strTexture);
 		strTexture = DataDir + L"Texture\\clear.PNG";
 		App::GetApp()->RegisterTexture(L"CLEAR_TX", strTexture);

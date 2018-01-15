@@ -7,8 +7,11 @@ namespace basecross {
 		shared_ptr<StageSprite> m_MessageSprite;		///<メッセージを表示するスプライト
 		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
 		shared_ptr<Fade> m_FadeSprite;
+		shared_ptr<DefSp> m_kaguya;
 		bool FadeFlag = false;
 		bool FadeFlag2 = false;
+		bool onectrl;
+		int Selecter = 0;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!

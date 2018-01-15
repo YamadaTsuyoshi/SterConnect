@@ -1494,6 +1494,9 @@ namespace basecross {
 
 		}
 	}
+	void DefSp::SetPos(Vec2& pos) {
+		this->m_Pos = Vec2(pos.x,pos.y);
+	}
 	void DefSp::ScaleControl(float r) {
 		this->m_Scale = Vec2(400*r,100*r);
 	}

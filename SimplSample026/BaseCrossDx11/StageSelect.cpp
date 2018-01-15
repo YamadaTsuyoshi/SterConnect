@@ -9,7 +9,7 @@ namespace basecross {
 	void StageSelect::OnCreate() {
 		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
 		m_AudioObjectPtr->AddAudioResource(L"STAGESELECT_BGM");
-		m_AudioObjectPtr->Start(L"STAGESELECT_BGM", XAUDIO2_LOOP_INFINITE, 0.5f);
+		m_AudioObjectPtr->Start(L"STAGESELECT_BGM", XAUDIO2_LOOP_INFINITE, 0.3f);
 		//メッセージスプライト
 		m_MessageSprite = ObjectFactory::Create<StageSprite>(
 			GetThis<Stage>(),

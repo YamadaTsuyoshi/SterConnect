@@ -538,5 +538,49 @@ namespace basecross {
 		UpdateAnimeTime(ElapsedTime);
 	}
 
+	//--------------------------------------------------------------------------------------
+	//	かぐやスプライトスタジオ（ゲームオーバー）
+	//--------------------------------------------------------------------------------------
+	//構築と破棄
+	GameoverKaguyaSS::GameoverKaguyaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir) :
+		SS5ssae(StagePtr, BaseDir, L"GameOver_Kaguya.ssae", L"Anime")
+	{
+		m_ToAnimeMatrixLeft.affineTransformation(
+			Vec3(0.1f, 0.1f, 1.0f),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0.0f)
+		);
+
+	}
+
+	//初期化
+	void GameoverKaguyaSS::OnCreate() {
+
+		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
+		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
+
+		auto PtrT = GetTransform();
+		PtrT->SetScale(3.0f, 3.0f, 1.0f);
+		//PtrT->SetPosition(Vec3(0, 5.0f, 1.0f));
+		//親クラスのクリエイトを呼ぶ
+		SS5ssae::OnCreate();
+		//値は秒あたりのフレーム数
+		SetFps(60.0f);
+
+		//ChangeAnimation(L"run");
+		SetLooped(true);
+
+
+	}
+
+	//更新
+	void GameoverKaguyaSS::OnUpdate() {
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		//アニメーションを更新する
+		GetTransform()->SetPosition(Vec3(2.0f,0.0f,1.0f));
+		UpdateAnimeTime(ElapsedTime);
+	}
+
 }
 //end basecross

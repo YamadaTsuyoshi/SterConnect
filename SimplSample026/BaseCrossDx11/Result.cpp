@@ -203,6 +203,8 @@ namespace basecross {
 		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
 		m_AudioObjectPtr->AddAudioResource(L"GAMEOVER_BGM");
 		m_AudioObjectPtr->Start(L"GAMEOVER_BGM", 0, 0.7f);
+		//描画オブジェクトの追加
+		CreateDrawObjects();
 		//メッセージスプライト
 		m_BG = ObjectFactory::Create<StageSprite>(
 			GetThis<Stage>(),
@@ -222,7 +224,7 @@ namespace basecross {
 
 		 AddGameObject<DefSp>(
 			L"GAMEOVER_SIDE_TX",
-			Vec2(1250.0f, 100.0f),
+			Vec2(1280.0f, 100.0f),
 			0.0f,
 			Vec2(-5, -300.0f),
 			1, 1
@@ -269,6 +271,11 @@ namespace basecross {
 			 Vec2(405, -300.0f),
 			 1, 1
 			 );
+		 wstring Path = App::GetApp()->GetDataDirWString();
+		 //ファイル名の設定
+		 wstring Map = Path + L"\\Kaguya\\";
+		 //Chaera1の作成
+		 AddGameObject<GameoverKaguyaSS>(Map);
 
 		 m_FadeSprite = ObjectFactory::Create<Fade>(
 			 GetThis<Stage>(),
@@ -278,6 +285,10 @@ namespace basecross {
 			 Vec2(0, 0),
 			 1, 1);
 
+	}
+	void Gameover::CreateDrawObjects() {
+		//SimplePCTStaticRenderer描画オブジェクトの作成
+		AddGameObject<SimplePCTStaticRenderer>(L"SimplePCTStaticRenderer");
 	}
 	void Gameover::OnUpdateStage() {
 		//スプライトの更新

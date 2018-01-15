@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<SpriteStudioCellMap version="1.00.02">
+	<name>GameOver_Kaguya</name>
+	<exportPath></exportPath>
+	<generator>SpriteStudio</generator>
+	<packed>0</packed>
+	<imagePath>GameOver_Kaguya.png</imagePath>
+	<pixelSize>1024 1024</pixelSize>
+	<overrideTexSettings>0</overrideTexSettings>
+	<wrapMode>clamp</wrapMode>
+	<filterMode>linear</filterMode>
+	<imagePathAtImport></imagePathAtImport>
+	<packInfoFilePath></packInfoFilePath>
+	<texPackSettings>
+		<maxSize>4096 4096</maxSize>
+		<forcePo2>1</forcePo2>
+		<forceSquare>0</forceSquare>
+		<margin>0</margin>
+		<padding>1</padding>
+	</texPackSettings>
+	<cells>
+		<cell>
+			<name>BATU</name>
+			<pos>390 678</pos>
+			<size>122 118</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>Tears 1</name>
+			<pos>936 156</pos>
+			<size>60 22</size>
+			<pivot>0.133333340287209 0.0454545468091965</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>Tears 2</name>
+			<pos>936 70</pos>
+			<size>52 30</size>
+			<pivot>0.211538463830948 -0.133333340287209</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>Tears 3</name>
+			<pos>936 102</pos>
+			<size>52 26</size>
+			<pivot>-0.230769231915474 -0.192307695746422</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>Tears4</name>
+			<pos>936 130</pos>
+			<size>56 24</size>
+			<pivot>-0.196428567171097 0.125</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>R1</name>
+			<pos>192 706</pos>
+			<size>88 108</size>
+			<pivot>-0.227272734045982 -0.157407402992249</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>R2</name>
+			<pos>282 706</pos>
+			<size>106 44</size>
+			<pivot>-0.245283022522926 -0.0227272734045982</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>kao</name>
+			<pos>390 578</pos>
+			<size>162 98</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>K1</name>
+			<pos>580 252</pos>
+			<size>434 320</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>hd</name>
+			<pos>192 578</pos>
+			<size>196 126</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>K2</name>
+			<pos>4 252</pos>
+			<size>574 324</size>
+			<pivot>-0.202090591192245 -0.212962970137596</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>H1</name>
+			<pos>580 574</pos>
+			<size>228 166</size>
+			<pivot>0.232456147670746 -0.00602409616112709</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>H2</name>
+			<pos>810 574</pos>
+			<size>148 170</size>
+			<pivot>-0.148648649454117 0.217647060751915</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>H3</name>
+			<pos>4 578</pos>
+			<size>186 134</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>LEG</name>
+			<pos>936 4</pos>
+			<size>60 64</size>
+			<pivot>-0.216666668653488 -0.203125</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+		<cell>
+			<name>Z</name>
+			<pos>4 4</pos>
+			<size>930 246</size>
+			<pivot>0 0</pivot>
+			<rotated>0</rotated>
+			<orgImageName></orgImageName>
+			<posStable>0</posStable>
+		</cell>
+	</cells>
+</SpriteStudioCellMap>

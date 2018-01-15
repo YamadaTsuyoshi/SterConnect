@@ -60,6 +60,8 @@ namespace basecross {
 	};
 
 	class Gameover : public Stage {
+		//描画オブジェクトの追加
+		void CreateDrawObjects();
 		shared_ptr<StageSprite> m_BG;
 		shared_ptr<StageSprite> m_Text;
 		shared_ptr<DefSp> L1;

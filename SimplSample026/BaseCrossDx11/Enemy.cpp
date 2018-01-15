@@ -451,6 +451,11 @@ namespace basecross {
 				break;
 			}
 		}
+		if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) - 7) {
+			//auto gamestage = GetStage<GameStage>();
+			//gamestage->StartDestroySE();
+			ThisDelete();
+		}
 	}
 
 	void RabbitBullet::OnDrawShadowmap() {

@@ -562,6 +562,8 @@ namespace basecross {
 				camera.m_CamerAt.y = 83.0f;
 			}
 			if (FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y <= (maxPosition - 7.0f)) {
+				m_AudioObjectPtr->AddAudioResource(L"VOICE_SONNAA");
+				m_AudioObjectPtr->Start(L"VOICE_SONNAA", 0, 0.5f);
 				m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
 				FadeFlag = true;
 				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");

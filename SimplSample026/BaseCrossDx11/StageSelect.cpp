@@ -89,14 +89,14 @@ namespace basecross {
 				else if (Selecter > 2) {
 					Selecter = 0;
 				}
-			}
-			//Bボタン
-			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
-				m_AudioObjectPtr->AddAudioResource(L"PRESS_SE");
-				m_AudioObjectPtr->Start(L"PRESS_SE", 0, 0.5f);
-				m_AudioObjectPtr->Stop(L"STAGESELECT_BGM");
-				FadeFlag = true;
-				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+				//Bボタン
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+					m_AudioObjectPtr->AddAudioResource(L"PRESS_SE");
+					m_AudioObjectPtr->Start(L"PRESS_SE", 0, 0.5f);
+					m_AudioObjectPtr->Stop(L"STAGESELECT_BGM");
+					FadeFlag = true;
+					//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+				}
 			}
 		}
 		if (FadeFlag)

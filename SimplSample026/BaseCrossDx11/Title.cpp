@@ -46,13 +46,15 @@ namespace basecross {
 		//コントローラの取得
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 		if (CntlVec[0].bConnected) {
-			//Bボタン
-			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
-				m_AudioObjectPtr->AddAudioResource(L"PRESS_SE");
-				m_AudioObjectPtr->Start(L"PRESS_SE", 0, 0.5f);
-				m_AudioObjectPtr->Stop(L"TITLE_BGM");
-				FadeFlag = true;
-				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToStageSelect");
+			if (!FadeFlag) {
+				//Bボタン
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+					m_AudioObjectPtr->AddAudioResource(L"PRESS_SE");
+					m_AudioObjectPtr->Start(L"PRESS_SE", 0, 0.5f);
+					m_AudioObjectPtr->Stop(L"TITLE_BGM");
+					FadeFlag = true;
+					//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToStageSelect");
+				}
 			}
 		}
 		if (FadeFlag)

@@ -200,7 +200,7 @@ namespace basecross {
 	void GameStage::OnCreate() {
 		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
 		m_AudioObjectPtr->AddAudioResource(L"GAMESTAGE_BGM");
-		m_AudioObjectPtr->Start(L"GAMESTAGE_BGM", XAUDIO2_LOOP_INFINITE, 0.5f);
+		m_AudioObjectPtr->Start(L"GAMESTAGE_BGM", XAUDIO2_LOOP_INFINITE, 0.3f);
 
 		float v = 0;
 		int BGS = 5;
@@ -335,14 +335,14 @@ namespace basecross {
 			lifegroup.push_back(lifeobj);
 		}
 
-		//メッセージを表示するスプライトの作成
-		AddGameObject<MessageSprite>(
-			L"MESSAGE_TX",
-			Vec2(256, 64),
-			0.0f,
-			Vec2(480, 260),
-			1, 1
-			);
+		////メッセージを表示するスプライトの作成
+		//AddGameObject<MessageSprite>(
+		//	L"MESSAGE_TX",
+		//	Vec2(256, 64),
+		//	0.0f,
+		//	Vec2(480, 260),
+		//	1, 1
+		//	);
 
 		//文字列描画オブジェクトの作成
 		AddGameObject<StringDrawObject>();

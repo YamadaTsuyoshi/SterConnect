@@ -7,6 +7,10 @@ namespace basecross {
 	///	空のステージ（メッセージのみある）
 	//--------------------------------------------------------------------------------------
 	void ClearResult::OnCreate() {
+		//BGMの再生
+		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
+		m_AudioObjectPtr->AddAudioResource(L"GAMEOVER_BGM");
+		m_AudioObjectPtr->Start(L"GAMEOVER_BGM", 0, 0.7f);
 		//メッセージスプライト
 		m_MessageSprite = ObjectFactory::Create<StageSprite>(
 			GetThis<Stage>(),
@@ -14,6 +18,12 @@ namespace basecross {
 			Vec2(1280, 830),
 			0.0f,
 			Vec2(0, 0),
+			1, 1);
+		AddGameObject<DefSp>(
+			L"KURIA_TX",
+			Vec2(1000.0f, 100.0f),
+			0.0f,
+			Vec2(0, 250),
 			1, 1);
 
 		AddGameObject<DefSp>(
@@ -137,6 +147,7 @@ namespace basecross {
 				}
 			}
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+				m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");
 				FadeFlag = true;
 			}
 		}
@@ -191,7 +202,7 @@ namespace basecross {
 		//BGMの再生
 		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
 		m_AudioObjectPtr->AddAudioResource(L"GAMEOVER_BGM");
-		m_AudioObjectPtr->Start(L"GAMEOVER_BGM", 0, 1.0f);
+		m_AudioObjectPtr->Start(L"GAMEOVER_BGM", 0, 0.7f);
 		//メッセージスプライト
 		m_BG = ObjectFactory::Create<StageSprite>(
 			GetThis<Stage>(),

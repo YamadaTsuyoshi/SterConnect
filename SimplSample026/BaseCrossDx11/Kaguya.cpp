@@ -108,8 +108,7 @@ namespace basecross {
 	{
 		if (!m_isNullHit[CntNum])
 		{
-			m_AudioObjectPtr->AddAudioResource(L"VOICE_UU");
-			m_AudioObjectPtr->Start(L"VOICE_UU", 0, 0.5f);
+			RndDamageVo();
 			Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
 			m_Life += -1;
 			m_isNullHit[CntNum] = true;
@@ -228,6 +227,8 @@ namespace basecross {
 			if (m_Life <= 0) {
 				auto gamestage = GetStage<GameStage>();
 				gamestage->StopBGM();
+				m_AudioObjectPtr->AddAudioResource(L"VOICE_SONNAA");
+				m_AudioObjectPtr->Start(L"VOICE_SONNAA", 0, 0.5f);
 				gamestage->FadeFlag = true;
 				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 			}
@@ -452,6 +453,30 @@ namespace basecross {
 		default:
 			m_AudioObjectPtr->AddAudioResource(L"VOICE_TOU");
 			m_AudioObjectPtr->Start(L"VOICE_TOU", 0, 0.5f);
+			break;
+		}
+	}
+	void Kaguya::RndDamageVo()
+	{
+		int i;
+		i = GetRandom(0, 2);
+		switch (i)
+		{
+		case 0:
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_UU");
+			m_AudioObjectPtr->Start(L"VOICE_UU", 0, 0.5f);
+			break;
+		case 1:
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_HYAA");
+			m_AudioObjectPtr->Start(L"VOICE_HYAA", 0, 0.5f);
+			break;
+		case 2:
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_NANISURUNO");
+			m_AudioObjectPtr->Start(L"VOICE_NANISURUNO", 0, 0.5f);
+			break;
+		default:
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_HYAA");
+			m_AudioObjectPtr->Start(L"VOICE_HYAA", 0, 0.5f);
 			break;
 		}
 	}

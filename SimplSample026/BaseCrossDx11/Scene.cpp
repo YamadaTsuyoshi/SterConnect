@@ -584,6 +584,9 @@ namespace basecross {
 		strTexture = DataDir + L"Texture\\aaaaaaaaaaaaaaa.png";
 		App::GetApp()->RegisterTexture(L"UI_S_TX", strTexture);
 
+		strTexture = DataDir + L"Texture\\kuria.PNG";
+		App::GetApp()->RegisterTexture(L"KURIA_TX", strTexture);
+
 		//光ゲージアイテム
 		strTexture = DataDir + L"Texture\\Star.png";
 		App::GetApp()->RegisterTexture(L"STAR_TX", strTexture);
@@ -655,6 +658,15 @@ namespace basecross {
 		//ボイス：うぅ…
 		VoiceWav = DataDir + L"Voice\\line-girl1_uu1.wav";
 		App::GetApp()->RegisterWav(L"VOICE_UU", VoiceWav);
+		//ボイス：ひゃあ
+		VoiceWav = DataDir + L"Voice\\line-girl1_hyaa1.wav";
+		App::GetApp()->RegisterWav(L"VOICE_HYAA", VoiceWav);
+		//ボイス：何するの
+		VoiceWav = DataDir + L"Voice\\line-girl1_nanbisuruno1.wav";
+		App::GetApp()->RegisterWav(L"VOICE_NANISURUNO", VoiceWav);
+		//ボイス：そんなあー
+		VoiceWav = DataDir + L"Voice\\line-girl1_sonnaa1.wav";
+		App::GetApp()->RegisterWav(L"VOICE_SONNAA", VoiceWav);
 	}
 
 

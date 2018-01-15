@@ -123,6 +123,8 @@ namespace basecross {
 
 		virtual void RndJampVo();
 
+		virtual void RndDamageVo();
+
 		virtual int GetRandom(int min, int max);
 
 		shared_ptr<Rigidbody> GetRigidbody()

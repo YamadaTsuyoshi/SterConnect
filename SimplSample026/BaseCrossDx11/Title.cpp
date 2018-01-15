@@ -10,7 +10,7 @@ namespace basecross {
 		//BGMの再生
 		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
 		m_AudioObjectPtr->AddAudioResource(L"TITLE_BGM");
-		m_AudioObjectPtr->Start(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 2.0f);
+		m_AudioObjectPtr->Start(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 1.5f);
 		//メッセージスプライト
 		m_MessageSprite = ObjectFactory::Create<StageSprite>(
 			GetThis<Stage>(),

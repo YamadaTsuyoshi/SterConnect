@@ -146,6 +146,13 @@ namespace basecross {
 						m_UnderRefLock = true;
 						m_JumpLock = true;
 					}
+					else if (m_HitObj == L"bamboo") {
+						m_Rigidbody->m_BeforePos.y += 0.01f;
+						m_Rigidbody->m_Pos.y -= 0.01f;
+						m_Rigidbody->m_Velocity += Vec3(0, -0.2f, 0);
+						m_UnderRefLock = true;
+						m_JumpLock = true;
+					}
 					//if (!m_LeftRefLock) {
 					//	m_Rigidbody->m_BeforePos.x += 0.01f;
 					//	m_Rigidbody->m_Pos.x += 0.01f;
@@ -178,6 +185,12 @@ namespace basecross {
 					}
 					else if (m_HitObj == L"enemy") {
 						//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+						m_Rigidbody->m_BeforePos.y += 0.01f;
+						m_Rigidbody->m_Pos.y += 0.01f;
+						m_Rigidbody->m_Velocity += Vec3(0, 5.0f / 2, 0);
+						m_JumpLock = true;
+					}
+					else if (m_HitObj == L"bamboo") {
 						m_Rigidbody->m_BeforePos.y += 0.01f;
 						m_Rigidbody->m_Pos.y += 0.01f;
 						m_Rigidbody->m_Velocity += Vec3(0, 5.0f / 2, 0);
@@ -304,11 +317,11 @@ namespace basecross {
 						a->SetD_flag(true);
 					}
 					else if (shptr && shptr->FindTag(L"Bamboo")) {
-						m_HitObj = L"yellow";
+						m_HitObj = L"bamboo";
 						//m_Attackflag = false;
 					}
 					else if (shptr && shptr->FindTag(L"BambooB")) {
-						m_HitObj = L"yellow";
+						m_HitObj = L"bamboo";
 						//m_Attackflag = false;
 					}
 					if (shptr && shptr->FindTag(L"Enemy")) {

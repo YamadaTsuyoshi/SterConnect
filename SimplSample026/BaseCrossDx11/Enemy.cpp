@@ -18,7 +18,7 @@ namespace basecross {
 		m_BaseY(0.25f / 2.0f),
 		m_Posision(Pos)
 	{}
-		Rabbit::~Rabbit() {}
+	Rabbit::~Rabbit() {}
 
 	Vec3 Rabbit::GetPosition() {
 		return m_Rigidbody->m_Pos;
@@ -83,19 +83,19 @@ namespace basecross {
 
 	}
 	void Rabbit::OnUpdate() {
-		Startflag=GetStage<GameStage>()->getStartFlag();
+		Startflag = GetStage<GameStage>()->getStartFlag();
 		if (Startflag) {
-		if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
-			if (rightMove)
-				m_Rigidbody->m_Velocity.x = Speed.x;
-			if (!rightMove)
-				m_Rigidbody->m_Velocity.x = -Speed.x;
+			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
+				if (rightMove)
+					m_Rigidbody->m_Velocity.x = Speed.x;
+				if (!rightMove)
+					m_Rigidbody->m_Velocity.x = -Speed.x;
+			}
 		}
-	}
 	}
 
 	void Rabbit::OnUpdate2() {
-		if(Startflag){
+		if (Startflag) {
 			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
 				if (m_Rigidbody->m_Pos.x >= m_BaseX) {
 					rightMove = false;
@@ -380,13 +380,13 @@ namespace basecross {
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
 	}
 	void RabbitBullet::OnUpdate() {
-			m_Rigidbody->m_Velocity.y = -Speed.y;
+		m_Rigidbody->m_Velocity.y = -Speed.y;
 	}
 
 	void RabbitBullet::OnUpdate2() {
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		Time += ElapsedTime;
-		if (Time >5.0f) {
+		if (Time > 5.0f) {
 			ThisDelete();
 		}
 
@@ -396,7 +396,7 @@ namespace basecross {
 				//Destにボックスタグがあるかどうか調べる
 				auto shptr = v.m_Dest->m_Owner.lock();
 				if (shptr && shptr->FindTag(L"Kaguya")) {
-						ThisDelete();
+					ThisDelete();
 				}
 				if (shptr && shptr->FindTag(L"Yellow")) {
 					Speed.y *= -1;
@@ -425,7 +425,7 @@ namespace basecross {
 				//Srcにボックスタグがあるかどうか調べる
 				auto shptr = v.m_Src->m_Owner.lock();
 				if (shptr && shptr->FindTag(L"Kaguya")) {
-						ThisDelete();
+					ThisDelete();
 				}
 				if (shptr && shptr->FindTag(L"Yellow")) {
 					Speed.y *= -1;
@@ -511,6 +511,301 @@ namespace basecross {
 	}
 
 	//--------------------------------------------------------------------------------------
+	//	class KineRabbit : public Enemy;
+	//	用途: 杵を持つウサギの敵
+	//--------------------------------------------------------------------------------------
+	KineRabbit::KineRabbit(const shared_ptr<Stage>& StagePtr,
+		const wstring& TextureResName, bool Trace, const Vec3& Pos) :
+		Enemy(StagePtr),
+		m_TextureResName(TextureResName),
+		m_Trace(Trace),
+		m_BaseX(5.5f),
+		m_BaseY(0.25f / 2.0f),
+		m_Posision(Pos)
+	{}
+	KineRabbit::~KineRabbit() {}
+
+	Vec3 KineRabbit::GetPosition() {
+		return m_Rigidbody->m_Pos;
+	}
+
+	void KineRabbit::OnCreate() {
+		vector<VertexPositionNormalTexture> vertices;
+		vector<uint16_t> indices;
+		MeshUtill::CreateSquare(1.0f, vertices, indices);
+		//メッシュの作成（変更できない）
+		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
+		//タグの追加
+		AddTag(L"Enemy");
+		//Rigidbodyの初期化
+		auto PtrGameStage = GetStage<GameStage>();
+		Rigidbody body;
+		body.m_Owner = GetThis<GameObject>();
+		body.m_Mass = 1.0f;
+		body.m_Scale = Vec3(1.0f);
+		body.m_Quat = Quat();
+		body.m_Pos = m_Posision;
+		body.m_CollType = CollType::typeSPHERE;
+		//		body.m_IsDrawActive = true;
+		body.SetToBefore();
+
+		m_Rigidbody = PtrGameStage->AddRigidbody(body);
+
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			body.m_Scale,
+			Vec3(0, 0, 0),
+			body.m_Quat,
+			body.m_Pos
+		);
+
+		m_PtrObj = make_shared<BcDrawObject>();
+		auto TexPtr = App::GetApp()->GetResource<TextureResource>(m_TextureResName);
+		m_PtrObj->m_MeshRes = m_SphereMesh;
+		m_PtrObj->m_TextureRes = TexPtr;
+		m_PtrObj->m_WorldMatrix = World;
+		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
+		m_PtrObj->m_OwnShadowmapActive = false;
+		m_PtrObj->m_ShadowmapUse = true;
+		m_PtrObj->m_BlendState = BlendState::AlphaBlend;
+		m_PtrObj->m_RasterizerState = RasterizerState::DoubleDraw;
+
+		//シャドウマップ描画データの構築
+		m_PtrShadowmapObj = make_shared<ShadowmapObject>();
+		m_PtrShadowmapObj->m_MeshRes = m_SphereMesh;
+		//描画データの行列をコピー
+		m_PtrShadowmapObj->m_WorldMatrix = World;
+
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+
+		wstring Path = App::GetApp()->GetDataDirWString();
+
+		//ファイル名の設定
+		wstring Map = Path + L"\\Enemy\\";
+
+		GetStage<Stage>()->AddGameObject<KineRabbitSS>(Map, m_Posision);
+
+	}
+	void KineRabbit::OnUpdate() {
+		Startflag = GetStage<GameStage>()->getStartFlag();
+		if (Startflag) {
+			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
+				if (rightMove)
+					m_Rigidbody->m_Velocity.x = Speed.x;
+				if (!rightMove)
+					m_Rigidbody->m_Velocity.x = -Speed.x;
+			}
+		}
+	}
+
+	void KineRabbit::OnUpdate2() {
+		if (Startflag) {
+			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
+				if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+					rightMove = false;
+				}
+				if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
+					rightMove = true;
+				}
+			}
+		}
+
+		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
+		for (auto& v : StateVec) {
+			if (v.m_Src == m_Rigidbody.get()) {
+				//Destにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Dest->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
+						auto gamestage = GetStage<GameStage>();
+						gamestage->StartDestroySE();
+						ThisDelete();
+					}
+				}
+				if (shptr && shptr->FindTag(L"Yellow")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Blue")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Red")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Bamboo")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"BambooB")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					auto gamestage = GetStage<GameStage>();
+					gamestage->StartDestroySE();
+					ThisDelete();
+				}
+				break;
+			}
+			if (v.m_Dest == m_Rigidbody.get()) {
+				//Srcにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Src->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
+						auto gamestage = GetStage<GameStage>();
+						gamestage->StartDestroySE();
+						ThisDelete();
+					}
+				}
+				if (shptr && shptr->FindTag(L"Yellow")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Blue")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Red")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Bamboo")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"BambooB")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					auto gamestage = GetStage<GameStage>();
+					gamestage->StartDestroySE();
+					ThisDelete();
+				}
+				break;
+			}
+		}
+
+		if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) - 7) {
+			//auto gamestage = GetStage<GameStage>();
+			//gamestage->StartDestroySE();
+			ThisDelete();
+		}
+
+	}
+
+	void KineRabbit::OnDrawShadowmap() {
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			m_Rigidbody->m_Scale,
+			Vec3(0, 0, 0),
+			m_Rigidbody->m_Quat,
+			m_Rigidbody->m_Pos
+		);
+		//描画データの行列をコピー
+		m_PtrShadowmapObj->m_WorldMatrix = World;
+		m_PtrShadowmapObj->m_Camera = GetStage<Stage>()->GetCamera();
+
+		auto shptr = m_ShadowmapRenderer.lock();
+		if (!shptr) {
+			shptr = GetStage<Stage>()->FindTagGameObject<ShadowmapRenderer>(L"ShadowmapRenderer");
+			m_ShadowmapRenderer = shptr;
+		}
+		shptr->AddDrawObject(m_PtrShadowmapObj);
+	}
+
+
+	void KineRabbit::OnDraw() {
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			m_Rigidbody->m_Scale,
+			Vec3(0, 0, 0),
+			m_Rigidbody->m_Quat,
+			m_Rigidbody->m_Pos
+		);
+		m_PtrObj->m_WorldMatrix = World;
+		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
+		auto shptr = m_Renderer.lock();
+		if (!shptr) {
+			auto PtrGameStage = GetStage<GameStage>();
+			shptr = PtrGameStage->FindTagGameObject<BcPNTStaticRenderer>(L"BcPNTStaticRenderer");
+			m_Renderer = shptr;
+		}
+		shptr->AddDrawObject(m_PtrObj);
+	}
+
+	void KineRabbit::ThisDelete()
+	{
+		Vec3 Emitter = m_Rigidbody->m_Pos;
+		//Spaerkの送出
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
+		GetStage<GameStage>()->RemoveGameObject<KineRabbit>(GetThis<KineRabbit>());
+		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<KineRabbit>());
+	}
+
+	//--------------------------------------------------------------------------------------
 	//	うさぎスプライトスタジオ
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
@@ -549,6 +844,50 @@ namespace basecross {
 
 	//更新
 	void RabbitSS::OnUpdate() {
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		//アニメーションを更新する
+		UpdateAnimeTime(ElapsedTime);
+	}
+
+	//--------------------------------------------------------------------------------------
+	//	杵うさぎスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+	//構築と破棄
+	KineRabbitSS::KineRabbitSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
+		SS5ssae(StagePtr, BaseDir, L"kineusa_Sp.ssae", L"wait"),
+		m_Posision(Pos)
+	{
+		m_ToAnimeMatrixLeft.affineTransformation(
+			Vec3(0.1f, 0.1f, 1.0f),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0.0f)
+		);
+
+	}
+
+	//初期化
+	void KineRabbitSS::OnCreate() {
+
+		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
+		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
+
+		auto PtrT = GetTransform();
+		PtrT->SetScale(0.5f, 0.5f, 1.0f);
+		PtrT->SetPosition(m_Posision);
+		//親クラスのクリエイトを呼ぶ
+		SS5ssae::OnCreate();
+		//値は秒あたりのフレーム数
+		SetFps(10.0f);
+
+		//ChangeAnimation(L"run");
+		SetLooped(true);
+
+
+	}
+
+	//更新
+	void KineRabbitSS::OnUpdate() {
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		//アニメーションを更新する
 		UpdateAnimeTime(ElapsedTime);

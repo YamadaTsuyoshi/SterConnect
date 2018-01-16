@@ -121,6 +121,57 @@ namespace basecross {
 	};
 
 	//--------------------------------------------------------------------------------------
+	//	class Rabbit : public Enemy;
+	//	用途: ウサギの敵
+	//--------------------------------------------------------------------------------------
+	class KineRabbit : public Enemy {
+		///メッシュ
+		shared_ptr<MeshResource> m_SphereMesh;
+		///テクスチャリソース名
+		wstring m_TextureResName;
+		//壁
+		float m_BaseX;
+		///スケーリングベースの最下地点
+		float m_BaseY;
+		///位置
+		Vec3 m_Posision;
+		///透明処理するかどうか
+		bool m_Trace;
+		//Rigidbodyのshared_ptr
+		shared_ptr<Rigidbody> m_Rigidbody;
+		///描画データ
+		shared_ptr<BcDrawObject> m_PtrObj;
+		//描画オブジェクト(weak_ptr)
+		weak_ptr<BcPNTStaticRenderer> m_Renderer;
+		///シャドウマップ用描画データ
+		shared_ptr<ShadowmapObject> m_PtrShadowmapObj;
+		//シャドウマップ描画オブジェクト(weak_ptr)
+		weak_ptr<ShadowmapRenderer> m_ShadowmapRenderer;
+
+		Vec3 Speed = Vec3(1.5f, 1.5f, 1.5f);
+
+		bool rightMove = true;
+
+		float Time = 0;
+
+		bool Startflag = false;
+
+	public:
+		//構築と破棄
+		KineRabbit(const shared_ptr<Stage>& StagePtr,
+			const wstring& TextureResName, bool Trace, const Vec3& Pos);
+
+		virtual ~KineRabbit();
+		virtual Vec3 GetPosition() override;
+		virtual void OnCreate() override;
+		virtual void OnUpdate()override;
+		virtual void OnUpdate2()override;
+		virtual void OnDrawShadowmap() override;
+		virtual void OnDraw()override;
+		void ThisDelete();
+	};
+
+	//--------------------------------------------------------------------------------------
 	//	ウサギスプライトスタジオ
 	//--------------------------------------------------------------------------------------
 	class RabbitSS : public SS5ssae {
@@ -130,6 +181,21 @@ namespace basecross {
 		//構築と破棄
 		RabbitSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);
 		virtual ~RabbitSS() {}
+		//初期化
+		virtual void OnCreate() override;
+		//更新
+		virtual void OnUpdate() override;
+	};
+	//--------------------------------------------------------------------------------------
+	//	杵ウサギスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+	class KineRabbitSS : public SS5ssae {
+		Mat4x4 m_ToAnimeMatrixLeft;
+		Vec3 m_Posision;
+	public:
+		//構築と破棄
+		KineRabbitSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);
+		virtual ~KineRabbitSS() {}
 		//初期化
 		virtual void OnCreate() override;
 		//更新

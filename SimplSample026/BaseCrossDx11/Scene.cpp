@@ -643,6 +643,12 @@ namespace basecross {
 		//敵を倒した時のSE
 		SeWav = DataDir + L"SE\\damage.wav";
 		App::GetApp()->RegisterWav(L"DEST_SE", SeWav);
+		//星をおいたときのSE
+		SeWav = DataDir + L"SE\\decision22.wav";
+		App::GetApp()->RegisterWav(L"TEN_SE", SeWav);
+		//線を引いたときのSE
+		SeWav = DataDir + L"SE\\decision25.wav";
+		App::GetApp()->RegisterWav(L"SEN_SE", SeWav);
 		//ボイス：えい！
 		wstring VoiceWav = DataDir + L"Voice\\line-girl1_ei1.wav";
 		App::GetApp()->RegisterWav(L"VOICE_EI", VoiceWav);

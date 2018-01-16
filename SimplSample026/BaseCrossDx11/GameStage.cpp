@@ -635,6 +635,8 @@ namespace basecross {
 			}
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount == 0) {
 				PointDeleteflag = false;
+				m_AudioObjectPtr->AddAudioResource(L"TEN_SE");
+				m_AudioObjectPtr->Start(L"TEN_SE", 0, 0.3f);
 				auto a = AddGameObject<P_child>(
 					TextureResName,
 					true,
@@ -645,6 +647,8 @@ namespace basecross {
 				PointCount++;
 			}
 			else if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount == 1) {
+				m_AudioObjectPtr->AddAudioResource(L"TEN_SE");
+				m_AudioObjectPtr->Start(L"TEN_SE", 0, 0.3f);
 				auto a = AddGameObject<P_child>(
 					TextureResName,
 					true,
@@ -667,6 +671,8 @@ namespace basecross {
 
 			if (Barflag)
 			{
+				m_AudioObjectPtr->AddAudioResource(L"SEN_SE");
+				m_AudioObjectPtr->Start(L"SEN_SE", 0, 0.3f);
 				CrBar();
 				Barflag = false;
 				PointDeleteflag = true;

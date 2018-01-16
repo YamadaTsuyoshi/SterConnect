@@ -117,6 +117,16 @@ namespace basecross {
 					);
 			}
 
+			if (MapVec[0] == L"KineRabbit")
+			{
+				stringflag = true;
+				AddGameObject<KineRabbit>(
+					L"RABBIT_TX",
+					true,
+					Pos
+					);
+			}
+
 			if (MapVec[0] == L"Goal")
 			{
 				stringflag = true;

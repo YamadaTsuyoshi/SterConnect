@@ -25,6 +25,7 @@
 #include "Result.h"
 #include "Enemy.h"
 #include "Vibration.h"
+#include "Boss.h"
 
 
 

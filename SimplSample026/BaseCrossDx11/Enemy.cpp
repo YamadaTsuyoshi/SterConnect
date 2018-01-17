@@ -124,6 +124,12 @@ namespace basecross {
 				//Destにボックスタグがあるかどうか調べる
 				auto shptr = v.m_Dest->m_Owner.lock();
 				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();
@@ -189,6 +195,12 @@ namespace basecross {
 				//Srcにボックスタグがあるかどうか調べる
 				auto shptr = v.m_Src->m_Owner.lock();
 				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();
@@ -617,6 +629,12 @@ namespace basecross {
 				//Destにボックスタグがあるかどうか調べる
 				auto shptr = v.m_Dest->m_Owner.lock();
 				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();
@@ -682,6 +700,12 @@ namespace basecross {
 				//Srcにボックスタグがあるかどうか調べる
 				auto shptr = v.m_Src->m_Owner.lock();
 				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();

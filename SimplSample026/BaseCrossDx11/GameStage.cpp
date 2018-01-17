@@ -24,7 +24,7 @@ namespace basecross {
 		wstring Path = App::GetApp()->GetDataDirWString();
 
 		//ファイル名の設定
-		wstring Map = Path +L"\\CSV\\" + L"Stage_1.csv";
+		wstring Map = Path +L"\\CSV\\" + L"Stage_Boss.csv";
 			//+ Util::IntToWStr(ScenePtr->GetStageNumber()) + L".csv";
 
 		//ファイルの指定
@@ -242,6 +242,16 @@ namespace basecross {
 					);
 			}
 
+			if (MapVec[0] == L"Boss")
+			{
+				stringflag = true;
+				AddGameObject<BossEnemy>(
+					L"KAGUYA_TX",
+					true,
+					Pos
+					);
+			}
+
 			if (!stringflag)
 			{
 				throw BaseException
@@ -251,6 +261,7 @@ namespace basecross {
 					L"使用不可のオブジェクトです"
 				);
 			}
+
 			//行データ更新
 			RowNum++;
 			m_Csv.GetRowVec(RowNum, MapVec);

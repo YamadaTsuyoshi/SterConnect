@@ -1018,7 +1018,7 @@ namespace basecross {
 	//‰Šú‰»
 	void Wall::OnCreate() {
 		CreateBuffers(1.0f, 20.0f);
-		AddTag(L"Wall");
+		AddTag(L"Bamboo");
 		//Rigidbody‚Ì‰Šú‰»
 		auto PtrGameStage = GetStage<GameStage>();
 		

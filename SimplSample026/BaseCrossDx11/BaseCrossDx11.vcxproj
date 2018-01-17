@@ -104,6 +104,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="DrawObjects.h" />
     <ClInclude Include="Enemy.h" />
@@ -134,6 +135,7 @@
     <Image Include="icon1.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="DrawObjects.cpp" />
     <ClCompile Include="Enemy.cpp" />

@@ -797,10 +797,10 @@ namespace basecross {
 	void Bar::CreateBuffers(float WrapX, float WrapY) {
 		float HelfSize = 0.5f;
 		m_BackupVertices = {
-			{ VertexPositionColorTexture(Vec3(-HelfSize, HelfSize, 0), Col4(1.0f,1.0f,1.0f,1.0f), Vec2(0.0f, 0.0f)) },
-			{ VertexPositionColorTexture(Vec3(HelfSize, HelfSize, 0), Col4(1.0f,1.0f,1.0f,1.0f), Vec2(WrapX, 0.0f)) },
-			{ VertexPositionColorTexture(Vec3(-HelfSize, -HelfSize, 0), Col4(1.0f,1.0f,1.0f,1.0f), Vec2(0.0f, WrapY)) },
-			{ VertexPositionColorTexture(Vec3(HelfSize, -HelfSize, 0), Col4(1.0f,1.0f,1.0f,1.0f), Vec2(WrapX, WrapY)) },
+			{ VertexPositionColorTexture(Vec3(-HelfSize, HelfSize, 0), Col4(1.0f,1.0f,1.0f,0.0f), Vec2(0.0f, 0.0f)) },
+			{ VertexPositionColorTexture(Vec3(HelfSize, HelfSize, 0), Col4(1.0f,1.0f,1.0f,0.0f), Vec2(WrapX, 0.0f)) },
+			{ VertexPositionColorTexture(Vec3(-HelfSize, -HelfSize, 0), Col4(1.0f,1.0f,1.0f,0.0f), Vec2(0.0f, WrapY)) },
+			{ VertexPositionColorTexture(Vec3(HelfSize, -HelfSize, 0), Col4(1.0f,1.0f,1.0f,0.0f), Vec2(WrapX, WrapY)) },
 
 		};
 		vector<uint16_t> indices = {
@@ -829,7 +829,7 @@ namespace basecross {
 
 	//初期化
 	void Bar::OnCreate() {
-		CreateBuffers(1.0f, 1.0f);
+		CreateBuffers(0.0f, 0.0f);
 
 		//Rigidbodyの初期化
 		auto PtrGameStage = GetStage<GameStage>();
@@ -863,7 +863,6 @@ namespace basecross {
 		m_PtrObj->m_WorldMatrix = World;
 		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
 		m_PtrObj->m_SamplerState = SamplerState::LinearWrap;
-
 	}
 
 	void Bar::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
@@ -874,11 +873,11 @@ namespace basecross {
 		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
 			Vec2 UV(m_BackupVertices[i].textureCoordinate);
 			if (UV.x == 0.0f) {
-				UV.x = m_TotalTime;
+				UV.x = 0;
 			}
-			else if (UV.x == 4.0f) {
-				//UV.x += m_TotalTime;
-			}
+			/*else if (UV.x == 4.0f) {
+				UV.x += m_TotalTime;
+			}*/
 			vertices[i] = VertexPositionColorTexture(
 				m_BackupVertices[i].position,
 				m_BackupVertices[i].color,
@@ -2037,12 +2036,160 @@ namespace basecross {
 				UpdateCol,
 				m_BackupVertices[i].textureCoordinate
 			);
-
 		}
 		if (a >= 1)
 		{
 			Fadeflag2 = true;
 		}
+	}
+
+	//--------------------------------------------------------------------------------------
+	//	Starスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+	//構築と破棄
+	JumpEffectSS::JumpEffectSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
+		SS5ssae(StagePtr, BaseDir, L"Effect_jump.ssae", L"E_Y"),
+		m_Posision(Pos)
+	{
+		m_ToAnimeMatrixLeft.affineTransformation(
+			Vec3(0.1f, 0.1f, 0.1f),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0.0f)
+		);
+
+	}
+
+	//初期化
+	void JumpEffectSS::OnCreate() {
+
+		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
+		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
+
+		auto PtrT = GetTransform();
+		PtrT->SetScale(1.5f, 1.5f, 1.0f);
+		PtrT->SetPosition(m_Posision);
+		//親クラスのクリエイトを呼ぶ
+		SS5ssae::OnCreate();
+		//値は秒あたりのフレーム数
+		SetFps(30.0f);
+		//ChangeAnimation(L"Fly");
+		SetLooped(false);
+	}
+
+	//更新
+	void JumpEffectSS::OnUpdate() {
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		time += ElapsedTime;
+		//アニメーションを更新する
+		UpdateAnimeTime(ElapsedTime);
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (time>=0.55)
+		{
+			ThisDelete();
+		}
+	}
+
+	void JumpEffectSS::ThisDelete()
+	{
+		GetStage<GameStage>()->RemoveGameObject<JumpEffectSS>(GetThis<JumpEffectSS>());
+	}
+
+	//--------------------------------------------------------------------------------------
+	//	Hellスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+	//構築と破棄
+	HeelSS::HeelSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
+		SS5ssae(StagePtr, BaseDir, L"LifeHeal.ssae", L"LightHeart"),
+		m_Posision(Pos)
+	{
+		m_ToAnimeMatrixLeft.affineTransformation(
+			Vec3(0.1f, 0.1f, 0.1f),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0.0f)
+		);
+
+	}
+
+	//初期化
+	void HeelSS::OnCreate() {
+
+		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
+		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
+
+		auto PtrT = GetTransform();
+		PtrT->SetScale(1.5f, 1.5f, 1.0f);
+		PtrT->SetPosition(m_Posision);
+		//親クラスのクリエイトを呼ぶ
+		SS5ssae::OnCreate();
+		//値は秒あたりのフレーム数
+		SetFps(30.0f);
+		//ChangeAnimation(L"Fly");
+		SetLooped(true);
+	}
+
+	//更新
+	void HeelSS::OnUpdate() {
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		//アニメーションを更新する
+		UpdateAnimeTime(ElapsedTime);
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+	}
+
+	void HeelSS::ThisDelete()
+	{
+		GetStage<GameStage>()->RemoveGameObject<JumpEffectSS>(GetThis<JumpEffectSS>());
+	}
+
+	//--------------------------------------------------------------------------------------
+	//	Hellスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+	//構築と破棄
+	BarSS::BarSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos, const Vec3& Scale, const Quat Qua) :
+		SS5ssae(StagePtr, BaseDir, L"Line.ssae", L"Yellow_line"),
+		m_Posision(Pos),
+		m_Scale(Scale),
+		m_Qua(Qua)
+	{
+		m_ToAnimeMatrixLeft.affineTransformation(
+			Vec3(0.1f, 0.1f, 0.1f),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0.0f)
+		);
+
+	}
+
+	//初期化
+	void BarSS::OnCreate() {
+
+		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
+		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
+
+		auto PtrT = GetTransform();
+		PtrT->SetScale(m_Scale);
+		PtrT->SetPosition(m_Posision);
+		PtrT->SetQuaternion(m_Qua);
+		//親クラスのクリエイトを呼ぶ
+		SS5ssae::OnCreate();
+		//値は秒あたりのフレーム数
+		SetFps(30.0f);
+		//ChangeAnimation(L"Fly");
+		SetLooped(false);
+	}
+
+	//更新
+	void BarSS::OnUpdate() {
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		//アニメーションを更新する
+		UpdateAnimeTime(ElapsedTime);
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+	}
+
+	void BarSS::ThisDelete()
+	{
+		GetStage<GameStage>()->RemoveGameObject<BarSS>(GetThis<BarSS>());
 	}
 
 }

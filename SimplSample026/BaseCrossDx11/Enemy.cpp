@@ -510,11 +510,11 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//ç\ízÇ∆îjä¸
 	RabbitSS::RabbitSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
-		SS5ssae(StagePtr, BaseDir, L"WhiteRabbit.ssae", L"fly_full"),
+		SS5ssae(StagePtr, BaseDir, L"WhiteRabbit.ssae", L"Throw_1"),
 		m_Posision(Pos)
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(
-			Vec3(0.1f, 0.1f, 1.0f),
+			Vec3(0.1f, 0.1f, 0.1f),
 			Vec3(0, 0, 0),
 			Vec3(0, 0, 0),
 			Vec3(0, 0, 0.0f)

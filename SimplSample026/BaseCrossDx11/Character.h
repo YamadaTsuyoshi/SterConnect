@@ -1331,6 +1331,62 @@ namespace basecross {
 		bool GetChangeFlag() { return Fadeflag2; };
 	};
 
+	//--------------------------------------------------------------------------------------
+	//	Jumpeffectスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+
+	class JumpEffectSS : public SS5ssae {
+		Mat4x4 m_ToAnimeMatrixLeft;
+		Vec3 m_Posision;
+		float time = 0;
+	public:
+		//構築と破棄
+		JumpEffectSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);
+		virtual ~JumpEffectSS() {}
+		//初期化
+		virtual void OnCreate() override;
+		//更新
+		virtual void OnUpdate() override;
+		void ThisDelete();
+	};
+
+	//--------------------------------------------------------------------------------------
+	//	回復アイテムスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+
+	class HeelSS : public SS5ssae {
+		Mat4x4 m_ToAnimeMatrixLeft;
+		Vec3 m_Posision;
+	public:
+		//構築と破棄
+		HeelSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);
+		virtual ~HeelSS() {}
+		//初期化
+		virtual void OnCreate() override;
+		//更新
+		virtual void OnUpdate() override;
+		void ThisDelete();
+	};
+
+	//--------------------------------------------------------------------------------------
+	//	Barスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+
+	class BarSS : public SS5ssae {
+		Mat4x4 m_ToAnimeMatrixLeft;
+		Vec3 m_Posision;
+		Vec3 m_Scale;
+		Quat m_Qua;
+	public:
+		//構築と破棄
+		BarSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos, const Vec3& Scale, const Quat Qua);
+		virtual ~BarSS() {}
+		//初期化
+		virtual void OnCreate() override;
+		//更新
+		virtual void OnUpdate() override;
+		void ThisDelete();
+	};
 
 }
 //end basecross

@@ -131,6 +131,7 @@ namespace basecross {
 		m_PtrObj->m_ShadowmapUse = true;
 		m_PtrObj->m_BlendState = BlendState::AlphaBlend;
 		m_PtrObj->m_RasterizerState = RasterizerState::DoubleDraw;
+		m_PtrObj->m_Alpha = 0;
 
 		//シャドウマップ描画データの構築
 		m_PtrShadowmapObj = make_shared<ShadowmapObject>();
@@ -279,7 +280,7 @@ namespace basecross {
 		SS5ssae(StagePtr, BaseDir, L"SUBARU_1027.ssae", L"Walk_Right_Y")
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(
-			Vec3(0.1f, 0.1f, 1.0f),
+			Vec3(0.1f, 0.1f, 0.1f),
 			Vec3(0, 0, 0),
 			Vec3(0, 0, 0),
 			Vec3(0, 0, 0.0f)

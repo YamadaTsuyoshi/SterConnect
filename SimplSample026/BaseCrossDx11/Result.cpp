@@ -267,6 +267,11 @@ namespace basecross {
 			 Vec2(0, 0),
 			 1, 1);
 
+		 wstring Path = App::GetApp()->GetDataDirWString();
+		 //ファイル名の設定
+		 wstring GameOverMap = Path + L"\\GameOver\\";
+		//AddGameObject<KaguyaSS>(GameOverMap,Vec3(0,0,1));
+
 	}
 	void Gameover::OnUpdateStage() {
 		//スプライトの更新
@@ -281,6 +286,7 @@ namespace basecross {
 			v->OnUpdate2();
 		}
 		m_FadeSprite->OnUpdate();
+		//Kaguya->OnUpdate();
 		//自分自身の更新
 		this->OnUpdate();
 	}
@@ -370,6 +376,7 @@ namespace basecross {
 		//スプライト描画
 		m_BG->OnDraw();
 		m_Text->OnDraw();
+		//Kaguya->OnDraw();
 		for (auto& v : GetGameObjectVec()) {
 			//各オブジェクトの描画
 			v->OnDraw();

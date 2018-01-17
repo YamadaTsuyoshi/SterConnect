@@ -354,7 +354,10 @@ namespace basecross {
 			0.0f,
 			Vec2(0, 0),
 			1, 1);
-
+		wstring Path = App::GetApp()->GetDataDirWString();
+		//ファイル名の設定
+		wstring GameOverMap = Path + L"\\GameOver\\";
+		AddGameObject<KaguyaGOSS>(GameOverMap, Vec3(1280 / 2, 830 / 2, 1));
 	}
 
 	//描画オブジェクトの追加
@@ -621,8 +624,12 @@ namespace basecross {
 			default:
 				break;
 			}
+			wstring Path = App::GetApp()->GetDataDirWString();
+			//ファイル名の設定
+			wstring StarMap = Path + L"\\Star\\";
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount == 0) {
 				PointDeleteflag = false;
+				AddGameObject<StarSS>(StarMap, P_Pos);
 				auto a = AddGameObject<P_child>(
 					TextureResName,
 					true,
@@ -633,6 +640,7 @@ namespace basecross {
 				PointCount++;
 			}
 			else if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount == 1) {
+				AddGameObject<StarSS>(StarMap, P_Pos);
 				auto a = AddGameObject<P_child>(
 					TextureResName,
 					true,
@@ -729,8 +737,13 @@ namespace basecross {
 			P_color = player->getP_color();
 
 			if (P_color == Yellow && lightbar >= Scale * 5) {
+				wstring Path = App::GetApp()->GetDataDirWString();
+				//ファイル名の設定
+				wstring LineMap = Path + L"\\Line\\";
+				//Chaera1の作成
+				AddGameObject<BarSS>(LineMap, Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0), Vec3(Scale*1.2f, 3, 1), qt);
 				auto a = AddGameObject<Bar>(
-					L"BARY_TX",
+					L"Skeleton_TX",
 					Vec3(Scale, 0.1f, 2.0f),
 					Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
 					qt,
@@ -740,8 +753,13 @@ namespace basecross {
 				player->setP_LightGage(lightbar);
 			}
 			else if (P_color == Red && lightbar >= Scale * 10) {
+				wstring Path = App::GetApp()->GetDataDirWString();
+				//ファイル名の設定
+				wstring LineMap = Path + L"\\Line\\";
+				//Chaera1の作成
+				AddGameObject<BarSS>(LineMap, Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0), Vec3(Scale, 2, 1.0f), qt);
 				auto a = AddGameObject<Bar>(
-					L"BARR_TX",
+					L"Skeleton_TX",
 					Vec3(Scale, 0.1f, 2.0f),
 					Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
 					qt,

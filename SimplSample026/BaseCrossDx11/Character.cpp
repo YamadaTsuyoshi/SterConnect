@@ -2451,7 +2451,7 @@ namespace basecross {
 		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
 
 		auto PtrT = GetTransform();
-		PtrT->SetScale(Vec3(m_Scale.x*1.3,5,1));
+		PtrT->SetScale(Vec3(m_Scale.x*1.3f,5,1));
 		PtrT->SetPosition(m_Posision);
 		PtrT->SetQuaternion(m_Qua);
 		//親クラスのクリエイトを呼ぶ

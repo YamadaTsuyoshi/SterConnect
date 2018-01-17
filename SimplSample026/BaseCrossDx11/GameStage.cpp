@@ -24,7 +24,7 @@ namespace basecross {
 		wstring Path = App::GetApp()->GetDataDirWString();
 
 		//ファイル名の設定
-		wstring Map = Path +L"\\CSV\\" + L"Stage_Boss.csv";
+		wstring Map = Path +L"\\CSV\\" + L"Stage_1.csv";
 			//+ Util::IntToWStr(ScenePtr->GetStageNumber()) + L".csv";
 
 		//ファイルの指定
@@ -870,7 +870,7 @@ namespace basecross {
 				//ファイル名の設定
 				wstring LineMap = Path + L"\\Line\\";
 				//Chaera1の作成
-				auto a = AddGameObject<BarSS>(LineMap, L"Yellow_line", Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0), Vec3(Scale*1.3, 0.2, 1), qt);
+				auto a = AddGameObject<BarSS>(LineMap, L"Yellow_line", Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0), Vec3(Scale*1.3f, 0.2, 1), qt);
 				/*auto a = AddGameObject<Bar>(
 					L"Skeleton_TX",
 					Vec3(Scale, 0.1f, 2.0f),
@@ -886,7 +886,7 @@ namespace basecross {
 				//ファイル名の設定
 				wstring LineMap = Path + L"\\Line\\";
 				//Chaera1の作成
-				auto a = AddGameObject<BarSS>(LineMap, L"Red_line", Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0), Vec3(Scale*1.3, 0.2, 1), qt);
+				auto a = AddGameObject<BarSS>(LineMap, L"Red_line", Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0), Vec3(Scale*1.3f, 0.2, 1), qt);
 				/*auto a = AddGameObject<Bar>(
 					L"Skeleton_TX",
 					Vec3(Scale, 0.1f, 2.0f),

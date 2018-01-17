@@ -1504,174 +1504,121 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	///	Goal
 	//--------------------------------------------------------------------------------------
-	void Goal::CreateBuffers(float WrapX, float WrapY) {
-		float HelfSize = 0.5f;
-		m_BackupVertices = {
-			{ VertexPositionColorTexture(Vec3(-HelfSize, HelfSize, 0), Col4(1.0f,1.0f,1.0f,1.0f), Vec2(0.0f, 0.0f)) },
-			{ VertexPositionColorTexture(Vec3(HelfSize, HelfSize, 0), Col4(1.0f,1.0f,1.0f,1.0f), Vec2(WrapX, 0.0f)) },
-			{ VertexPositionColorTexture(Vec3(-HelfSize, -HelfSize, 0), Col4(1.0f,1.0f,1.0f,1.0f), Vec2(0.0f, WrapY)) },
-			{ VertexPositionColorTexture(Vec3(HelfSize, -HelfSize, 0), Col4(1.0f,1.0f,1.0f,1.0f), Vec2(WrapX, WrapY)) },
-
-		};
-		vector<uint16_t> indices = {
-			0, 1, 2,
-			1, 3, 2,
-		};
-		//メッシュの作成（変更できる）
-		m_SquareMesh = MeshResource::CreateMeshResource(m_BackupVertices, indices, true);
-
-	}
-
-	//構築と破棄
 	Goal::Goal(const shared_ptr<Stage>& StagePtr,
-		const wstring& TextureResName,
-		const Vec3& Scale, const Vec3& Pos, const Quat& Qt,
-		SquareDrawOption Option) :
+		const wstring& TextureResName, bool Trace, const Vec3& Pos) :
 		GameObject(StagePtr),
 		m_TextureResName(TextureResName),
-		m_Scale(Scale),
-		m_Qt(Qt),
-		m_Pos(Pos),
-		m_DrawOption(Option),
-		m_TotalTime(0)
+		m_Trace(Trace),
+		m_BaseX(5.4f),
+		m_BaseY(-5.0f),
+		m_Posision(Pos)
 	{}
 	Goal::~Goal() {}
 
-	//初期化
-	void Goal::OnCreate() {
-		CreateBuffers(1.0f, 1.0f);
+	Vec3 Goal::GetPosition() {
+		return m_Rigidbody->m_Pos;
+	}
 
+	void Goal::OnCreate() {
+		vector<VertexPositionNormalTexture> vertices;
+		vector<uint16_t> indices;
+		MeshUtill::CreateSquare(1.0f, vertices, indices);
+		//メッシュの作成（変更できない）
+		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
 		//Rigidbodyの初期化
 		auto PtrGameStage = GetStage<GameStage>();
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
-		body.m_Mass = 1.0f;
-		body.m_Scale = m_Scale;
-		body.m_Quat = m_Qt;
-		body.m_Pos = m_Pos;
-		body.m_CollType = CollType::typeOBB;
-		body.m_IsFixed = true;
-		body.m_IsDrawActive = false;
+		body.m_Mass = 0.75f;
+		body.m_Scale = Vec3(5.0f, 5.0f, 0.1f);
+		body.m_Quat = Quat();
+		body.m_Pos = m_Posision;
+		body.m_CollType = CollType::typeSPHERE;
+		//body.m_IsDrawActive = true;
 		body.SetToBefore();
-		PtrGameStage->AddRigidbody(body);
 
+		m_Rigidbody = PtrGameStage->AddRigidbody(body);
 
 		//行列の定義
 		Mat4x4 World;
 		World.affineTransformation(
-			m_Scale,
+			body.m_Scale,
 			Vec3(0, 0, 0),
-			m_Qt,
-			m_Pos
+			body.m_Quat,
+			body.m_Pos
 		);
-		auto TexPtr = App::GetApp()->GetResource<TextureResource>(m_TextureResName);
 
-		//描画データの構築
-		m_PtrObj = make_shared<SimpleDrawObject>();
-		m_PtrObj->m_MeshRes = m_SquareMesh;
+		m_PtrObj = make_shared<BcDrawObject>();
+		auto TexPtr = App::GetApp()->GetResource<TextureResource>(m_TextureResName);
+		m_PtrObj->m_MeshRes = m_SphereMesh;
 		m_PtrObj->m_TextureRes = TexPtr;
 		m_PtrObj->m_WorldMatrix = World;
 		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
-		m_PtrObj->m_SamplerState = SamplerState::LinearWrap;
+		m_PtrObj->m_OwnShadowmapActive = false;
+		m_PtrObj->m_ShadowmapUse = true;
+		m_PtrObj->m_BlendState = BlendState::AlphaBlend;
+		m_PtrObj->m_RasterizerState = RasterizerState::DoubleDraw;
+
+		//シャドウマップ描画データの構築
+		m_PtrShadowmapObj = make_shared<ShadowmapObject>();
+		m_PtrShadowmapObj->m_MeshRes = m_SphereMesh;
+		//描画データの行列をコピー
+		m_PtrShadowmapObj->m_WorldMatrix = World;
+
 
 	}
-
-	void Goal::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
-		//m_TotalTime += ElapsedTime;
-		if (m_TotalTime >= 1.0f) {
-			m_TotalTime = 0;
-		}
-		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
-			Vec2 UV(m_BackupVertices[i].textureCoordinate);
-			if (UV.x == 0.0f) {
-				UV.x = m_TotalTime;
-			}
-			else if (UV.x == 4.0f) {
-				//UV.x += m_TotalTime;
-			}
-			vertices[i] = VertexPositionColorTexture(
-				m_BackupVertices[i].position,
-				m_BackupVertices[i].color,
-				UV
-			);
-		}
-	}
-
 
 	void Goal::OnUpdate() {
+		//前回のターンからの経過時間を求める
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		auto Dev = App::GetApp()->GetDeviceResources();
-		auto pD3D11DeviceContext = Dev->GetD3DDeviceContext();
-		Time += ElapsedTime;
-		//頂点の変更
-		//D3D11_MAP_WRITE_DISCARDは重要。この処理により、GPUに邪魔されない
-		D3D11_MAP mapType = D3D11_MAP_WRITE_DISCARD;
-		D3D11_MAPPED_SUBRESOURCE mappedBuffer;
-		//頂点のマップ
-		if (FAILED(pD3D11DeviceContext->Map(m_SquareMesh->GetVertexBuffer().Get(), 0, mapType, 0, &mappedBuffer))) {
-			// Map失敗
-			throw BaseException(
-				L"頂点のMapに失敗しました。",
-				L"if(FAILED(pID3D11DeviceContext->Map()))",
-				L"SimpleSquare::OnUpdate()"
-			);
-		}
-		//頂点の変更
-		VertexPositionColorTexture* vertices
-			= (VertexPositionColorTexture*)mappedBuffer.pData;
-		//関数呼び出し
-		UpdateVertex(ElapsedTime, vertices);
-		//アンマップ
-		pD3D11DeviceContext->Unmap(m_SquareMesh->GetVertexBuffer().Get(), 0);
+		//コントローラの取得
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+	}
 
+	void Goal::OnUpdate2() {
+		//プレイヤーのＺ位置は強制的に0.0にする
+		m_Rigidbody->m_Pos = m_Posision;
+	}
 
-		auto PtrStage = GetStage<Stage>();
-		//カメラの位置
-		Vec3 CameraEye = PtrStage->GetCamera().m_CamerEye;
-		Vec3 CameraAt = PtrStage->GetCamera().m_CamerAt;
-		switch (m_DrawOption) {
-		case SquareDrawOption::Billboard:
-		{
-			m_Qt.facing(CameraAt - CameraEye);
+	void Goal::OnDrawShadowmap() {
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			m_Rigidbody->m_Scale,
+			Vec3(0, 0, 0),
+			m_Rigidbody->m_Quat,
+			m_Rigidbody->m_Pos
+		);
+		//描画データの行列をコピー
+		m_PtrShadowmapObj->m_WorldMatrix = World;
+		m_PtrShadowmapObj->m_Camera = GetStage<Stage>()->GetCamera();
+
+		auto shptr = m_ShadowmapRenderer.lock();
+		if (!shptr) {
+			shptr = GetStage<Stage>()->FindTagGameObject<ShadowmapRenderer>(L"ShadowmapRenderer");
+			m_ShadowmapRenderer = shptr;
 		}
-		break;
-		case SquareDrawOption::Faceing:
-		{
-			m_Qt.facing(m_Pos - CameraEye);
-		}
-		break;
-		case SquareDrawOption::FaceingY:
-			m_Qt.facingY(m_Pos - CameraEye);
-			break;
-		default:
-			m_Qt.normalize();
-			break;
-		}
+		shptr->AddDrawObject(m_PtrShadowmapObj);
 	}
 
 	void Goal::OnDraw() {
 		//行列の定義
 		Mat4x4 World;
 		World.affineTransformation(
-			m_Scale,
+			m_Rigidbody->m_Scale,
 			Vec3(0, 0, 0),
-			m_Qt,
-			m_Pos
+			m_Rigidbody->m_Quat,
+			m_Rigidbody->m_Pos
 		);
 		m_PtrObj->m_WorldMatrix = World;
 		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
 		auto shptr = m_Renderer.lock();
 		if (!shptr) {
-			shptr = GetStage<Stage>()->FindTagGameObject<SimplePCTStaticRenderer>(L"SimplePCTStaticRenderer");
+			auto PtrGameStage = GetStage<GameStage>();
+			shptr = PtrGameStage->FindTagGameObject<BcPNTStaticRenderer>(L"BcPNTStaticRenderer");
 			m_Renderer = shptr;
 		}
 		shptr->AddDrawObject(m_PtrObj);
-	}
-
-	void Goal::ThisDelete()
-	{
-		GetStage<GameStage>()->RemoveGameObject<Bar>(GetThis<Bar>());
-		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<Bar>());
 	}
 
 	//--------------------------------------------------------------------------------------
@@ -2002,6 +1949,247 @@ namespace basecross {
 		SpaerkPtr->InsertSpark(Emitter);
 		GetStage<GameStage>()->RemoveGameObject<LightHeel>(GetThis<LightHeel>());
 		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<LightHeel>());
+	}
+
+	//--------------------------------------------------------------------------------------
+	///	雲
+	//--------------------------------------------------------------------------------------
+	Cloud::Cloud(const shared_ptr<Stage>& StagePtr,
+		const wstring& TextureResName, bool Trace, const Vec3& Pos) :
+		GameObject(StagePtr),
+		m_TextureResName(TextureResName),
+		m_Trace(Trace),
+		m_BaseX(5.4f),
+		m_BaseY(-5.0f),
+		m_Posision(Pos)
+	{}
+	Cloud::~Cloud() {}
+
+	Vec3 Cloud::GetPosition() {
+		return m_Rigidbody->m_Pos;
+	}
+
+	void Cloud::OnCreate() {
+		vector<VertexPositionNormalTexture> vertices;
+		vector<uint16_t> indices;
+		MeshUtill::CreateSquare(1.0f, vertices, indices);
+		//メッシュの作成（変更できない）
+		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
+		//Rigidbodyの初期化
+		auto PtrGameStage = GetStage<GameStage>();
+		Rigidbody body;
+		body.m_Owner = GetThis<GameObject>();
+		body.m_Mass = 0.75f;
+		body.m_Scale = Vec3(5.0f, 5.0f, 0.1f);
+		body.m_Quat = Quat();
+		body.m_Pos = m_Posision;
+		body.m_CollType = CollType::typeSPHERE;
+		//body.m_IsDrawActive = true;
+		body.SetToBefore();
+
+		m_Rigidbody = PtrGameStage->AddRigidbody(body);
+
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			body.m_Scale,
+			Vec3(0, 0, 0),
+			body.m_Quat,
+			body.m_Pos
+		);
+
+		m_PtrObj = make_shared<BcDrawObject>();
+		auto TexPtr = App::GetApp()->GetResource<TextureResource>(m_TextureResName);
+		m_PtrObj->m_MeshRes = m_SphereMesh;
+		m_PtrObj->m_TextureRes = TexPtr;
+		m_PtrObj->m_WorldMatrix = World;
+		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
+		m_PtrObj->m_OwnShadowmapActive = false;
+		m_PtrObj->m_ShadowmapUse = true;
+		m_PtrObj->m_BlendState = BlendState::AlphaBlend;
+		m_PtrObj->m_RasterizerState = RasterizerState::DoubleDraw;
+
+		//シャドウマップ描画データの構築
+		m_PtrShadowmapObj = make_shared<ShadowmapObject>();
+		m_PtrShadowmapObj->m_MeshRes = m_SphereMesh;
+		//描画データの行列をコピー
+		m_PtrShadowmapObj->m_WorldMatrix = World;
+
+
+	}
+
+	void Cloud::OnUpdate() {
+		//前回のターンからの経過時間を求める
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		//コントローラの取得
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+	}
+
+	void Cloud::OnUpdate2() {
+		//プレイヤーのＺ位置は強制的に0.0にする
+		m_Rigidbody->m_Pos = m_Posision;
+	}
+
+	void Cloud::OnDrawShadowmap() {
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			m_Rigidbody->m_Scale,
+			Vec3(0, 0, 0),
+			m_Rigidbody->m_Quat,
+			m_Rigidbody->m_Pos
+		);
+		//描画データの行列をコピー
+		m_PtrShadowmapObj->m_WorldMatrix = World;
+		m_PtrShadowmapObj->m_Camera = GetStage<Stage>()->GetCamera();
+
+		auto shptr = m_ShadowmapRenderer.lock();
+		if (!shptr) {
+			shptr = GetStage<Stage>()->FindTagGameObject<ShadowmapRenderer>(L"ShadowmapRenderer");
+			m_ShadowmapRenderer = shptr;
+		}
+		shptr->AddDrawObject(m_PtrShadowmapObj);
+	}
+
+	void Cloud::OnDraw() {
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			m_Rigidbody->m_Scale,
+			Vec3(0, 0, 0),
+			m_Rigidbody->m_Quat,
+			m_Rigidbody->m_Pos
+		);
+		m_PtrObj->m_WorldMatrix = World;
+		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
+		auto shptr = m_Renderer.lock();
+		if (!shptr) {
+			auto PtrGameStage = GetStage<GameStage>();
+			shptr = PtrGameStage->FindTagGameObject<BcPNTStaticRenderer>(L"BcPNTStaticRenderer");
+			m_Renderer = shptr;
+		}
+		shptr->AddDrawObject(m_PtrObj);
+	}
+
+	//--------------------------------------------------------------------------------------
+	///	途中の雲
+	//--------------------------------------------------------------------------------------
+	StageCloud::StageCloud(const shared_ptr<Stage>& StagePtr,
+		const wstring& TextureResName, bool Trace, const Vec3& Pos) :
+		GameObject(StagePtr),
+		m_TextureResName(TextureResName),
+		m_Trace(Trace),
+		m_BaseX(5.4f),
+		m_BaseY(-5.0f),
+		m_Posision(Pos)
+	{}
+	StageCloud::~StageCloud() {}
+
+	Vec3 StageCloud::GetPosition() {
+		return m_Rigidbody->m_Pos;
+	}
+
+	void StageCloud::OnCreate() {
+		vector<VertexPositionNormalTexture> vertices;
+		vector<uint16_t> indices;
+		MeshUtill::CreateSquare(1.0f, vertices, indices);
+		//メッシュの作成（変更できない）
+		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
+		//Rigidbodyの初期化
+		auto PtrGameStage = GetStage<GameStage>();
+		Rigidbody body;
+		body.m_Owner = GetThis<GameObject>();
+		body.m_Mass = 0.75f;
+		body.m_Scale = Vec3(5.0f,5.0f,0.1f);
+		body.m_Quat = Quat();
+		body.m_Pos = m_Posision;
+		body.m_CollType = CollType::typeSPHERE;
+		//body.m_IsDrawActive = true;
+		body.SetToBefore();
+
+		m_Rigidbody = PtrGameStage->AddRigidbody(body);
+
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			body.m_Scale,
+			Vec3(0, 0, 0),
+			body.m_Quat,
+			body.m_Pos
+		);
+
+		m_PtrObj = make_shared<BcDrawObject>();
+		auto TexPtr = App::GetApp()->GetResource<TextureResource>(m_TextureResName);
+		m_PtrObj->m_MeshRes = m_SphereMesh;
+		m_PtrObj->m_TextureRes = TexPtr;
+		m_PtrObj->m_WorldMatrix = World;
+		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
+		m_PtrObj->m_OwnShadowmapActive = false;
+		m_PtrObj->m_ShadowmapUse = true;
+		m_PtrObj->m_BlendState = BlendState::AlphaBlend;
+		m_PtrObj->m_RasterizerState = RasterizerState::DoubleDraw;
+		m_PtrObj->m_Alpha = 0.5f;
+
+		//シャドウマップ描画データの構築
+		m_PtrShadowmapObj = make_shared<ShadowmapObject>();
+		m_PtrShadowmapObj->m_MeshRes = m_SphereMesh;
+		//描画データの行列をコピー
+		m_PtrShadowmapObj->m_WorldMatrix = World;
+
+
+	}
+
+	void StageCloud::OnUpdate() {
+		//前回のターンからの経過時間を求める
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		//コントローラの取得
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+	}
+
+	void StageCloud::OnUpdate2() {
+		//プレイヤーのＺ位置は強制的に0.0にする
+		m_Rigidbody->m_Pos = m_Posision;
+	}
+
+	void StageCloud::OnDrawShadowmap() {
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			m_Rigidbody->m_Scale,
+			Vec3(0, 0, 0),
+			m_Rigidbody->m_Quat,
+			m_Rigidbody->m_Pos
+		);
+		//描画データの行列をコピー
+		m_PtrShadowmapObj->m_WorldMatrix = World;
+		m_PtrShadowmapObj->m_Camera = GetStage<Stage>()->GetCamera();
+
+		auto shptr = m_ShadowmapRenderer.lock();
+		if (!shptr) {
+			shptr = GetStage<Stage>()->FindTagGameObject<ShadowmapRenderer>(L"ShadowmapRenderer");
+			m_ShadowmapRenderer = shptr;
+		}
+		shptr->AddDrawObject(m_PtrShadowmapObj);
+	}
+
+	void StageCloud::OnDraw() {
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			m_Rigidbody->m_Scale,
+			Vec3(0, 0, 0),
+			m_Rigidbody->m_Quat,
+			m_Rigidbody->m_Pos
+		);
+		m_PtrObj->m_WorldMatrix = World;
+		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
+		auto shptr = m_Renderer.lock();
+		if (!shptr) {
+			auto PtrGameStage = GetStage<GameStage>();
+			shptr = PtrGameStage->FindTagGameObject<BcPNTStaticRenderer>(L"BcPNTStaticRenderer");
+			m_Renderer = shptr;
+		}
+		shptr->AddDrawObject(m_PtrObj);
 	}
 
 	//--------------------------------------------------------------------------------------

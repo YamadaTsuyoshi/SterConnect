@@ -131,11 +131,10 @@ namespace basecross {
 			{
 				stringflag = true;
 				AddGameObject<Goal>(
-				L"GOAL2_TX",
-					Vec3(1, 1, 1.0f),
-					Pos,
-					Quat(0.0f, 0.0f, 0.0f, 1.0f),
-					SquareDrawOption::Normal);
+					L"GOAL2_TX",
+					true,
+					Pos
+					);
 			}
 
 			if (MapVec[0] == L"Bamboo")
@@ -157,6 +156,80 @@ namespace basecross {
 					Pos
 					);
 				bamboo->AddTag(L"BambooB");
+			}
+
+			if (MapVec[0] == L"CloudA")
+			{
+				stringflag = true;
+				AddGameObject<Cloud>(
+					L"CLOUDA_TX",
+					true,
+					Pos
+					);
+			}
+			if (MapVec[0] == L"CloudB")
+			{
+				stringflag = true;
+				AddGameObject<Cloud>(
+					L"CLOUDB_TX",
+					true,
+					Pos
+					);
+			}
+			if (MapVec[0] == L"CloudC")
+			{
+				stringflag = true;
+				AddGameObject<Cloud>(
+					L"CLOUDC_TX",
+					true,
+					Pos
+					);
+			}
+			if (MapVec[0] == L"CloudD")
+			{
+				stringflag = true;
+				AddGameObject<Cloud>(
+					L"CLOUDD_TX",
+					true,
+					Pos
+					);
+			}
+
+			if (MapVec[0] == L"StageCloudA")
+			{
+				stringflag = true;
+				AddGameObject<StageCloud>(
+					L"CLOUDA_TX",
+					true,
+					Pos
+					);
+			}
+			if (MapVec[0] == L"StageCloudB")
+			{
+				stringflag = true;
+				AddGameObject<StageCloud>(
+					L"CLOUDB_TX",
+					true,
+					Pos
+					);
+			}
+			if (MapVec[0] == L"StageCloudC")
+			{
+				stringflag = true;
+				AddGameObject<StageCloud>(
+					L"CLOUDC_TX",
+					true,
+					Pos
+					);
+			}
+			if (MapVec[0] == L"StageCloudD")
+			{
+				stringflag = true;
+				AddGameObject<StageCloud>(
+					L"CLOUDD_TX",
+					true,
+					Pos
+					);
 			}
 
 			if (MapVec[0] == L"Heel")

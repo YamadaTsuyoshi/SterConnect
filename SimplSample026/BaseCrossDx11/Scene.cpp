@@ -565,8 +565,21 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"EMP_LIFE_TX", strTexture);
 
 		//goal
-		strTexture = DataDir + L"Texture\\Cloud&Ship.png";
+		strTexture = DataDir + L"Texture\\hune.png";
 		App::GetApp()->RegisterTexture(L"GOAL2_TX", strTexture);
+
+		//‰_A
+		strTexture = DataDir + L"Texture\\Cloud1218_A.png";
+		App::GetApp()->RegisterTexture(L"CLOUDA_TX", strTexture);
+		//‰_B
+		strTexture = DataDir + L"Texture\\Cloud1218_B.png";
+		App::GetApp()->RegisterTexture(L"CLOUDB_TX", strTexture);
+		//‰_C
+		strTexture = DataDir + L"Texture\\Cloud1218_C.png";
+		App::GetApp()->RegisterTexture(L"CLOUDC_TX", strTexture);
+		//‰_D
+		strTexture = DataDir + L"Texture\\Cloud1218_D.png";
+		App::GetApp()->RegisterTexture(L"CLOUDD_TX", strTexture);
 
 		//Take
 		strTexture = DataDir + L"Texture\\take_Ba.png";

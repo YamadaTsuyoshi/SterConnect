@@ -110,21 +110,33 @@ namespace basecross {
 			if (MapVec[0] == L"Rabbit")
 			{
 				stringflag = true;
-				AddGameObject<Rabbit>(
+				/*AddGameObject<Rabbit>(
 					L"RABBIT_TX",
 					true,
 					Pos
-					);
+					);*/
+				wstring Path = App::GetApp()->GetDataDirWString();
+
+				//ファイル名の設定
+				wstring Map = Path + L"\\Enemy\\";
+
+				AddGameObject<RabbitSS>(Map, Pos);
 			}
 
 			if (MapVec[0] == L"KineRabbit")
 			{
 				stringflag = true;
-				AddGameObject<KineRabbit>(
+				/*AddGameObject<KineRabbit>(
 					L"RABBIT_TX",
 					true,
 					Pos
-					);
+					);*/
+				wstring Path = App::GetApp()->GetDataDirWString();
+
+				//ファイル名の設定
+				wstring Map = Path + L"\\Enemy\\";
+
+				AddGameObject<KineRabbitSS>(Map, Pos);
 			}
 
 			if (MapVec[0] == L"Goal")
@@ -235,11 +247,18 @@ namespace basecross {
 			if (MapVec[0] == L"Heel")
 			{
 				stringflag = true;
-				AddGameObject<LightHeel>(
+				/*AddGameObject<LightHeel>(
 					L"STAR_TX",
 					true,
 					Pos
-					);
+					);*/
+				wstring Path = App::GetApp()->GetDataDirWString();
+
+				//ファイル名の設定
+				wstring Map = Path + L"\\Item\\";
+
+				AddGameObject<HeelSS>(Map, Pos);
+				
 			}
 
 			if (!stringflag)
@@ -528,13 +547,19 @@ namespace basecross {
 		
 		if (!Startflag&&CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 		{
-			auto Startbar = AddGameObject<Bar>(
+			wstring Path = App::GetApp()->GetDataDirWString();
+			//ファイル名の設定
+			wstring LineMap = Path + L"\\Line\\";
+			auto Startbar=AddGameObject<BarSS>(LineMap, L"Yellow_line", Vec3(0.0f, -1.5f, 0.0f),
+				Vec3(2.0f, 0.1f, 2.0f),
+				Quat(0.0f, 0.0f, 0.0f, 1.0f));
+			/*auto Startbar = AddGameObject<Bar>(
 				L"BARY_TX",
 				Vec3(2.0f, 0.1f, 2.0f),
 				Vec3(0.0f, -1.5f, 0.0f),
 				Quat(0.0f, 0.0f, 0.0f, 1.0f),
 				SquareDrawOption::Normal
-				);
+				);*/
 			Startbar->AddTag(L"Yellow");
 			Startflag = true;
 		}
@@ -702,9 +727,11 @@ namespace basecross {
 			switch (P_color) {
 			case Yellow:
 				TextureResName = L"SUBARU_Y_TX";
+				AnimeName = L"Star_Y";
 				break;
 			case Red:
 				TextureResName = L"SUBARU_R_TX";
+				AnimeName = L"Star_R";
 				break;
 			default:
 				break;
@@ -716,7 +743,7 @@ namespace basecross {
 				PointDeleteflag = false;
 				m_AudioObjectPtr->AddAudioResource(L"TEN_SE");
 				m_AudioObjectPtr->Start(L"TEN_SE", 0, 0.3f);
-				AddGameObject<StarSS>(StarMap, P_Pos);
+				AddGameObject<StarSS>(StarMap, AnimeName, P_Pos);
 				auto a = AddGameObject<P_child>(
 					TextureResName,
 					true,
@@ -729,7 +756,7 @@ namespace basecross {
 			else if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount == 1) {
 				m_AudioObjectPtr->AddAudioResource(L"TEN_SE");
 				m_AudioObjectPtr->Start(L"TEN_SE", 0, 0.3f);
-				AddGameObject<StarSS>(StarMap, P_Pos);
+				AddGameObject<StarSS>(StarMap, AnimeName, P_Pos);
 				auto a = AddGameObject<P_child>(
 					TextureResName,
 					true,
@@ -832,13 +859,13 @@ namespace basecross {
 				//ファイル名の設定
 				wstring LineMap = Path + L"\\Line\\";
 				//Chaera1の作成
-				AddGameObject<BarSS>(LineMap, Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0), Vec3(Scale*1.2f, 3, 1), qt);
-				auto a = AddGameObject<Bar>(
+				auto a = AddGameObject<BarSS>(LineMap, L"Yellow_line", Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0), Vec3(Scale*1.3, 0.2, 1), qt);
+				/*auto a = AddGameObject<Bar>(
 					L"Skeleton_TX",
 					Vec3(Scale, 0.1f, 2.0f),
 					Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
 					qt,
-					SquareDrawOption::Normal);
+					SquareDrawOption::Normal);*/
 				a->AddTag(L"Yellow");
 				lightbar -= Scale*5;
 				player->setP_LightGage(lightbar);
@@ -848,13 +875,13 @@ namespace basecross {
 				//ファイル名の設定
 				wstring LineMap = Path + L"\\Line\\";
 				//Chaera1の作成
-				AddGameObject<BarSS>(LineMap, Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0), Vec3(Scale, 2, 1.0f), qt);
-				auto a = AddGameObject<Bar>(
+				auto a = AddGameObject<BarSS>(LineMap, L"Red_line", Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0), Vec3(Scale*1.3, 0.2, 1), qt);
+				/*auto a = AddGameObject<Bar>(
 					L"Skeleton_TX",
 					Vec3(Scale, 0.1f, 2.0f),
 					Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
 					qt,
-					SquareDrawOption::Normal);
+					SquareDrawOption::Normal);*/
 				a->AddTag(L"Red");
 				lightbar -= Scale * 10;
 				player->setP_LightGage(lightbar);

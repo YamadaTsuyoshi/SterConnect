@@ -215,8 +215,9 @@ namespace basecross {
 	//	Starスプライトスタジオ
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
-	StarSS::StarSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
-		SS5ssae(StagePtr, BaseDir, L"Star.ssae", L"Star_Y"),
+	StarSS::StarSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const wstring& Anime, const Vec3& Pos) :
+		Anime(),
+		SS5ssae(StagePtr, BaseDir, L"Star.ssae", Anime),
 		m_Posision(Pos)
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(

@@ -753,6 +753,16 @@ namespace basecross {
 
 	}
 
+	void KineRabbit::ThisDelete()
+	{
+		Vec3 Emitter = m_Rigidbody->m_Pos;
+		//Spaerkの送出
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
+		GetStage<GameStage>()->RemoveGameObject<KineRabbit>(GetThis<KineRabbit>());
+		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<KineRabbit>());
+	}
+
 	void KineRabbit::OnDrawShadowmap() {
 		//行列の定義
 		Mat4x4 World;
@@ -795,15 +805,6 @@ namespace basecross {
 		shptr->AddDrawObject(m_PtrObj);
 	}
 
-	void KineRabbit::ThisDelete()
-	{
-		Vec3 Emitter = m_Rigidbody->m_Pos;
-		//Spaerkの送出
-		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
-		SpaerkPtr->InsertSpark(Emitter);
-		GetStage<GameStage>()->RemoveGameObject<KineRabbit>(GetThis<KineRabbit>());
-		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<KineRabbit>());
-	}
 
 	//--------------------------------------------------------------------------------------
 	//	うさぎスプライトスタジオ
@@ -811,7 +812,9 @@ namespace basecross {
 	//構築と破棄
 	RabbitSS::RabbitSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
 		SS5ssae(StagePtr, BaseDir, L"WhiteRabbit.ssae", L"Throw_1"),
-		m_Posision(Pos)
+		m_Posision(Pos),
+		m_BaseX(5.5f),
+		m_BaseY(0.25f / 2.0f)
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(
 			Vec3(0.1f, 0.1f, 0.1f),
@@ -825,11 +828,36 @@ namespace basecross {
 	//初期化
 	void RabbitSS::OnCreate() {
 
+		//タグの追加
+		AddTag(L"Enemy");
+		//Rigidbodyの初期化
+		auto PtrGameStage = GetStage<GameStage>();
+		Rigidbody body;
+		body.m_Owner = GetThis<GameObject>();
+		body.m_Mass = 1.0f;
+		body.m_Scale = Vec3(1.0f);
+		body.m_Quat = Quat();
+		body.m_Pos = m_Posision;
+		body.m_CollType = CollType::typeSPHERE;
+		//		body.m_IsDrawActive = true;
+		body.SetToBefore();
+
+		m_Rigidbody = PtrGameStage->AddRigidbody(body);
+
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			body.m_Scale,
+			Vec3(0, 0, 0),
+			body.m_Quat,
+			body.m_Pos
+		);
+
 		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
 		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
 
 		auto PtrT = GetTransform();
-		PtrT->SetScale(0.5f, 0.5f, 1.0f);
+		PtrT->SetScale(0.35f, 0.35f, 1.0f);
 		PtrT->SetPosition(m_Posision);
 		//親クラスのクリエイトを呼ぶ
 		SS5ssae::OnCreate();
@@ -845,8 +873,196 @@ namespace basecross {
 	//更新
 	void RabbitSS::OnUpdate() {
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		Startflag = GetStage<GameStage>()->getStartFlag();
+		if (Startflag) {
+			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
+				if (rightMove)
+					m_Rigidbody->m_Velocity.x = Speed.x;
+				if (!rightMove)
+					m_Rigidbody->m_Velocity.x = -Speed.x;
+			}
+		}
+		auto PtrT = GetTransform();
+		PtrT->SetPosition(m_Rigidbody->m_Pos);
 		//アニメーションを更新する
 		UpdateAnimeTime(ElapsedTime);
+	}
+
+	void RabbitSS::OnUpdate2() {
+		if (Startflag) {
+			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
+				if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+					rightMove = false;
+				}
+				if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
+					rightMove = true;
+				}
+				float ElapsedTime = App::GetApp()->GetElapsedTime();
+				Time += ElapsedTime;
+				if (Time > 4.0f&&Startflag) {
+					Vec3 v = m_Rigidbody->m_Pos;
+					v.y -= 0.8f;
+					GetStage<Stage>()->AddGameObject<RabbitBullet>(
+						L"RABBIT_BULLET_TX",
+						true,
+						v
+						);
+					Time = 0;
+				}
+			}
+		}
+
+		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
+		for (auto& v : StateVec) {
+			if (v.m_Src == m_Rigidbody.get()) {
+				//Destにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Dest->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
+						auto gamestage = GetStage<GameStage>();
+						gamestage->StartDestroySE();
+						ThisDelete();
+					}
+				}
+				if (shptr && shptr->FindTag(L"Yellow")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Blue")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Red")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Bamboo")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"BambooB")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					auto gamestage = GetStage<GameStage>();
+					gamestage->StartDestroySE();
+					ThisDelete();
+				}
+				break;
+			}
+			if (v.m_Dest == m_Rigidbody.get()) {
+				//Srcにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Src->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
+						auto gamestage = GetStage<GameStage>();
+						gamestage->StartDestroySE();
+						ThisDelete();
+					}
+				}
+				if (shptr && shptr->FindTag(L"Yellow")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Blue")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Red")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Bamboo")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"BambooB")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					auto gamestage = GetStage<GameStage>();
+					gamestage->StartDestroySE();
+					ThisDelete();
+				}
+				break;
+			}
+		}
+
+		if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) - 7) {
+			//auto gamestage = GetStage<GameStage>();
+			//gamestage->StartDestroySE();
+			ThisDelete();
+		}
+
+	}
+
+
+	void RabbitSS::ThisDelete()
+	{
+		Vec3 Emitter = m_Rigidbody->m_Pos;
+		//Spaerkの送出
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
+		GetStage<GameStage>()->RemoveGameObject<RabbitSS>(GetThis<RabbitSS>());
+		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<RabbitSS>());
 	}
 
 	//--------------------------------------------------------------------------------------
@@ -854,8 +1070,10 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
 	KineRabbitSS::KineRabbitSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
-		SS5ssae(StagePtr, BaseDir, L"kineusa_Sp.ssae", L"wait"),
-		m_Posision(Pos)
+		SS5ssae(StagePtr, BaseDir, L"kineusa_Sp.ssae", L"attack"),
+		m_Posision(Pos),
+		m_BaseX(5.5f),
+		m_BaseY(0.25f / 2.0f)
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(
 			Vec3(0.1f, 0.1f, 1.0f),
@@ -869,11 +1087,36 @@ namespace basecross {
 	//初期化
 	void KineRabbitSS::OnCreate() {
 
+		//タグの追加
+		AddTag(L"Enemy");
+		//Rigidbodyの初期化
+		auto PtrGameStage = GetStage<GameStage>();
+		Rigidbody body;
+		body.m_Owner = GetThis<GameObject>();
+		body.m_Mass = 1.0f;
+		body.m_Scale = Vec3(1.0f);
+		body.m_Quat = Quat();
+		body.m_Pos = m_Posision;
+		body.m_CollType = CollType::typeSPHERE;
+		//		body.m_IsDrawActive = true;
+		body.SetToBefore();
+
+		m_Rigidbody = PtrGameStage->AddRigidbody(body);
+
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			body.m_Scale,
+			Vec3(0, 0, 0),
+			body.m_Quat,
+			body.m_Pos
+		);
+
 		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
 		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
 
 		auto PtrT = GetTransform();
-		PtrT->SetScale(0.5f, 0.5f, 1.0f);
+		PtrT->SetScale(0.35f, 0.35f, 1.0f);
 		PtrT->SetPosition(m_Posision);
 		//親クラスのクリエイトを呼ぶ
 		SS5ssae::OnCreate();
@@ -888,9 +1131,186 @@ namespace basecross {
 
 	//更新
 	void KineRabbitSS::OnUpdate() {
+
+		Startflag = GetStage<GameStage>()->getStartFlag();
+		if (Startflag) {
+			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
+				if (rightMove)
+					m_Rigidbody->m_Velocity.x = Speed.x;
+				if (!rightMove)
+					m_Rigidbody->m_Velocity.x = -Speed.x;
+			}
+		}
+
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		auto PtrT = GetTransform();
+		PtrT->SetPosition(m_Rigidbody->m_Pos);
 		//アニメーションを更新する
 		UpdateAnimeTime(ElapsedTime);
+	}
+
+	void KineRabbitSS::OnUpdate2() {
+		if (Startflag) {
+			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
+				if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+					rightMove = false;
+				}
+				if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
+					rightMove = true;
+				}
+			}
+		}
+
+		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
+		for (auto& v : StateVec) {
+			if (v.m_Src == m_Rigidbody.get()) {
+				//Destにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Dest->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
+						auto gamestage = GetStage<GameStage>();
+						gamestage->StartDestroySE();
+						ThisDelete();
+					}
+				}
+				if (shptr && shptr->FindTag(L"Yellow")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Blue")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Red")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Bamboo")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"BambooB")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					auto gamestage = GetStage<GameStage>();
+					gamestage->StartDestroySE();
+					ThisDelete();
+				}
+				break;
+			}
+			if (v.m_Dest == m_Rigidbody.get()) {
+				//Srcにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Src->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
+						auto gamestage = GetStage<GameStage>();
+						gamestage->StartDestroySE();
+						ThisDelete();
+					}
+				}
+				if (shptr && shptr->FindTag(L"Yellow")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Blue")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Red")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Bamboo")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"BambooB")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
+				}
+				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					auto gamestage = GetStage<GameStage>();
+					gamestage->StartDestroySE();
+					ThisDelete();
+				}
+				break;
+			}
+		}
+
+		if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) - 7) {
+			//auto gamestage = GetStage<GameStage>();
+			//gamestage->StartDestroySE();
+			ThisDelete();
+		}
+
+	}
+
+	void KineRabbitSS::ThisDelete()
+	{
+		Vec3 Emitter = m_Rigidbody->m_Pos;
+		//Spaerkの送出
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
+		GetStage<GameStage>()->RemoveGameObject<KineRabbitSS>(GetThis<KineRabbitSS>());
+		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<KineRabbitSS>());
 	}
 }
 //end basecross

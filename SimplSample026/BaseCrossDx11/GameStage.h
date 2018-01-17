@@ -65,6 +65,8 @@ namespace basecross {
 
 		Vec3 KaguyaPos;
 
+		wstring AnimeName;
+
 	public:
 		bool FadeFlag = false;
 		bool FadeFlag2 = false;

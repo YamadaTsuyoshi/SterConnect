@@ -135,6 +135,15 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	class SubaruSS : public SS5ssae {
 		Mat4x4 m_ToAnimeMatrixLeft;
+		typedef enum {
+			Yellow,
+			Red,
+		} eMenu;
+
+		int P_color = 0;
+		WORD L_Now = 0;
+		WORD R_Now = 0;
+		bool SelectFlag = false;
 	public:
 		//ç\ízÇ∆îjä¸
 		SubaruSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir);
@@ -143,6 +152,7 @@ namespace basecross {
 		virtual void OnCreate() override;
 		//çXêV
 		virtual void OnUpdate() override;
+		void ColorChanger();
 	};
 
 	

@@ -138,6 +138,8 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	class KaguyaSS : public SS5ssae {
 		Mat4x4 m_ToAnimeMatrixLeft;
+		bool DamageFlag = false;
+		float DamageTime;
 	public:
 		//ç\ízÇ∆îjä¸
 		KaguyaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir);
@@ -146,6 +148,7 @@ namespace basecross {
 		virtual void OnCreate() override;
 		//çXêV
 		virtual void OnUpdate() override;
+		void SetDamageFlag(bool Flag) { DamageFlag = Flag; };
 	};
 
 	//--------------------------------------------------------------------------------------

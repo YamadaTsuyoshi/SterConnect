@@ -645,7 +645,7 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
 		void ThisDelete();
-		void SetD_flag(bool a) { D_flag = true; }
+		
 	};
 
 
@@ -1542,6 +1542,7 @@ namespace basecross {
 	class HeelSS : public SS5ssae {
 		Mat4x4 m_ToAnimeMatrixLeft;
 		Vec3 m_Posision;
+		shared_ptr<Rigidbody> m_Rigidbody;
 	public:
 		//構築と破棄
 		HeelSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);
@@ -1562,10 +1563,35 @@ namespace basecross {
 		Vec3 m_Posision;
 		Vec3 m_Scale;
 		Quat m_Qua;
+		shared_ptr<Rigidbody> m_Rigidbody;
+		float Time;
+		float D_Time;
+		bool D_flag = false;
+		wstring Anime;
 	public:
 		//構築と破棄
-		BarSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos, const Vec3& Scale, const Quat Qua);
+		BarSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const wstring& Anime, const Vec3& Pos, const Vec3& Scale, const Quat Qua);
 		virtual ~BarSS() {}
+		//初期化
+		virtual void OnCreate() override;
+		//更新
+		virtual void OnUpdate() override;
+		void ThisDelete();
+		void SetD_flag(bool a) { D_flag = true; }
+	};
+
+	//--------------------------------------------------------------------------------------
+	//	KaguyaRedEffectスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+
+	class RedEffectSS : public SS5ssae {
+		Mat4x4 m_ToAnimeMatrixLeft;
+		Vec3 m_Posision;
+		float time = 0;
+	public:
+		//構築と破棄
+		RedEffectSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);
+		virtual ~RedEffectSS() {}
 		//初期化
 		virtual void OnCreate() override;
 		//更新

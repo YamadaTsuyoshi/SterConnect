@@ -123,8 +123,6 @@ namespace basecross {
 
 		virtual void RndJampVo();
 
-		virtual void RndDamageVo();
-
 		virtual int GetRandom(int min, int max);
 
 		shared_ptr<Rigidbody> GetRigidbody()
@@ -149,14 +147,15 @@ namespace basecross {
 	};
 
 	//--------------------------------------------------------------------------------------
-	//	かぐやスプライトスタジオ（ゲームオーバー）
+	//	かぐやゲームオーバースプライトスタジオ
 	//--------------------------------------------------------------------------------------
-	class GameoverKaguyaSS : public SS5ssae {
+	class KaguyaGOSS : public SS5ssae {
 		Mat4x4 m_ToAnimeMatrixLeft;
+		Vec3 m_Posision;
 	public:
 		//構築と破棄
-		GameoverKaguyaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir);
-		virtual ~GameoverKaguyaSS() {}
+		KaguyaGOSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);
+		virtual ~KaguyaGOSS() {}
 		//初期化
 		virtual void OnCreate() override;
 		//更新

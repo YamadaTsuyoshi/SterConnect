@@ -117,16 +117,6 @@ namespace basecross {
 					);
 			}
 
-			if (MapVec[0] == L"KineRabbit")
-			{
-				stringflag = true;
-				AddGameObject<KineRabbit>(
-					L"RABBIT_TX",
-					true,
-					Pos
-					);
-			}
-
 			if (MapVec[0] == L"Goal")
 			{
 				stringflag = true;
@@ -283,7 +273,7 @@ namespace basecross {
 	void GameStage::OnCreate() {
 		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
 		m_AudioObjectPtr->AddAudioResource(L"GAMESTAGE_BGM");
-		m_AudioObjectPtr->Start(L"GAMESTAGE_BGM", XAUDIO2_LOOP_INFINITE, 0.3f);
+		m_AudioObjectPtr->Start(L"GAMESTAGE_BGM", XAUDIO2_LOOP_INFINITE, 0.5f);
 
 		float v = 0;
 		int BGS = 5;
@@ -418,14 +408,14 @@ namespace basecross {
 			lifegroup.push_back(lifeobj);
 		}
 
-		////メッセージを表示するスプライトの作成
-		//AddGameObject<MessageSprite>(
-		//	L"MESSAGE_TX",
-		//	Vec2(256, 64),
-		//	0.0f,
-		//	Vec2(480, 260),
-		//	1, 1
-		//	);
+		//メッセージを表示するスプライトの作成
+		AddGameObject<MessageSprite>(
+			L"MESSAGE_TX",
+			Vec2(256, 64),
+			0.0f,
+			Vec2(480, 260),
+			1, 1
+			);
 
 		//文字列描画オブジェクトの作成
 		AddGameObject<StringDrawObject>();
@@ -437,7 +427,10 @@ namespace basecross {
 			0.0f,
 			Vec2(0, 0),
 			1, 1);
-
+		wstring Path = App::GetApp()->GetDataDirWString();
+		//ファイル名の設定
+		wstring GameOverMap = Path + L"\\GameOver\\";
+		AddGameObject<KaguyaGOSS>(GameOverMap, Vec3(1280 / 2, 830 / 2, 1));
 	}
 
 	//描画オブジェクトの追加
@@ -645,8 +638,6 @@ namespace basecross {
 				camera.m_CamerAt.y = 83.0f;
 			}
 			if (FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y <= (maxPosition - 7.0f)) {
-				m_AudioObjectPtr->AddAudioResource(L"VOICE_SONNAA");
-				m_AudioObjectPtr->Start(L"VOICE_SONNAA", 0, 0.5f);
 				m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
 				FadeFlag = true;
 				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
@@ -706,10 +697,12 @@ namespace basecross {
 			default:
 				break;
 			}
+			wstring Path = App::GetApp()->GetDataDirWString();
+			//ファイル名の設定
+			wstring StarMap = Path + L"\\Star\\";
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount == 0) {
 				PointDeleteflag = false;
-				m_AudioObjectPtr->AddAudioResource(L"TEN_SE");
-				m_AudioObjectPtr->Start(L"TEN_SE", 0, 0.3f);
+				AddGameObject<StarSS>(StarMap, P_Pos);
 				auto a = AddGameObject<P_child>(
 					TextureResName,
 					true,
@@ -720,8 +713,7 @@ namespace basecross {
 				PointCount++;
 			}
 			else if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount == 1) {
-				m_AudioObjectPtr->AddAudioResource(L"TEN_SE");
-				m_AudioObjectPtr->Start(L"TEN_SE", 0, 0.3f);
+				AddGameObject<StarSS>(StarMap, P_Pos);
 				auto a = AddGameObject<P_child>(
 					TextureResName,
 					true,
@@ -744,8 +736,6 @@ namespace basecross {
 
 			if (Barflag)
 			{
-				m_AudioObjectPtr->AddAudioResource(L"SEN_SE");
-				m_AudioObjectPtr->Start(L"SEN_SE", 0, 0.3f);
 				CrBar();
 				Barflag = false;
 				PointDeleteflag = true;
@@ -820,8 +810,13 @@ namespace basecross {
 			P_color = player->getP_color();
 
 			if (P_color == Yellow && lightbar >= Scale * 5) {
+				wstring Path = App::GetApp()->GetDataDirWString();
+				//ファイル名の設定
+				wstring LineMap = Path + L"\\Line\\";
+				//Chaera1の作成
+				AddGameObject<BarSS>(LineMap, Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0), Vec3(Scale*1.2f, 3, 1), qt);
 				auto a = AddGameObject<Bar>(
-					L"BARY_TX",
+					L"Skeleton_TX",
 					Vec3(Scale, 0.1f, 2.0f),
 					Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
 					qt,
@@ -831,8 +826,13 @@ namespace basecross {
 				player->setP_LightGage(lightbar);
 			}
 			else if (P_color == Red && lightbar >= Scale * 10) {
+				wstring Path = App::GetApp()->GetDataDirWString();
+				//ファイル名の設定
+				wstring LineMap = Path + L"\\Line\\";
+				//Chaera1の作成
+				AddGameObject<BarSS>(LineMap, Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0), Vec3(Scale, 2, 1.0f), qt);
 				auto a = AddGameObject<Bar>(
-					L"BARR_TX",
+					L"Skeleton_TX",
 					Vec3(Scale, 0.1f, 2.0f),
 					Vec3((PointPos2.x + PointPos1.x) / 2, (PointPos2.y + PointPos1.y) / 2, 0),
 					qt,

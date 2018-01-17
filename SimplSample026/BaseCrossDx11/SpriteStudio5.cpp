@@ -17,12 +17,12 @@ namespace basecross {
 	//---------------------------------------------------------------------------
 	static float	// nowにおける補間された値
 		linear_(
-		float	start,	// 始点
-		float	end,	// 終点
-		float	now)	// 現在の時間 0.f~1.f
+			float	start,	// 始点
+			float	end,	// 終点
+			float	now)	// 現在の時間 0.f~1.f
 	{
-			return start + (now * (end - start));
-		}
+		return start + (now * (end - start));
+	}
 
 	//---------------------------------------------------------------------------
 	/**
@@ -31,12 +31,12 @@ namespace basecross {
 	//---------------------------------------------------------------------------
 	static float	// nowにおける補間された値
 		accelerating_(
-		float	start,	// 始点
-		float	end,	// 終点
-		float	now)	// 現在の時間 0.f~1.f
+			float	start,	// 始点
+			float	end,	// 終点
+			float	now)	// 現在の時間 0.f~1.f
 	{
-			float rate = now * now;
-			return start + (rate * (end - start));
+		float rate = now * now;
+		return start + (rate * (end - start));
 	}
 
 	//---------------------------------------------------------------------------
@@ -46,13 +46,13 @@ namespace basecross {
 	//---------------------------------------------------------------------------
 	static float	// nowにおける補間された値
 		decelerating_(
-		float	start,	// 始点
-		float	end,	// 終点
-		float	now)	// 現在の時間 0.f~1.f
+			float	start,	// 始点
+			float	end,	// 終点
+			float	now)	// 現在の時間 0.f~1.f
 	{
-			float time = 1 - now;
-			float rate = 1 - time * time;
-			return start + (rate * (end - start));
+		float time = 1 - now;
+		float rate = 1 - time * time;
+		return start + (rate * (end - start));
 	}
 
 
@@ -167,15 +167,15 @@ namespace basecross {
 	//	用途: アニメーションライン（基底構造体）
 	//--------------------------------------------------------------------------------------
 	SS5AnimeLine::SS5AnimeLine() :
-		type(SsAttributeKind::invalid){}
-	SS5AnimeLine::~SS5AnimeLine(){}
+		type(SsAttributeKind::invalid) {}
+	SS5AnimeLine::~SS5AnimeLine() {}
 
 	//--------------------------------------------------------------------------------------
 	//	struct SS5AnimeBoolVal::Impl;
 	//	用途: Implイディオム
 	//--------------------------------------------------------------------------------------
-	struct SS5AnimeBoolVal::Impl{
-		struct data{
+	struct SS5AnimeBoolVal::Impl {
+		struct data {
 			float time;	//スタートタイム
 			bool val;	//値
 		};
@@ -189,13 +189,13 @@ namespace basecross {
 		SS5AnimeLine(),
 		pImpl(new Impl())
 	{
-		try{
+		try {
 			type = SsAttributeKind::ws2e(typestr);
 			auto KeyNodes = XmlDocReader::GetSelectNodes(TgtNode, L"key");
 			long lCountNode = XmlDocReader::GetLength(KeyNodes);
-			for (long i = 0; i < lCountNode; i++){
+			for (long i = 0; i < lCountNode; i++) {
 				auto pXMLDOMNode = XmlDocReader::GetItem(KeyNodes, i);
-				if (pXMLDOMNode){
+				if (pXMLDOMNode) {
 					Impl::data im;
 					im.time = SS5Util::AttributeToFloat(pXMLDOMNode, L"time");
 					im.val = SS5Util::TextToBool(pXMLDOMNode, L"value");
@@ -203,21 +203,21 @@ namespace basecross {
 				}
 			}
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
-	SS5AnimeBoolVal::~SS5AnimeBoolVal(){}
+	SS5AnimeBoolVal::~SS5AnimeBoolVal() {}
 
 	//指定時間の値を返す
-	bool SS5AnimeBoolVal::GetValue(float Time){
-		if (pImpl->line.size() <= 0){
+	bool SS5AnimeBoolVal::GetValue(float Time) {
+		if (pImpl->line.size() <= 0) {
 			return false;
 		}
 		bool Start = false;
 		float StartTime = 0;
-		for (auto ptr : pImpl->line){
-			if (ptr.time <= Time){
+		for (auto ptr : pImpl->line) {
+			if (ptr.time <= Time) {
 				Start = ptr.val;
 				StartTime = ptr.time;
 			}
@@ -230,8 +230,8 @@ namespace basecross {
 	//	struct SS5AnimeFloatVal::Impl;
 	//	用途: Implイディオム
 	//--------------------------------------------------------------------------------------
-	struct SS5AnimeFloatVal::Impl{
-		struct data{
+	struct SS5AnimeFloatVal::Impl {
+		struct data {
 			float time;	//スタートタイム
 			SsInterpolationType::_enum ipType;
 			float val;	//値
@@ -248,18 +248,18 @@ namespace basecross {
 		SS5AnimeLine(),
 		pImpl(new Impl())
 	{
-		try{
+		try {
 			type = SsAttributeKind::ws2e(typestr);
 			auto KeyNodes = XmlDocReader::GetSelectNodes(TgtNode, L"key");
 			long lCountNode = XmlDocReader::GetLength(KeyNodes);
-			for (long i = 0; i < lCountNode; i++){
+			for (long i = 0; i < lCountNode; i++) {
 				auto pXMLDOMNode = XmlDocReader::GetItem(KeyNodes, i);
-				if (pXMLDOMNode){
+				if (pXMLDOMNode) {
 					Impl::data im;
 					im.time = SS5Util::AttributeToFloat(pXMLDOMNode, L"time");
 					wstring iptype = SS5Util::AttributeToWstr(pXMLDOMNode, L"ipType");
 					im.ipType = SsInterpolationType::ws2e(iptype);
-					if (SS5Util::SsNeedsCurveParams(im.ipType)){
+					if (SS5Util::SsNeedsCurveParams(im.ipType)) {
 						wstring curvestr = SS5Util::TextToWstr(pXMLDOMNode, L"curve");
 						vector<wstring> strvec;
 						Util::WStrToTokenVector(strvec, curvestr, L' ');
@@ -273,15 +273,15 @@ namespace basecross {
 				}
 			}
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
-	SS5AnimeFloatVal::~SS5AnimeFloatVal(){}
+	SS5AnimeFloatVal::~SS5AnimeFloatVal() {}
 
 	//設定された補間をもとに指定時間の値を返す
-	float SS5AnimeFloatVal::GetValue(float Time){
-		if (pImpl->line.size() <= 0){
+	float SS5AnimeFloatVal::GetValue(float Time) {
+		if (pImpl->line.size() <= 0) {
 			return 0;
 		}
 		size_t TgtVecIndex = 0;
@@ -294,8 +294,8 @@ namespace basecross {
 		float StartTime = 0;
 		float EndTime = 0;
 		SsCurve curve;
-		for (auto ptr : pImpl->line){
-			if (ptr.time <= Time){
+		for (auto ptr : pImpl->line) {
+			if (ptr.time <= Time) {
 				Start = ptr.val;
 				StartTime = ptr.time;
 				Type = ptr.ipType;
@@ -304,8 +304,8 @@ namespace basecross {
 		}
 		End = Start;
 		EndTime = StartTime;
-		for (auto ptr : pImpl->line){
-			if (ptr.time > Time){
+		for (auto ptr : pImpl->line) {
+			if (ptr.time > Time) {
 				End = ptr.val;
 				EndTime = ptr.time;
 				break;
@@ -321,19 +321,19 @@ namespace basecross {
 		double spanFreme = Time - StartTime;
 		double totalFrame = abs(EndTime - StartTime);
 		double tgtFrame = 0;
-		if (totalFrame > 0){
+		if (totalFrame > 0) {
 			tgtFrame = spanFreme / totalFrame;
 		}
-		if (SS5Util::SsNeedsCurveParams(Type)){
+		if (SS5Util::SsNeedsCurveParams(Type)) {
 			return SS5Util::SsInterpolate(Type, (float)tgtFrame, Start, End, &curve);
 		}
-		else{
+		else {
 			return SS5Util::SsInterpolate(Type, (float)tgtFrame, Start, End, nullptr);
 		}
 	}
 
-	float SS5AnimeFloatVal::GetScaleValue(float Time){
-		if (pImpl->line.size() <= 0){
+	float SS5AnimeFloatVal::GetScaleValue(float Time) {
+		if (pImpl->line.size() <= 0) {
 			return 1.0f;
 		}
 		size_t TgtVecIndex = 0;
@@ -346,8 +346,8 @@ namespace basecross {
 		float StartTime = 0;
 		float EndTime = 0;
 		SsCurve curve;
-		for (auto ptr : pImpl->line){
-			if (ptr.time <= Time){
+		for (auto ptr : pImpl->line) {
+			if (ptr.time <= Time) {
 				Start = ptr.val;
 				StartTime = ptr.time;
 				Type = ptr.ipType;
@@ -356,8 +356,8 @@ namespace basecross {
 		}
 		End = Start;
 		EndTime = StartTime;
-		for (auto ptr : pImpl->line){
-			if (ptr.time > Time){
+		for (auto ptr : pImpl->line) {
+			if (ptr.time > Time) {
 				End = ptr.val;
 				EndTime = ptr.time;
 				break;
@@ -373,13 +373,13 @@ namespace basecross {
 		double spanFreme = Time - StartTime;
 		double totalFrame = abs(EndTime - StartTime);
 		double tgtFrame = 0;
-		if (totalFrame > 0){
+		if (totalFrame > 0) {
 			tgtFrame = spanFreme / totalFrame;
 		}
-		if (SS5Util::SsNeedsCurveParams(Type)){
+		if (SS5Util::SsNeedsCurveParams(Type)) {
 			return SS5Util::SsInterpolate(Type, (float)tgtFrame, Start, End, &curve);
 		}
-		else{
+		else {
 			return SS5Util::SsInterpolate(Type, (float)tgtFrame, Start, End, nullptr);
 		}
 	}
@@ -389,8 +389,8 @@ namespace basecross {
 	//	struct SS5AnimeCellVal::Impl;
 	//	用途: Implイディオム
 	//--------------------------------------------------------------------------------------
-	struct SS5AnimeCellVal::Impl{
-		struct data{
+	struct SS5AnimeCellVal::Impl {
+		struct data {
 			float time;	//スタートタイム
 			wstring id;		//マップID
 			wstring name;	//値
@@ -408,17 +408,17 @@ namespace basecross {
 		SS5AnimeLine(),
 		pImpl(new Impl())
 	{
-		try{
+		try {
 			type = SsAttributeKind::ws2e(typestr);
 			auto KeyNodes = XmlDocReader::GetSelectNodes(TgtNode, L"key");
 			long lCountNode = XmlDocReader::GetLength(KeyNodes);
-			for (long i = 0; i < lCountNode; i++){
+			for (long i = 0; i < lCountNode; i++) {
 				auto pXMLDOMNode = XmlDocReader::GetItem(KeyNodes, i);
-				if (pXMLDOMNode){
+				if (pXMLDOMNode) {
 					Impl::data im;
 					im.time = SS5Util::AttributeToFloat(pXMLDOMNode, L"time");
 					auto ValueNode = XmlDocReader::GetSelectSingleNode(pXMLDOMNode, L"value");
-					if (ValueNode){
+					if (ValueNode) {
 						im.id = SS5Util::TextToWstr(ValueNode, L"mapId");
 						im.name = SS5Util::TextToWstr(ValueNode, L"name");
 					}
@@ -426,21 +426,21 @@ namespace basecross {
 				}
 			}
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
-	SS5AnimeCellVal::~SS5AnimeCellVal(){}
+	SS5AnimeCellVal::~SS5AnimeCellVal() {}
 
-	AnimeCell SS5AnimeCellVal::GetValue(float Time){
+	AnimeCell SS5AnimeCellVal::GetValue(float Time) {
 		AnimeCell ret;
 		ret.id = 0;
 		ret.name = L"";
-		if (pImpl->line.size() <= 0){
+		if (pImpl->line.size() <= 0) {
 			return ret;
 		}
-		for (auto ptr : pImpl->line){
-			if (ptr.time <= Time){
+		for (auto ptr : pImpl->line) {
+			if (ptr.time <= Time) {
 				ret.id = wcstoul(ptr.id.c_str(), nullptr, 10);
 				ret.name = ptr.name;
 			}
@@ -455,8 +455,8 @@ namespace basecross {
 	//	struct SS5AnimeWstrVal::Impl;
 	//	用途: Implイディオム
 	//--------------------------------------------------------------------------------------
-	struct SS5AnimeWstrVal::Impl{
-		struct data{
+	struct SS5AnimeWstrVal::Impl {
+		struct data {
 			float time;	//スタートタイム
 			wstring val;	//値
 		};
@@ -471,37 +471,37 @@ namespace basecross {
 		SS5AnimeLine(),
 		pImpl(new Impl())
 	{
-		try{
+		try {
 			type = SsAttributeKind::ws2e(typestr);
 			auto KeyNodes = XmlDocReader::GetSelectNodes(TgtNode, L"key");
 			long lCountNode = XmlDocReader::GetLength(KeyNodes);
-			for (long i = 0; i < lCountNode; i++){
+			for (long i = 0; i < lCountNode; i++) {
 				auto pXMLDOMNode = XmlDocReader::GetItem(KeyNodes, i);
-				if (pXMLDOMNode){
+				if (pXMLDOMNode) {
 					Impl::data im;
 					im.time = SS5Util::AttributeToFloat(pXMLDOMNode, L"time");
 					auto ValueNode = XmlDocReader::GetSelectSingleNode(pXMLDOMNode, L"value");
-					if (ValueNode){
+					if (ValueNode) {
 						im.val = SS5Util::TextToWstr(ValueNode, L"name");
 					}
 					pImpl->line.push_back(im);
 				}
 			}
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
-	SS5AnimeWstrVal::~SS5AnimeWstrVal(){}
+	SS5AnimeWstrVal::~SS5AnimeWstrVal() {}
 
 	//指定時間の値を返す
-	wstring SS5AnimeWstrVal::GetValue(float Time){
-		if (pImpl->line.size() <= 0){
+	wstring SS5AnimeWstrVal::GetValue(float Time) {
+		if (pImpl->line.size() <= 0) {
 			return wstring(L"");
 		}
 		wstring Start(L"");
-		for (auto ptr : pImpl->line){
-			if (ptr.time <= Time){
+		for (auto ptr : pImpl->line) {
+			if (ptr.time <= Time) {
 				Start = ptr.val;
 			}
 		}
@@ -512,8 +512,8 @@ namespace basecross {
 	//	struct SS5AnimeColorVal::Impl;
 	//	用途: Implイディオム
 	//--------------------------------------------------------------------------------------
-	struct SS5AnimeColorVal::Impl{
-		struct data{
+	struct SS5AnimeColorVal::Impl {
+		struct data {
 			float time;	//スタートタイム
 			SsInterpolationType::_enum ipType;
 			bsm::Col4 val;	//値
@@ -529,13 +529,13 @@ namespace basecross {
 		SS5AnimeLine(),
 		pImpl(new Impl())
 	{
-		try{
+		try {
 			type = SsAttributeKind::ws2e(typestr);
 			auto KeyNodes = XmlDocReader::GetSelectNodes(TgtNode, L"key");
 			long lCountNode = XmlDocReader::GetLength(KeyNodes);
-			for (long i = 0; i < lCountNode; i++){
+			for (long i = 0; i < lCountNode; i++) {
 				auto pXMLDOMNode = XmlDocReader::GetItem(KeyNodes, i);
-				if (pXMLDOMNode){
+				if (pXMLDOMNode) {
 					Impl::data im;
 					im.time = SS5Util::AttributeToFloat(pXMLDOMNode, L"time");
 					wstring iptype = SS5Util::AttributeToWstr(pXMLDOMNode, L"ipType");
@@ -545,17 +545,17 @@ namespace basecross {
 				}
 			}
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
 
-	SS5AnimeColorVal::~SS5AnimeColorVal(){}
+	SS5AnimeColorVal::~SS5AnimeColorVal() {}
 
 
 	//設定された補間をもとに指定時間の値を返す
-	bsm::Col4 SS5AnimeColorVal::GetValue(float Time){
-		if (pImpl->line.size() <= 0){
+	bsm::Col4 SS5AnimeColorVal::GetValue(float Time) {
+		if (pImpl->line.size() <= 0) {
 			return bsm::Col4(0, 0, 0, 0);
 		}
 		size_t TgtVecIndex = 0;
@@ -567,8 +567,8 @@ namespace basecross {
 
 		float StartTime = 0;
 		float EndTime = 0;
-		for (auto ptr : pImpl->line){
-			if (ptr.time <= Time){
+		for (auto ptr : pImpl->line) {
+			if (ptr.time <= Time) {
 				Start = ptr.val;
 				StartTime = ptr.time;
 				Type = ptr.ipType;
@@ -576,24 +576,24 @@ namespace basecross {
 		}
 		End = Start;
 		EndTime = StartTime;
-		for (auto ptr : pImpl->line){
-			if (ptr.time > Time){
+		for (auto ptr : pImpl->line) {
+			if (ptr.time > Time) {
 				End = ptr.val;
 				EndTime = ptr.time;
 				break;
 			}
 		}
-		if (SS5Util::SsNeedsCurveParams(Type)){
+		if (SS5Util::SsNeedsCurveParams(Type)) {
 			throw BaseException(
 				L"現在その補間方法は実装されません",
 				L"ベジェもしくはエルミートを使用してませんか？",
 				L"SS5AnimeColorVal::GetValue()"
-				);
+			);
 		}
 		double spanFreme = Time - StartTime;
 		double totalFrame = abs(EndTime - StartTime);
 		double tgtFrame = 0;
-		if (totalFrame > 0){
+		if (totalFrame > 0) {
 			tgtFrame = spanFreme / totalFrame;
 		}
 		bsm::Col4 ret(0, 0, 0, 0);
@@ -610,8 +610,8 @@ namespace basecross {
 	//	struct SS5Animebsm::Vec3Val::Impl;
 	//	用途: Implイディオム
 	//--------------------------------------------------------------------------------------
-	struct SS5AnimeVector3Val::Impl{
-		struct data{
+	struct SS5AnimeVector3Val::Impl {
+		struct data {
 			float time;	//スタートタイム
 			SsInterpolationType::_enum ipType;
 			Vertex2DAnimeData tgt;
@@ -627,62 +627,62 @@ namespace basecross {
 		SS5AnimeLine(),
 		pImpl(new Impl())
 	{
-		try{
+		try {
 			type = SsAttributeKind::ws2e(typestr);
 			auto KeyNodes = XmlDocReader::GetSelectNodes(TgtNode, L"key");
 			long lCountNode = XmlDocReader::GetLength(KeyNodes);
-			for (long i = 0; i < lCountNode; i++){
+			for (long i = 0; i < lCountNode; i++) {
 				auto pXMLDOMNode = XmlDocReader::GetItem(KeyNodes, i);
-				if (pXMLDOMNode){
+				if (pXMLDOMNode) {
 					Impl::data im;
 					im.time = SS5Util::AttributeToFloat(pXMLDOMNode, L"time");
 					wstring iptype = SS5Util::AttributeToWstr(pXMLDOMNode, L"ipType");
 					im.ipType = SsInterpolationType::ws2e(iptype);
 
 					auto VertNode = XmlDocReader::GetSelectSingleNode(pXMLDOMNode, L"value/LT");
-					if (VertNode){
+					if (VertNode) {
 						im.tgt.LeftTop = SS5Util::WstrToPoint2DF(XmlDocReader::GetText(VertNode));
 					}
-					else{
+					else {
 						im.tgt.LeftTop = Point2D<float>(0, 0);
 					}
 
 					VertNode = XmlDocReader::GetSelectSingleNode(pXMLDOMNode, L"value/RT");
-					if (VertNode){
+					if (VertNode) {
 						im.tgt.RightTop = SS5Util::WstrToPoint2DF(XmlDocReader::GetText(VertNode));
 					}
-					else{
+					else {
 						im.tgt.RightTop = Point2D<float>(0, 0);
 					}
 
 					VertNode = XmlDocReader::GetSelectSingleNode(pXMLDOMNode, L"value/LB");
-					if (VertNode){
+					if (VertNode) {
 						im.tgt.LeftBottom = SS5Util::WstrToPoint2DF(XmlDocReader::GetText(VertNode));
 					}
-					else{
+					else {
 						im.tgt.LeftBottom = Point2D<float>(0, 0);
 					}
 
 					VertNode = XmlDocReader::GetSelectSingleNode(pXMLDOMNode, L"value/RB");
-					if (VertNode){
+					if (VertNode) {
 						im.tgt.RightBottom = SS5Util::WstrToPoint2DF(XmlDocReader::GetText(VertNode));
 					}
-					else{
+					else {
 						im.tgt.RightBottom = Point2D<float>(0, 0);
 					}
 					pImpl->line.push_back(im);
 				}
 			}
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
-	SS5AnimeVector3Val::~SS5AnimeVector3Val(){}
+	SS5AnimeVector3Val::~SS5AnimeVector3Val() {}
 	//設定された補間をもとに指定時間の値を返す
-	Vertex2DAnimeData SS5AnimeVector3Val::GetValue(float Time){
+	Vertex2DAnimeData SS5AnimeVector3Val::GetValue(float Time) {
 		Vertex2DAnimeData Ret, Start, End;
-		if (pImpl->line.size() <= 0){
+		if (pImpl->line.size() <= 0) {
 			return Ret;
 		}
 		size_t TgtVecIndex = 0;
@@ -692,8 +692,8 @@ namespace basecross {
 
 		float StartTime = 0;
 		float EndTime = 0;
-		for (auto ptr : pImpl->line){
-			if (ptr.time <= Time){
+		for (auto ptr : pImpl->line) {
+			if (ptr.time <= Time) {
 				Start = ptr.tgt;
 				StartTime = ptr.time;
 				Type = ptr.ipType;
@@ -701,24 +701,24 @@ namespace basecross {
 		}
 		End = Start;
 		EndTime = StartTime;
-		for (auto ptr : pImpl->line){
-			if (ptr.time > Time){
+		for (auto ptr : pImpl->line) {
+			if (ptr.time > Time) {
 				End = ptr.tgt;
 				EndTime = ptr.time;
 				break;
 			}
 		}
-		if (SS5Util::SsNeedsCurveParams(Type)){
+		if (SS5Util::SsNeedsCurveParams(Type)) {
 			throw BaseException(
 				L"現在その補間方法は実装されません",
 				L"ベジェもしくはエルミートを使用してませんか？",
 				L"SS5Animebsm::Vec3Val::GetValue()"
-				);
+			);
 		}
 		double spanFreme = Time - StartTime;
 		double totalFrame = abs(EndTime - StartTime);
 		double tgtFrame = 0;
-		if (totalFrame > 0){
+		if (totalFrame > 0) {
 			tgtFrame = spanFreme / totalFrame;
 		}
 		bsm::Vec3 ret(0, 0, 0);
@@ -742,7 +742,7 @@ namespace basecross {
 	//	struct SS5Cell::Impl;
 	//	用途: SpriteStdioセル内イディオム
 	//--------------------------------------------------------------------------------------
-	struct SS5Cell::Impl{
+	struct SS5Cell::Impl {
 		wstring	name;			///< セル名称
 		Point2D<float> pos;			///< 左上の座標
 		Point2D<float> size;			///< WHピクセルサイズ
@@ -750,10 +750,10 @@ namespace basecross {
 		bool	 rotated;		///< 左方向に９０度回転されている。uvs の割り当てが変わる。
 
 		Impl(IXMLDOMNodePtr Node);
-		~Impl(){}
+		~Impl() {}
 	};
-	SS5Cell::Impl::Impl(IXMLDOMNodePtr Node){
-		try{
+	SS5Cell::Impl::Impl(IXMLDOMNodePtr Node) {
+		try {
 			//XMLの読み込み
 			name = SS5Util::TextToWstr(Node, L"name");
 			pos = SS5Util::TextToPoint2DF(Node, L"pos");
@@ -761,7 +761,7 @@ namespace basecross {
 			pivot = SS5Util::TextToPoint2DF(Node, L"pivot");
 			rotated = SS5Util::TextToBool(Node, L"rotated");
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
@@ -775,7 +775,7 @@ namespace basecross {
 		pImpl(new Impl(Node))
 	{
 	}
-	SS5Cell::~SS5Cell(){}
+	SS5Cell::~SS5Cell() {}
 	//アクセッサ
 	const wstring& SS5Cell::get_name() const { return pImpl->name; }
 	const Point2D<float>& SS5Cell::get_pos() const { return pImpl->pos; }
@@ -788,7 +788,7 @@ namespace basecross {
 	//	struct SS5ssce::Impl;
 	//	用途: SpriteStdioのssceクラス内イディオム
 	//--------------------------------------------------------------------------------------
-	struct SS5ssce::Impl{
+	struct SS5ssce::Impl {
 		wstring	basedir;			///< 基準ディレクトリ（\が最後につく）
 		wstring	fname;				///< セルマップのファイルネーム
 		wstring	name;				///< このセルマップの名称です。
@@ -800,15 +800,15 @@ namespace basecross {
 		SsTexFilterMode::_enum		filterMode;			///< テクスチャのフィルタモード
 		vector< shared_ptr<SS5Cell> > m_CellVec;
 		shared_ptr<TextureResource> m_Texture;			//テクスチャ
-		//構築と消滅
+														//構築と消滅
 		Impl(const wstring& BaseDir, const wstring& Xmlfilename);
-		~Impl(){}
+		~Impl() {}
 	};
 	SS5ssce::Impl::Impl(const wstring& BaseDir, const wstring& Xmlfilename) :
 		basedir(BaseDir),
 		fname(Xmlfilename)
 	{
-		try{
+		try {
 
 			XmlDocReader doc(basedir + fname);
 			//基本データ
@@ -829,7 +829,7 @@ namespace basecross {
 			auto Cells = doc.GetSelectNodes(L"SpriteStudioCellMap/cells/cell");
 			// ノードリストのノードの数の取得
 			long lCountNode = XmlDocReader::GetLength(Cells);
-			for (long i = 0; i < lCountNode; i++){
+			for (long i = 0; i < lCountNode; i++) {
 				auto pXMLDOMNode = XmlDocReader::GetItem(Cells, i);
 				//セルはオブジェクト配列に追加しない
 				shared_ptr<SS5Cell> cell(new SS5Cell(pXMLDOMNode));
@@ -837,7 +837,7 @@ namespace basecross {
 			}
 
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
@@ -851,15 +851,15 @@ namespace basecross {
 		pImpl(new Impl(BaseDir, Xmlfilename))
 	{
 	}
-	SS5ssce::~SS5ssce(){}
+	SS5ssce::~SS5ssce() {}
 	//アクセッサ
-	const Point2D<float>& SS5ssce::get_pixelSize() const{
+	const Point2D<float>& SS5ssce::get_pixelSize() const {
 		return pImpl->pixelSize;
 	}
 	//セルの検索
-	shared_ptr<SS5Cell> SS5ssce::GetCell(const wstring& name){
-		for (auto ptr : pImpl->m_CellVec){
-			if (name == ptr->get_name()){
+	shared_ptr<SS5Cell> SS5ssce::GetCell(const wstring& name) {
+		for (auto ptr : pImpl->m_CellVec) {
+			if (name == ptr->get_name()) {
 				return ptr;
 			}
 		}
@@ -867,16 +867,16 @@ namespace basecross {
 		return nullptr;
 	}
 	//テクスチャリソース名
-	const wstring& SS5ssce::get_textureResname() const{
+	const wstring& SS5ssce::get_textureResname() const {
 		return pImpl->textureResname;
 	}
 	//セルマップ名
-	const wstring& SS5ssce::get_name() const{
+	const wstring& SS5ssce::get_name() const {
 		return pImpl->name;
 	}
 
 	//テクスチャ
-	shared_ptr<TextureResource> SS5ssce::GetTexture() const{
+	shared_ptr<TextureResource> SS5ssce::GetTexture() const {
 		return pImpl->m_Texture;
 	}
 
@@ -885,13 +885,13 @@ namespace basecross {
 	//	struct SS5PartAnimation::Impl;
 	//	用途: パーツごとのアニメーション内イディオム
 	//--------------------------------------------------------------------------------------
-	struct SS5PartAnimation::Impl{
+	struct SS5PartAnimation::Impl {
 		wstring	partName;
 		//アニメーションのポインタ（thisを渡すので生ポインタを使う）
 		SS5Animation* m_pSS5Animation;
 		vector< shared_ptr<SS5AnimeLine> > m_LineVec;
 		Impl(IXMLDOMNodePtr TgtNode, SS5Animation* pSS5Animation);
-		~Impl(){}
+		~Impl() {}
 		//操作
 		void FloatAnimationSub(IXMLDOMNodePtr TgtNode, const wstring& Key);
 		//現在の姿勢を得る
@@ -913,21 +913,21 @@ namespace basecross {
 	SS5PartAnimation::Impl::Impl(IXMLDOMNodePtr TgtNode, SS5Animation* pSS5Animation) :
 		m_pSS5Animation(pSS5Animation)
 	{
-		try{
+		try {
 			partName = SS5Util::TextToWstr(TgtNode, L"partName");
 			auto Node = XmlDocReader::GetSelectSingleNode(TgtNode, L"attributes/attribute[@tag=\'HIDE\']");
-			if (Node){
+			if (Node) {
 				auto ptr = make_shared<SS5AnimeBoolVal>(Node, L"HIDE");
 				m_LineVec.push_back(ptr);
 			}
 			Node = XmlDocReader::GetSelectSingleNode(TgtNode, L"attributes/attribute[@tag=\'CELL\']");
-			if (Node){
+			if (Node) {
 				auto ptr = make_shared<SS5AnimeCellVal>(Node, L"CELL");
 				m_LineVec.push_back(ptr);
 			}
 
 			Node = XmlDocReader::GetSelectSingleNode(TgtNode, L"attributes/attribute[@tag=\'VERT\']");
-			if (Node){
+			if (Node) {
 				auto ptr = make_shared<SS5AnimeVector3Val>(Node, L"VERT");
 				m_LineVec.push_back(ptr);
 			}
@@ -947,71 +947,71 @@ namespace basecross {
 			FloatAnimationSub(TgtNode, L"PRIO");
 
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
 
-	void SS5PartAnimation::Impl::FloatAnimationSub(IXMLDOMNodePtr TgtNode, const wstring& Key){
+	void SS5PartAnimation::Impl::FloatAnimationSub(IXMLDOMNodePtr TgtNode, const wstring& Key) {
 		wstring str = L"attributes/attribute[@tag=\'" + Key + L"\']";
 		auto Node = XmlDocReader::GetSelectSingleNode(TgtNode, str.c_str());
-		if (Node){
+		if (Node) {
 			auto ptr = make_shared<SS5AnimeFloatVal>(Node, Key.c_str());
 			m_LineVec.push_back(ptr);
 		}
 	}
 
 	//現在の姿勢行列を得る
-	void SS5PartAnimation::Impl::GetIfFloatVal(bool b, shared_ptr<SS5AnimeLine>& ptr, float& dest, float AnimeFrame){
-		if (b){
+	void SS5PartAnimation::Impl::GetIfFloatVal(bool b, shared_ptr<SS5AnimeLine>& ptr, float& dest, float AnimeFrame) {
+		if (b) {
 			auto v = dynamic_pointer_cast<SS5AnimeFloatVal>(ptr);
 			dest = v->GetValue(AnimeFrame);
 		}
 	}
 
-	void SS5PartAnimation::Impl::GetIfFloatScaleVal(bool b, shared_ptr<SS5AnimeLine>& ptr, float& dest, float AnimeFrame){
-		if (b){
+	void SS5PartAnimation::Impl::GetIfFloatScaleVal(bool b, shared_ptr<SS5AnimeLine>& ptr, float& dest, float AnimeFrame) {
+		if (b) {
 			auto v = dynamic_pointer_cast<SS5AnimeFloatVal>(ptr);
 			dest = v->GetScaleValue(AnimeFrame);
 		}
 	}
 
 
-	bool SS5PartAnimation::Impl::GetHide(){
+	bool SS5PartAnimation::Impl::GetHide() {
 		bool ret = false;
 		float AnimeFrame = m_pSS5Animation->GetAnimationTimer2Frame();
-		for (auto ptr : m_LineVec){
-			if (ptr->GetType() == SsAttributeKind::hide){
+		for (auto ptr : m_LineVec) {
+			if (ptr->GetType() == SsAttributeKind::hide) {
 				auto v = dynamic_pointer_cast<SS5AnimeBoolVal>(ptr);
 				ret = v->GetValue(AnimeFrame);
 			}
 		}
 		return ret;
 	}
-	float SS5PartAnimation::Impl::GetPrio(){
+	float SS5PartAnimation::Impl::GetPrio() {
 		float AnimeFrame = m_pSS5Animation->GetAnimationTimer2Frame();
 		float prio = 0;
-		for (auto ptr : m_LineVec){
+		for (auto ptr : m_LineVec) {
 			GetIfFloatVal(ptr->GetType() == SsAttributeKind::prio, ptr, prio, AnimeFrame);
 		}
 		return prio;
 	}
 
-	float SS5PartAnimation::Impl::GetAlpha(){
+	float SS5PartAnimation::Impl::GetAlpha() {
 		float AnimeFrame = m_pSS5Animation->GetAnimationTimer2Frame();
 		float Alpha = 1.0f;
-		for (auto ptr : m_LineVec){
+		for (auto ptr : m_LineVec) {
 			GetIfFloatVal(ptr->GetType() == SsAttributeKind::alpha, ptr, Alpha, AnimeFrame);
 		}
 		return Alpha;
 	}
 
 
-	AnimeCell SS5PartAnimation::Impl::GetCell(){
+	AnimeCell SS5PartAnimation::Impl::GetCell() {
 		float AnimeFrame = m_pSS5Animation->GetAnimationTimer2Frame();
 		AnimeCell cell;
-		for (auto ptr : m_LineVec){
-			if (ptr->GetType() == SsAttributeKind::cell){
+		for (auto ptr : m_LineVec) {
+			if (ptr->GetType() == SsAttributeKind::cell) {
 				auto v = dynamic_pointer_cast<SS5AnimeCellVal>(ptr);
 				cell = v->GetValue(AnimeFrame);
 			}
@@ -1019,11 +1019,11 @@ namespace basecross {
 		return cell;
 	}
 
-	Vertex2DAnimeData SS5PartAnimation::Impl::GetVirtex2DData(){
+	Vertex2DAnimeData SS5PartAnimation::Impl::GetVirtex2DData() {
 		float AnimeFrame = m_pSS5Animation->GetAnimationTimer2Frame();
 		Vertex2DAnimeData data;
-		for (auto ptr : m_LineVec){
-			if (ptr->GetType() == SsAttributeKind::vertex){
+		for (auto ptr : m_LineVec) {
+			if (ptr->GetType() == SsAttributeKind::vertex) {
 				auto v = dynamic_pointer_cast<SS5AnimeVector3Val>(ptr);
 				data = v->GetValue(AnimeFrame);
 			}
@@ -1035,14 +1035,14 @@ namespace basecross {
 
 	//現在の行列を得る。
 	//アニメーションからのデータの取り出し
-	bsm::Mat4x4 SS5PartAnimation::Impl::GetLocalMatrix(){
+	bsm::Mat4x4 SS5PartAnimation::Impl::GetLocalMatrix() {
 		float AnimeFrame = m_pSS5Animation->GetAnimationTimer2Frame();
 
 		bsm::Mat4x4 LocalMatrix;
 		bsm::Vec3 Pos(0, 0, 0);
 		bsm::Vec3 Rot(0, 0, 0);
 		bsm::Vec3 Scale(1.0f, 1.0f, 1.0f);
-		for (auto ptr : m_LineVec){
+		for (auto ptr : m_LineVec) {
 			GetIfFloatVal(ptr->GetType() == SsAttributeKind::posx, ptr, Pos.x, AnimeFrame);
 			GetIfFloatVal(ptr->GetType() == SsAttributeKind::posy, ptr, Pos.y, AnimeFrame);
 			GetIfFloatVal(ptr->GetType() == SsAttributeKind::posz, ptr, Pos.z, AnimeFrame);
@@ -1059,7 +1059,7 @@ namespace basecross {
 		Rot.x = Rot.x * XM_PI / 180.0f;
 		Rot.y = Rot.y * XM_PI / 180.0f;
 		Rot.z = Rot.z * XM_PI / 180.0f;
-		LocalMatrix.affineTransformation(Scale, bsm::Vec3(0,0,0),Rot, Pos);
+		LocalMatrix.affineTransformation(Scale, bsm::Vec3(0, 0, 0), Rot, Pos);
 		return LocalMatrix;
 	}
 
@@ -1072,40 +1072,40 @@ namespace basecross {
 		pImpl(new Impl(TgtNode, pSS5Animation))
 	{
 	}
-	SS5PartAnimation::~SS5PartAnimation(){}
+	SS5PartAnimation::~SS5PartAnimation() {}
 
 	//アクセッサ
-	const wstring& SS5PartAnimation::GetpartName() const{
+	const wstring& SS5PartAnimation::GetpartName() const {
 		return pImpl->partName;
 	}
 
 	//グリッドサイズ
-	float SS5PartAnimation::GetGridSize() const{
+	float SS5PartAnimation::GetGridSize() const {
 		return pImpl->m_pSS5Animation->get_gridSize();
 	}
 
 
-	bsm::Mat4x4 SS5PartAnimation::GetLocalMatrix(){
+	bsm::Mat4x4 SS5PartAnimation::GetLocalMatrix() {
 		return pImpl->GetLocalMatrix();
 	}
 
-	bool SS5PartAnimation::GetHide(){
+	bool SS5PartAnimation::GetHide() {
 		return pImpl->GetHide();
 	}
-	float SS5PartAnimation::GetPrio(){
+	float SS5PartAnimation::GetPrio() {
 		return pImpl->GetPrio();
 	}
 
-	float SS5PartAnimation::GetAlpha(){
+	float SS5PartAnimation::GetAlpha() {
 		return pImpl->GetAlpha();
 	}
 
 
-	AnimeCell SS5PartAnimation::GetCell(){
+	AnimeCell SS5PartAnimation::GetCell() {
 		return pImpl->GetCell();
 	}
 
-	Vertex2DAnimeData SS5PartAnimation::GetVirtex2DData(){
+	Vertex2DAnimeData SS5PartAnimation::GetVirtex2DData() {
 		return pImpl->GetVirtex2DData();
 	}
 
@@ -1115,7 +1115,7 @@ namespace basecross {
 	//	struct SS5Animation::Impl;
 	//	用途: アニメーションのイディオム
 	//--------------------------------------------------------------------------------------
-	struct SS5Animation::Impl{
+	struct SS5Animation::Impl {
 		wstring	name;
 		bool overrideSettings;
 		float fps;
@@ -1133,18 +1133,18 @@ namespace basecross {
 		vector< shared_ptr<SS5PartAnimation> > m_PartAnimationVec;
 		//構築と破棄
 		Impl(IXMLDOMNodePtr TgtNode);
-		~Impl(){}
+		~Impl() {}
 		//アニメーションタイマーの初期化
-		void SetCurrentTime(float AnimeTime){
-			if (AnimeTime < 0){
+		void SetCurrentTime(float AnimeTime) {
+			if (AnimeTime < 0) {
 				m_CurrentTime = 0;
 			}
-			else{
+			else {
 				m_CurrentTime = AnimeTime;
 			}
 		}
 		//アニメーションタイマーの更新
-		void AddCurrentTime(float TimeSpan){
+		void AddCurrentTime(float TimeSpan) {
 			m_CurrentTime += TimeSpan;
 		}
 		//現在のアニメーションタイマーをもとにフレームを計算し返す
@@ -1157,17 +1157,17 @@ namespace basecross {
 		m_Looped(true),
 		m_AnimeEnd(false)
 	{
-		try{
+		try {
 			name = SS5Util::TextToWstr(TgtNode, L"name");
 			overrideSettings = SS5Util::TextToBool(TgtNode, L"overrideSettings");
 			//基本データ
 			auto Setting = XmlDocReader::GetSelectSingleNode(TgtNode, L"settings");
-			if (!Setting){
+			if (!Setting) {
 				throw BaseException(
 					L"settingsが見つかりません",
 					L"settings",
 					L"SS5Animation::Impl::Impl()"
-					);
+				);
 			}
 			//デフォルトのFPS
 			fps = SS5Util::TextToFloat(Setting, L"fps");
@@ -1181,43 +1181,43 @@ namespace basecross {
 			outStartNum = SS5Util::TextToInt(Setting, L"outStartNum");
 
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
 
 	//現在のアニメーションタイマーをもとにフレームを計算し返す
-	float SS5Animation::Impl::GetAnimationTimer2Frame(){
+	float SS5Animation::Impl::GetAnimationTimer2Frame() {
 		//経過時間からフレームを求める
 		float fCurrentFrame = m_CurrentTime * fps;
 		//アニメーションが最後までいってるかどうかを確認
 		bool ret = false;
-		if (!m_Looped && fCurrentFrame >= frameCount){
+		if (!m_Looped && fCurrentFrame >= frameCount) {
 			//ループしないで、アニメが最後に到達したら
 			ret = true;
 		}
 		int iAnimationFrame = static_cast< int >(fCurrentFrame * 10000.0f);
 		if (frameCount > 0) {
-			if (m_Looped){
+			if (m_Looped) {
 				//ループする
 				iAnimationFrame %= ((int)frameCount) * 10000;
 				iAnimationFrame += outStartNum * 10000;
 				m_AnimeEnd = false;
 			}
-			else{
+			else {
 				//ループしない
-				if (ret){
+				if (ret) {
 					//最後のフレームにポーズを設定する
 					iAnimationFrame = (outStartNum + ((int)frameCount)) * 10000;
 					m_AnimeEnd = true;
 				}
-				else{
+				else {
 					iAnimationFrame += outStartNum * 10000;
 					m_AnimeEnd = false;
 				}
 			}
 		}
-		else{
+		else {
 			m_AnimeEnd = false;
 		}
 		return ((float)iAnimationFrame) / 10000.0f;
@@ -1234,75 +1234,75 @@ namespace basecross {
 	SS5Animation::SS5Animation(IXMLDOMNodePtr TgtNode) :
 		pImpl(new Impl(TgtNode))
 	{
-		try{
+		try {
 			auto ModelNodes = XmlDocReader::GetSelectNodes(TgtNode, L"partAnimes/partAnime");
 			long lCountNode = XmlDocReader::GetLength(ModelNodes);
-			for (long i = 0; i < lCountNode; i++){
+			for (long i = 0; i < lCountNode; i++) {
 				auto pXMLDOMNode = XmlDocReader::GetItem(ModelNodes, i);
-				if (pXMLDOMNode){
+				if (pXMLDOMNode) {
 					auto ptr = make_shared<SS5PartAnimation>(pXMLDOMNode, this);
 					pImpl->m_PartAnimationVec.push_back(ptr);
 				}
 			}
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
-	SS5Animation::~SS5Animation(){}
+	SS5Animation::~SS5Animation() {}
 
 	//アクセッサ
 	const wstring& SS5Animation::get_name() const { return pImpl->name; }
-	vector< shared_ptr<SS5PartAnimation> >& SS5Animation::get_PartAnimationVec(){
+	vector< shared_ptr<SS5PartAnimation> >& SS5Animation::get_PartAnimationVec() {
 		return pImpl->m_PartAnimationVec;
 	}
-	const Point2D<float>& SS5Animation::get_canvasSize() const{
+	const Point2D<float>& SS5Animation::get_canvasSize() const {
 		return pImpl->canvasSize;
 	}
 
-	float SS5Animation::get_gridSize() const{
+	float SS5Animation::get_gridSize() const {
 		return pImpl->gridSize;
 	}
 
-	const Point2D<float>& SS5Animation::get_pivot() const{
+	const Point2D<float>& SS5Animation::get_pivot() const {
 		return pImpl->pivot;
 	}
 
-	float  SS5Animation::get_fps() const{
+	float  SS5Animation::get_fps() const {
 		return pImpl->fps;
 	}
-	void SS5Animation::set_fps(float f){
+	void SS5Animation::set_fps(float f) {
 		pImpl->fps = f;
 	}
 
 	//ループするかどうかを得る
-	bool SS5Animation::IsLooped() const{
+	bool SS5Animation::IsLooped() const {
 		return pImpl->m_Looped;
 	}
-	bool SS5Animation::GetLooped() const{
+	bool SS5Animation::GetLooped() const {
 		return pImpl->m_Looped;
 	}
 	//ループするかどうかを設定する
-	void SS5Animation::SetLooped(bool b){
+	void SS5Animation::SetLooped(bool b) {
 		pImpl->m_Looped = b;
 	}
 	//アニメ終了したかどうか
-	bool SS5Animation::IsAnimeEnd() const{
+	bool SS5Animation::IsAnimeEnd() const {
 		return pImpl->m_AnimeEnd;
 	}
 
 
 	//操作
 	//アニメーションタイマーの初期化
-	void SS5Animation::SetCurrentTime(float AnimeTime){
+	void SS5Animation::SetCurrentTime(float AnimeTime) {
 		pImpl->SetCurrentTime(AnimeTime);
 	}
 	//アニメーションタイマーの更新
-	void  SS5Animation::AddCurrentTime(float TimeSpan){
+	void  SS5Animation::AddCurrentTime(float TimeSpan) {
 		pImpl->AddCurrentTime(TimeSpan);
 	}
 	//現在のアニメーションタイマーをもとにフレームを計算し返す
-	float SS5Animation::GetAnimationTimer2Frame(){
+	float SS5Animation::GetAnimationTimer2Frame() {
 		return pImpl->GetAnimationTimer2Frame();
 	}
 
@@ -1310,7 +1310,7 @@ namespace basecross {
 	//	struct SSPart::Impl;
 	//	用途: SSPartクラス内イディオム
 	//--------------------------------------------------------------------------------------
-	struct SSPart::Impl{
+	struct SSPart::Impl {
 		wstring	m_SsaeName;
 		IXMLDOMNodePtr m_ScanNode;
 		IXMLDOMNodePtr m_TgtNode;
@@ -1326,7 +1326,7 @@ namespace basecross {
 		SsPartType::_enum type;
 		SsBoundsType::_enum boundsType;
 		SsInheritType::_enum inheritType;
-		struct ineheritRatesTag{
+		struct ineheritRatesTag {
 			bool flph;	//FLPH 左右反転(セルの原点を軸にする)
 			bool flpv;	//FLPV 上下反転(セルの原点を軸にする)
 			bool hide;	//HIDE 非表示
@@ -1365,16 +1365,16 @@ namespace basecross {
 		//頂点変更時のデータ
 		Vertex2DAnimeData m_Vertex2DAnimeData;
 		//構築と破棄
-		Impl(const wstring& SsaeName, vector< shared_ptr<SS5ssce> >& SS5sscePtrVec, 
+		Impl(const wstring& SsaeName, vector< shared_ptr<SS5ssce> >& SS5sscePtrVec,
 			IXMLDOMNodePtr ScanNode, IXMLDOMNodePtr TgtNode, const shared_ptr<SSPart>& Parent, bool SpriteType);
-		~Impl(){}
+		~Impl() {}
 		//操作
 		bsm::Mat4x4 CaluclateMatrix();
 	};
 	//構築と破棄
-	SSPart::Impl::Impl(const wstring& SsaeName, 
+	SSPart::Impl::Impl(const wstring& SsaeName,
 		vector< shared_ptr<SS5ssce> >& SS5sscePtrVec,
-		IXMLDOMNodePtr ScanNode,IXMLDOMNodePtr TgtNode,
+		IXMLDOMNodePtr ScanNode, IXMLDOMNodePtr TgtNode,
 		const shared_ptr<SSPart>& Parent, bool SpriteType) :
 		m_SsaeName(SsaeName),
 		m_SS5sscePtrVec(SS5sscePtrVec),
@@ -1388,7 +1388,7 @@ namespace basecross {
 		m_Alpha(1.0f),
 		m_SpriteType(SpriteType)
 	{
-		try{
+		try {
 			name = SS5Util::TextToWstr(TgtNode, L"name");
 			arrayIndex = SS5Util::TextToInt(TgtNode, L"arrayIndex");
 			parentIndex = SS5Util::TextToInt(TgtNode, L"parentIndex");
@@ -1397,12 +1397,12 @@ namespace basecross {
 			inheritType = SsInheritType::ws2e(SS5Util::TextToWstr(TgtNode, L"inheritType"));
 			auto ineheritRatesNodes = XmlDocReader::GetSelectNodes(TgtNode, L"ineheritRates/*");
 			long lCountNode = XmlDocReader::GetLength(ineheritRatesNodes);
-			for (long i = 0; i < lCountNode; i++){
+			for (long i = 0; i < lCountNode; i++) {
 				auto pXMLDOMNode = XmlDocReader::GetItem(ineheritRatesNodes, i);
-				if (pXMLDOMNode){
+				if (pXMLDOMNode) {
 					wstring Name = XmlDocReader::GetBaseName(pXMLDOMNode);
 					SsAttributeKind::_enum key = SsAttributeKind::ws2e(Name);
-					switch (key){
+					switch (key) {
 					case SsAttributeKind::fliph:
 						ineheritRates.flph = SS5Util::TextToBool(pXMLDOMNode, Name);
 						break;
@@ -1428,49 +1428,49 @@ namespace basecross {
 			expandChildren = SS5Util::TextToBool(TgtNode, L"expandChildren");
 
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
 
 	//アニメーション後の行列を計算する
-	bsm::Mat4x4 SSPart::Impl::CaluclateMatrix(){
+	bsm::Mat4x4 SSPart::Impl::CaluclateMatrix() {
 		bsm::Mat4x4 ret;
 		ret.identity();
-		if (m_PartAnime){
+		if (m_PartAnime) {
 			m_Prio = -m_PartAnime->GetPrio();
 			m_Hide = m_PartAnime->GetHide();
 			m_Alpha = m_PartAnime->GetAlpha();
 			m_Vertex2DAnimeData = m_PartAnime->GetVirtex2DData();
 
 			AnimeCell TgtCell = m_PartAnime->GetCell();
-			if (TgtCell.name != L""){
+			if (TgtCell.name != L"") {
 				m_TgtSS5ssceIndex = TgtCell.id;
 				m_SS5CellPtr = m_SS5sscePtrVec[m_TgtSS5ssceIndex]->GetCell(TgtCell.name);
 			}
-			else{
+			else {
 				m_TgtSS5ssceIndex = 0;
 				m_SS5CellPtr.reset();
 			}
 			ret = m_PartAnime->GetLocalMatrix();
-			if (!m_Parent.expired()){
+			if (!m_Parent.expired()) {
 				auto ParPtr = m_Parent.lock();
 				auto PtrT = ParPtr->GetTransform();
 				ret *= PtrT->GetWorldMatrix();
 			}
-			else{
-				if (!m_SS5ssae.expired()){
+			else {
+				if (!m_SS5ssae.expired()) {
 					auto SS5ssaePtr = m_SS5ssae.lock();
 					ret *= SS5ssaePtr->GetToAnimeMatrix();
 					auto mat = SS5ssaePtr->GetTransform()->GetWorldMatrix();
 					ret *= mat;
 				}
-				else{
+				else {
 					throw BaseException(
 						L"Ssaeが取得できません",
 						L"if (m_SS5ssae.expired())",
 						L"SSPart::Impl::CaluclateMatrix()"
-						);
+					);
 
 				}
 			}
@@ -1490,14 +1490,14 @@ namespace basecross {
 		GameObject(StagePtr),
 		pImpl(new Impl(SsaeName, SS5sscePtrVec, ScanNode, TgtNode, Parent, SpriteType))
 	{}
-	SSPart::~SSPart(){}
+	SSPart::~SSPart() {}
 	//初期化
-	void SSPart::OnCreate(){
-		try{
+	void SSPart::OnCreate() {
+		try {
 			//頂点を変更できるようにするのでデフォルトのリソースは使えない
 			wstring ResName = pImpl->m_SsaeName + L"_" + pImpl->name;
 			//リソース作成。別のインスタンスでも同じリソースを使う
-			if (!App::GetApp()->CheckResource<MeshResource>(ResName)){
+			if (!App::GetApp()->CheckResource<MeshResource>(ResName)) {
 				//頂点配列
 				vector<VertexPositionNormalTexture> vertices;
 				//インデックスを作成するための配列
@@ -1506,7 +1506,7 @@ namespace basecross {
 				MeshUtill::CreateSquare(1.0f, vertices, indices);
 				//頂点の型を変えた新しい頂点を作成
 				vector<VertexPositionColorTexture> new_vertices;
-				for (auto& v : vertices){
+				for (auto& v : vertices) {
 					VertexPositionColorTexture nv;
 					nv.position = v.position;
 					nv.color = bsm::Col4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -1518,17 +1518,17 @@ namespace basecross {
 				//リソースの登録
 				App::GetApp()->RegisterResource(ResName, pImpl->m_SquareRes);
 			}
-			else{
+			else {
 				pImpl->m_SquareRes = App::GetApp()->GetResource<MeshResource>(ResName);
 			}
 			wstring Query = L"value[parentIndex/text()=" + SS5Util::TextToWstr(pImpl->m_TgtNode, L"arrayIndex") + L"]";
 			auto ChildNodes = XmlDocReader::GetSelectNodes(pImpl->m_ScanNode, Query.c_str());
 			long lCountNode = XmlDocReader::GetLength(ChildNodes);
-			for (long i = 0; i < lCountNode; i++){
+			for (long i = 0; i < lCountNode; i++) {
 				auto pXMLDOMNode = XmlDocReader::GetItem(ChildNodes, i);
-				if (pXMLDOMNode){
-					auto ChildPtr = ObjectFactory::Create<SSPart>(GetStage(),pImpl->m_SsaeName, pImpl->m_SS5sscePtrVec, 
-						pImpl->m_ScanNode, pXMLDOMNode, GetThis<SSPart>(),pImpl->m_SpriteType);
+				if (pXMLDOMNode) {
+					auto ChildPtr = ObjectFactory::Create<SSPart>(GetStage(), pImpl->m_SsaeName, pImpl->m_SS5sscePtrVec,
+						pImpl->m_ScanNode, pXMLDOMNode, GetThis<SSPart>(), pImpl->m_SpriteType);
 					pImpl->m_Childlen.push_back(ChildPtr);
 				}
 			}
@@ -1543,42 +1543,42 @@ namespace basecross {
 			//透明処理をする
 			SetAlphaActive(true);
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
 
-	int SSPart::get_arrayIndex(){ 
-		return pImpl->arrayIndex; 
+	int SSPart::get_arrayIndex() {
+		return pImpl->arrayIndex;
 	}
-	float SSPart::GetPrio(){ return pImpl->m_Prio; }
+	float SSPart::GetPrio() { return pImpl->m_Prio; }
 
-	void SSPart::SetSS5ssae(const shared_ptr<SS5ssae>& pSS5ssae){
+	void SSPart::SetSS5ssae(const shared_ptr<SS5ssae>& pSS5ssae) {
 		pImpl->m_SS5ssae = pSS5ssae;
 		//子供も設定
-		for (auto ptr : pImpl->m_Childlen){
+		for (auto ptr : pImpl->m_Childlen) {
 			ptr->SetSS5ssae(pSS5ssae);
 		}
 	}
 
 	//スプライトかどうか(Getterのみ)
-	bool SSPart::GetSpriteType() const{
+	bool SSPart::GetSpriteType() const {
 		return pImpl->m_SpriteType;
 	}
-	bool SSPart::IsSpriteType() const{
+	bool SSPart::IsSpriteType() const {
 		return pImpl->m_SpriteType;
 	}
 
 
 	//アニメーションを変更する
-	void SSPart::ChangeAnimation(shared_ptr<SS5Animation> AnimationPtr){
+	void SSPart::ChangeAnimation(shared_ptr<SS5Animation> AnimationPtr) {
 		//子供配列アニメーションを変更する
-		for (auto ptr : pImpl->m_Childlen){
+		for (auto ptr : pImpl->m_Childlen) {
 			ptr->ChangeAnimation(AnimationPtr);
 		}
 		auto& Vec = AnimationPtr->get_PartAnimationVec();
-		for (auto& PartAnime : Vec){
-			if (PartAnime->GetpartName() == pImpl->name){
+		for (auto& PartAnime : Vec) {
+			if (PartAnime->GetpartName() == pImpl->name) {
 				//モデルが見つかった
 				pImpl->m_PartAnime = PartAnime;
 				return;
@@ -1589,7 +1589,7 @@ namespace basecross {
 	}
 
 	//頂点の変更
-	void SSPart::ResetVirtex(){
+	void SSPart::ResetVirtex() {
 		//座標を変更する
 		auto Dev = App::GetApp()->GetDeviceResources();
 		ID3D11Device* pDx11Device = Dev->GetD3DDevice();
@@ -1602,13 +1602,13 @@ namespace basecross {
 		D3D11_MAP mapType = D3D11_MAP_WRITE_DISCARD;
 		D3D11_MAPPED_SUBRESOURCE mappedBuffer;
 		//頂点のマップ
-		if (FAILED(pID3D11DeviceContext->Map(pVertexBuffer, 0, mapType, 0, &mappedBuffer))){
+		if (FAILED(pID3D11DeviceContext->Map(pVertexBuffer, 0, mapType, 0, &mappedBuffer))) {
 			// Map失敗
 			throw BaseException(
 				L"頂点のMapに失敗しました。",
 				L"if(FAILED(pID3D11DeviceContext->Map()))",
 				L"SSPart::ResetVirtex()"
-				);
+			);
 		}
 		//UV値の変更
 		VertexPositionColorTexture* vertices = (VertexPositionColorTexture*)mappedBuffer.pData;
@@ -1620,10 +1620,10 @@ namespace basecross {
 			UVRectBase.top / pImpl->m_SS5sscePtrVec[pImpl->m_TgtSS5ssceIndex]->get_pixelSize().y,
 			UVRectBase.right / pImpl->m_SS5sscePtrVec[pImpl->m_TgtSS5ssceIndex]->get_pixelSize().x,
 			UVRectBase.bottom / pImpl->m_SS5sscePtrVec[pImpl->m_TgtSS5ssceIndex]->get_pixelSize().y
-			);
+		);
 
 		float grid = 32.0f;
-		if (pImpl->m_PartAnime){
+		if (pImpl->m_PartAnime) {
 			grid = pImpl->m_PartAnime->GetGridSize();
 		}
 		float CellWidth = pImpl->m_SS5CellPtr->get_size().x / grid;
@@ -1642,39 +1642,39 @@ namespace basecross {
 
 		vertices[0] = VertexPositionColorTexture(
 			bsm::Vec3(
-			CellRect.left + pImpl->m_Vertex2DAnimeData.LeftTop.x / grid,
-			CellRect.top + pImpl->m_Vertex2DAnimeData.LeftTop.y / grid,
-			0),
+				CellRect.left + pImpl->m_Vertex2DAnimeData.LeftTop.x / grid,
+				CellRect.top + pImpl->m_Vertex2DAnimeData.LeftTop.y / grid,
+				0),
 			bsm::Col4(1.0f, 1.0f, 1.0f, pImpl->m_Alpha),
 			bsm::Vec2(UVRect.left, UVRect.top));
 
 		vertices[1] = VertexPositionColorTexture(
 			bsm::Vec3(
-			CellRect.right + pImpl->m_Vertex2DAnimeData.RightTop.x / grid,
-			CellRect.top + pImpl->m_Vertex2DAnimeData.RightTop.y / grid,
-			0), 
+				CellRect.right + pImpl->m_Vertex2DAnimeData.RightTop.x / grid,
+				CellRect.top + pImpl->m_Vertex2DAnimeData.RightTop.y / grid,
+				0),
 			bsm::Col4(1.0f, 1.0f, 1.0f, pImpl->m_Alpha),
 			bsm::Vec2(UVRect.right, UVRect.top));
 
 		vertices[2] = VertexPositionColorTexture(
 			bsm::Vec3(
-			CellRect.left + pImpl->m_Vertex2DAnimeData.LeftBottom.x / grid,
-			CellRect.bottom + +pImpl->m_Vertex2DAnimeData.LeftBottom.y / grid,
-			0), 
+				CellRect.left + pImpl->m_Vertex2DAnimeData.LeftBottom.x / grid,
+				CellRect.bottom + +pImpl->m_Vertex2DAnimeData.LeftBottom.y / grid,
+				0),
 			bsm::Col4(1.0f, 1.0f, 1.0f, pImpl->m_Alpha),
 			bsm::Vec2(UVRect.left, UVRect.bottom));
 		vertices[3] = VertexPositionColorTexture(
 			bsm::Vec3(
-			CellRect.right + pImpl->m_Vertex2DAnimeData.RightBottom.x / grid,
-			CellRect.bottom + pImpl->m_Vertex2DAnimeData.RightBottom.y / grid,
-			0), 
+				CellRect.right + pImpl->m_Vertex2DAnimeData.RightBottom.x / grid,
+				CellRect.bottom + pImpl->m_Vertex2DAnimeData.RightBottom.y / grid,
+				0),
 			bsm::Col4(1.0f, 1.0f, 1.0f, pImpl->m_Alpha),
 			bsm::Vec2(UVRect.right, UVRect.bottom));
 		//アンマップ
 		pID3D11DeviceContext->Unmap(pVertexBuffer, 0);
 	}
 
-	void SSPart::ResetSpriteVirtex(){
+	void SSPart::ResetSpriteVirtex() {
 		vector<VertexPositionColorTexture> m_VertexVec;
 		//頂点の変更
 		Rect2D<float> UVRectBase(0, 0, pImpl->m_SS5CellPtr->get_size().x, pImpl->m_SS5CellPtr->get_size().y);
@@ -1684,10 +1684,10 @@ namespace basecross {
 			UVRectBase.top / pImpl->m_SS5sscePtrVec[pImpl->m_TgtSS5ssceIndex]->get_pixelSize().y,
 			UVRectBase.right / pImpl->m_SS5sscePtrVec[pImpl->m_TgtSS5ssceIndex]->get_pixelSize().x,
 			UVRectBase.bottom / pImpl->m_SS5sscePtrVec[pImpl->m_TgtSS5ssceIndex]->get_pixelSize().y
-			);
+		);
 
 		float grid = 32.0f;
-		if (pImpl->m_PartAnime){
+		if (pImpl->m_PartAnime) {
 			grid = pImpl->m_PartAnime->GetGridSize();
 		}
 		float CellWidth = pImpl->m_SS5CellPtr->get_size().x / grid;
@@ -1701,44 +1701,44 @@ namespace basecross {
 
 		m_VertexVec.push_back(
 			VertexPositionColorTexture(
-			bsm::Vec3(CellRect.left + pImpl->m_Vertex2DAnimeData.LeftTop.x / grid,CellRect.top + pImpl->m_Vertex2DAnimeData.LeftTop.y / grid,0),
-			bsm::Col4(1.0f, 1.0f, 1.0f, pImpl->m_Alpha),
-			bsm::Vec2(UVRect.left, UVRect.top)
+				bsm::Vec3(CellRect.left + pImpl->m_Vertex2DAnimeData.LeftTop.x / grid, CellRect.top + pImpl->m_Vertex2DAnimeData.LeftTop.y / grid, 0),
+				bsm::Col4(1.0f, 1.0f, 1.0f, pImpl->m_Alpha),
+				bsm::Vec2(UVRect.left, UVRect.top)
 			)
 		);
 		m_VertexVec.push_back(
 			VertexPositionColorTexture(
-			bsm::Vec3(CellRect.right + pImpl->m_Vertex2DAnimeData.RightTop.x / grid,CellRect.top + pImpl->m_Vertex2DAnimeData.RightTop.y / grid,0),
-			bsm::Col4(1.0f, 1.0f, 1.0f, pImpl->m_Alpha),
-			bsm::Vec2(UVRect.right, UVRect.top)
+				bsm::Vec3(CellRect.right + pImpl->m_Vertex2DAnimeData.RightTop.x / grid, CellRect.top + pImpl->m_Vertex2DAnimeData.RightTop.y / grid, 0),
+				bsm::Col4(1.0f, 1.0f, 1.0f, pImpl->m_Alpha),
+				bsm::Vec2(UVRect.right, UVRect.top)
 			)
-			);
+		);
 
 		m_VertexVec.push_back(
 			VertexPositionColorTexture(
-			bsm::Vec3(CellRect.left + pImpl->m_Vertex2DAnimeData.LeftBottom.x / grid,CellRect.bottom + +pImpl->m_Vertex2DAnimeData.LeftBottom.y / grid,0),
-			bsm::Col4(1.0f, 1.0f, 1.0f, pImpl->m_Alpha),
-			bsm::Vec2(UVRect.left, UVRect.bottom)
+				bsm::Vec3(CellRect.left + pImpl->m_Vertex2DAnimeData.LeftBottom.x / grid, CellRect.bottom + +pImpl->m_Vertex2DAnimeData.LeftBottom.y / grid, 0),
+				bsm::Col4(1.0f, 1.0f, 1.0f, pImpl->m_Alpha),
+				bsm::Vec2(UVRect.left, UVRect.bottom)
 			)
-			);
+		);
 
 		m_VertexVec.push_back(
 			VertexPositionColorTexture(
-			bsm::Vec3(CellRect.right + pImpl->m_Vertex2DAnimeData.RightBottom.x / grid,CellRect.bottom + pImpl->m_Vertex2DAnimeData.RightBottom.y / grid,0),
-			bsm::Col4(1.0f, 1.0f, 1.0f, pImpl->m_Alpha),
-			bsm::Vec2(UVRect.right, UVRect.bottom)
+				bsm::Vec3(CellRect.right + pImpl->m_Vertex2DAnimeData.RightBottom.x / grid, CellRect.bottom + pImpl->m_Vertex2DAnimeData.RightBottom.y / grid, 0),
+				bsm::Col4(1.0f, 1.0f, 1.0f, pImpl->m_Alpha),
+				bsm::Vec2(UVRect.right, UVRect.bottom)
 			)
-			);
+		);
 		//スプライトは未対応
-//		auto PtrSprite = GetComponent<PCTSpriteDraw>();
-//		auto Mesh = PtrSprite->GetMeshResource();
-//		Mesh->UpdateVirtexBuffer(m_VertexVec);
+		//		auto PtrSprite = GetComponent<PCTSpriteDraw>();
+		//		auto Mesh = PtrSprite->GetMeshResource();
+		//		Mesh->UpdateVirtexBuffer(m_VertexVec);
 	}
 
 	//アニメーション後の行列を計算する
-	void SSPart::CaluclateMatrix(){
+	void SSPart::CaluclateMatrix() {
 		bsm::Mat4x4 ret = pImpl->CaluclateMatrix();
-		if (pImpl->m_SS5CellPtr){
+		if (pImpl->m_SS5CellPtr) {
 			//頂点の変更（UVの変更）
 			ResetVirtex();
 			pImpl->m_TextureResource = pImpl->m_SS5sscePtrVec[pImpl->m_TgtSS5ssceIndex]->GetTexture();
@@ -1749,29 +1749,29 @@ namespace basecross {
 		PtrT->SetQuaternion(ret.quatInMatrix());
 		PtrT->SetWorldPosition(ret.transInMatrix());
 		//子供の行列を計算する
-		for (auto ptr : pImpl->m_Childlen){
+		for (auto ptr : pImpl->m_Childlen) {
 			ptr->CaluclateMatrix();
 		}
 	}
 
-	void SSPart::SetPartInVector(vector<SSPart*>& PartVec){
+	void SSPart::SetPartInVector(vector<SSPart*>& PartVec) {
 		PartVec.push_back(this);
-		for (auto ptr : pImpl->m_Childlen){
+		for (auto ptr : pImpl->m_Childlen) {
 			ptr->SetPartInVector(PartVec);
 		}
 	}
 
-	void SSPart::OnDraw(){
-		if (pImpl->type == SsPartType::normal && pImpl->m_SS5CellPtr){
-			if (!pImpl->m_Hide && pImpl->show){
+	void SSPart::OnDraw() {
+		if (pImpl->type == SsPartType::normal && pImpl->m_SS5CellPtr) {
+			if (!pImpl->m_Hide && pImpl->show) {
 				//描画する
-				if (pImpl->m_SpriteType){
+				if (pImpl->m_SpriteType) {
 					//スプライトは未対応
-//					auto PtrSprite = GetComponent<PCTSpriteDraw>();
-//					PtrSprite->SetTextureResource(pImpl->m_TextureResource);
-//					PtrSprite->OnDraw();
+					//					auto PtrSprite = GetComponent<PCTSpriteDraw>();
+					//					PtrSprite->SetTextureResource(pImpl->m_TextureResource);
+					//					PtrSprite->OnDraw();
 				}
-				else{
+				else {
 					//行列の定義
 					Mat4x4 World;
 					World.affineTransformation(
@@ -1802,7 +1802,7 @@ namespace basecross {
 	//	struct SS5ssae::Impl;
 	//	用途: SS5ssaeクラス内イディオム
 	//--------------------------------------------------------------------------------------
-	struct SS5ssae::Impl{
+	struct SS5ssae::Impl {
 		wstring m_StartAnimeName;
 
 
@@ -1837,8 +1837,8 @@ namespace basecross {
 		bool m_TextureOnlyNoLight;
 
 		//構築と破棄
-		Impl(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const wstring& Xmlfilename, const wstring& StartAnimeName,bool SpriteType);
-		~Impl(){}
+		Impl(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const wstring& Xmlfilename, const wstring& StartAnimeName, bool SpriteType);
+		~Impl() {}
 		//操作
 		void ChangeAnimation(const wstring& AnimationName, float AnimeTime);
 		void UpdateAnimeTime(float TimeSpan);
@@ -1855,7 +1855,7 @@ namespace basecross {
 		m_SpriteType(SpriteType),
 		m_TextureOnlyNoLight(true)
 	{
-		try{
+		try {
 
 			//インスタンスナンバー
 			//スタティック変数
@@ -1864,12 +1864,12 @@ namespace basecross {
 			XmlDocReader doc(basedir + fname);
 			//ベースデータ
 			auto BaseSetting = doc.GetSelectSingleNode(L"SpriteStudioAnimePack");
-			if (!BaseSetting){
+			if (!BaseSetting) {
 				throw BaseException(
 					L"アニメパックが見つかりません",
 					fname,
 					L"SS5ssae::Impl::Impl()"
-					);
+				);
 			}
 			name = SS5Util::TextToWstr(BaseSetting, L"name") + Util::UintToWStr(stInstansNumber);
 			//インスタンスナンバーのインクリメント
@@ -1877,12 +1877,12 @@ namespace basecross {
 
 			//基本データ
 			auto Setting = doc.GetSelectSingleNode(L"SpriteStudioAnimePack/settings");
-			if (!Setting){
+			if (!Setting) {
 				throw BaseException(
 					L"settingsが見つかりません",
 					fname,
 					L"SS5ssae::Impl::Impl()"
-					);
+				);
 			}
 
 			fps = SS5Util::TextToFloat(Setting, L"fps");
@@ -1897,89 +1897,89 @@ namespace basecross {
 			//セルマップの読み込み
 			//複数セルファイルへの対応
 			auto CellMaps = doc.GetSelectNodes(L"SpriteStudioAnimePack/cellmapNames/value");
-			if (!CellMaps){
+			if (!CellMaps) {
 				throw BaseException(
 					L"セルマップが見つかりません",
 					L"SpriteStudioAnimePack/cellmapNames",
 					L"SS5ssae::Impl::Impl()"
-					);
+				);
 			}
 			long lCountNode = XmlDocReader::GetLength(CellMaps);
-			if (lCountNode <= 0){
+			if (lCountNode <= 0) {
 				throw BaseException(
 					L"セルマップが見つかりません",
 					L"if(lCountNode <= 0)",
 					L"SS5ssae::Impl::Impl()"
-					);
+				);
 			}
-			for (long i = 0; i < lCountNode; i++){
+			for (long i = 0; i < lCountNode; i++) {
 				auto pXMLDOMNode = XmlDocReader::GetItem(CellMaps, i);
 				wstring SsceFilename = XmlDocReader::GetText(pXMLDOMNode);
-				if (SsceFilename != L""){
+				if (SsceFilename != L"") {
 					//セルマップの作成と設置
 					auto ssce = make_shared<SS5ssce>(BaseDir, SsceFilename);
 					m_SS5ssces.push_back(ssce);
 				}
-				else{
+				else {
 					throw BaseException(
 						L"セルマップ名が空白です",
 						L"SpriteStudioAnimePack/cellmapNames",
 						L"SS5ssae::Impl::Impl()"
-						);
+					);
 				}
 			}
 			auto PartsRootNode = doc.GetSelectSingleNode(L"SpriteStudioAnimePack/Model/partList");
-			if (!PartsRootNode){
+			if (!PartsRootNode) {
 				throw BaseException(
 					L"パーツが見つかりません",
 					fname,
 					L"SS5ssae::Impl::Impl()"
-					);
+				);
 			}
 			//ルートのノードを探す
 			auto RootNode = XmlDocReader::GetSelectSingleNode(PartsRootNode, L"value[parentIndex/text()=-1]");
-			if (!RootNode){
+			if (!RootNode) {
 				throw BaseException(
 					L"パーツのrootが見つかりません",
 					fname,
 					L"SS5ssae::Impl::Impl()"
-					);
+				);
 			}
 			//パーツの読み込み
 			m_RootPart = ObjectFactory::Create<SSPart>(StagePtr, name, m_SS5ssces, PartsRootNode, RootNode, nullptr, SpriteType);
 			//アニメーションの読み込み
 			auto Animations = doc.GetSelectNodes(L"SpriteStudioAnimePack/animeList/anime");
-			if (!Animations){
+			if (!Animations) {
 				throw BaseException(
 					L"アニメーションが見つかりません",
 					L"SpriteStudioAnimePack/animeList/anime",
 					L"SS5ssae::Impl::Impl()"
-					);
+				);
 			}
 
 			lCountNode = XmlDocReader::GetLength(Animations);
-			for (long i = 0; i < lCountNode; i++){
+			for (long i = 0; i < lCountNode; i++) {
 				auto pXMLDOMNode = XmlDocReader::GetItem(Animations, i);
-				if (pXMLDOMNode){
+				if (pXMLDOMNode) {
 					auto ptr = make_shared<SS5Animation>(pXMLDOMNode);
 					m_AnimeMap[ptr->get_name()] = ptr;
 				}
 			}
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
-	void SS5ssae::Impl::ChangeAnimation(const wstring& AnimationName, float AnimeTime){
-		try{
-			if (AnimationName == L""){
+	void SS5ssae::Impl::ChangeAnimation(const wstring& AnimationName, float AnimeTime) {
+		try {
+			if (AnimationName == L"") {
 				throw BaseException(
 					L"アニメーション名が空白です",
 					L"null",
 					L"SS5ssae::Impl::ChangeAnimation()"
-					);
+				);
 			}
-			if (m_NowAnimation == AnimationName){
+			if (m_NowAnimation == AnimationName) {
 				//同じ名前なら変更しない
 				//タイマーのみ変更
 				m_NowAnimationPtr->SetCurrentTime(AnimeTime);
@@ -1994,20 +1994,20 @@ namespace basecross {
 				//パーツのアニメーションを変更する
 				m_RootPart->ChangeAnimation(m_NowAnimationPtr);
 			}
-			else{
+			else {
 				throw BaseException(
 					L"指定のアニメーションが見つかりません",
 					AnimationName,
 					L"SS5ssae::Impl::ChangeAnimation()"
-					);
+				);
 			}
 		}
-		catch (...){
+		catch (...) {
 			throw;
 		}
 	}
 
-	void SS5ssae::Impl::UpdateAnimeTime(float TimeSpan){
+	void SS5ssae::Impl::UpdateAnimeTime(float TimeSpan) {
 		//最初にアニメーションタイムを更新する
 		m_NowAnimationPtr->AddCurrentTime(TimeSpan);
 		//続いてモデルの行列を計算する
@@ -2024,14 +2024,14 @@ namespace basecross {
 		GameObject(StagePtr),
 		pImpl(new Impl(StagePtr, BaseDir, Xmlfilename, StartAnimeName, SpriteType))
 	{}
-	SS5ssae::~SS5ssae(){}
+	SS5ssae::~SS5ssae() {}
 	//初期化
-	void SS5ssae::OnCreate(){
+	void SS5ssae::OnCreate() {
 		pImpl->m_RootPart->SetSS5ssae(GetThis<SS5ssae>());
 		//最初のアニメーションの設置
 		ChangeAnimation(pImpl->m_StartAnimeName);
 		SetAlphaActive(true);
-		if (IsSpriteType()){
+		if (IsSpriteType()) {
 			//スプライトとして描画する
 			SetSpriteDraw(true);
 		}
@@ -2039,26 +2039,26 @@ namespace basecross {
 
 
 	//現在選択されているアニメーションがループするかどうかを得る
-	bool SS5ssae::IsLooped() const{
-		if (pImpl->m_NowAnimationPtr){
+	bool SS5ssae::IsLooped() const {
+		if (pImpl->m_NowAnimationPtr) {
 			return pImpl->m_NowAnimationPtr->IsLooped();
 		}
-		else{
+		else {
 			return false;
 		}
 	}
-	bool SS5ssae::GetLooped() const{
+	bool SS5ssae::GetLooped() const {
 		return IsLooped();
 	}
 	//現在選択されているアニメーションがループするかどうかを設定する
-	void SS5ssae::SetLooped(bool b){
-		if (pImpl->m_NowAnimationPtr){
+	void SS5ssae::SetLooped(bool b) {
+		if (pImpl->m_NowAnimationPtr) {
 			return pImpl->m_NowAnimationPtr->SetLooped(b);
 		}
 	}
 	//現在選択されているアニメーションが終了したかどうか
-	bool SS5ssae::IsAnimeEnd() const{
-		if (pImpl->m_NowAnimationPtr){
+	bool SS5ssae::IsAnimeEnd() const {
+		if (pImpl->m_NowAnimationPtr) {
 			return pImpl->m_NowAnimationPtr->IsAnimeEnd();
 		}
 		return false;
@@ -2066,77 +2066,75 @@ namespace basecross {
 
 
 
-	void SS5ssae::ChangeAnimation(const wstring& AnimationName, float AnimeTime){
+	void SS5ssae::ChangeAnimation(const wstring& AnimationName, float AnimeTime) {
 		pImpl->ChangeAnimation(AnimationName, AnimeTime);
 	}
 
-	void SS5ssae::UpdateAnimeTime(float TimeSpan){
+	void SS5ssae::UpdateAnimeTime(float TimeSpan) {
 		pImpl->UpdateAnimeTime(TimeSpan);
 	}
 
 	//fps（再生スピード）を設定する
-	void SS5ssae::SetFps(float f){
-		if (pImpl->m_NowAnimationPtr){
+	void SS5ssae::SetFps(float f) {
+		if (pImpl->m_NowAnimationPtr) {
 			pImpl->m_NowAnimationPtr->set_fps(f);
 		}
 	}
 	//SS5ssaeからアニメーションオブジェクトへの行列
-	const bsm::Mat4x4& SS5ssae::GetToAnimeMatrix() const{
+	const bsm::Mat4x4& SS5ssae::GetToAnimeMatrix() const {
 		return pImpl->m_ToAnimeMatrix;
 	}
-	void SS5ssae::SetToAnimeMatrix(const bsm::Mat4x4& mat){
+	void SS5ssae::SetToAnimeMatrix(const bsm::Mat4x4& mat) {
 		pImpl->m_ToAnimeMatrix = mat;
 	}
 
 	//スプライトかどうか
-	bool SS5ssae::GetSpriteType() const{
+	bool SS5ssae::GetSpriteType() const {
 		return pImpl->m_SpriteType;
 	}
-	bool SS5ssae::IsSpriteType() const{
+	bool SS5ssae::IsSpriteType() const {
 		return pImpl->m_SpriteType;
 	}
 
-	void SS5ssae::SetTextureOnlyNoLight(bool b){
+	void SS5ssae::SetTextureOnlyNoLight(bool b) {
 		pImpl->m_TextureOnlyNoLight = b;
 	}
-	bool SS5ssae::GetTextureOnlyNoLight() const{
+	bool SS5ssae::GetTextureOnlyNoLight() const {
 		return pImpl->m_TextureOnlyNoLight;
 	}
 
-	bool SS5ssae::IsTextureOnlyNoLight() const{
+	bool SS5ssae::IsTextureOnlyNoLight() const {
 		return pImpl->m_TextureOnlyNoLight;
 	}
 
-	bool ZSortModelFunc(SSPart* rLeft, SSPart* rRight){
-		if (rLeft->GetPrio() == rRight->GetPrio()){
+	bool ZSortModelFunc(SSPart* rLeft, SSPart* rRight) {
+		if (rLeft->GetPrio() == rRight->GetPrio()) {
 			return rLeft->get_arrayIndex() < rRight->get_arrayIndex();
 		}
 		return rLeft->GetPrio() > rRight->GetPrio();
 	}
 
-	void SS5ssae::OnDraw(){
+	void SS5ssae::OnDraw() {
 		vector<SSPart*> PartVec;
 		pImpl->m_RootPart->SetPartInVector(PartVec);
 		std::sort(PartVec.begin(), PartVec.end(), ZSortModelFunc);
-		if (IsSpriteType()){
-			for (auto ptr : PartVec){
+		if (IsSpriteType()) {
+			for (auto ptr : PartVec) {
 				ptr->OnDraw();
 			}
 		}
-		else{
+		else {
 			float count = 0;
-			for (auto ptr : PartVec){
+			for (auto ptr : PartVec) {
 				auto PtrT = ptr->GetTransform();
 				auto TempPos = PtrT->GetWorldPosition();
 				auto Pos = PtrT->GetWorldPosition();
 				bsm::Vec3 Z(0, 0, count);
 				Pos += Z;
-				PtrT->SetQuaternion(Quat());
 				PtrT->SetWorldPosition(Pos);
 				ptr->OnDraw();
 				PtrT->SetWorldPosition(TempPos);
-				count -= 0.05f;
-//				count -= 0.050f;
+				count -= 0.050f;
 			}
 		}
 	}

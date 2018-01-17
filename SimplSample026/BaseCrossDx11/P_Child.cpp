@@ -106,6 +106,7 @@ namespace basecross {
 		m_PtrObj->m_ShadowmapUse = true;
 		m_PtrObj->m_BlendState = BlendState::AlphaBlend;
 		m_PtrObj->m_RasterizerState = RasterizerState::DoubleDraw;
+		m_PtrObj->m_Alpha = 0;
 
 		//シャドウマップ描画データの構築
 		m_PtrShadowmapObj = make_shared<ShadowmapObject>();
@@ -210,7 +211,57 @@ namespace basecross {
 		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<P_child>());
 	}
 
+	//--------------------------------------------------------------------------------------
+	//	Starスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+	//構築と破棄
+	StarSS::StarSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
+		SS5ssae(StagePtr, BaseDir, L"Star.ssae", L"Star_Y"),
+		m_Posision(Pos)
+	{
+		m_ToAnimeMatrixLeft.affineTransformation(
+			Vec3(0.1f, 0.1f, 0.1f),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0.0f)
+		);
 
+	}
+
+	//初期化
+	void StarSS::OnCreate() {
+
+		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
+		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
+
+		auto PtrT = GetTransform();
+		PtrT->SetScale(1.0f, 1.0f, 1.0f);
+		PtrT->SetPosition(m_Posision);
+		//親クラスのクリエイトを呼ぶ
+		SS5ssae::OnCreate();
+		//値は秒あたりのフレーム数
+		SetFps(30.0f);
+		//ChangeAnimation(L"Fly");
+		SetLooped(true);
+	}
+
+	//更新
+	void StarSS::OnUpdate() {
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		//アニメーションを更新する
+		UpdateAnimeTime(ElapsedTime);
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B ||
+			GetStage<GameStage>()->getPointDeleteFlag())
+		{
+			ThisDelete();
+		}
+	}
+
+	void StarSS::ThisDelete()
+	{
+		GetStage<GameStage>()->RemoveGameObject<StarSS>(GetThis<StarSS>());
+	}
 
 }
 //end basecross

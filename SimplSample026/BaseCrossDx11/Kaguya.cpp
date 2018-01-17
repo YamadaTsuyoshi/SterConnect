@@ -94,7 +94,7 @@ namespace basecross {
 		m_PtrObj->m_ShadowmapUse = true;
 		m_PtrObj->m_BlendState = BlendState::AlphaBlend;
 		m_PtrObj->m_RasterizerState = RasterizerState::DoubleDraw;
-		m_PtrObj->m_Alpha = 1.0f;
+		m_PtrObj->m_Alpha = 0;
 
 		//シャドウマップ描画データの構築
 		m_PtrShadowmapObj = make_shared<ShadowmapObject>();
@@ -108,7 +108,8 @@ namespace basecross {
 	{
 		if (!m_isNullHit[CntNum])
 		{
-			RndDamageVo();
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_UU");
+			m_AudioObjectPtr->Start(L"VOICE_UU", 0, 0.5f);
 			Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
 			m_Life += -1;
 			m_isNullHit[CntNum] = true;
@@ -146,13 +147,6 @@ namespace basecross {
 						m_UnderRefLock = true;
 						m_JumpLock = true;
 					}
-					else if (m_HitObj == L"bamboo") {
-						m_Rigidbody->m_BeforePos.y += 0.01f;
-						m_Rigidbody->m_Pos.y -= 0.01f;
-						m_Rigidbody->m_Velocity += Vec3(0, -0.2f, 0);
-						m_UnderRefLock = true;
-						m_JumpLock = true;
-					}
 					//if (!m_LeftRefLock) {
 					//	m_Rigidbody->m_BeforePos.x += 0.01f;
 					//	m_Rigidbody->m_Pos.x += 0.01f;
@@ -185,12 +179,6 @@ namespace basecross {
 					}
 					else if (m_HitObj == L"enemy") {
 						//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
-						m_Rigidbody->m_BeforePos.y += 0.01f;
-						m_Rigidbody->m_Pos.y += 0.01f;
-						m_Rigidbody->m_Velocity += Vec3(0, 5.0f / 2, 0);
-						m_JumpLock = true;
-					}
-					else if (m_HitObj == L"bamboo") {
 						m_Rigidbody->m_BeforePos.y += 0.01f;
 						m_Rigidbody->m_Pos.y += 0.01f;
 						m_Rigidbody->m_Velocity += Vec3(0, 5.0f / 2, 0);
@@ -240,8 +228,6 @@ namespace basecross {
 			if (m_Life <= 0) {
 				auto gamestage = GetStage<GameStage>();
 				gamestage->StopBGM();
-				m_AudioObjectPtr->AddAudioResource(L"VOICE_SONNAA");
-				m_AudioObjectPtr->Start(L"VOICE_SONNAA", 0, 0.5f);
 				gamestage->FadeFlag = true;
 				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 			}
@@ -257,10 +243,10 @@ namespace basecross {
 					}
 
 					if (m_Alphaflag) {
-						m_PtrObj->m_Alpha += -0.3f;
+						//m_PtrObj->m_Alpha += -0.3f;
 					}
 					else if (!m_Alphaflag) {
-						m_PtrObj->m_Alpha += 0.3f;
+						//m_PtrObj->m_Alpha += 0.3f;
 					}
 
 					if (m_PtrObj->m_Alpha >= 1.0f) {
@@ -274,7 +260,7 @@ namespace basecross {
 					{
 						m_isNullHit[i] = false;
 						m_Count[i] = 0;
-						m_PtrObj->m_Alpha = 1.0f;
+						//m_PtrObj->m_Alpha = 1.0f;
 					}
 				}
 			}
@@ -299,6 +285,10 @@ namespace basecross {
 			}
 			m_HitObj = L"";
 
+			wstring Path = App::GetApp()->GetDataDirWString();
+			//ファイル名の設定
+			wstring EffectMap = Path + L"\\Effect\\";
+
 			auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
 			for (auto& v : StateVec) {
 				if (v.m_Src == m_Rigidbody.get()) {
@@ -308,20 +298,22 @@ namespace basecross {
 						m_HitObj = L"yellow";
 						m_Attackflag = false;
 						shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos);
 						a->SetD_flag(true);
 					}
 					else if (shptr && shptr->FindTag(L"Red")) {
 						m_HitObj = L"red";
 						m_Attackflag = true;
 						shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos);
 						a->SetD_flag(true);
 					}
 					else if (shptr && shptr->FindTag(L"Bamboo")) {
-						m_HitObj = L"bamboo";
+						m_HitObj = L"yellow";
 						//m_Attackflag = false;
 					}
 					else if (shptr && shptr->FindTag(L"BambooB")) {
-						m_HitObj = L"bamboo";
+						m_HitObj = L"yellow";
 						//m_Attackflag = false;
 					}
 					if (shptr && shptr->FindTag(L"Enemy")) {
@@ -348,12 +340,15 @@ namespace basecross {
 						m_HitObj = L"yellow";
 						m_Attackflag = false;
 						shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos);
 						a->SetD_flag(true);
+
 					}
 					else if (shptr && shptr->FindTag(L"Red")) {
 						m_HitObj = L"red";
 						m_Attackflag = true;
 						shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos);
 						a->SetD_flag(true);
 					}
 					else if (shptr && shptr->FindTag(L"Bamboo")) {
@@ -469,30 +464,6 @@ namespace basecross {
 			break;
 		}
 	}
-	void Kaguya::RndDamageVo()
-	{
-		int i;
-		i = GetRandom(0, 2);
-		switch (i)
-		{
-		case 0:
-			m_AudioObjectPtr->AddAudioResource(L"VOICE_UU");
-			m_AudioObjectPtr->Start(L"VOICE_UU", 0, 0.5f);
-			break;
-		case 1:
-			m_AudioObjectPtr->AddAudioResource(L"VOICE_HYAA");
-			m_AudioObjectPtr->Start(L"VOICE_HYAA", 0, 0.5f);
-			break;
-		case 2:
-			m_AudioObjectPtr->AddAudioResource(L"VOICE_NANISURUNO");
-			m_AudioObjectPtr->Start(L"VOICE_NANISURUNO", 0, 0.5f);
-			break;
-		default:
-			m_AudioObjectPtr->AddAudioResource(L"VOICE_HYAA");
-			m_AudioObjectPtr->Start(L"VOICE_HYAA", 0, 0.5f);
-			break;
-		}
-	}
 
 	int Kaguya::GetRandom(int min, int max)
 	{
@@ -511,10 +482,10 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
 	KaguyaSS::KaguyaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir) :
-		SS5ssae(StagePtr, BaseDir, L"kaguyaanimeyou.ssae", L"clear")
+		SS5ssae(StagePtr, BaseDir, L"kaguyaanimeyou.ssae", L"Damage")
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(
-			Vec3(0.1f, 0.1f, 1.0f),
+			Vec3(0.1f, 0.1f, 0.1f),
 			Vec3(0, 0, 0),
 			Vec3(0, 0, 0),
 			Vec3(0, 0, 0.0f)
@@ -527,19 +498,15 @@ namespace basecross {
 
 		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
 		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
-
 		auto PtrT = GetTransform();
-		PtrT->SetScale(0.7f, 0.7f, 1.0f);
-		//PtrT->SetPosition(Vec3(0, 5.0f, 1.0f));
+		PtrT->SetScale(0.6f,0.6f, 1.0f);
+		PtrT->SetPosition(Vec3(0, 5.0f, 1.0f));
 		//親クラスのクリエイトを呼ぶ
 		SS5ssae::OnCreate();
 		//値は秒あたりのフレーム数
-		SetFps(5.0f);
-
-		//ChangeAnimation(L"run");
+		SetFps(10.0f);
+		//ChangeAnimation(L"Fly");
 		SetLooped(true);
-		
-
 	}
 
 	//更新
@@ -552,14 +519,15 @@ namespace basecross {
 	}
 
 	//--------------------------------------------------------------------------------------
-	//	かぐやスプライトスタジオ（ゲームオーバー）
+	//	かぐやGameOverスプライトスタジオ
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
-	GameoverKaguyaSS::GameoverKaguyaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir) :
-		SS5ssae(StagePtr, BaseDir, L"GameOver_Kaguya.ssae", L"Anime")
+	KaguyaGOSS::KaguyaGOSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
+		SS5ssae(StagePtr, BaseDir, L"GameOver_Kaguya.ssae", L"Anime"),
+		m_Posision(Pos)
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(
-			Vec3(0.1f, 0.1f, 1.0f),
+			Vec3(0.1f, 0.1f, 0.1f),
 			Vec3(0, 0, 0),
 			Vec3(0, 0, 0),
 			Vec3(0, 0, 0.0f)
@@ -568,30 +536,25 @@ namespace basecross {
 	}
 
 	//初期化
-	void GameoverKaguyaSS::OnCreate() {
+	void KaguyaGOSS::OnCreate() {
 
 		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
 		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
 
 		auto PtrT = GetTransform();
-		PtrT->SetScale(3.0f, 3.0f, 1.0f);
-		//PtrT->SetPosition(Vec3(0, 5.0f, 1.0f));
+		PtrT->SetScale(0.5f, 0.5f, 1.0f);
+		PtrT->SetPosition(m_Posision);
 		//親クラスのクリエイトを呼ぶ
 		SS5ssae::OnCreate();
 		//値は秒あたりのフレーム数
-		SetFps(60.0f);
-
-		//ChangeAnimation(L"run");
+		SetFps(30.0f);
+		//ChangeAnimation(L"Fly");
 		SetLooped(true);
-
-
 	}
 
 	//更新
-	void GameoverKaguyaSS::OnUpdate() {
+	void KaguyaGOSS::OnUpdate() {
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
-		//アニメーションを更新する
-		GetTransform()->SetPosition(Vec3(2.0f,0.0f,1.0f));
 		UpdateAnimeTime(ElapsedTime);
 	}
 

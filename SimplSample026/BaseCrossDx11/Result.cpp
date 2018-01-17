@@ -271,11 +271,11 @@ namespace basecross {
 			 Vec2(405, -300.0f),
 			 1, 1
 			 );
-		 //wstring Path = App::GetApp()->GetDataDirWString();
-		 ////ファイル名の設定
-		 //wstring Map = Path + L"\\Kaguya\\";
-		 ////Chaera1の作成
-		 //AddGameObject<GameoverKaguyaSS>(Map);
+		 wstring Path = App::GetApp()->GetDataDirWString();
+		 //ファイル名の設定
+		 wstring Map = Path + L"\\Kaguya\\";
+		 //Chaera1の作成
+		 AddGameObject<GameoverKaguyaSS>(Map);
 
 		 m_FadeSprite = ObjectFactory::Create<Fade>(
 			 GetThis<Stage>(),
@@ -285,9 +285,9 @@ namespace basecross {
 			 Vec2(0, 0),
 			 1, 1);
 
-		 wstring Path = App::GetApp()->GetDataDirWString();
+		// wstring Path = App::GetApp()->GetDataDirWString();
 		 //ファイル名の設定
-		 wstring GameOverMap = Path + L"\\GameOver\\";
+		 //wstring GameOverMap = Path + L"\\GameOver\\";
 		//AddGameObject<KaguyaSS>(GameOverMap,Vec3(0,0,1));
 
 	}

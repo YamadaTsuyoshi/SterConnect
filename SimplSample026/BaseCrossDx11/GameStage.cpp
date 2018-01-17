@@ -437,10 +437,10 @@ namespace basecross {
 			0.0f,
 			Vec2(0, 0),
 			1, 1);
-		wstring Path = App::GetApp()->GetDataDirWString();
+		//wstring Path = App::GetApp()->GetDataDirWString();
 		//ファイル名の設定
-		wstring GameOverMap = Path + L"\\GameOver\\";
-		AddGameObject<KaguyaGOSS>(GameOverMap, Vec3(1280 / 2, 830 / 2, 1));
+		//wstring GameOverMap = Path + L"\\GameOver\\";
+		//AddGameObject<KaguyaGOSS>(GameOverMap, Vec3(1280 / 2, 830 / 2, 1));
 	}
 
 	//描画オブジェクトの追加

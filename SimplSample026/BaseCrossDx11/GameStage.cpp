@@ -117,6 +117,16 @@ namespace basecross {
 					);
 			}
 
+			if (MapVec[0] == L"KineRabbit")
+			{
+				stringflag = true;
+				AddGameObject<KineRabbit>(
+					L"RABBIT_TX",
+					true,
+					Pos
+					);
+			}
+
 			if (MapVec[0] == L"Goal")
 			{
 				stringflag = true;
@@ -273,7 +283,7 @@ namespace basecross {
 	void GameStage::OnCreate() {
 		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
 		m_AudioObjectPtr->AddAudioResource(L"GAMESTAGE_BGM");
-		m_AudioObjectPtr->Start(L"GAMESTAGE_BGM", XAUDIO2_LOOP_INFINITE, 0.5f);
+		m_AudioObjectPtr->Start(L"GAMESTAGE_BGM", XAUDIO2_LOOP_INFINITE, 0.3f);
 
 		float v = 0;
 		int BGS = 5;
@@ -638,6 +648,8 @@ namespace basecross {
 				camera.m_CamerAt.y = 83.0f;
 			}
 			if (FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y <= (maxPosition - 7.0f)) {
+				m_AudioObjectPtr->AddAudioResource(L"VOICE_SONNAA");
+				m_AudioObjectPtr->Start(L"VOICE_SONNAA", 0, 0.5f);
 				m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
 				FadeFlag = true;
 				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
@@ -702,6 +714,8 @@ namespace basecross {
 			wstring StarMap = Path + L"\\Star\\";
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount == 0) {
 				PointDeleteflag = false;
+				m_AudioObjectPtr->AddAudioResource(L"TEN_SE");
+				m_AudioObjectPtr->Start(L"TEN_SE", 0, 0.3f);
 				AddGameObject<StarSS>(StarMap, P_Pos);
 				auto a = AddGameObject<P_child>(
 					TextureResName,
@@ -713,6 +727,8 @@ namespace basecross {
 				PointCount++;
 			}
 			else if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A && PointCount == 1) {
+				m_AudioObjectPtr->AddAudioResource(L"TEN_SE");
+				m_AudioObjectPtr->Start(L"TEN_SE", 0, 0.3f);
 				AddGameObject<StarSS>(StarMap, P_Pos);
 				auto a = AddGameObject<P_child>(
 					TextureResName,
@@ -736,6 +752,8 @@ namespace basecross {
 
 			if (Barflag)
 			{
+				m_AudioObjectPtr->AddAudioResource(L"SEN_SE");
+				m_AudioObjectPtr->Start(L"SEN_SE", 0, 0.3f);
 				CrBar();
 				Barflag = false;
 				PointDeleteflag = true;

@@ -108,8 +108,7 @@ namespace basecross {
 	{
 		if (!m_isNullHit[CntNum])
 		{
-			m_AudioObjectPtr->AddAudioResource(L"VOICE_UU");
-			m_AudioObjectPtr->Start(L"VOICE_UU", 0, 0.5f);
+			RndDamageVo();
 			Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
 			m_Life += -1;
 			m_isNullHit[CntNum] = true;
@@ -147,6 +146,13 @@ namespace basecross {
 						m_UnderRefLock = true;
 						m_JumpLock = true;
 					}
+					else if (m_HitObj == L"bamboo") {
+						m_Rigidbody->m_BeforePos.y += 0.01f;
+						m_Rigidbody->m_Pos.y -= 0.01f;
+						m_Rigidbody->m_Velocity += Vec3(0, -0.2f, 0);
+						m_UnderRefLock = true;
+						m_JumpLock = true;
+					}
 					//if (!m_LeftRefLock) {
 					//	m_Rigidbody->m_BeforePos.x += 0.01f;
 					//	m_Rigidbody->m_Pos.x += 0.01f;
@@ -179,6 +185,12 @@ namespace basecross {
 					}
 					else if (m_HitObj == L"enemy") {
 						//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
+						m_Rigidbody->m_BeforePos.y += 0.01f;
+						m_Rigidbody->m_Pos.y += 0.01f;
+						m_Rigidbody->m_Velocity += Vec3(0, 5.0f / 2, 0);
+						m_JumpLock = true;
+					}
+					else if (m_HitObj == L"bamboo") {
 						m_Rigidbody->m_BeforePos.y += 0.01f;
 						m_Rigidbody->m_Pos.y += 0.01f;
 						m_Rigidbody->m_Velocity += Vec3(0, 5.0f / 2, 0);
@@ -228,6 +240,8 @@ namespace basecross {
 			if (m_Life <= 0) {
 				auto gamestage = GetStage<GameStage>();
 				gamestage->StopBGM();
+				m_AudioObjectPtr->AddAudioResource(L"VOICE_SONNAA");
+				m_AudioObjectPtr->Start(L"VOICE_SONNAA", 0, 0.5f);
 				gamestage->FadeFlag = true;
 				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 			}
@@ -309,11 +323,11 @@ namespace basecross {
 						a->SetD_flag(true);
 					}
 					else if (shptr && shptr->FindTag(L"Bamboo")) {
-						m_HitObj = L"yellow";
+						m_HitObj = L"bamboo";
 						//m_Attackflag = false;
 					}
 					else if (shptr && shptr->FindTag(L"BambooB")) {
-						m_HitObj = L"yellow";
+						m_HitObj = L"bamboo";
 						//m_Attackflag = false;
 					}
 					if (shptr && shptr->FindTag(L"Enemy")) {
@@ -461,6 +475,30 @@ namespace basecross {
 		default:
 			m_AudioObjectPtr->AddAudioResource(L"VOICE_TOU");
 			m_AudioObjectPtr->Start(L"VOICE_TOU", 0, 0.5f);
+			break;
+		}
+	}
+	void Kaguya::RndDamageVo()
+	{
+		int i;
+		i = GetRandom(0, 2);
+		switch (i)
+		{
+		case 0:
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_UU");
+			m_AudioObjectPtr->Start(L"VOICE_UU", 0, 0.5f);
+			break;
+		case 1:
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_HYAA");
+			m_AudioObjectPtr->Start(L"VOICE_HYAA", 0, 0.5f);
+			break;
+		case 2:
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_NANISURUNO");
+			m_AudioObjectPtr->Start(L"VOICE_NANISURUNO", 0, 0.5f);
+			break;
+		default:
+			m_AudioObjectPtr->AddAudioResource(L"VOICE_HYAA");
+			m_AudioObjectPtr->Start(L"VOICE_HYAA", 0, 0.5f);
 			break;
 		}
 	}

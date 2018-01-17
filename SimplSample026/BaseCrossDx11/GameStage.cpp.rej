@@ -1,0 +1,24 @@
+diff a/SimplSample026/BaseCrossDx11/GameStage.cpp b/SimplSample026/BaseCrossDx11/GameStage.cpp	(rejected hunks)
+@@ -408,14 +408,14 @@
+ 			lifegroup.push_back(lifeobj);
+ 		}
+ 
+-		////���b�Z�[�W��\������X�v���C�g�̍쐬
+-		//AddGameObject<MessageSprite>(
+-		//	L"MESSAGE_TX",
+-		//	Vec2(256, 64),
+-		//	0.0f,
+-		//	Vec2(480, 260),
+-		//	1, 1
+-		//	);
++		//���b�Z�[�W��\������X�v���C�g�̍쐬
++		AddGameObject<MessageSprite>(
++			L"MESSAGE_TX",
++			Vec2(256, 64),
++			0.0f,
++			Vec2(480, 260),
++			1, 1
++			);
+ 
+ 		//������`��I�u�W�F�N�g�̍쐬
+ 		AddGameObject<StringDrawObject>();

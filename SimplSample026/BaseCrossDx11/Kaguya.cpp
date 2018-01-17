@@ -106,8 +106,11 @@ namespace basecross {
 	}
 	void Kaguya::SetMutekiTime(float time, int CntNum)
 	{
+		
 		if (!m_isNullHit[CntNum])
 		{
+			auto PtrGameStage = GetStage<GameStage>();
+			PtrGameStage->FindTagGameObject<KaguyaSS>(L"KaguyaSS")->SetDamageFlag(true);
 			RndDamageVo();
 			Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
 			m_Life += -1;
@@ -119,6 +122,7 @@ namespace basecross {
 		StartFlag = GetStage<GameStage>()->getStartFlag();
 		//前回のターンからの経過時間を求める
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
+
 		//コントローラの取得
 		if (StartFlag) {
 			auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
@@ -311,15 +315,16 @@ namespace basecross {
 					if (shptr && shptr->FindTag(L"Yellow")) {
 						m_HitObj = L"yellow";
 						m_Attackflag = false;
-						shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+						shared_ptr<BarSS> a = dynamic_pointer_cast<BarSS>(shptr);
 						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos);
 						a->SetD_flag(true);
 					}
 					else if (shptr && shptr->FindTag(L"Red")) {
 						m_HitObj = L"red";
 						m_Attackflag = true;
-						shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+						shared_ptr<BarSS> a = dynamic_pointer_cast<BarSS>(shptr);
 						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos);
+						GetStage<GameStage>()->AddGameObject<RedEffectSS>(EffectMap, m_Rigidbody->m_Pos);
 						a->SetD_flag(true);
 					}
 					else if (shptr && shptr->FindTag(L"Bamboo")) {
@@ -335,6 +340,7 @@ namespace basecross {
 						if (m_Attackflag) {
 							break;
 						}
+						auto PtrGameStage = GetStage<GameStage>();
 						SetMutekiTime(3.0f);
 					}
 					else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
@@ -342,6 +348,7 @@ namespace basecross {
 						if (m_Attackflag) {
 							break;
 						}
+						auto PtrGameStage = GetStage<GameStage>();
 						SetMutekiTime(3.0f);
 					}
 					m_JumpLock = false;
@@ -353,7 +360,7 @@ namespace basecross {
 					if (shptr && shptr->FindTag(L"Yellow")) {
 						m_HitObj = L"yellow";
 						m_Attackflag = false;
-						shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+						shared_ptr<BarSS> a = dynamic_pointer_cast<BarSS>(shptr);
 						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos);
 						a->SetD_flag(true);
 
@@ -361,8 +368,9 @@ namespace basecross {
 					else if (shptr && shptr->FindTag(L"Red")) {
 						m_HitObj = L"red";
 						m_Attackflag = true;
-						shared_ptr<Bar> a = dynamic_pointer_cast<Bar>(shptr);
+						shared_ptr<BarSS> a = dynamic_pointer_cast<BarSS>(shptr);
 						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos);
+						GetStage<GameStage>()->AddGameObject<RedEffectSS>(EffectMap, m_Rigidbody->m_Pos);
 						a->SetD_flag(true);
 					}
 					else if (shptr && shptr->FindTag(L"Bamboo")) {
@@ -378,6 +386,7 @@ namespace basecross {
 						if (m_Attackflag) {
 							break;
 						}
+						auto PtrGameStage = GetStage<GameStage>();
 						SetMutekiTime(3.0f);
 					}
 					else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
@@ -385,6 +394,7 @@ namespace basecross {
 						if (m_Attackflag) {
 							break;
 						}
+						auto PtrGameStage = GetStage<GameStage>();
 						SetMutekiTime(3.0f);
 					}
 					m_JumpLock = false;
@@ -520,7 +530,7 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
 	KaguyaSS::KaguyaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir) :
-		SS5ssae(StagePtr, BaseDir, L"kaguyaanimeyou.ssae", L"Damage")
+		SS5ssae(StagePtr, BaseDir, L"kaguyaanimeyou.ssae", L"Fly")
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(
 			Vec3(0.1f, 0.1f, 0.1f),
@@ -533,7 +543,7 @@ namespace basecross {
 
 	//初期化
 	void KaguyaSS::OnCreate() {
-
+		AddTag(L"KaguyaSS");
 		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
 		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
 		auto PtrT = GetTransform();
@@ -551,6 +561,24 @@ namespace basecross {
 	void KaguyaSS::OnUpdate() {
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		//アニメーションを更新する
+		if (!DamageFlag&&IsAnimeEnd())
+		{
+			SetFps(10.0f);
+			ChangeAnimation(L"Fly");
+			SetLooped(false);
+		}
+		else if (DamageFlag)
+		{
+			ChangeAnimation(L"Damage");
+			SetLooped(false);
+			SetFps(3.0f);
+			DamageTime += ElapsedTime;
+			if (DamageTime <= 3)
+			{
+				DamageFlag = false;
+				DamageTime = 0;
+			}
+		}
 		auto PtrGameStage = GetStage<GameStage>();
 		GetTransform()->SetPosition(PtrGameStage->GetKaguyaPos());
 		UpdateAnimeTime(ElapsedTime);

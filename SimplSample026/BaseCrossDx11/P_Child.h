@@ -124,9 +124,10 @@ namespace basecross {
 	class StarSS : public SS5ssae {
 		Mat4x4 m_ToAnimeMatrixLeft;
 		Vec3 m_Posision;
+		wstring Anime;
 	public:
 		//\’z‚Æ”jŠü
-		StarSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);
+		StarSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const wstring& Anime, const Vec3& Pos);
 		virtual ~StarSS() {}
 		//‰Šú‰»
 		virtual void OnCreate() override;

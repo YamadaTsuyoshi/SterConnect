@@ -303,7 +303,7 @@ namespace basecross {
 		SetFps(30.0f);
 
 		//ChangeAnimation(L"run");
-		SetLooped(true);
+		SetLooped(false);
 
 
 	}
@@ -314,7 +314,70 @@ namespace basecross {
 		//アニメーションを更新する
 		auto PtrGameStage = GetStage<GameStage>();
 		GetTransform()->SetPosition(PtrGameStage->GetP_Pos());
+		auto PlayerPtr = GetStage<GameStage>()->FindTagGameObject<Player>(L"Player");
+		if (PlayerPtr->getP_color() == Yellow&&IsAnimeEnd())
+		{
+			ChangeAnimation(L"Walk_Right_Y");
+			SetLooped(false);
+		}
+		else if (PlayerPtr->getP_color() == Red && IsAnimeEnd())
+		{
+			ChangeAnimation(L"Walk_Right_R");
+			SetLooped(false);
+		}
+			//コントローラの取得
+			auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+			if (CntlVec[0].bConnected) {
+				//Aボタン
+				if (CntlVec[0].wButtons & XINPUT_GAMEPAD_A) {
+				}
+			}
+			ColorChanger();
+			L_Now = CntlVec[0].wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER;
+			R_Now = CntlVec[0].wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER;
 		UpdateAnimeTime(ElapsedTime);
+	}
+
+	void SubaruSS::ColorChanger()
+	{
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (CntlVec[0].bConnected) {
+			if (CntlVec[0].wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER &&
+				L_Now == 0) {
+				P_color += 1;
+				if (P_color = Yellow)
+				{
+					ChangeAnimation(L"Change_RtoY");
+					SetLooped(false);
+				}
+				else if (P_color = Red)
+				{
+					ChangeAnimation(L"Change_YtoR");
+					SetLooped(false);
+				}
+			}
+			else if (CntlVec[0].wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER &&
+				R_Now == 0) {
+				P_color -= 1;
+				if (P_color = Yellow)
+			{
+				ChangeAnimation(L"Change_RtoY");
+				SetLooped(false);
+			}
+			else if (P_color = Red)
+			{
+				ChangeAnimation(L"Change_YtoR");
+				SetLooped(false);
+			}
+			}
+
+		}
+		if (P_color < Yellow) {
+			P_color = Red;
+		}
+		if (P_color > Red) {
+			P_color = Yellow;
+		}
 	}
 
 }

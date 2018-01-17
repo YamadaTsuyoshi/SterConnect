@@ -2305,7 +2305,30 @@ namespace basecross {
 
 	//初期化
 	void HeelSS::OnCreate() {
+		//タグの追加
+		AddTag(L"Enemy");
+		//Rigidbodyの初期化
+		auto PtrGameStage = GetStage<GameStage>();
+		Rigidbody body;
+		body.m_Owner = GetThis<GameObject>();
+		body.m_Mass = 1.0f;
+		body.m_Scale = Vec3(1.0f);
+		body.m_Quat = Quat();
+		body.m_Pos = m_Posision;
+		body.m_CollType = CollType::typeSPHERE;
+		//		body.m_IsDrawActive = true;
+		body.SetToBefore();
 
+		m_Rigidbody = PtrGameStage->AddRigidbody(body);
+
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			body.m_Scale,
+			Vec3(0, 0, 0),
+			body.m_Quat,
+			body.m_Pos
+		);
 		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
 		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
 
@@ -2322,6 +2345,46 @@ namespace basecross {
 
 	//更新
 	void HeelSS::OnUpdate() {
+		SPHERE t;
+		t.m_Center = m_Rigidbody->m_Pos;
+		t.m_Center.z = 0;
+		t.m_Radius = 0.5;
+
+		SPHERE p;
+		p.m_Center = GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetPosition();
+		p.m_Center.z = 0;
+		p.m_Radius = 1;
+
+		if (HitTest::SPHERE_SPHERE(t, p))
+		{
+			auto player = GetStage<GameStage>()->FindTagGameObject<Player>(L"Player");
+			auto gage = player->getP_LightGage() + 50;
+			player->setP_LightGage(gage);
+			ThisDelete();
+		}
+
+		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
+		for (auto& v : StateVec) {
+			if (v.m_Src == m_Rigidbody.get()) {
+				//Destにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Dest->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					ThisDelete();
+				}
+				break;
+			}
+			if (v.m_Dest == m_Rigidbody.get()) {
+				//Srcにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Src->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					ThisDelete();
+				}
+				break;
+			}
+			//m_Rigidbody->m_Pos = m_Posision;
+		}
+		//プレイヤーのＺ位置は強制的に0.0にする
+		m_Rigidbody->m_Pos.z = 10;
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		//アニメーションを更新する
 		UpdateAnimeTime(ElapsedTime);
@@ -2330,15 +2393,21 @@ namespace basecross {
 
 	void HeelSS::ThisDelete()
 	{
-		GetStage<GameStage>()->RemoveGameObject<JumpEffectSS>(GetThis<JumpEffectSS>());
+		Vec3 Emitter = m_Rigidbody->m_Pos;
+		//Spaerkの送出
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
+		GetStage<GameStage>()->RemoveGameObject<HeelSS>(GetThis<HeelSS>());
+		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<HeelSS>());
 	}
 
 	//--------------------------------------------------------------------------------------
-	//	Hellスプライトスタジオ
+	//	Barスプライトスタジオ
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
-	BarSS::BarSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos, const Vec3& Scale, const Quat Qua) :
-		SS5ssae(StagePtr, BaseDir, L"Line.ssae", L"Yellow_line"),
+	BarSS::BarSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const wstring& Anime, const Vec3& Pos, const Vec3& Scale, const Quat Qua) :
+		Anime(),
+		SS5ssae(StagePtr, BaseDir, L"Line.ssae", Anime),
 		m_Posision(Pos),
 		m_Scale(Scale),
 		m_Qua(Qua)
@@ -2354,18 +2423,43 @@ namespace basecross {
 
 	//初期化
 	void BarSS::OnCreate() {
+		//Rigidbodyの初期化
+		auto PtrGameStage = GetStage<GameStage>();
+		Rigidbody body;
+		body.m_Owner = GetThis<GameObject>();
+		body.m_Mass = 1.0f;
+		body.m_Scale = m_Scale;
+		body.m_Quat = m_Qua;
+		body.m_Pos = m_Posision;
+		body.m_CollType = CollType::typeOBB;
+		body.m_IsFixed = true;
+		body.m_IsDrawActive  = false;
+		body.SetToBefore();
+		PtrGameStage->AddRigidbody(body);
+
+
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			m_Scale,
+			Vec3(0, 0, 0),
+			m_Qua,
+			m_Posision
+		);
 
 		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
 		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
 
 		auto PtrT = GetTransform();
-		PtrT->SetScale(m_Scale);
+		PtrT->SetScale(Vec3(m_Scale.x*1.3,5,1));
 		PtrT->SetPosition(m_Posision);
 		PtrT->SetQuaternion(m_Qua);
 		//親クラスのクリエイトを呼ぶ
 		SS5ssae::OnCreate();
 		//値は秒あたりのフレーム数
-		SetFps(30.0f);
+		SetFps(60.0f);
+
+		
 		//ChangeAnimation(L"Fly");
 		SetLooped(false);
 	}
@@ -2373,14 +2467,85 @@ namespace basecross {
 	//更新
 	void BarSS::OnUpdate() {
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		auto Dev = App::GetApp()->GetDeviceResources();
+		auto pD3D11DeviceContext = Dev->GetD3DDeviceContext();
+		Time += ElapsedTime;
+		if (D_flag)
+		{
+			D_Time += ElapsedTime;
+		}
 		//アニメーションを更新する
 		UpdateAnimeTime(ElapsedTime);
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (Time >4.0f) {
+			D_flag = true;
+		}
+
+		if (D_Time >0.3f) {
+			ThisDelete();
+		}
 	}
 
 	void BarSS::ThisDelete()
 	{
+		Vec3 Emitter = m_Posision;
+		//Spaerkの送出
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
 		GetStage<GameStage>()->RemoveGameObject<BarSS>(GetThis<BarSS>());
+		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<BarSS>());
+	}
+
+	//--------------------------------------------------------------------------------------
+	//	Starスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+	//構築と破棄
+	RedEffectSS::RedEffectSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
+		SS5ssae(StagePtr, BaseDir, L"KaguyaEF.ssae", L"Red_E"),
+		m_Posision(Pos)
+	{
+		m_ToAnimeMatrixLeft.affineTransformation(
+			Vec3(0.1f, 0.1f, 0.1f),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0.0f)
+		);
+
+	}
+
+	//初期化
+	void RedEffectSS::OnCreate() {
+
+		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
+		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
+
+		auto PtrT = GetTransform();
+		PtrT->SetScale(3.0f, 3.0f, 1.0f);
+		PtrT->SetPosition(m_Posision);
+		//親クラスのクリエイトを呼ぶ
+		SS5ssae::OnCreate();
+		//値は秒あたりのフレーム数
+		SetFps(30.0f);
+		//ChangeAnimation(L"Fly");
+		SetLooped(false);
+	}
+	void RedEffectSS::OnUpdate() {
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		time += ElapsedTime;
+		//アニメーションを更新する
+		UpdateAnimeTime(ElapsedTime);
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		auto PtrGameStage = GetStage<GameStage>();
+		GetTransform()->SetPosition(PtrGameStage->GetKaguyaPos());
+		if (time >= 3.0)
+		{
+			ThisDelete();
+		}
+	}
+
+	void RedEffectSS::ThisDelete()
+	{
+		GetStage<GameStage>()->RemoveGameObject<RedEffectSS>(GetThis<RedEffectSS>());
 	}
 
 }

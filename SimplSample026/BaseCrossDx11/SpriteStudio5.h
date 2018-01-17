@@ -18,7 +18,7 @@ namespace basecross {
 			z,				///< 描画順はＺ座標で制御する。Ｚ座標を表示し、優先度を隠す。
 			num
 		};
-		static _enum ws2e(const wstring& s){
+		static _enum ws2e(const wstring& s) {
 			if (s == L"invalid") return invalid;
 			if (s == L"prio") return prio;
 			if (s == L"z") return z;
@@ -39,7 +39,7 @@ namespace basecross {
 			instance,		///< インスタンス。他アニメ、パーツへの参照。シーン編集モードの代替になるもの
 			num
 		};
-		static _enum ws2e(const wstring& s){
+		static _enum ws2e(const wstring& s) {
 			if (s == L"invalid") return invalid;
 			if (s == L"null") return null;
 			if (s == L"normal") return normal;
@@ -65,7 +65,7 @@ namespace basecross {
 			circle_smax,	///< 真円の半径で距離により判定する (スケールはx,yの最大値をとる）
 			num
 		};
-		static _enum ws2e(const wstring& s){
+		static _enum ws2e(const wstring& s) {
 			if (s == L"invalid") return invalid;
 			if (s == L"none") return none;
 			if (s == L"quad") return quad;
@@ -89,7 +89,7 @@ namespace basecross {
 			self,			///< 自身がアトリビュート別に持つ継承方法を使う
 			num
 		};
-		static _enum ws2e(const wstring& s){
+		static _enum ws2e(const wstring& s) {
 			if (s == L"invalid") return invalid;
 			if (s == L"parent") return parent;
 			if (s == L"self") return self;
@@ -101,7 +101,7 @@ namespace basecross {
 	/// ブレンドタイプ
 	struct SsBlendType
 	{
-		enum _enum{
+		enum _enum {
 			invalid = -1,
 			mix,			///< 0 ブレンド（ミックス）
 			mul,			///< 1 乗算
@@ -109,7 +109,7 @@ namespace basecross {
 			sub,			///< 3 減算
 			num
 		};
-		static _enum ws2e(const wstring& s){
+		static _enum ws2e(const wstring& s) {
 			if (s == L"invalid") return invalid;
 			if (s == L"mix") return mix;
 			if (s == L"mul") return mul;
@@ -123,13 +123,13 @@ namespace basecross {
 	///カラーブレンドキーが使用されている際のカラー適用範囲の定義
 	struct SsColorBlendTarget
 	{
-		enum _enum{
+		enum _enum {
 			invalid = -1,
 			whole,	///< 単色。全体にかける。
 			vertex,	///< 頂点単位
 			num
 		};
-		static _enum ws2e(const wstring& s){
+		static _enum ws2e(const wstring& s) {
 			if (s == L"invalid") return invalid;
 			if (s == L"whole") return whole;
 			if (s == L"vertex") return vertex;
@@ -151,7 +151,7 @@ namespace basecross {
 			deceleration,	///< 減速度
 			num,
 		};
-		static _enum ws2e(const wstring& s){
+		static _enum ws2e(const wstring& s) {
 			if (s == L"invalid") return invalid;
 			if (s == L"none") return none;
 			if (s == L"linear") return linear;
@@ -175,7 +175,7 @@ namespace basecross {
 			mirror,			/// ミラー
 			num
 		};
-		static _enum ws2e(const wstring& s){
+		static _enum ws2e(const wstring& s) {
 			if (s == L"invalid") return invalid;
 			if (s == L"clamp") return clamp;
 			if (s == L"repeat") return repeat;
@@ -194,7 +194,7 @@ namespace basecross {
 			linear,		///< リニア、バイリニア
 			num
 		};
-		static _enum ws2e(const wstring& s){
+		static _enum ws2e(const wstring& s) {
 			if (s == L"invalid") return invalid;
 			if (s == L"nearest") return nearest;
 			if (s == L"linear") return linear;
@@ -242,7 +242,7 @@ namespace basecross {
 			instance,	///< [IPRM]インスタンスパーツパラメータ
 			num,
 		};
-		static _enum ws2e(const wstring& s){
+		static _enum ws2e(const wstring& s) {
 			if (s == L"invalid") return invalid;
 			if (s == L"CELL") return cell;
 			if (s == L"POSX") return posx;
@@ -309,8 +309,8 @@ namespace basecross {
 
 		bool	syncStartEnd;	///< [編集用パラメータ]カーブエディタでの編集時に始点・終点ハンドルを同期して動かすか？
 
-		SsCurve() : startTime(0.f), startValue(0.f), endTime(0.f), endValue(0.f), startKeyTime(0.f), endKeyTime(0.f), syncStartEnd(false){}
-		~SsCurve(){}
+		SsCurve() : startTime(0.f), startValue(0.f), endTime(0.f), endValue(0.f), startKeyTime(0.f), endKeyTime(0.f), syncStartEnd(false) {}
+		~SsCurve() {}
 
 	};
 
@@ -318,12 +318,12 @@ namespace basecross {
 	//	struct SS5Util;
 	//	用途: SpriteStdioユーティリティ
 	//--------------------------------------------------------------------------------------
-	struct SS5Util{
-		static bsm::Vec3 WstrToVector3(const wstring& src){
+	struct SS5Util {
+		static bsm::Vec3 WstrToVector3(const wstring& src) {
 			bsm::Vec3 ret(0, 0, 0);
 			vector<wstring> TokenVec;
 			Util::WStrToTokenVector(TokenVec, src, L' ');
-			if (TokenVec.size() >= 3){
+			if (TokenVec.size() >= 3) {
 				ret.x = (float)_wtof(TokenVec[0].c_str());
 				ret.y = (float)_wtof(TokenVec[1].c_str());
 				ret.z = (float)_wtof(TokenVec[2].c_str());
@@ -331,23 +331,23 @@ namespace basecross {
 			return ret;
 		}
 
-		static Point2D<float> WstrToPoint2DF(const wstring& src){
+		static Point2D<float> WstrToPoint2DF(const wstring& src) {
 			Point2D<float> ret(0, 0);
 			vector<wstring> TokenVec;
 			Util::WStrToTokenVector(TokenVec, src, L' ');
-			if (TokenVec.size() >= 2){
+			if (TokenVec.size() >= 2) {
 				ret.x = (float)_wtof(TokenVec[0].c_str());
 				ret.y = (float)_wtof(TokenVec[1].c_str());
 			}
 			return ret;
 		}
-		static bsm::Col4 WstrARGBToColor4(const wstring& src){
-			if (src.size() != 8){
+		static bsm::Col4 WstrARGBToColor4(const wstring& src) {
+			if (src.size() != 8) {
 				throw BaseException(
 					L"カラー情報に間違いがあります",
 					src,
 					L"SS5Util::WstrARGBTobsm::Col4()"
-					);
+				);
 			}
 			wstring a = L"0x" + src.substr(0, 2);
 			wstring r = L"0x" + src.substr(2, 2);
@@ -360,35 +360,35 @@ namespace basecross {
 				(float)wcstoul(g.c_str(), nullptr, 0) / 255.0f,
 				(float)wcstoul(b.c_str(), nullptr, 0) / 255.0f,
 				(float)wcstoul(a.c_str(), nullptr, 0) / 255.0f
-				);
+			);
 			return ret;
 
 
 		}
 		//
-		static wstring TextToWstr(IXMLDOMNodePtr Node, const wstring& key){
+		static wstring TextToWstr(IXMLDOMNodePtr Node, const wstring& key) {
 			auto pXMLDOMNode = XmlDocReader::GetSelectSingleNode(Node, key.c_str());
-			if (pXMLDOMNode){
+			if (pXMLDOMNode) {
 				return XmlDocReader::GetText(pXMLDOMNode);
 			}
 			return wstring(L"");
 		}
 
-		static wstring AttributeToWstr(IXMLDOMNodePtr Node, const wstring& key){
+		static wstring AttributeToWstr(IXMLDOMNodePtr Node, const wstring& key) {
 			return XmlDocReader::GetAttribute(Node, key.c_str());
 		}
 
-		static bsm::Vec3 TextToVector3(IXMLDOMNodePtr Node, const wstring& key){
+		static bsm::Vec3 TextToVector3(IXMLDOMNodePtr Node, const wstring& key) {
 			auto pXMLDOMNode = XmlDocReader::GetSelectSingleNode(Node, key.c_str());
-			if (pXMLDOMNode){
+			if (pXMLDOMNode) {
 				return SS5Util::WstrToVector3(XmlDocReader::GetText(pXMLDOMNode));
 			}
 			return bsm::Vec3(0, 0, 0);
 		}
 
-		static bsm::Vec3 AttributeToVector3(IXMLDOMNodePtr Node, const wstring& key){
+		static bsm::Vec3 AttributeToVector3(IXMLDOMNodePtr Node, const wstring& key) {
 			wstring str = XmlDocReader::GetAttribute(Node, key.c_str());
-			if (str != L""){
+			if (str != L"") {
 				return SS5Util::WstrToVector3(str);
 			}
 			return bsm::Vec3(0, 0, 0);
@@ -396,91 +396,91 @@ namespace basecross {
 
 
 
-		static Point2D<float> TextToPoint2DF(IXMLDOMNodePtr Node, const wstring& key){
+		static Point2D<float> TextToPoint2DF(IXMLDOMNodePtr Node, const wstring& key) {
 			auto pXMLDOMNode = XmlDocReader::GetSelectSingleNode(Node, key.c_str());
-			if (pXMLDOMNode){
+			if (pXMLDOMNode) {
 				return SS5Util::WstrToPoint2DF(XmlDocReader::GetText(pXMLDOMNode));
 			}
 			return Point2D<float>(0, 0);
 		}
 
-		static Point2D<float> AttributeToPoint2DF(IXMLDOMNodePtr Node, const wstring& key){
+		static Point2D<float> AttributeToPoint2DF(IXMLDOMNodePtr Node, const wstring& key) {
 			wstring str = XmlDocReader::GetAttribute(Node, key.c_str());
-			if (str != L""){
+			if (str != L"") {
 				return SS5Util::WstrToPoint2DF(str);
 			}
 			return Point2D<float>(0, 0);
 		}
 
-		static size_t TextToSizet(IXMLDOMNodePtr Node, const wstring& key){
+		static size_t TextToSizet(IXMLDOMNodePtr Node, const wstring& key) {
 			auto pXMLDOMNode = XmlDocReader::GetSelectSingleNode(Node, key.c_str());
-			if (pXMLDOMNode){
+			if (pXMLDOMNode) {
 				return wcstoul(XmlDocReader::GetText(pXMLDOMNode).c_str(), nullptr, 0);
 			}
 			return 0;
 		}
 
-		static size_t AttributeToSizet(IXMLDOMNodePtr Node, const wstring& key){
+		static size_t AttributeToSizet(IXMLDOMNodePtr Node, const wstring& key) {
 			wstring str = XmlDocReader::GetAttribute(Node, key.c_str());
-			if (str != L""){
+			if (str != L"") {
 				return wcstoul(str.c_str(), nullptr, 0);
 			}
 			return 0;
 		}
 
-		static int TextToInt(IXMLDOMNodePtr Node, const wstring& key){
+		static int TextToInt(IXMLDOMNodePtr Node, const wstring& key) {
 			auto pXMLDOMNode = XmlDocReader::GetSelectSingleNode(Node, key.c_str());
-			if (pXMLDOMNode){
+			if (pXMLDOMNode) {
 				return _wtoi(XmlDocReader::GetText(pXMLDOMNode).c_str());
 			}
 			return 0;
 		}
 
-		static int AttributeToInt(IXMLDOMNodePtr Node, const wstring& key){
+		static int AttributeToInt(IXMLDOMNodePtr Node, const wstring& key) {
 			wstring str = XmlDocReader::GetAttribute(Node, key.c_str());
-			if (str != L""){
+			if (str != L"") {
 				return _wtoi(str.c_str());
 			}
 			return 0;
 		}
 
-		static float TextToFloat(IXMLDOMNodePtr Node, const wstring& key){
+		static float TextToFloat(IXMLDOMNodePtr Node, const wstring& key) {
 			auto pXMLDOMNode = XmlDocReader::GetSelectSingleNode(Node, key.c_str());
-			if (pXMLDOMNode){
+			if (pXMLDOMNode) {
 				return (float)_wtof(XmlDocReader::GetText(pXMLDOMNode).c_str());
 			}
 			return 0.0f;
 		}
 
-		static float AttributeToFloat(IXMLDOMNodePtr Node, const wstring& key){
+		static float AttributeToFloat(IXMLDOMNodePtr Node, const wstring& key) {
 			wstring str = XmlDocReader::GetAttribute(Node, key.c_str());
-			if (str != L""){
+			if (str != L"") {
 				return (float)_wtof(str.c_str());
 			}
 			return 0.0f;
 		}
 
 
-		static bool TextToBool(IXMLDOMNodePtr Node, const wstring& key){
+		static bool TextToBool(IXMLDOMNodePtr Node, const wstring& key) {
 			auto pXMLDOMNode = XmlDocReader::GetSelectSingleNode(Node, key.c_str());
-			if (pXMLDOMNode){
-				if (XmlDocReader::GetText(pXMLDOMNode) == L"0"){
+			if (pXMLDOMNode) {
+				if (XmlDocReader::GetText(pXMLDOMNode) == L"0") {
 					return false;
 				}
-				else{
+				else {
 					return true;
 				}
 			}
 			return false;
 		}
 
-		static bool AttributeToBool(IXMLDOMNodePtr Node, const wstring& key){
+		static bool AttributeToBool(IXMLDOMNodePtr Node, const wstring& key) {
 			wstring str = XmlDocReader::GetAttribute(Node, key.c_str());
-			if (str != L""){
-				if (str == L"0"){
+			if (str != L"") {
+				if (str == L"0") {
 					return false;
 				}
-				else{
+				else {
 					return true;
 				}
 			}
@@ -488,18 +488,18 @@ namespace basecross {
 		}
 
 
-		static bsm::Col4 TextARGBToColor4(IXMLDOMNodePtr Node, const wstring& key){
+		static bsm::Col4 TextARGBToColor4(IXMLDOMNodePtr Node, const wstring& key) {
 			auto pXMLDOMNode = XmlDocReader::GetSelectSingleNode(Node, key.c_str());
-			if (pXMLDOMNode){
+			if (pXMLDOMNode) {
 				wstring Hex = XmlDocReader::GetText(pXMLDOMNode);
 				return WstrARGBToColor4(Hex);
 			}
 			return bsm::Col4(0, 0, 0, 0);
 		}
 
-		static bsm::Col4 AttributeARGBToColor4(IXMLDOMNodePtr Node, const wstring& key){
+		static bsm::Col4 AttributeARGBToColor4(IXMLDOMNodePtr Node, const wstring& key) {
 			wstring str = XmlDocReader::GetAttribute(Node, key.c_str());
-			if (str != L""){
+			if (str != L"") {
 				return WstrARGBToColor4(str);
 			}
 			return bsm::Col4(0, 0, 0, 0);
@@ -551,13 +551,13 @@ namespace basecross {
 	//	class SS5AnimeLine;
 	//	用途: アニメーションライン（基底クラス）
 	//--------------------------------------------------------------------------------------
-	class SS5AnimeLine{
+	class SS5AnimeLine {
 	protected:
 		SsAttributeKind::_enum type;	//タイプ
 		SS5AnimeLine();
 		virtual ~SS5AnimeLine();
 	public:
-		SsAttributeKind::_enum GetType()const{ return type; }
+		SsAttributeKind::_enum GetType()const { return type; }
 	private:
 		//コピー禁止
 		SS5AnimeLine(const  SS5AnimeLine&) = delete;
@@ -572,7 +572,7 @@ namespace basecross {
 	//	class SS5AnimeBoolVal : public SS5AnimeLine;
 	//	用途: bool型アニメーションライン
 	//--------------------------------------------------------------------------------------
-	class SS5AnimeBoolVal : public SS5AnimeLine{
+	class SS5AnimeBoolVal : public SS5AnimeLine {
 	public:
 		SS5AnimeBoolVal(IXMLDOMNodePtr TgtNode, const wstring& typestr);
 		virtual ~SS5AnimeBoolVal();
@@ -588,7 +588,7 @@ namespace basecross {
 	//	class SS5AnimeFloatVal : public SS5AnimeLine;
 	//	用途: float型の値を保持するアニメーションライン
 	//--------------------------------------------------------------------------------------
-	class SS5AnimeFloatVal : public SS5AnimeLine{
+	class SS5AnimeFloatVal : public SS5AnimeLine {
 	public:
 		SS5AnimeFloatVal(IXMLDOMNodePtr TgtNode, const wstring& typestr);
 		virtual ~SS5AnimeFloatVal();
@@ -601,7 +601,7 @@ namespace basecross {
 		unique_ptr<Impl> pImpl;
 	};
 
-	struct AnimeCell{
+	struct AnimeCell {
 		UINT id;
 		wstring name;
 	};
@@ -610,7 +610,7 @@ namespace basecross {
 	//	class SS5AnimeCellVal : public SS5AnimeLine;
 	//	用途: AnimeCell型の値を保持するアニメーションライン
 	//--------------------------------------------------------------------------------------
-	class SS5AnimeCellVal : public SS5AnimeLine{
+	class SS5AnimeCellVal : public SS5AnimeLine {
 	public:
 		SS5AnimeCellVal(IXMLDOMNodePtr TgtNode, const wstring& typestr);
 		virtual ~SS5AnimeCellVal();
@@ -629,7 +629,7 @@ namespace basecross {
 	//	class SS5AnimeWstrVal : public SS5AnimeLine;
 	//	用途: wstrng型の値を保持するアニメーションライン
 	//--------------------------------------------------------------------------------------
-	class SS5AnimeWstrVal : public SS5AnimeLine{
+	class SS5AnimeWstrVal : public SS5AnimeLine {
 	public:
 		SS5AnimeWstrVal(IXMLDOMNodePtr TgtNode, const wstring& typestr);
 		virtual ~SS5AnimeWstrVal();
@@ -645,7 +645,7 @@ namespace basecross {
 	//	class SS5AnimeColorVal : public SS5AnimeLine;
 	//	用途: bsm::Col4型の値を保持するアニメーションライン
 	//--------------------------------------------------------------------------------------
-	class SS5AnimeColorVal : public SS5AnimeLine{
+	class SS5AnimeColorVal : public SS5AnimeLine {
 	public:
 		SS5AnimeColorVal(IXMLDOMNodePtr TgtNode, const wstring& typestr);
 		virtual ~SS5AnimeColorVal();
@@ -657,7 +657,7 @@ namespace basecross {
 		unique_ptr<Impl> pImpl;
 	};
 
-	struct Vertex2DAnimeData{
+	struct Vertex2DAnimeData {
 		Point2D<float> LeftTop;
 		Point2D<float> RightTop;
 		Point2D<float> LeftBottom;
@@ -666,14 +666,14 @@ namespace basecross {
 			LeftTop(0, 0),
 			RightTop(0, 0),
 			LeftBottom(0, 0),
-			RightBottom(0, 0){}
+			RightBottom(0, 0) {}
 	};
 
 	//--------------------------------------------------------------------------------------
 	//	class SS5Animebsm::Vec3Val : public SS5AnimeLine;
 	//	用途: bsm::Vec3型の値を保持するアニメーションライン
 	//--------------------------------------------------------------------------------------
-	class SS5AnimeVector3Val : public SS5AnimeLine{
+	class SS5AnimeVector3Val : public SS5AnimeLine {
 	public:
 		SS5AnimeVector3Val(IXMLDOMNodePtr TgtNode, const wstring& typestr);
 		virtual ~SS5AnimeVector3Val();
@@ -691,7 +691,7 @@ namespace basecross {
 	//	class SS5Cell;
 	//	用途: SpriteStdioセル
 	//--------------------------------------------------------------------------------------
-	class SS5Cell{
+	class SS5Cell {
 	public:
 		//構築と破棄
 		SS5Cell(IXMLDOMNodePtr Node);
@@ -719,7 +719,7 @@ namespace basecross {
 	//	class SS5ssce;
 	//	用途: SpriteStdioのssceクラス
 	//--------------------------------------------------------------------------------------
-	class SS5ssce{
+	class SS5ssce {
 	public:
 		//構築と消滅
 		SS5ssce(const wstring& BaseDir, const wstring& Xmlfilename);
@@ -756,7 +756,7 @@ namespace basecross {
 	//	class SS5PartAnimation;
 	//	用途: パーツごとのアニメーション
 	//--------------------------------------------------------------------------------------
-	class SS5PartAnimation{
+	class SS5PartAnimation {
 	public:
 		//構築と消滅
 		SS5PartAnimation(IXMLDOMNodePtr TgtNode, SS5Animation* pSS5Animation);
@@ -789,12 +789,11 @@ namespace basecross {
 	};
 
 
-	class SS5ssae;
 	//--------------------------------------------------------------------------------------
 	//	class SS5Animation;
 	//	用途: アニメーション
 	//--------------------------------------------------------------------------------------
-	class SS5Animation{
+	class SS5Animation {
 	public:
 		//構築と消滅
 		SS5Animation(IXMLDOMNodePtr TgtNode);
@@ -841,7 +840,7 @@ namespace basecross {
 	//	class SSPart : public  GameObject;
 	//	用途: SSPartクラス(各パーツ)
 	//--------------------------------------------------------------------------------------
-	class SSPart : public  GameObject{
+	class SSPart : public  GameObject {
 		//描画データ
 		shared_ptr<SimpleDrawObject> m_PtrObj;
 		//描画オブジェクト(weak_ptr)
@@ -849,7 +848,7 @@ namespace basecross {
 	public:
 		//構築と消滅
 		SSPart(const shared_ptr<Stage>& StagePtr, const wstring& SsaeName, vector< shared_ptr<SS5ssce> >& SS5sscePtrVec,
-			IXMLDOMNodePtr ScanNode, IXMLDOMNodePtr TgtNode, const shared_ptr<SSPart>& Parent,bool SpriteType);
+			IXMLDOMNodePtr ScanNode, IXMLDOMNodePtr TgtNode, const shared_ptr<SSPart>& Parent, bool SpriteType);
 		virtual ~SSPart();
 		//初期化
 		virtual void OnCreate() override;
@@ -886,11 +885,11 @@ namespace basecross {
 	//	class SS5ssae :  public GameObject;
 	//	用途: SpriteStdioのssaeクラス（アニメーションパック）
 	//--------------------------------------------------------------------------------------
-	class SS5ssae : public  GameObject{
+	class SS5ssae : public  GameObject {
 	public:
 		//構築と消滅
 		SS5ssae(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir,
-			const wstring& Xmlfilename, const wstring& StartAnimeName,bool SpriteType = false);
+			const wstring& Xmlfilename, const wstring& StartAnimeName, bool SpriteType = false);
 		virtual ~SS5ssae();
 		//初期化
 		virtual void OnCreate() override;
@@ -924,7 +923,7 @@ namespace basecross {
 		//fps（再生スピード）を設定する
 		void SetFps(float f);
 
-		virtual void OnUpdate() override{}
+		virtual void OnUpdate() override {}
 		virtual void OnDraw()override;
 	private:
 		//Implイディオム

@@ -595,6 +595,10 @@ namespace basecross {
 		strTexture = DataDir + L"Texture\\BackSprite.png";
 		App::GetApp()->RegisterTexture(L"FADE_TX", strTexture);
 
+		strTexture = DataDir + L"Texture\\skeleton.png";
+		App::GetApp()->RegisterTexture(L"Skeleton_TX", strTexture);
+		
+
 
 		//ボーンモデルのリソース
 //		auto ModelMesh = MeshResource::CreateBoneModelMesh(DataDir, L"temp\\Chara_R.bmf");
@@ -679,7 +683,7 @@ namespace basecross {
 	void Scene::OnCreate() {
 		CreateResources();
 		//自分自身にイベントを送る
-		//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
+		//これにより各ステージやCreate時にシーンにアクセスできる
 		PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToTitle");
 	}
 

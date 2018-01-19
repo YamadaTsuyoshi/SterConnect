@@ -1274,7 +1274,7 @@ namespace basecross {
 		//ƒJƒƒ‰‚ÌˆÊ’u
 		Vec3 CameraEye = PtrStage->GetCamera().m_CamerEye;
 		Vec3 CameraAt = PtrStage->GetCamera().m_CamerAt;
-		m_Pos.y = CameraEye.y;
+		//m_Pos.y = CameraEye.y;
 		switch (m_DrawOption) {
 		case SquareDrawOption::Billboard:
 		{

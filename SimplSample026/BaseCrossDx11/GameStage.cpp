@@ -263,6 +263,7 @@ namespace basecross {
 
 			if (MapVec[0] == L"Boss")
 			{
+				BossNull = false;
 				stringflag = true;
 				AddGameObject<BossEnemy>(
 					L"KAGUYA_TX",
@@ -578,17 +579,35 @@ namespace basecross {
 		
 		auto& camera = GetCamera();
 
+
 		camera.m_CamerAt.y = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y;
 		KaguyaPos = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition();
 		auto player = FindTagGameObject<Player>(L"Player");
 		P_Pos = player->GetPosition();
-		if (camera.m_CamerAt.y > maxPosition) {
-			maxPosition = camera.m_CamerAt.y;
+		if (!BossNull) {
+			BossPos = FindTagGameObject<GameObject>(L"Boss")->GetPosition();
+			if (camera.m_CamerAt.y >= BossPos.y - 3) {
+				camera.m_CamerAt.y = BossPos.y - 3;
+			}
+			else if (camera.m_CamerAt.y > maxPosition) {
+				maxPosition = camera.m_CamerAt.y;
+			}
+			else if (camera.m_CamerAt.y < maxPosition) {
+				camera.m_CamerAt.y = maxPosition;
+				//maxPosition = camera.m_CamerAt.y;
+			}
 		}
-
-		else if (camera.m_CamerAt.y < maxPosition) {
-			camera.m_CamerAt.y = maxPosition;
-			//maxPosition = camera.m_CamerAt.y;
+		else {
+			if (camera.m_CamerAt.y >= 84) {
+				camera.m_CamerAt.y = 84;
+			}
+			else if(camera.m_CamerAt.y > maxPosition) {
+				maxPosition = camera.m_CamerAt.y;
+			}
+			else if (camera.m_CamerAt.y < maxPosition) {
+				camera.m_CamerAt.y = maxPosition;
+				//maxPosition = camera.m_CamerAt.y;
+			}
 		}
 		Vec3 CameraLocalEye =
 			Vec3(
@@ -676,12 +695,6 @@ namespace basecross {
 				lifegroup[3]->ScaleChangeH();
 				lifegroup[4]->ScaleChangeH();
 				break;
-			}
-
-			
-
-			if (maxPosition >= 83.0f) {
-				camera.m_CamerAt.y = 83.0f;
 			}
 			if (FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y <= (maxPosition - 7.0f)) {
 				m_AudioObjectPtr->AddAudioResource(L"VOICE_SONNAA");

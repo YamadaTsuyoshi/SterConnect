@@ -62,8 +62,10 @@ namespace basecross {
 		shared_ptr<Fade> m_FadeSprite;
 		
 		bool Startflag = false;
+		bool BossNull = true;
 
 		Vec3 KaguyaPos;
+		Vec3 BossPos;
 
 		wstring AnimeName;
 
@@ -137,8 +139,9 @@ namespace basecross {
 
 		bool getStartFlag() { return Startflag; };
 
-		Vec3 GetKaguyaPos() { return KaguyaPos; }
+		Vec3 GetKaguyaPos() { return KaguyaPos; };
 
+		void SetBossNulltrue() { BossNull = true; };
 	};
 
 

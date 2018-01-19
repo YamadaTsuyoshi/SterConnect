@@ -618,6 +618,9 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"CORRON_TX", strTexture);
 		strTexture = DataDir + L"UI\\Time_Number.png";
 		App::GetApp()->RegisterTexture(L"NUMBER_TX", strTexture);
+		strTexture = DataDir + L"Enemy\\RabbitBOX.png";
+		App::GetApp()->RegisterTexture(L"RABBITBOX_TX", strTexture);
+		
 
 		//ボーンモデルのリソース
 //		auto ModelMesh = MeshResource::CreateBoneModelMesh(DataDir, L"temp\\Chara_R.bmf");

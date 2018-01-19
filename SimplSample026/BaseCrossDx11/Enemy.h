@@ -105,10 +105,12 @@ namespace basecross {
 
 		float Time = 0;
 
+		float Scale = 1;
+
 	public:
 		//構築と破棄
 		RabbitBullet(const shared_ptr<Stage>& StagePtr,
-			const wstring& TextureResName, bool Trace, const Vec3& Pos);
+			const wstring& TextureResName, bool Trace, const Vec3& Pos, const float& Scale);
 
 		virtual ~RabbitBullet();
 		virtual Vec3 GetPosition() override;
@@ -226,10 +228,41 @@ namespace basecross {
 		float Time = 0;
 
 		bool Startflag = false;
+
+		bool AttackFlag = false;
+
+		bool lookflag = false;
 	public:
 		//構築と破棄
 		KineRabbitSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);
 		virtual ~KineRabbitSS() {}
+		//初期化
+		virtual void OnCreate() override;
+		//更新
+		virtual void OnUpdate() override;
+		virtual void OnUpdate2()override;
+		void ThisDelete();
+	};
+
+	//--------------------------------------------------------------------------------------
+	//	火の玉スプライトスタジオ
+	//--------------------------------------------------------------------------------------
+	class WispSS : public SS5ssae {
+		Mat4x4 m_ToAnimeMatrixLeft;
+		Vec3 m_Posision;
+		//壁
+		float m_BaseX;
+		///スケーリングベースの最下地点
+		float m_BaseY;
+		//Rigidbodyのshared_ptr
+		shared_ptr<Rigidbody> m_Rigidbody;
+		Vec3 Speed = Vec3(1.5f, 1.5f, 1.5f);
+		float Time = 0;
+		bool Startflag = false;
+	public:
+		//構築と破棄
+		WispSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);
+		virtual ~WispSS() {}
 		//初期化
 		virtual void OnCreate() override;
 		//更新

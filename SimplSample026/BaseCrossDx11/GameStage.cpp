@@ -139,6 +139,22 @@ namespace basecross {
 				AddGameObject<KineRabbitSS>(Map, Pos);
 			}
 
+			if (MapVec[0] == L"Wisp")
+			{
+				stringflag = true;
+				/*AddGameObject<KineRabbit>(
+				L"RABBIT_TX",
+				true,
+				Pos
+				);*/
+				wstring Path = App::GetApp()->GetDataDirWString();
+
+				//ÉtÉ@ÉCÉãñºÇÃê›íË
+				wstring Map = Path + L"\\Enemy\\";
+
+				AddGameObject<WispSS>(Map, Pos);
+			}
+
 			if (MapVec[0] == L"Goal")
 			{
 				stringflag = true;

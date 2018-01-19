@@ -460,6 +460,14 @@ namespace basecross {
 		//文字列描画オブジェクトの作成
 		AddGameObject<StringDrawObject>();
 
+		AddGameObject<StageSprite>(
+			L"KEIKAZIKAN_TX",
+			Vec2(310, 100),
+			0.0f,
+			Vec2(490, 0),
+			1, 1
+			);
+
 		m_FadeSprite = ObjectFactory::Create<Fade>(
 			GetThis<Stage>(),
 			L"FADE_TX",
@@ -705,6 +713,8 @@ namespace basecross {
 			FPS += L"\nTime: ";
 			FPS += Util::FloatToWStr(m_Time);
 			//FPS += FindTagGameObject<Kaguya>(L"Kaguya")->GetHitObj();
+			FPS += L"\n";
+			FPS += Util::FloatToWStr(EnemyBreak);
 			FPS += L"\n";
 			if (!m_StringDrawObject) {
 				m_StringDrawObject = FindTagGameObject<StringDrawObject>(L"StringDrawObject");

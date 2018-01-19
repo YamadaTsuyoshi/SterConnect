@@ -1599,5 +1599,7 @@ namespace basecross {
 		void ThisDelete();
 	};
 
+
+
 }
 //end basecross

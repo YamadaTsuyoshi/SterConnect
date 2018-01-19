@@ -2547,6 +2547,5 @@ namespace basecross {
 	{
 		GetStage<GameStage>()->RemoveGameObject<RedEffectSS>(GetThis<RedEffectSS>());
 	}
-
 }
 //end basecross

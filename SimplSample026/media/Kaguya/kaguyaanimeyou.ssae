@@ -2661,6 +2661,12 @@
 					<partName>Bangs_Center</partName>
 					<attributes>
 						<attribute tag="CELL">
+							<key time="0">
+								<value>
+									<mapId>0</mapId>
+									<name>Bangs_Center</name>
+								</value>
+							</key>
 							<key time="1">
 								<value>
 									<mapId>0</mapId>
@@ -2712,6 +2718,9 @@
 							</key>
 						</attribute>
 						<attribute tag="PRIO">
+							<key time="0" ipType="linear">
+								<value>49</value>
+							</key>
 							<key time="1" ipType="linear">
 								<value>49</value>
 							</key>

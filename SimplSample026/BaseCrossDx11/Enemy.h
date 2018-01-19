@@ -190,6 +190,12 @@ namespace basecross {
 		float Time = 0;
 
 		bool Startflag = false;
+
+		int BulletCount = 0;
+		bool Bulletflag = false;
+		bool Bulletflag2 = false;
+		float BulletTime = 0;
+
 	public:
 		//ç\ízÇ∆îjä¸
 		RabbitSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);

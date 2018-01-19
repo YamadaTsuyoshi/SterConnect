@@ -726,7 +726,7 @@ namespace basecross {
 			FPS += Util::FloatToWStr(m_Time);
 			//FPS += FindTagGameObject<Kaguya>(L"Kaguya")->GetHitObj();
 			FPS += L"\n";
-			FPS += Util::FloatToWStr(EnemyBreak);
+			FPS += Util::IntToWStr(EnemyBreak);
 			FPS += L"\n";
 			if (!m_StringDrawObject) {
 				m_StringDrawObject = FindTagGameObject<StringDrawObject>(L"StringDrawObject");

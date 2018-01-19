@@ -920,7 +920,7 @@ namespace basecross {
 				if (IsAnimeEnd()&&!Bulletflag)
 				{
 					wstring Anime = L"fly_-";
-					Anime += Util::FloatToWStr(BulletCount);
+					Anime += Util::IntToWStr(BulletCount);
 				if (BulletCount == 0)
 				{
 					Anime = L"fly_full";
@@ -947,7 +947,7 @@ namespace basecross {
 				{
 					BulletTime = 0;
 					wstring Anime = L"Throw_";
-					Anime += Util::FloatToWStr(BulletCount);
+					Anime += Util::IntToWStr(BulletCount);
 					if (BulletCount == 6)
 					{
 						ChangeAnimation(Anime);

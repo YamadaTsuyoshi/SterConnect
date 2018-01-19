@@ -73,6 +73,7 @@ namespace basecross {
 		bool FadeFlag = false;
 		bool FadeFlag2 = false;
 		bool ClearFlag = false;
+		int EnemyBreak = 0;
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief コンストラクタ

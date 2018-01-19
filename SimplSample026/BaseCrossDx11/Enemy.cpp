@@ -835,7 +835,7 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
 	RabbitSS::RabbitSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
-		SS5ssae(StagePtr, BaseDir, L"WhiteRabbit.ssae", L"Throw_1"),
+		SS5ssae(StagePtr, BaseDir, L"WhiteRabbit.ssae", L"fly_full"),
 		m_Posision(Pos),
 		m_BaseX(5.5f),
 		m_BaseY(0.25f / 2.0f)
@@ -886,10 +886,10 @@ namespace basecross {
 		//親クラスのクリエイトを呼ぶ
 		SS5ssae::OnCreate();
 		//値は秒あたりのフレーム数
-		SetFps(10.0f);
+		SetFps(30.0f);
 
 		//ChangeAnimation(L"run");
-		SetLooped(true);
+		SetLooped(false);
 
 
 	}
@@ -900,10 +900,68 @@ namespace basecross {
 		Startflag = GetStage<GameStage>()->getStartFlag();
 		if (Startflag) {
 			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
-				if (rightMove)
+				if (rightMove) {
 					m_Rigidbody->m_Velocity.x = Speed.x;
-				if (!rightMove)
+				}
+				if (!rightMove) {
 					m_Rigidbody->m_Velocity.x = -Speed.x;
+				}
+				if (IsAnimeEnd()&&Startflag&&Bulletflag2) {
+					Vec3 v = m_Rigidbody->m_Pos;
+					v.y -= 0.8f;
+					GetStage<Stage>()->AddGameObject<RabbitBullet>(
+						L"RABBIT_BULLET_TX",
+						true,
+						v
+						);
+					Bulletflag2 = false;
+				}
+				BulletTime += ElapsedTime;
+				if (IsAnimeEnd()&&!Bulletflag)
+				{
+					wstring Anime = L"fly_-";
+					Anime += Util::FloatToWStr(BulletCount);
+				if (BulletCount == 0)
+				{
+					Anime = L"fly_full";
+					ChangeAnimation(Anime);
+					SetLooped(true);
+					Bulletflag = true;
+				}
+					else if (BulletCount == 6)
+					{
+						Anime += L"_0";
+						ChangeAnimation(Anime);
+						SetLooped(true);
+					}
+					else {
+						ChangeAnimation(Anime);
+						SetLooped(true);
+						Bulletflag = true;
+					}
+					if (BulletCount < 6) {
+						BulletCount++;
+					}
+				}
+				else if (Bulletflag&&BulletTime>=5)
+				{
+					BulletTime = 0;
+					wstring Anime = L"Throw_";
+					Anime += Util::FloatToWStr(BulletCount);
+					if (BulletCount == 6)
+					{
+						ChangeAnimation(Anime);
+						SetLooped(false);
+						Bulletflag = false;
+						Bulletflag2 = true;
+					}
+					else {
+						ChangeAnimation(Anime);
+						SetLooped(false);
+						Bulletflag = false;
+						Bulletflag2 = true;
+					}
+				}
 			}
 		}
 		auto PtrT = GetTransform();
@@ -921,18 +979,6 @@ namespace basecross {
 				if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
 					rightMove = true;
 				}
-				float ElapsedTime = App::GetApp()->GetElapsedTime();
-				Time += ElapsedTime;
-				if (Time > 4.0f&&Startflag) {
-					Vec3 v = m_Rigidbody->m_Pos;
-					v.y -= 0.8f;
-					GetStage<Stage>()->AddGameObject<RabbitBullet>(
-						L"RABBIT_BULLET_TX",
-						true,
-						v
-						);
-					Time = 0;
-				}
 			}
 		}
 
@@ -945,6 +991,7 @@ namespace basecross {
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();
+						gamestage->EnemyBreak++;
 						ThisDelete();
 					}
 				}
@@ -999,6 +1046,7 @@ namespace basecross {
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					auto gamestage = GetStage<GameStage>();
 					gamestage->StartDestroySE();
+					gamestage->EnemyBreak++;
 					ThisDelete();
 				}
 				break;
@@ -1010,6 +1058,7 @@ namespace basecross {
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();
+						gamestage->EnemyBreak++;
 						ThisDelete();
 					}
 				}
@@ -1064,6 +1113,7 @@ namespace basecross {
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					auto gamestage = GetStage<GameStage>();
 					gamestage->StartDestroySE();
+					gamestage->EnemyBreak++;
 					ThisDelete();
 				}
 				break;
@@ -1194,6 +1244,7 @@ namespace basecross {
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();
+						gamestage->EnemyBreak++;
 						ThisDelete();
 					}
 				}
@@ -1248,6 +1299,7 @@ namespace basecross {
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					auto gamestage = GetStage<GameStage>();
 					gamestage->StartDestroySE();
+					gamestage->EnemyBreak++;
 					ThisDelete();
 				}
 				break;
@@ -1259,6 +1311,7 @@ namespace basecross {
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();
+						gamestage->EnemyBreak++;
 						ThisDelete();
 					}
 				}
@@ -1313,6 +1366,7 @@ namespace basecross {
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					auto gamestage = GetStage<GameStage>();
 					gamestage->StartDestroySE();
+					gamestage->EnemyBreak++;
 					ThisDelete();
 				}
 				break;

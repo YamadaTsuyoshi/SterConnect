@@ -24,9 +24,8 @@ namespace basecross {
 		wstring Path = App::GetApp()->GetDataDirWString();
 
 		//ファイル名の設定
-		wstring Map = Path +L"\\CSV\\" + L"Stage_1.csv";
-			//+ Util::IntToWStr(ScenePtr->GetStageNumber()) + L".csv";
-
+		wstring Map = Path +L"\\CSV\\" + L"Stage_" + Util::IntToWStr(ScenePtr->GetStageNumber()) + L".csv";
+		/*+ L"Stage_1.csv";*/
 		//ファイルの指定
 		m_Csv.SetFileName(Map);
 

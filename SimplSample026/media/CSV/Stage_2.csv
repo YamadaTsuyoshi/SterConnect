@@ -1,0 +1,16 @@
+Objects,PosX,PosY,PosZ,Rot.X,Rot.Y,Rot.Z,Scl.X,Scl.Y,Scl.Z
+Player,0,0.25,0,0,0,0,0,0,0
+Kaguya,0,0.125,0,0,0,0,0,0,0
+Goal,0,85,-7,0,0,0,0,0,0
+CloudA,6,85,-8,0,0,0,0,0,0
+CloudC,2,85,-8,0,0,0,0,0,0
+CloudB,-2,85,-8,0,0,0,0,0,0
+CloudA,-6,85,-8,0,0,0,0,0,0
+StageCloudD,-1,5,-8,0,0,0,0,0,0
+StageCloudA,-3,45,-8,0,0,0,0,0,0
+StageCloudB,5,56,-8,0,0,0,0,0,0
+StageCloudD,2,77,-8,0,0,0,0,0,0
+StageCloudA,-3,24,-8,0,0,0,0,0,0
+StageCloudC,2,38,-8,0,0,0,0,0,0
+StageCloudB,-4,13,-8,0,0,0,0,0,0
+end,,,,,,,,,

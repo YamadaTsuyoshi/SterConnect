@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SpriteStudioCellMap version="1.00.00">
+    <name>hinotama-01</name>
+    <exportPath></exportPath>
+    <imagePath>hinotama-01.png</imagePath>
+    <pixelSize>1024 1024</pixelSize>
+    <overrideTexSettings>0</overrideTexSettings>
+    <wrapMode>clamp</wrapMode>
+    <filterMode>linear</filterMode>
+    <imagePathAtImport></imagePathAtImport>
+    <packInfoFilePath></packInfoFilePath>
+    <texPackSettings>
+        <maxSize>4096 4096</maxSize>
+        <forcePo2>1</forcePo2>
+        <forceSquare>0</forceSquare>
+        <margin>0</margin>
+        <padding>1</padding>
+    </texPackSettings>
+    <cells>
+        <cell>
+            <name>eye</name>
+            <pos>790 186</pos>
+            <size>128 126</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>white</name>
+            <pos>790 4</pos>
+            <size>180 180</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>fire1</name>
+            <pos>530 482</pos>
+            <size>260 472</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>fire2</name>
+            <pos>268 4</pos>
+            <size>260 478</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>fire3</name>
+            <pos>530 4</pos>
+            <size>258 476</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>fire4</name>
+            <pos>4 4</pos>
+            <size>262 494</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+    </cells>
+</SpriteStudioCellMap>

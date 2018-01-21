@@ -409,7 +409,7 @@ namespace basecross {
 			L"UI_S_TX",
 			Vec2(310,800),
 			0.0f,
-			Vec2(490, 0),
+			Vec2(480, 0),
 			1, 1
 			);
 
@@ -462,9 +462,16 @@ namespace basecross {
 
 		AddGameObject<StageSprite>(
 			L"KEIKAZIKAN_TX",
-			Vec2(310, 100),
+			Vec2(110, 25),
 			0.0f,
-			Vec2(490, 0),
+			Vec2(390, 40),
+			1, 1
+			);
+		TimeNum = AddGameObject<TimeSprite>(
+			L"NUMBER_TX",
+			Vec2(40, 40),
+			0.0f,
+			Vec2(410, 20),
 			1, 1
 			);
 
@@ -724,6 +731,7 @@ namespace basecross {
 			FPS += Util::FloatToWStr(CntlVec[0].fThumbRX);
 			FPS += L"\nTime: ";
 			FPS += Util::FloatToWStr(m_Time);
+			TimeNum->SetTime(m_Time);
 			//FPS += FindTagGameObject<Kaguya>(L"Kaguya")->GetHitObj();
 			FPS += L"\n";
 			FPS += Util::IntToWStr(EnemyBreak);

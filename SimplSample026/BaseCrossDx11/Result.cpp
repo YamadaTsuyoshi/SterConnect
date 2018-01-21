@@ -25,6 +25,13 @@ namespace basecross {
 			0.0f,
 			Vec2(0, 250),
 			1, 1);
+		AddGameObject<TimeSprite>(
+			L"NUMBER_TX",
+			Vec2(210, 210),
+			0.0f,
+			Vec2(0, 0),
+			1, 1
+			);
 
 		AddGameObject<DefSp>(
 			L"GAMEOVER_SIDE_TX",

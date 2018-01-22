@@ -162,6 +162,7 @@ namespace basecross {
 					true,
 					Pos
 					);
+				GoalPos = Pos.y;
 			}
 
 			if (MapVec[0] == L"Bamboo")
@@ -465,13 +466,12 @@ namespace basecross {
 		}
 
 		//メッセージを表示するスプライトの作成
-		AddGameObject<MessageSprite>(
-			L"MESSAGE_TX",
-			Vec2(256, 64),
+		m_MessageSprite = AddGameObject<MessageSprite>(
+			L"PUSH_A_TX",
+			Vec2(350, 100),
 			0.0f,
-			Vec2(480, 260),
-			1, 1
-			);
+			Vec2(-150, -250),
+			1, 1);
 
 		//文字列描画オブジェクトの作成
 		AddGameObject<StringDrawObject>();
@@ -574,6 +574,9 @@ namespace basecross {
 		}
 
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
+			
+		}
 
 		if (Startflag&&CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_START)
 		{
@@ -597,6 +600,7 @@ namespace basecross {
 				);*/
 			Startbar->AddTag(L"Yellow");
 			Startflag = true;
+			m_MessageSprite->SetAlpha(0);
 		}
 
 		
@@ -955,10 +959,10 @@ namespace basecross {
 		//メッセージスプライト
 		m_MessageSprite = ObjectFactory::Create<MessageSprite>(
 			GetThis<Stage>(),
-			L"MESSAGE_TX",
-			Vec2(256, 64),
+			L"PUSH_A_TX",
+			Vec2(200, 200),
 			0.0f,
-			Vec2(0, 0),
+			Vec2(0, -250),
 			1, 1);
 	}
 	void EmptyStage::OnUpdateStage() {
@@ -975,6 +979,7 @@ namespace basecross {
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_Y) {
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
 			}
+			
 		}
 	}
 

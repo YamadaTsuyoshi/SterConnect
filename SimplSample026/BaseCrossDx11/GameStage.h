@@ -69,6 +69,10 @@ namespace basecross {
 
 		wstring AnimeName;
 
+		float GoalPos = 0;
+
+		shared_ptr<MessageSprite> m_MessageSprite;
+
 	public:
 		bool FadeFlag = false;
 		bool FadeFlag2 = false;
@@ -143,6 +147,8 @@ namespace basecross {
 		Vec3 GetKaguyaPos() { return KaguyaPos; };
 
 		void SetBossNulltrue() { BossNull = true; };
+
+		float GetGoalPos() { return GoalPos; };
 	};
 
 

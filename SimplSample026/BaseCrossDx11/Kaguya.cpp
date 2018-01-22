@@ -234,7 +234,7 @@ namespace basecross {
 			}
 			m_Rigidbody->m_Force += m_Rigidbody->m_Gravity * m_Rigidbody->m_Mass;
 
-			if (m_Rigidbody->m_Pos.y >= 85) {
+			if (m_Rigidbody->m_Pos.y >= GetStage<GameStage>()->GetGoalPos()) {
 				auto gamestage = GetStage<GameStage>();
 				gamestage->StopBGM();
 				gamestage->FadeFlag = true;

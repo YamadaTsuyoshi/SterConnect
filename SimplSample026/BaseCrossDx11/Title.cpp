@@ -21,8 +21,8 @@ namespace basecross {
 			1, 1);
 		m_HutonSprite = ObjectFactory::Create<MessageSprite>(
 			GetThis<Stage>(),
-			L"HUTON_TX",
-			Vec2(200, 200),
+			L"PUSH_A_TX",
+			Vec2(350, 100),
 			0.0f,
 			Vec2(0, -250),
 			1, 1);
@@ -75,7 +75,7 @@ namespace basecross {
 		Dev->StartDefaultDraw();
 		//スプライト描画
 		m_MessageSprite->OnDraw();
-		//m_HutonSprite->OnDraw();
+		m_HutonSprite->OnDraw();
 		m_FadeSprite->OnDraw();
 		//自分自身の描画
 		this->OnDraw();

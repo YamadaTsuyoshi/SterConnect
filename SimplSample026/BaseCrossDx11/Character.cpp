@@ -780,7 +780,7 @@ namespace basecross {
 			m_TotalTime = 0;
 		}
 		float sin_val = sin(m_TotalTime) * 0.5f + 0.5f;
-		Col4 UpdateCol(1.0f, 1.0f, 1.0f, sin_val);
+		Col4 UpdateCol(1.0f, 1.0f, 1.0f, sin_val*A);
 		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
 			vertices[i] = VertexPositionColorTexture(
 				m_BackupVertices[i].position,

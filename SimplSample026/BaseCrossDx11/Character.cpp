@@ -1802,7 +1802,7 @@ namespace basecross {
 		body.SetToBefore();
 
 		m_Rigidbody = PtrGameStage->AddRigidbody(body);
-		body.m_Pos.z -= 8;
+		body.m_Pos.z -= 7;
 		//行列の定義
 		Mat4x4 World;
 		World.affineTransformation(
@@ -1865,7 +1865,7 @@ namespace basecross {
 			}
 		}
 		//プレイヤーのＺ位置は強制的に0.0にする
-		//m_Rigidbody->m_Pos = m_Posision;
+		m_Rigidbody->m_Pos = m_Posision;
 	}
 
 	void Bamboo::OnDrawShadowmap() {
@@ -1897,7 +1897,7 @@ namespace basecross {
 			m_Rigidbody->m_Scale,
 			Vec3(0, 0, 0),
 			m_Rigidbody->m_Quat,
-			Vec3(m_Rigidbody->m_Pos.x, m_Rigidbody->m_Pos.y, m_Rigidbody->m_Pos.z-8)
+			Vec3(m_Rigidbody->m_Pos.x, m_Rigidbody->m_Pos.y, m_Rigidbody->m_Pos.z-7)
 		);
 		m_PtrObj->m_WorldMatrix = World;
 		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
@@ -2435,7 +2435,7 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
 	HeelSS::HeelSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
-		SS5ssae(StagePtr, BaseDir, L"LifeHeal.ssae", L"LightHeart"),
+		SS5ssae(StagePtr, BaseDir, L"LightItem2.ssae", L"aLight"),
 		m_Posision(Pos)
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(
@@ -2450,7 +2450,7 @@ namespace basecross {
 	//初期化
 	void HeelSS::OnCreate() {
 		//タグの追加
-		AddTag(L"Enemy");
+		AddTag(L"Item");
 		//Rigidbodyの初期化
 		auto PtrGameStage = GetStage<GameStage>();
 		Rigidbody body;

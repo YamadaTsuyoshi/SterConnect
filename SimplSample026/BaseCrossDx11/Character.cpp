@@ -1769,7 +1769,7 @@ namespace basecross {
 		body.SetToBefore();
 
 		m_Rigidbody = PtrGameStage->AddRigidbody(body);
-
+		body.m_Pos.z -= 8;
 		//行列の定義
 		Mat4x4 World;
 		World.affineTransformation(
@@ -1832,7 +1832,7 @@ namespace basecross {
 			}
 		}
 		//プレイヤーのＺ位置は強制的に0.0にする
-		m_Rigidbody->m_Pos = m_Posision;
+		//m_Rigidbody->m_Pos = m_Posision;
 	}
 
 	void Bamboo::OnDrawShadowmap() {
@@ -1859,11 +1859,12 @@ namespace basecross {
 	void Bamboo::OnDraw() {
 		//行列の定義
 		Mat4x4 World;
+		
 		World.affineTransformation(
 			m_Rigidbody->m_Scale,
 			Vec3(0, 0, 0),
 			m_Rigidbody->m_Quat,
-			m_Rigidbody->m_Pos
+			Vec3(m_Rigidbody->m_Pos.x, m_Rigidbody->m_Pos.y, m_Rigidbody->m_Pos.z-8)
 		);
 		m_PtrObj->m_WorldMatrix = World;
 		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
@@ -2561,7 +2562,7 @@ namespace basecross {
 		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
 
 		auto PtrT = GetTransform();
-		PtrT->SetScale(Vec3(m_Scale.x*1.3f,5,1));
+		PtrT->SetScale(Vec3(m_Scale.x*1.3f,5,1)*-1);
 		PtrT->SetPosition(m_Posision);
 		PtrT->SetQuaternion(m_Qua);
 		//親クラスのクリエイトを呼ぶ
@@ -2607,7 +2608,7 @@ namespace basecross {
 	}
 
 	//--------------------------------------------------------------------------------------
-	//	Starスプライトスタジオ
+	//	Effectスプライトスタジオ
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
 	RedEffectSS::RedEffectSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
@@ -2656,6 +2657,127 @@ namespace basecross {
 	void RedEffectSS::ThisDelete()
 	{
 		GetStage<GameStage>()->RemoveGameObject<RedEffectSS>(GetThis<RedEffectSS>());
+	}
+
+	//--------------------------------------------------------------------------------------
+	///	途中の雲
+	//--------------------------------------------------------------------------------------
+	Bomboo2::Bomboo2(const shared_ptr<Stage>& StagePtr,
+		const wstring& TextureResName, bool Trace, const Vec3& Pos) :
+		GameObject(StagePtr),
+		m_TextureResName(TextureResName),
+		m_Trace(Trace),
+		m_BaseX(5.4f),
+		m_BaseY(-5.0f),
+		m_Posision(Pos)
+	{}
+	Bomboo2::~Bomboo2() {}
+
+	Vec3 Bomboo2::GetPosition() {
+		return m_Rigidbody->m_Pos;
+	}
+
+	void Bomboo2::OnCreate() {
+		vector<VertexPositionNormalTexture> vertices;
+		vector<uint16_t> indices;
+		MeshUtill::CreateSquare(1.0f, vertices, indices);
+		//メッシュの作成（変更できない）
+		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
+		//Rigidbodyの初期化
+		auto PtrGameStage = GetStage<GameStage>();
+		Rigidbody body;
+		body.m_Owner = GetThis<GameObject>();
+		body.m_Mass = 0.75f;
+		body.m_Scale = Vec3(1.0f, 1.0f, 0.1f);
+		body.m_Quat = Quat();
+		body.m_Pos = m_Posision;
+		body.m_CollType = CollType::typeSPHERE;
+		//body.m_IsDrawActive = true;
+		body.SetToBefore();
+
+		m_Rigidbody = PtrGameStage->AddRigidbody(body);
+
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			body.m_Scale,
+			Vec3(0, 0, 0),
+			body.m_Quat,
+			body.m_Pos
+		);
+
+		m_PtrObj = make_shared<BcDrawObject>();
+		auto TexPtr = App::GetApp()->GetResource<TextureResource>(m_TextureResName);
+		m_PtrObj->m_MeshRes = m_SphereMesh;
+		m_PtrObj->m_TextureRes = TexPtr;
+		m_PtrObj->m_WorldMatrix = World;
+		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
+		m_PtrObj->m_OwnShadowmapActive = false;
+		m_PtrObj->m_ShadowmapUse = true;
+		m_PtrObj->m_BlendState = BlendState::AlphaBlend;
+		m_PtrObj->m_RasterizerState = RasterizerState::DoubleDraw;
+		m_PtrObj->m_Alpha = 0.5f;
+
+		//シャドウマップ描画データの構築
+		m_PtrShadowmapObj = make_shared<ShadowmapObject>();
+		m_PtrShadowmapObj->m_MeshRes = m_SphereMesh;
+		//描画データの行列をコピー
+		m_PtrShadowmapObj->m_WorldMatrix = World;
+
+
+	}
+
+	void Bomboo2::OnUpdate() {
+		//前回のターンからの経過時間を求める
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		//コントローラの取得
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+	}
+
+	void Bomboo2::OnUpdate2() {
+		//プレイヤーのＺ位置は強制的に0.0にする
+		//m_Rigidbody->m_Pos.z = m_Posision.z-8;
+	}
+
+	void Bomboo2::OnDrawShadowmap() {
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			m_Rigidbody->m_Scale,
+			Vec3(0, 0, 0),
+			m_Rigidbody->m_Quat,
+			m_Rigidbody->m_Pos
+		);
+		//描画データの行列をコピー
+		m_PtrShadowmapObj->m_WorldMatrix = World;
+		m_PtrShadowmapObj->m_Camera = GetStage<Stage>()->GetCamera();
+
+		auto shptr = m_ShadowmapRenderer.lock();
+		if (!shptr) {
+			shptr = GetStage<Stage>()->FindTagGameObject<ShadowmapRenderer>(L"ShadowmapRenderer");
+			m_ShadowmapRenderer = shptr;
+		}
+		shptr->AddDrawObject(m_PtrShadowmapObj);
+	}
+
+	void Bomboo2::OnDraw() {
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			m_Rigidbody->m_Scale,
+			Vec3(0, 0, 0),
+			m_Rigidbody->m_Quat,
+			m_Rigidbody->m_Pos
+		);
+		m_PtrObj->m_WorldMatrix = World;
+		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
+		auto shptr = m_Renderer.lock();
+		if (!shptr) {
+			auto PtrGameStage = GetStage<GameStage>();
+			shptr = PtrGameStage->FindTagGameObject<BcPNTStaticRenderer>(L"BcPNTStaticRenderer");
+			m_Renderer = shptr;
+		}
+		shptr->AddDrawObject(m_PtrObj);
 	}
 }
 //end basecross

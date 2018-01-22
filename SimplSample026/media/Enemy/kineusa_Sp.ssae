@@ -1216,7 +1216,7 @@
 			<overrideSettings>0</overrideSettings>
 			<settings>
 				<fps>30</fps>
-				<frameCount>20</frameCount>
+				<frameCount>5</frameCount>
 				<sortMode>prio</sortMode>
 				<canvasSize>1066 1066</canvasSize>
 				<pivot>0 0</pivot>

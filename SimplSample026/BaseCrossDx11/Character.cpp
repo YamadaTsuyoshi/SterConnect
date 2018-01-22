@@ -1466,20 +1466,20 @@ namespace basecross {
 		const Vec2& StartScale,
 		float StartRot,
 		const Vec2& StartPos,
+		const float& waru,
 		UINT XWrap, UINT YWrap) :
 		SpriteBase(StagePtr, TextureResName, StartScale, StartRot, StartPos, XWrap, YWrap),
-		m_TotalTime(0)
+		m_TotalTime(0),
+		m_waru(waru)
 	{
 		SetBlendState(BlendState::Trace);
 	}
 
 	void TimeSprite::AdjustVertex() {
-		float XPiecesize = 1.0f / 3.0f;
+		float XPiecesize = 1.0f / 4.0f;
 		float HelfSize = 0.5f;
 
-		//インデックス配列
-		vector<uint16_t> indices;
-		for (UINT i = 0; i < 3.0f; i++) {
+		for (UINT i = 0; i < 4.0f; i++) {
 			float Vertex0 = -HelfSize + XPiecesize * (float)i;
 			float Vertex1 = Vertex0 + XPiecesize;
 			//0
@@ -1498,22 +1498,11 @@ namespace basecross {
 			m_BackupVertices.push_back(
 				VertexPositionColorTexture(Vec3(Vertex1, -HelfSize, 0), Col4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.1f, 1.0f))
 			);
-			indices.push_back(i * 4 + 0);
-			indices.push_back(i * 4 + 1);
-			indices.push_back(i * 4 + 2);
-			indices.push_back(i * 4 + 1);
-			indices.push_back(i * 4 + 3);
-			indices.push_back(i * 4 + 2);
 		}
 		auto PtrTransform = GetTransform();;
 		PtrTransform->SetScale(m_Scale.x, m_Scale.y, 1.0f);
 		PtrTransform->SetRotation(0, 0, 0);
 		PtrTransform->SetPosition(m_Pos.x, m_Pos.y, 0.0f);
-
-		//auto PtrDraw = <PTSpriteDraw>(m_BackupVertices, indices);
-		//PtrDraw->SetTextureResource(m_TextureResName);
-
-		//GetStage()->SetSharedGameObject(L"ScoreSprite", GetThis<TimeSprite>());
 	}
 
 	void  TimeSprite::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
@@ -1521,12 +1510,13 @@ namespace basecross {
 		vector<VertexPositionColorTexture> NewVertices;
 		UINT Num;
 		int VerNum = 0;
-		for (UINT i = 3; i > 0; i--) {
+		m_Time /= m_waru;
+		for (UINT i = 4; i > 0; i--) {
 			UINT Base = (UINT)pow(10, i);
 			Num = ((UINT)m_Time) % Base;
 			//Num = Num / (Base / 10);
 			Vec2 UV0 = m_BackupVertices[VerNum].textureCoordinate;
-			UV0.x = (float)Num  / 10.0f;
+			UV0.x = (float)Num / 10.0f;
 			auto v = VertexPositionColorTexture(
 				m_BackupVertices[VerNum].position,
 				m_BackupVertices[VerNum].color,

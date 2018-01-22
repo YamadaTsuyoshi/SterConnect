@@ -444,6 +444,13 @@ namespace basecross {
 			Vec2(502, 190.8f),
 			1, 1
 			);
+		AddGameObject<StageSprite>(
+			L"TAIRYOKU_TX",
+			Vec2(110, 25),
+			0.0f,
+			Vec2(380, 150),
+			1, 1
+			);
 		auto kaguya = FindTagGameObject<Kaguya>(L"Kaguya");
 		auto life = kaguya->GetLife();
 		for (int i = 1; i <= life; i++) {
@@ -451,14 +458,14 @@ namespace basecross {
 				L"EMP_LIFE_TX",
 				Vec2(50, 50),
 				0.0f,
-				Vec2(360.0f + life_x, 120.0f),
+				Vec2(360.0f + life_x, 110.0f),
 				1, 1
 				);
 			lifeobj = AddGameObject<Life>(
 				L"LIFE_TX",
 				Vec2(35.0f, 35.0f),
 				0.0f,
-				Vec2(360.5f + life_x, 120.5f),
+				Vec2(360.5f + life_x, 110.5f),
 				1, 1
 				);
 			life_x += 50.0f;
@@ -483,11 +490,43 @@ namespace basecross {
 			Vec2(390, 40),
 			1, 1
 			);
-		TimeNum = AddGameObject<TimeSprite>(
+		TimeNum_1 = AddGameObject<TimeSprite>(
 			L"NUMBER_TX",
-			Vec2(40, 40),
+			Vec2(60, 60),
 			0.0f,
-			Vec2(410, 20),
+			Vec2(540, -10),
+			1.0f,
+			1, 1
+			);
+		TimeNum_2 = AddGameObject<TimeSprite>(
+			L"NUMBER_TX",
+			Vec2(60, 60),
+			0.0f,
+			Vec2(490, -10),
+			10.0f,
+			1, 1
+			);
+		AddGameObject<StageSprite>(
+			L"CORRON_TX",
+			Vec2(20, 60),
+			0.0f,
+			Vec2(460, -10),
+			1, 1
+			);
+		TimeNum_3 = AddGameObject<TimeSprite>(
+			L"NUMBER_TX",
+			Vec2(60, 60),
+			0.0f,
+			Vec2(430, -10),
+			1.0f,
+			1, 1
+			);
+		TimeNum_4 = AddGameObject<TimeSprite>(
+			L"NUMBER_TX",
+			Vec2(60, 60),
+			0.0f,
+			Vec2(380, -10),
+			10.0f,
 			1, 1
 			);
 
@@ -576,7 +615,9 @@ namespace basecross {
 		auto Time = App::GetApp()->GetElapsedTime();
 
 		if(Startflag){
-			m_Time += Time;
+			if (!ClearFlag) {
+				m_Time_Sec += Time;
+			}
 			interval_Time += Time;
 		}
 
@@ -745,13 +786,20 @@ namespace basecross {
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
 			}
 
+			if (m_Time_Sec >= 60) {
+				m_Time_Sec = 0;
+				m_Time_Min += 1;
+			}
 
 			auto fps = App::GetApp()->GetStepTimer().GetFramesPerSecond();
 			wstring FPS(L"FPS: ");
 			FPS += Util::FloatToWStr(CntlVec[0].fThumbRX);
 			FPS += L"\nTime: ";
-			FPS += Util::FloatToWStr(m_Time);
-			TimeNum->SetTime(m_Time);
+			FPS += Util::FloatToWStr(m_Time_Sec);
+			TimeNum_1->SetTime(m_Time_Sec);
+			TimeNum_2->SetTime(m_Time_Sec);
+			TimeNum_3->SetTime(m_Time_Min);
+			TimeNum_4->SetTime(m_Time_Min);
 			//FPS += FindTagGameObject<Kaguya>(L"Kaguya")->GetHitObj();
 			FPS += L"\n";
 			FPS += Util::IntToWStr(EnemyBreak);
@@ -855,6 +903,8 @@ namespace basecross {
 			{
 				if (ClearFlag)
 				{
+					App::GetApp()->GetScene<Scene>()->SetCTime_Sec(m_Time_Sec);
+					App::GetApp()->GetScene<Scene>()->SetCTime_Min(m_Time_Min);
 					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
 				}
 				else

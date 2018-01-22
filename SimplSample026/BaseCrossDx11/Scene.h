@@ -1095,6 +1095,8 @@ namespace basecross {
 		void CreateResources();
 		int m_StageNumberCount = 1;
 		int m_StageNumber;
+		float m_CTime_Sec;
+		float m_CTime_Min;
 		wstring m_DirectoryFile;
 	public:
 		//--------------------------------------------------------------------------------------
@@ -1158,10 +1160,23 @@ namespace basecross {
 		void SetStageNumber(int StageNumber) {
 			m_StageNumber = StageNumber;
 		}
-
 		int GetStageNumber() {
 			return m_StageNumber;
 		}
+
+		void SetCTime_Sec(float t) {
+			m_CTime_Sec = t;
+		}
+		void SetCTime_Min(float t) {
+			m_CTime_Min = t;
+		}
+		float GetCTime_Sec() {
+			return m_CTime_Sec;
+		}
+		float GetCTime_Min() {
+			return m_CTime_Min;
+		}
+
 		void SetDirectoryFile(wstring DirectoryFile) {
 			m_DirectoryFile = DirectoryFile;
 		}

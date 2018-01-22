@@ -8,12 +8,18 @@ namespace basecross {
 		shared_ptr<DefSp> L1;
 		shared_ptr<DefSp> L2;
 		shared_ptr<DefSp> L3;
+		shared_ptr<TimeSprite> TimeNum_1;
+		shared_ptr<TimeSprite> TimeNum_2;
+		shared_ptr<TimeSprite> TimeNum_3;
+		shared_ptr<TimeSprite> TimeNum_4;
 		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
 		shared_ptr<Fade> m_FadeSprite;
 		bool FadeFlag = false;
 		bool FadeFlag2 = false;
 		bool onectrl;
 		int Selecter = 0;
+		float m_Time_Sec;
+		float m_Time_Min;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!

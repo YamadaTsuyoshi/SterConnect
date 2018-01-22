@@ -563,6 +563,8 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"LIFE_TX", strTexture);
 		strTexture = DataDir + L"Texture\\Hart_0.png";
 		App::GetApp()->RegisterTexture(L"EMP_LIFE_TX", strTexture);
+		strTexture = DataDir + L"UI\\Tairyoku.png";
+		App::GetApp()->RegisterTexture(L"TAIRYOKU_TX", strTexture);
 
 		//goal
 		strTexture = DataDir + L"Texture\\hune.png";
@@ -616,7 +618,7 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"KEIKAZIKAN_TX", strTexture);
 		strTexture = DataDir + L"UI\\Time_corron.png";
 		App::GetApp()->RegisterTexture(L"CORRON_TX", strTexture);
-		strTexture = DataDir + L"UI\\Time_Number.png";
+		strTexture = DataDir + L"UI\\TimeCount.png";
 		App::GetApp()->RegisterTexture(L"NUMBER_TX", strTexture);
 		strTexture = DataDir + L"Enemy\\RabbitBOX.png";
 		App::GetApp()->RegisterTexture(L"RABBITBOX_TX", strTexture);
@@ -746,9 +748,6 @@ namespace basecross {
 			ResetActiveStage<EmptyStage>();
 		}
 	}
-
-	
-
 
 }
 //end basecross

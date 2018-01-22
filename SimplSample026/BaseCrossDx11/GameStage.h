@@ -27,8 +27,8 @@ namespace basecross {
 
 		Vec3 P_Pos;
 
-		float m_Time;
-		float ClearTime;
+		float m_Time_Sec;
+		float m_Time_Min;
 
 		float interval_Time;
 
@@ -59,7 +59,10 @@ namespace basecross {
 		float lightbar;
 		shared_ptr<Life> lifeobj;
 		vector<shared_ptr<Life>> lifegroup;
-		shared_ptr<TimeSprite> TimeNum;
+		shared_ptr<TimeSprite> TimeNum_1;
+		shared_ptr<TimeSprite> TimeNum_2;
+		shared_ptr<TimeSprite> TimeNum_3;
+		shared_ptr<TimeSprite> TimeNum_4;
 		shared_ptr<Fade> m_FadeSprite;
 		
 		bool Startflag = false;
@@ -146,8 +149,6 @@ namespace basecross {
 		bool getStartFlag() { return Startflag; };
 
 		Vec3 GetKaguyaPos() { return KaguyaPos; };
-
-		float GetTime() { return m_Time; };
 
 		void SetBossNulltrue() { BossNull = true; };
 

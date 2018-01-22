@@ -973,6 +973,7 @@ namespace basecross {
 	class TimeSprite : public SpriteBase {
 		float m_TotalTime;	//頂点変更に使用するタイム
 		float m_Time;
+		float m_waru;
 
 	public:
 		//--------------------------------------------------------------------------------------
@@ -1008,6 +1009,7 @@ namespace basecross {
 			const Vec2& StartScale,
 			float StartRot,
 			const Vec2& StartPos,
+			const float& waru,
 			UINT XWrap, UINT YWrap);
 		//--------------------------------------------------------------------------------------
 		/*!

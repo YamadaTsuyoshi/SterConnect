@@ -7,6 +7,8 @@ namespace basecross {
 	///	空のステージ（メッセージのみある）
 	//--------------------------------------------------------------------------------------
 	void ClearResult::OnCreate() {
+		m_Time_Sec = App::GetApp()->GetScene<Scene>()->GetCTime_Sec();
+		m_Time_Min = App::GetApp()->GetScene<Scene>()->GetCTime_Min();
 		//BGMの再生
 		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
 		m_AudioObjectPtr->AddAudioResource(L"GAMEOVER_BGM");
@@ -25,11 +27,50 @@ namespace basecross {
 			0.0f,
 			Vec2(0, 250),
 			1, 1);
-		AddGameObject<TimeSprite>(
-			L"NUMBER_TX",
-			Vec2(210, 210),
+		AddGameObject<StageSprite>(
+			L"KEIKAZIKAN_TX",
+			Vec2(80*4.4f, 80),
 			0.0f,
-			Vec2(0, 0),
+			Vec2(-300, 50),
+			1, 1
+			);
+		TimeNum_1 = AddGameObject<TimeSprite>(
+			L"NUMBER_TX",
+			Vec2(80, 80),
+			0.0f,
+			Vec2(440, 50),
+			1.0f,
+			1, 1
+			);
+		TimeNum_2 = AddGameObject<TimeSprite>(
+			L"NUMBER_TX",
+			Vec2(80, 80),
+			0.0f,
+			Vec2(380, 50),
+			10.0f,
+			1, 1
+			);
+		AddGameObject<StageSprite>(
+			L"CORRON_TX",
+			Vec2(80/3, 80),
+			0.0f,
+			Vec2(345, 50),
+			1, 1
+			);
+		TimeNum_3 = AddGameObject<TimeSprite>(
+			L"NUMBER_TX",
+			Vec2(80, 80),
+			0.0f,
+			Vec2(310, 50),
+			1.0f,
+			1, 1
+			);
+		TimeNum_4 = AddGameObject<TimeSprite>(
+			L"NUMBER_TX",
+			Vec2(80, 80),
+			0.0f,
+			Vec2(250, 50),
+			10.0f,
 			1, 1
 			);
 
@@ -107,6 +148,10 @@ namespace basecross {
 		this->OnUpdate();
 	}
 	void ClearResult::OnUpdate() {
+		TimeNum_1->SetTime(m_Time_Sec);
+		TimeNum_2->SetTime(m_Time_Sec);
+		TimeNum_3->SetTime(m_Time_Min);
+		TimeNum_4->SetTime(m_Time_Min);
 		switch (Selecter) {
 		case 0:
 			L1->ScaleControl(1.0f);

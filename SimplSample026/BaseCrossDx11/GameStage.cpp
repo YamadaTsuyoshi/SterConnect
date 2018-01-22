@@ -163,6 +163,7 @@ namespace basecross {
 					Pos
 					);
 				GoalPos = Pos.y;
+				
 			}
 
 			if (MapVec[0] == L"Bamboo")
@@ -173,6 +174,12 @@ namespace basecross {
 					true,
 					Pos
 					);
+				stringflag = true;
+				/*auto a = AddGameObject<Bomboo2>(
+					L"WALL_TX",
+					true,
+					Pos
+					);*/
 			}
 
 			if (MapVec[0] == L"BambooB")
@@ -592,7 +599,8 @@ namespace basecross {
 		
 		if (!Startflag&&CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
 		{
-			wstring Path = App::GetApp()->GetDataDirWString();
+			wstring Path
+				= App::GetApp()->GetDataDirWString();
 			//ÉtÉ@ÉCÉãñºÇÃê›íË
 			wstring LineMap = Path + L"\\Line\\";
 			auto Startbar=AddGameObject<BarSS>(LineMap, L"Yellow_line", Vec3(0.0f, -1.5f, 0.0f),

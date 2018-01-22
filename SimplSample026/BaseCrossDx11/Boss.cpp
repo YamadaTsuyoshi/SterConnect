@@ -86,12 +86,13 @@ namespace basecross {
 	}
 	void BossEnemy::OnUpdate() {
 		Startflag = GetStage<GameStage>()->getStartFlag();
+		Def.x = m_Rigidbody->m_Pos.x;
 		if (Startflag) {
 			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
-				//if (rightMove)
-				//	m_Rigidbody->m_Velocity.x = Speed.x;
-				//if (!rightMove)
-				//	m_Rigidbody->m_Velocity.x = -Speed.x;
+				if (rightMove)
+					m_Rigidbody->m_Velocity.x = Speed.x;
+				if (!rightMove)
+					m_Rigidbody->m_Velocity.x = -Speed.x;
 			}
 		}
 	}
@@ -108,6 +109,8 @@ namespace basecross {
 				float ElapsedTime = App::GetApp()->GetElapsedTime();
 				Time += ElapsedTime;
 				if (Time > 6.0f&&Startflag) {
+					m_Rigidbody->m_Pos.x = Def.x;
+					Speed.x = 0.0f;
 					Vec3 v = m_Rigidbody->m_Pos;
 					v.y -= 5.0f;
 					GetStage<Stage>()->AddGameObject<BossBullet>(
@@ -116,6 +119,9 @@ namespace basecross {
 						v
 						);
 					Time = 0;
+				}
+				else if(Time>3.0f) {
+					Speed.x = 1.5f;
 				}
 			}
 		}

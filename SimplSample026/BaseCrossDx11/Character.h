@@ -970,9 +970,9 @@ namespace basecross {
 	//--------------------------------------------------------------------------------------
 	///	経過時間
 	//--------------------------------------------------------------------------------------
-	class TimeSprite : public SpriteBase {
+	class NumSprite : public SpriteBase {
 		float m_TotalTime;	//頂点変更に使用するタイム
-		float m_Time;
+		float m_Num;
 		float m_waru;
 
 	public:
@@ -1004,7 +1004,7 @@ namespace basecross {
 		@param[in]	YWrap	Y方向のラップ数
 		*/
 		//--------------------------------------------------------------------------------------
-		TimeSprite(const shared_ptr<Stage>& StagePtr,
+		NumSprite(const shared_ptr<Stage>& StagePtr,
 			const wstring& TextureResName,
 			const Vec2& StartScale,
 			float StartRot,
@@ -1016,56 +1016,8 @@ namespace basecross {
 		@brief デストラクタ
 		*/
 		//--------------------------------------------------------------------------------------
-		void SetTime(float t) { m_Time = t; };
-		virtual ~TimeSprite() {}
-	};
-
-	//--------------------------------------------------------------------------------------
-	///	Score
-	//--------------------------------------------------------------------------------------
-	class ScoreSprite : public SpriteBase {
-		float m_TotalTime;	//頂点変更に使用するタイム
-	public:
-		//--------------------------------------------------------------------------------------
-		/*!
-		@brief バックアップ頂点の修正(仮想関数)。派生クラスは独自の頂点初期修正を実装
-		@return	なし
-		*/
-		//--------------------------------------------------------------------------------------
-		virtual void AdjustVertex() override;
-		//--------------------------------------------------------------------------------------
-		/*!
-		@brief 頂点の変更
-		@param[in]	ElapsedTime	ターン時間
-		@param[out]	vertices	マップされた頂点データ
-		@return	なし
-		*/
-		//--------------------------------------------------------------------------------------
-		virtual void UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) override;
-		//--------------------------------------------------------------------------------------
-		/*!
-		@brief コンストラクタ
-		@param[in]	StagePtr	ステージのポインタ
-		@param[in]	TextureResName	初期テクスチャリソース名
-		@param[in]	StartScale	初期大きさ
-		@param[in]	StartRot	初期回転
-		@param[in]	StartPos	初期位置
-		@param[in]	XWrap	X方向のラップ数
-		@param[in]	YWrap	Y方向のラップ数
-		*/
-		//--------------------------------------------------------------------------------------
-		ScoreSprite(const shared_ptr<Stage>& StagePtr,
-			const wstring& TextureResName,
-			const Vec2& StartScale,
-			float StartRot,
-			const Vec2& StartPos,
-			UINT XWrap, UINT YWrap);
-		//--------------------------------------------------------------------------------------
-		/*!
-		@brief デストラクタ
-		*/
-		//--------------------------------------------------------------------------------------
-		virtual ~ScoreSprite() {}
+		void SetNum(float t) { m_Num = t; };
+		virtual ~NumSprite() {}
 	};
 
 	//--------------------------------------------------------------------------------------

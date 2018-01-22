@@ -59,10 +59,10 @@ namespace basecross {
 		float lightbar;
 		shared_ptr<Life> lifeobj;
 		vector<shared_ptr<Life>> lifegroup;
-		shared_ptr<TimeSprite> TimeNum_1;
-		shared_ptr<TimeSprite> TimeNum_2;
-		shared_ptr<TimeSprite> TimeNum_3;
-		shared_ptr<TimeSprite> TimeNum_4;
+		shared_ptr<NumSprite> TimeNum_1;
+		shared_ptr<NumSprite> TimeNum_2;
+		shared_ptr<NumSprite> TimeNum_3;
+		shared_ptr<NumSprite> TimeNum_4;
 		shared_ptr<Fade> m_FadeSprite;
 		
 		bool Startflag = false;
@@ -75,13 +75,14 @@ namespace basecross {
 
 		float GoalPos = 0;
 
+		float EnemyBreak = 0;
+
 		shared_ptr<MessageSprite> m_MessageSprite;
 
 	public:
 		bool FadeFlag = false;
 		bool FadeFlag2 = false;
 		bool ClearFlag = false;
-		int EnemyBreak = 0;
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief コンストラクタ
@@ -153,6 +154,8 @@ namespace basecross {
 		void SetBossNulltrue() { BossNull = true; };
 
 		float GetGoalPos() { return GoalPos; };
+
+		void AddEnemyBreak() { EnemyBreak++; };
 	};
 
 

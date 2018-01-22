@@ -1459,9 +1459,9 @@ namespace basecross {
 	}
 
 	//--------------------------------------------------------------------------------------
-	///経過時間
+	///数字のスプライト
 	//--------------------------------------------------------------------------------------
-	TimeSprite::TimeSprite(const shared_ptr<Stage>& StagePtr,
+	NumSprite::NumSprite(const shared_ptr<Stage>& StagePtr,
 		const wstring& TextureResName,
 		const Vec2& StartScale,
 		float StartRot,
@@ -1475,7 +1475,7 @@ namespace basecross {
 		SetBlendState(BlendState::Trace);
 	}
 
-	void TimeSprite::AdjustVertex() {
+	void NumSprite::AdjustVertex() {
 		float XPiecesize = 1.0f / 4.0f;
 		float HelfSize = 0.5f;
 
@@ -1505,18 +1505,20 @@ namespace basecross {
 		PtrTransform->SetPosition(m_Pos.x, m_Pos.y, 0.0f);
 	}
 
-	void  TimeSprite::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
+	void  NumSprite::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
 		//m_Time = GetStage<GameStage>()->GetTime();
 		vector<VertexPositionColorTexture> NewVertices;
 		UINT Num;
 		int VerNum = 0;
-		m_Time /= m_waru;
+		m_Num /= m_waru;
 		for (UINT i = 4; i > 0; i--) {
 			UINT Base = (UINT)pow(10, i);
-			Num = ((UINT)m_Time) % Base;
+			Num = ((UINT)m_Num) % Base;
 			//Num = Num / (Base / 10);
 			Vec2 UV0 = m_BackupVertices[VerNum].textureCoordinate;
 			UV0.x = (float)Num / 10.0f;
+			//ドラムロール
+			//UV0.x = (float)m_Num / 10.0f;
 			auto v = VertexPositionColorTexture(
 				m_BackupVertices[VerNum].position,
 				m_BackupVertices[VerNum].color,
@@ -1563,41 +1565,6 @@ namespace basecross {
 		float sin_val = sin(m_TotalTime) * 0.5f + 0.5f;
 		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
 			vertices[i] = NewVertices[i];
-		}
-	}
-
-	//--------------------------------------------------------------------------------------
-	/// score
-	//--------------------------------------------------------------------------------------
-	ScoreSprite::ScoreSprite(const shared_ptr<Stage>& StagePtr,
-		const wstring& TextureResName,
-		const Vec2& StartScale,
-		float StartRot,
-		const Vec2& StartPos,
-		UINT XWrap, UINT YWrap) :
-		SpriteBase(StagePtr, TextureResName, StartScale, StartRot, StartPos, XWrap, YWrap),
-		m_TotalTime(0)
-	{
-		SetBlendState(BlendState::Trace);
-	}
-
-	void ScoreSprite::AdjustVertex() {
-		//ここでは何もしない
-	}
-
-	void ScoreSprite::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
-		m_TotalTime += (ElapsedTime * 5.0f);
-		if (m_TotalTime >= XM_2PI) {
-			m_TotalTime = 0;
-		}
-		float sin_val = sin(m_TotalTime) * 0.5f + 0.5f;
-		Col4 UpdateCol(1.0f, 1.0f, 1.0f, 1.0f);
-		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
-			vertices[i] = VertexPositionColorTexture(
-				m_BackupVertices[i].position,
-				m_BackupVertices[i].color,
-				m_BackupVertices[i].textureCoordinate
-			);
 		}
 	}
 

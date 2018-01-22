@@ -1097,6 +1097,7 @@ namespace basecross {
 		int m_StageNumber;
 		float m_CTime_Sec;
 		float m_CTime_Min;
+		float m_EnemyBreak;
 		wstring m_DirectoryFile;
 	public:
 		//--------------------------------------------------------------------------------------
@@ -1175,6 +1176,13 @@ namespace basecross {
 		}
 		float GetCTime_Min() {
 			return m_CTime_Min;
+		}
+
+		void SetEnemyBreak(float num) {
+			m_EnemyBreak = num;
+		}
+		float GetEnemyBreak() {
+			return m_EnemyBreak;
 		}
 
 		void SetDirectoryFile(wstring DirectoryFile) {

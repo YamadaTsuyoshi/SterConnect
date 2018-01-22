@@ -1012,7 +1012,7 @@ namespace basecross {
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();
-						gamestage->EnemyBreak++;
+						gamestage->AddEnemyBreak();
 						ThisDelete();
 					}
 				}
@@ -1067,7 +1067,7 @@ namespace basecross {
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					auto gamestage = GetStage<GameStage>();
 					gamestage->StartDestroySE();
-					gamestage->EnemyBreak++;
+					gamestage->AddEnemyBreak();
 					ThisDelete();
 				}
 				break;
@@ -1079,7 +1079,7 @@ namespace basecross {
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();
-						gamestage->EnemyBreak++;
+						gamestage->AddEnemyBreak();
 						ThisDelete();
 					}
 				}
@@ -1134,7 +1134,7 @@ namespace basecross {
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					auto gamestage = GetStage<GameStage>();
 					gamestage->StartDestroySE();
-					gamestage->EnemyBreak++;
+					gamestage->AddEnemyBreak();
 					ThisDelete();
 				}
 				break;
@@ -1297,7 +1297,7 @@ namespace basecross {
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();
-						gamestage->EnemyBreak++;
+						gamestage->AddEnemyBreak();
 						ThisDelete();
 					}
 				}
@@ -1352,7 +1352,7 @@ namespace basecross {
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					auto gamestage = GetStage<GameStage>();
 					gamestage->StartDestroySE();
-					gamestage->EnemyBreak++;
+					gamestage->AddEnemyBreak();
 					ThisDelete();
 				}
 				break;
@@ -1364,7 +1364,7 @@ namespace basecross {
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();
-						gamestage->EnemyBreak++;
+						gamestage->AddEnemyBreak();
 						ThisDelete();
 					}
 				}
@@ -1419,7 +1419,7 @@ namespace basecross {
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					auto gamestage = GetStage<GameStage>();
 					gamestage->StartDestroySE();
-					gamestage->EnemyBreak++;
+					gamestage->AddEnemyBreak();
 					ThisDelete();
 				}
 				break;
@@ -1559,7 +1559,7 @@ namespace basecross {
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();
-						gamestage->EnemyBreak++;
+						gamestage->AddEnemyBreak();
 						ThisDelete();
 					}
 				}
@@ -1578,7 +1578,7 @@ namespace basecross {
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					auto gamestage = GetStage<GameStage>();
 					gamestage->StartDestroySE();
-					gamestage->EnemyBreak++;
+					gamestage->AddEnemyBreak();
 					ThisDelete();
 				}
 				break;
@@ -1590,7 +1590,7 @@ namespace basecross {
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
 						gamestage->StartDestroySE();
-						gamestage->EnemyBreak++;
+						gamestage->AddEnemyBreak();
 						ThisDelete();
 					}
 				}
@@ -1609,7 +1609,7 @@ namespace basecross {
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					auto gamestage = GetStage<GameStage>();
 					gamestage->StartDestroySE();
-					gamestage->EnemyBreak++;
+					gamestage->AddEnemyBreak();
 					ThisDelete();
 				}
 				break;

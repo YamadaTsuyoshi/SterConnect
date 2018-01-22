@@ -9,6 +9,7 @@ namespace basecross {
 	void ClearResult::OnCreate() {
 		m_Time_Sec = App::GetApp()->GetScene<Scene>()->GetCTime_Sec();
 		m_Time_Min = App::GetApp()->GetScene<Scene>()->GetCTime_Min();
+		m_EnemyBreak = App::GetApp()->GetScene<Scene>()->GetEnemyBreak();
 		//BGMÇÃçƒê∂
 		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
 		m_AudioObjectPtr->AddAudioResource(L"GAMEOVER_BGM");
@@ -31,22 +32,22 @@ namespace basecross {
 			L"KEIKAZIKAN_TX",
 			Vec2(80*4.4f, 80),
 			0.0f,
-			Vec2(-300, 50),
+			Vec2(-300, 100),
 			1, 1
 			);
-		TimeNum_1 = AddGameObject<TimeSprite>(
+		TimeNum_1 = AddGameObject<NumSprite>(
 			L"NUMBER_TX",
 			Vec2(80, 80),
 			0.0f,
-			Vec2(440, 50),
+			Vec2(440, 100),
 			1.0f,
 			1, 1
 			);
-		TimeNum_2 = AddGameObject<TimeSprite>(
+		TimeNum_2 = AddGameObject<NumSprite>(
 			L"NUMBER_TX",
 			Vec2(80, 80),
 			0.0f,
-			Vec2(380, 50),
+			Vec2(380, 100),
 			10.0f,
 			1, 1
 			);
@@ -54,23 +55,40 @@ namespace basecross {
 			L"CORRON_TX",
 			Vec2(80/3, 80),
 			0.0f,
-			Vec2(345, 50),
+			Vec2(345, 100),
 			1, 1
 			);
-		TimeNum_3 = AddGameObject<TimeSprite>(
+		TimeNum_3 = AddGameObject<NumSprite>(
 			L"NUMBER_TX",
 			Vec2(80, 80),
 			0.0f,
-			Vec2(310, 50),
+			Vec2(310, 100),
 			1.0f,
 			1, 1
 			);
-		TimeNum_4 = AddGameObject<TimeSprite>(
+		TimeNum_4 = AddGameObject<NumSprite>(
 			L"NUMBER_TX",
 			Vec2(80, 80),
 			0.0f,
-			Vec2(250, 50),
+			Vec2(250, 100),
 			10.0f,
+			1, 1
+			);
+
+		EnemyNum = AddGameObject<NumSprite>(
+			L"NUMBER_TX",
+			Vec2(80, 80),
+			0.0f,
+			Vec2(440, 10),
+			1.0f,
+			1, 1
+			);
+
+		AddGameObject<StageSprite>(
+			L"RABBIT_BULLET_TX",
+			Vec2(200, 200),
+			0.0f,
+			Vec2(200, -130),
 			1, 1
 			);
 
@@ -148,10 +166,11 @@ namespace basecross {
 		this->OnUpdate();
 	}
 	void ClearResult::OnUpdate() {
-		TimeNum_1->SetTime(m_Time_Sec);
-		TimeNum_2->SetTime(m_Time_Sec);
-		TimeNum_3->SetTime(m_Time_Min);
-		TimeNum_4->SetTime(m_Time_Min);
+		TimeNum_1->SetNum(m_Time_Sec);
+		TimeNum_2->SetNum(m_Time_Sec);
+		TimeNum_3->SetNum(m_Time_Min);
+		TimeNum_4->SetNum(m_Time_Min);
+		EnemyNum->SetNum(m_EnemyBreak);
 		switch (Selecter) {
 		case 0:
 			L1->ScaleControl(1.0f);

@@ -39,7 +39,7 @@ namespace basecross {
 			L"NUMBER_TX",
 			Vec2(80, 80),
 			0.0f,
-			Vec2(440, 100),
+			Vec2(430, 100),
 			1.0f,
 			1, 1
 			);
@@ -70,7 +70,7 @@ namespace basecross {
 			L"NUMBER_TX",
 			Vec2(80, 80),
 			0.0f,
-			Vec2(250, 100),
+			Vec2(260, 100),
 			10.0f,
 			1, 1
 			);
@@ -79,7 +79,7 @@ namespace basecross {
 			L"NUMBER_TX",
 			Vec2(80, 80),
 			0.0f,
-			Vec2(440, 10),
+			Vec2(430, 10),
 			1.0f,
 			1, 1
 			);

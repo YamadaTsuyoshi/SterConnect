@@ -146,7 +146,7 @@ namespace basecross {
 						//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 						m_Rigidbody->m_BeforePos.y += 0.01f;
 						m_Rigidbody->m_Pos.y -= 0.01f;
-						m_Rigidbody->m_Velocity += Vec3(0, -0.1f, 0);
+						m_Rigidbody->m_Velocity += Vec3(0, -0.5f, 0);
 						m_UnderRefLock = true;
 						m_JumpLock = true;
 					}
@@ -234,7 +234,7 @@ namespace basecross {
 			}
 			m_Rigidbody->m_Force += m_Rigidbody->m_Gravity * m_Rigidbody->m_Mass;
 
-			if (m_Rigidbody->m_Pos.y >= 85) {
+			if (m_Rigidbody->m_Pos.y >= GetStage<GameStage>()->GetGoalPos()) {
 				auto gamestage = GetStage<GameStage>();
 				gamestage->StopBGM();
 				gamestage->FadeFlag = true;
@@ -351,6 +351,14 @@ namespace basecross {
 						auto PtrGameStage = GetStage<GameStage>();
 						SetMutekiTime(3.0f);
 					}
+					else if (shptr && shptr->FindTag(L"Boss")) {
+						m_HitObj = L"enemy";
+						if (m_Attackflag) {
+							break;
+						}
+						auto PtrGameStage = GetStage<GameStage>();
+						SetMutekiTime(3.0f);
+					}
 					m_JumpLock = false;
 					break;
 				}
@@ -390,6 +398,14 @@ namespace basecross {
 						SetMutekiTime(3.0f);
 					}
 					else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+						m_HitObj = L"enemy";
+						if (m_Attackflag) {
+							break;
+						}
+						auto PtrGameStage = GetStage<GameStage>();
+						SetMutekiTime(3.0f);
+					}
+					else if (shptr && shptr->FindTag(L"Boss")) {
 						m_HitObj = L"enemy";
 						if (m_Attackflag) {
 							break;

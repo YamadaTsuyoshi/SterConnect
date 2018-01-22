@@ -105,17 +105,8 @@ namespace basecross {
 		}
 		if (m_FadeSprite->GetChangeFlag())
 		{
-			switch (Selecter) {
-			case 0:
-				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
-				break;
-			case 1:
-				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
-				break;
-			case 2:
-				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
-				break;
-			}
+			App::GetApp()->GetScene<Scene>()->SetStageNumber(Selecter+1);
+			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
 		}
 	}
 

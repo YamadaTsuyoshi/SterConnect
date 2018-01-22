@@ -105,12 +105,12 @@ namespace basecross {
 
 		float Time = 0;
 
-		float Scale = 1;
+		float m_Scale = 1;
 
 	public:
 		//ç\ízÇ∆îjä¸
 		RabbitBullet(const shared_ptr<Stage>& StagePtr,
-			const wstring& TextureResName, bool Trace, const Vec3& Pos, const float& Scale);
+			const wstring& TextureResName, bool Trace, const Vec3& Pos,float Scale);
 
 		virtual ~RabbitBullet();
 		virtual Vec3 GetPosition() override;

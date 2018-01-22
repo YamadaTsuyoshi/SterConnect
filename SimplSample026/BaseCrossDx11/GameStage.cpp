@@ -24,9 +24,8 @@ namespace basecross {
 		wstring Path = App::GetApp()->GetDataDirWString();
 
 		//ファイル名の設定
-		wstring Map = Path +L"\\CSV\\" + L"Stage_1.csv";
-			//+ Util::IntToWStr(ScenePtr->GetStageNumber()) + L".csv";
-
+		wstring Map = Path +L"\\CSV\\" + L"Stage_" + Util::IntToWStr(ScenePtr->GetStageNumber()) + L".csv";
+		/*+ L"Stage_1.csv";*/
 		//ファイルの指定
 		m_Csv.SetFileName(Map);
 
@@ -163,6 +162,7 @@ namespace basecross {
 					true,
 					Pos
 					);
+				GoalPos = Pos.y;
 			}
 
 			if (MapVec[0] == L"Bamboo")
@@ -279,6 +279,7 @@ namespace basecross {
 
 			if (MapVec[0] == L"Boss")
 			{
+				BossNull = false;
 				stringflag = true;
 				AddGameObject<BossEnemy>(
 					L"KAGUYA_TX",
@@ -425,7 +426,7 @@ namespace basecross {
 			L"UI_S_TX",
 			Vec2(310,800),
 			0.0f,
-			Vec2(490, 0),
+			Vec2(480, 0),
 			1, 1
 			);
 
@@ -465,22 +466,28 @@ namespace basecross {
 		}
 
 		//メッセージを表示するスプライトの作成
-		AddGameObject<MessageSprite>(
-			L"MESSAGE_TX",
-			Vec2(256, 64),
+		m_MessageSprite = AddGameObject<MessageSprite>(
+			L"PUSH_A_TX",
+			Vec2(350, 100),
 			0.0f,
-			Vec2(480, 260),
-			1, 1
-			);
+			Vec2(-150, -250),
+			1, 1);
 
 		//文字列描画オブジェクトの作成
 		AddGameObject<StringDrawObject>();
 
 		AddGameObject<StageSprite>(
 			L"KEIKAZIKAN_TX",
-			Vec2(310, 100),
+			Vec2(110, 25),
 			0.0f,
-			Vec2(490, 0),
+			Vec2(390, 40),
+			1, 1
+			);
+		TimeNum = AddGameObject<TimeSprite>(
+			L"NUMBER_TX",
+			Vec2(40, 40),
+			0.0f,
+			Vec2(410, 20),
 			1, 1
 			);
 
@@ -574,6 +581,9 @@ namespace basecross {
 		}
 
 		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
+			
+		}
 
 		if (Startflag&&CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_START)
 		{
@@ -597,22 +607,41 @@ namespace basecross {
 				);*/
 			Startbar->AddTag(L"Yellow");
 			Startflag = true;
+			m_MessageSprite->SetAlpha(0);
 		}
 
 		
 		auto& camera = GetCamera();
 
+
 		camera.m_CamerAt.y = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y;
 		KaguyaPos = FindTagGameObject<GameObject>(L"Kaguya")->GetPosition();
 		auto player = FindTagGameObject<Player>(L"Player");
 		P_Pos = player->GetPosition();
-		if (camera.m_CamerAt.y > maxPosition) {
-			maxPosition = camera.m_CamerAt.y;
+		if (!BossNull) {
+			BossPos = FindTagGameObject<GameObject>(L"Boss")->GetPosition();
+			if (camera.m_CamerAt.y >= BossPos.y - 3) {
+				camera.m_CamerAt.y = BossPos.y - 3;
+			}
+			else if (camera.m_CamerAt.y > maxPosition) {
+				maxPosition = camera.m_CamerAt.y;
+			}
+			else if (camera.m_CamerAt.y < maxPosition) {
+				camera.m_CamerAt.y = maxPosition;
+				//maxPosition = camera.m_CamerAt.y;
+			}
 		}
-
-		else if (camera.m_CamerAt.y < maxPosition) {
-			camera.m_CamerAt.y = maxPosition;
-			//maxPosition = camera.m_CamerAt.y;
+		else {
+			if (camera.m_CamerAt.y >= 84) {
+				camera.m_CamerAt.y = 84;
+			}
+			else if(camera.m_CamerAt.y > maxPosition) {
+				maxPosition = camera.m_CamerAt.y;
+			}
+			else if (camera.m_CamerAt.y < maxPosition) {
+				camera.m_CamerAt.y = maxPosition;
+				//maxPosition = camera.m_CamerAt.y;
+			}
 		}
 		Vec3 CameraLocalEye =
 			Vec3(
@@ -701,12 +730,6 @@ namespace basecross {
 				lifegroup[4]->ScaleChangeH();
 				break;
 			}
-
-			
-
-			if (maxPosition >= 83.0f) {
-				camera.m_CamerAt.y = 83.0f;
-			}
 			if (FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y <= (maxPosition - 7.0f)) {
 				m_AudioObjectPtr->AddAudioResource(L"VOICE_SONNAA");
 				m_AudioObjectPtr->Start(L"VOICE_SONNAA", 0, 0.5f);
@@ -728,9 +751,10 @@ namespace basecross {
 			FPS += Util::FloatToWStr(CntlVec[0].fThumbRX);
 			FPS += L"\nTime: ";
 			FPS += Util::FloatToWStr(m_Time);
+			TimeNum->SetTime(m_Time);
 			//FPS += FindTagGameObject<Kaguya>(L"Kaguya")->GetHitObj();
 			FPS += L"\n";
-			FPS += Util::FloatToWStr(EnemyBreak);
+			FPS += Util::IntToWStr(EnemyBreak);
 			FPS += L"\n";
 			if (!m_StringDrawObject) {
 				m_StringDrawObject = FindTagGameObject<StringDrawObject>(L"StringDrawObject");
@@ -943,10 +967,10 @@ namespace basecross {
 		//メッセージスプライト
 		m_MessageSprite = ObjectFactory::Create<MessageSprite>(
 			GetThis<Stage>(),
-			L"MESSAGE_TX",
-			Vec2(256, 64),
+			L"PUSH_A_TX",
+			Vec2(200, 200),
 			0.0f,
-			Vec2(0, 0),
+			Vec2(0, -250),
 			1, 1);
 	}
 	void EmptyStage::OnUpdateStage() {
@@ -963,6 +987,7 @@ namespace basecross {
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_Y) {
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
 			}
+			
 		}
 	}
 

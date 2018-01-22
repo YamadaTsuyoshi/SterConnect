@@ -620,6 +620,9 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"NUMBER_TX", strTexture);
 		strTexture = DataDir + L"Enemy\\RabbitBOX.png";
 		App::GetApp()->RegisterTexture(L"RABBITBOX_TX", strTexture);
+
+		strTexture = DataDir + L"UI\\PushA.png";
+		App::GetApp()->RegisterTexture(L"PUSH_A_TX", strTexture);
 		
 
 		//ボーンモデルのリソース

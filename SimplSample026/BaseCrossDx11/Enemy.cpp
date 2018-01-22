@@ -106,15 +106,15 @@ namespace basecross {
 				float ElapsedTime = App::GetApp()->GetElapsedTime();
 				Time += ElapsedTime;
 				/*if (Time > 4.0f&&Startflag) {
-					Vec3 v = m_Rigidbody->m_Pos;
-					v.y -= 0.8f;
-					GetStage<Stage>()->AddGameObject<RabbitBullet>(
-						L"RABBIT_BULLET_TX",
-						true,
-						v,
-						1
-						);
-					Time = 0;
+				Vec3 v = m_Rigidbody->m_Pos;
+				v.y -= 0.8f;
+				GetStage<Stage>()->AddGameObject<RabbitBullet>(
+				L"RABBIT_BULLET_TX",
+				true,
+				v,
+				1
+				);
+				Time = 0;
 				}*/
 			}
 		}
@@ -329,14 +329,14 @@ namespace basecross {
 	//	—p“r: ƒEƒTƒM‚Ì“G‚ªŒ‚‚Â’e
 	//--------------------------------------------------------------------------------------
 	RabbitBullet::RabbitBullet(const shared_ptr<Stage>& StagePtr,
-		const wstring& TextureResName, bool Trace, const Vec3& Pos,const float& Scale) :
+		const wstring& TextureResName, bool Trace, const Vec3& Pos,float Scale) :
 		Bullet(StagePtr),
 		m_TextureResName(TextureResName),
 		m_Trace(Trace),
 		m_BaseX(5.65f),
 		m_BaseY(0.25f / 2.0f),
 		m_Posision(Pos),
-		Scale(Scale)
+		m_Scale(Scale)
 	{}
 	RabbitBullet::~RabbitBullet() {}
 
@@ -357,7 +357,7 @@ namespace basecross {
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 1.0f;
-		body.m_Scale = Vec3(0.3f*Scale);
+		body.m_Scale = Vec3(0.3f*m_Scale);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;
@@ -908,40 +908,40 @@ namespace basecross {
 				if (!rightMove) {
 					m_Rigidbody->m_Velocity.x = -Speed.x;
 				}
-				if (IsAnimeEnd()&&Startflag&&Bulletflag2) {
+				if (IsAnimeEnd() && Startflag&&Bulletflag2) {
 					Vec3 v = m_Rigidbody->m_Pos;
 					v.y -= 0.8f;
 					if (BulletCount == 7) {
 						GetStage<Stage>()->AddGameObject<RabbitBullet>(
 							L"RABBITBOX_TX",
 							true,
-							v-0.2f,
-							2
+							v - 0.2f,
+							2.0f
 							);
 					}
 					else {
 						GetStage<Stage>()->AddGameObject<RabbitBullet>(
-							L"RABBIT_BULLET_TX", 
+							L"RABBIT_BULLET_TX",
 							true,
 							v,
-							1
+							1.0f
 							);
 					}
 					Bulletflag2 = false;
-					
+
 				}
 				BulletTime += ElapsedTime;
-				if (IsAnimeEnd()&&!Bulletflag)
+				if (IsAnimeEnd() && !Bulletflag)
 				{
 					wstring Anime = L"fly_-";
-					Anime += Util::FloatToWStr(BulletCount);
-				if (BulletCount == 0)
-				{
-					Anime = L"fly_full";
-					ChangeAnimation(Anime);
-					SetLooped(true);
-					Bulletflag = true;
-				}
+					Anime += Util::IntToWStr(BulletCount);
+					if (BulletCount == 0)
+					{
+						Anime = L"fly_full";
+						ChangeAnimation(Anime);
+						SetLooped(true);
+						Bulletflag = true;
+					}
 					else if (BulletCount == 6)
 					{
 						Anime += L"_0";
@@ -964,11 +964,11 @@ namespace basecross {
 						BulletCount++;
 					}
 				}
-				else if (Bulletflag&&BulletTime>=5)
+				else if (Bulletflag&&BulletTime >= 5)
 				{
 					BulletTime = 0;
 					wstring Anime = L"Throw_";
-					Anime += Util::FloatToWStr(BulletCount);
+					Anime += Util::IntToWStr(BulletCount);
 					if (BulletCount == 7)
 					{
 						ChangeAnimation(Anime);
@@ -1230,10 +1230,10 @@ namespace basecross {
 		Startflag = GetStage<GameStage>()->getStartFlag();
 		if (Startflag) {
 			/*if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
-				if (rightMove)
-					m_Rigidbody->m_Velocity.x = Speed.x;
-				if (!rightMove)
-					m_Rigidbody->m_Velocity.x = -Speed.x;
+			if (rightMove)
+			m_Rigidbody->m_Velocity.x = Speed.x;
+			if (!rightMove)
+			m_Rigidbody->m_Velocity.x = -Speed.x;
 			}*/
 
 			SPHERE t;
@@ -1251,18 +1251,18 @@ namespace basecross {
 				lookflag = true;
 			}
 
-			if (IsAnimeEnd() &&!lookflag)
+			if (IsAnimeEnd() && !lookflag)
 			{
-					ChangeAnimation(L"wait");
-					SetLooped(false);
+				ChangeAnimation(L"wait");
+				SetLooped(false);
 			}
-			if (IsAnimeEnd()&&!AttackFlag&&lookflag)
+			if (IsAnimeEnd() && !AttackFlag&&lookflag)
 			{
 				ChangeAnimation(L"Jump");
 				SetLooped(false);
 				AttackFlag = true;
 			}
-			if (IsAnimeEnd()&& AttackFlag)
+			if (IsAnimeEnd() && AttackFlag)
 			{
 				ChangeAnimation(L"attack");
 				SetLooped(true);
@@ -1280,10 +1280,10 @@ namespace basecross {
 		if (Startflag) {
 			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
 				/*if (m_Rigidbody->m_Pos.x >= m_BaseX) {
-					rightMove = false;
+				rightMove = false;
 				}
 				if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
-					rightMove = true;
+				rightMove = true;
 				}*/
 			}
 		}

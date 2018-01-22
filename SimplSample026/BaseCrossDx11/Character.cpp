@@ -780,7 +780,7 @@ namespace basecross {
 			m_TotalTime = 0;
 		}
 		float sin_val = sin(m_TotalTime) * 0.5f + 0.5f;
-		Col4 UpdateCol(1.0f, 1.0f, 1.0f, sin_val);
+		Col4 UpdateCol(1.0f, 1.0f, 1.0f, sin_val*A);
 		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
 			vertices[i] = VertexPositionColorTexture(
 				m_BackupVertices[i].position,
@@ -1274,7 +1274,7 @@ namespace basecross {
 		//カメラの位置
 		Vec3 CameraEye = PtrStage->GetCamera().m_CamerEye;
 		Vec3 CameraAt = PtrStage->GetCamera().m_CamerAt;
-		m_Pos.y = CameraEye.y;
+		//m_Pos.y = CameraEye.y;
 		switch (m_DrawOption) {
 		case SquareDrawOption::Billboard:
 		{
@@ -1455,6 +1455,159 @@ namespace basecross {
 		this->m_Scale -= 2.0f;
 		if (this->m_Scale.x <= 0.0f&&this->m_Scale.y <= 0.0f) {
 			this->m_Scale = Vec2(0.0f);
+		}
+	}
+
+	//--------------------------------------------------------------------------------------
+	///経過時間
+	//--------------------------------------------------------------------------------------
+	TimeSprite::TimeSprite(const shared_ptr<Stage>& StagePtr,
+		const wstring& TextureResName,
+		const Vec2& StartScale,
+		float StartRot,
+		const Vec2& StartPos,
+		UINT XWrap, UINT YWrap) :
+		SpriteBase(StagePtr, TextureResName, StartScale, StartRot, StartPos, XWrap, YWrap),
+		m_TotalTime(0)
+	{
+		SetBlendState(BlendState::Trace);
+	}
+
+	void TimeSprite::AdjustVertex() {
+		float XPiecesize = 1.0f / 3.0f;
+		float HelfSize = 0.5f;
+
+		//インデックス配列
+		vector<uint16_t> indices;
+		for (UINT i = 0; i < 3.0f; i++) {
+			float Vertex0 = -HelfSize + XPiecesize * (float)i;
+			float Vertex1 = Vertex0 + XPiecesize;
+			//0
+			m_BackupVertices.push_back(
+				VertexPositionColorTexture(Vec3(Vertex0, HelfSize, 0), Col4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.0f, 0.0f))
+			);
+			//1
+			m_BackupVertices.push_back(
+				VertexPositionColorTexture(Vec3(Vertex1, HelfSize, 0), Col4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.1f, 0.0f))
+			);
+			//2
+			m_BackupVertices.push_back(
+				VertexPositionColorTexture(Vec3(Vertex0, -HelfSize, 0), Col4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.0f, 1.0f))
+			);
+			//3
+			m_BackupVertices.push_back(
+				VertexPositionColorTexture(Vec3(Vertex1, -HelfSize, 0), Col4(1.0f, 1.0f, 1.0f, 1.0f), Vec2(0.1f, 1.0f))
+			);
+			indices.push_back(i * 4 + 0);
+			indices.push_back(i * 4 + 1);
+			indices.push_back(i * 4 + 2);
+			indices.push_back(i * 4 + 1);
+			indices.push_back(i * 4 + 3);
+			indices.push_back(i * 4 + 2);
+		}
+		auto PtrTransform = GetTransform();;
+		PtrTransform->SetScale(m_Scale.x, m_Scale.y, 1.0f);
+		PtrTransform->SetRotation(0, 0, 0);
+		PtrTransform->SetPosition(m_Pos.x, m_Pos.y, 0.0f);
+
+		//auto PtrDraw = <PTSpriteDraw>(m_BackupVertices, indices);
+		//PtrDraw->SetTextureResource(m_TextureResName);
+
+		//GetStage()->SetSharedGameObject(L"ScoreSprite", GetThis<TimeSprite>());
+	}
+
+	void  TimeSprite::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
+		//m_Time = GetStage<GameStage>()->GetTime();
+		vector<VertexPositionColorTexture> NewVertices;
+		UINT Num;
+		int VerNum = 0;
+		for (UINT i = 3; i > 0; i--) {
+			UINT Base = (UINT)pow(10, i);
+			Num = ((UINT)m_Time) % Base;
+			//Num = Num / (Base / 10);
+			Vec2 UV0 = m_BackupVertices[VerNum].textureCoordinate;
+			UV0.x = (float)Num  / 10.0f;
+			auto v = VertexPositionColorTexture(
+				m_BackupVertices[VerNum].position,
+				m_BackupVertices[VerNum].color,
+				UV0
+			);
+			NewVertices.push_back(v);
+
+			Vec2 UV1 = m_BackupVertices[VerNum + 1].textureCoordinate;
+			UV1.x = UV0.x + 0.1f;
+			v = VertexPositionColorTexture(
+				m_BackupVertices[VerNum + 1].position,
+				m_BackupVertices[VerNum+1].color,
+				UV1
+			);
+			NewVertices.push_back(v);
+
+			Vec2 UV2 = m_BackupVertices[VerNum + 2].textureCoordinate;
+			UV2.x = UV0.x;
+
+			v = VertexPositionColorTexture(
+				m_BackupVertices[VerNum + 2].position,
+				m_BackupVertices[VerNum+2].color,
+				UV2
+			);
+			NewVertices.push_back(v);
+
+			Vec2 UV3 = m_BackupVertices[VerNum + 3].textureCoordinate;
+			UV3.x = UV0.x + 0.1f;
+
+			v = VertexPositionColorTexture(
+				m_BackupVertices[VerNum + 3].position,
+				m_BackupVertices[VerNum+3].color,
+				UV3
+			);
+			NewVertices.push_back(v);
+
+			VerNum += 4;
+		}
+
+		m_TotalTime += (ElapsedTime * 5.0f);
+		if (m_TotalTime >= XM_2PI) {
+			m_TotalTime = 0;
+		}
+		float sin_val = sin(m_TotalTime) * 0.5f + 0.5f;
+		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
+			vertices[i] = NewVertices[i];
+		}
+	}
+
+	//--------------------------------------------------------------------------------------
+	/// score
+	//--------------------------------------------------------------------------------------
+	ScoreSprite::ScoreSprite(const shared_ptr<Stage>& StagePtr,
+		const wstring& TextureResName,
+		const Vec2& StartScale,
+		float StartRot,
+		const Vec2& StartPos,
+		UINT XWrap, UINT YWrap) :
+		SpriteBase(StagePtr, TextureResName, StartScale, StartRot, StartPos, XWrap, YWrap),
+		m_TotalTime(0)
+	{
+		SetBlendState(BlendState::Trace);
+	}
+
+	void ScoreSprite::AdjustVertex() {
+		//ここでは何もしない
+	}
+
+	void ScoreSprite::UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) {
+		m_TotalTime += (ElapsedTime * 5.0f);
+		if (m_TotalTime >= XM_2PI) {
+			m_TotalTime = 0;
+		}
+		float sin_val = sin(m_TotalTime) * 0.5f + 0.5f;
+		Col4 UpdateCol(1.0f, 1.0f, 1.0f, 1.0f);
+		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
+			vertices[i] = VertexPositionColorTexture(
+				m_BackupVertices[i].position,
+				m_BackupVertices[i].color,
+				m_BackupVertices[i].textureCoordinate
+			);
 		}
 	}
 

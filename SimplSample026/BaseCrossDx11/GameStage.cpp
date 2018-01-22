@@ -490,7 +490,7 @@ namespace basecross {
 			Vec2(390, 40),
 			1, 1
 			);
-		TimeNum_1 = AddGameObject<TimeSprite>(
+		TimeNum_1 = AddGameObject<NumSprite>(
 			L"NUMBER_TX",
 			Vec2(60, 60),
 			0.0f,
@@ -498,7 +498,7 @@ namespace basecross {
 			1.0f,
 			1, 1
 			);
-		TimeNum_2 = AddGameObject<TimeSprite>(
+		TimeNum_2 = AddGameObject<NumSprite>(
 			L"NUMBER_TX",
 			Vec2(60, 60),
 			0.0f,
@@ -513,7 +513,7 @@ namespace basecross {
 			Vec2(460, -10),
 			1, 1
 			);
-		TimeNum_3 = AddGameObject<TimeSprite>(
+		TimeNum_3 = AddGameObject<NumSprite>(
 			L"NUMBER_TX",
 			Vec2(60, 60),
 			0.0f,
@@ -521,7 +521,7 @@ namespace basecross {
 			1.0f,
 			1, 1
 			);
-		TimeNum_4 = AddGameObject<TimeSprite>(
+		TimeNum_4 = AddGameObject<NumSprite>(
 			L"NUMBER_TX",
 			Vec2(60, 60),
 			0.0f,
@@ -796,13 +796,13 @@ namespace basecross {
 			FPS += Util::FloatToWStr(CntlVec[0].fThumbRX);
 			FPS += L"\nTime: ";
 			FPS += Util::FloatToWStr(m_Time_Sec);
-			TimeNum_1->SetTime(m_Time_Sec);
-			TimeNum_2->SetTime(m_Time_Sec);
-			TimeNum_3->SetTime(m_Time_Min);
-			TimeNum_4->SetTime(m_Time_Min);
+			TimeNum_1->SetNum(m_Time_Sec);
+			TimeNum_2->SetNum(m_Time_Sec);
+			TimeNum_3->SetNum(m_Time_Min);
+			TimeNum_4->SetNum(m_Time_Min);
 			//FPS += FindTagGameObject<Kaguya>(L"Kaguya")->GetHitObj();
 			FPS += L"\n";
-			FPS += Util::IntToWStr(EnemyBreak);
+			FPS += Util::FloatToWStr(EnemyBreak);
 			FPS += L"\n";
 			if (!m_StringDrawObject) {
 				m_StringDrawObject = FindTagGameObject<StringDrawObject>(L"StringDrawObject");
@@ -905,6 +905,7 @@ namespace basecross {
 				{
 					App::GetApp()->GetScene<Scene>()->SetCTime_Sec(m_Time_Sec);
 					App::GetApp()->GetScene<Scene>()->SetCTime_Min(m_Time_Min);
+					App::GetApp()->GetScene<Scene>()->SetEnemyBreak(EnemyBreak);
 					PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
 				}
 				else

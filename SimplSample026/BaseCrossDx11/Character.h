@@ -1525,6 +1525,7 @@ namespace basecross {
 		float m_TotalTime;	//頂点変更に使用するタイム
 		bool Fadeflag = false;
 		bool Fadeflag2 = false;
+		bool Clearflag = false;
 		float a = 0;
 	public:
 		//--------------------------------------------------------------------------------------
@@ -1569,6 +1570,7 @@ namespace basecross {
 		virtual ~Fade() {}
 		void SetFadeFlag(bool f) { Fadeflag = f; };
 		bool GetChangeFlag() { return Fadeflag2; };
+		void SetClearFlag(bool f) { Clearflag = f; };
 	};
 
 	//--------------------------------------------------------------------------------------

@@ -122,6 +122,7 @@ namespace basecross {
 		StartFlag = GetStage<GameStage>()->getStartFlag();
 		//前回のターンからの経過時間を求める
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		
 
 		//コントローラの取得
 		if (StartFlag) {
@@ -235,10 +236,26 @@ namespace basecross {
 			m_Rigidbody->m_Force += m_Rigidbody->m_Gravity * m_Rigidbody->m_Mass;
 
 			if (m_Rigidbody->m_Pos.y >= GetStage<GameStage>()->GetGoalPos()) {
+				Ttime += ElapsedTime;
 				auto gamestage = GetStage<GameStage>();
+				/*m_Rigidbody->m_Pos.y = GetStage<GameStage>()->GetGoalPos()+2;
+				m_Rigidbody->m_Pos.x = 0;*/
+				Vec3 GoalPos = Vec3(0, GetStage<GameStage>()->GetGoalPos()+2, 0);
+				if (Ttime >= 3) {
+					m_Rigidbody->m_Pos = ((GoalPos + m_Rigidbody->m_Pos) / 2);
+					m_Rigidbody->m_Velocity = Vec3(0);
+				}
+				if (Ttime <= 3) {
+					m_Rigidbody->m_Velocity += Vec3(0, 0.15, 0);
+				}
+				
 				gamestage->StopBGM();
-				gamestage->FadeFlag = true;
-				gamestage->ClearFlag = true;
+				if (!ClearFlag) {
+					gamestage->FadeFlag = true;
+					gamestage->ClearFlag = true;
+					ClearFlag = true;
+					gamestage->FindTagGameObject<KaguyaSS>(L"KaguyaSS")->SetClearFlag(true);
+				}
 				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToClearResult");
 			}
 			if (m_Life <= 0) {
@@ -554,7 +571,6 @@ namespace basecross {
 			Vec3(0, 0, 0),
 			Vec3(0, 0, 0.0f)
 		);
-
 	}
 
 	//初期化
@@ -570,15 +586,21 @@ namespace basecross {
 		//値は秒あたりのフレーム数
 		SetFps(10.0f);
 		//ChangeAnimation(L"Fly");
-		SetLooped(true);
+		SetLooped(false);
 	}
 
 	//更新
 	void KaguyaSS::OnUpdate() {
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		//アニメーションを更新する
-		if (!DamageFlag&&IsAnimeEnd())
+		if (ClearFlag&&IsAnimeEnd())
 		{
+			SetFps(10.0f);
+				ChangeAnimation(L"clear");
+			SetLooped(false);
+		}
+		else if (!DamageFlag&&IsAnimeEnd())
+		{ 
 			SetFps(10.0f);
 			ChangeAnimation(L"Fly");
 			SetLooped(false);
@@ -595,10 +617,12 @@ namespace basecross {
 				DamageTime = 0;
 			}
 		}
+		
 		auto PtrGameStage = GetStage<GameStage>();
 		GetTransform()->SetPosition(PtrGameStage->GetKaguyaPos());
 		UpdateAnimeTime(ElapsedTime);
 	}
+
 
 	//--------------------------------------------------------------------------------------
 	//	かぐやスプライトスタジオ（ゲームオーバー）

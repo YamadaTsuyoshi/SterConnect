@@ -711,7 +711,7 @@ namespace basecross {
 		CreateResources();
 		//自分自身にイベントを送る
 		//これにより各ステージやCreate時にシーンにアクセスできる
-		PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToTitle");
+		PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToStageSelect");
 	}
 
 	void Scene::OnUpdate() {

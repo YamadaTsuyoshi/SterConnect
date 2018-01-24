@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SpriteStudioCellMap version="1.00.00">
+    <name>StageSelect_Ver2.1</name>
+    <exportPath></exportPath>
+    <imagePath>StageSelect_Ver2.1.png</imagePath>
+    <pixelSize>1024 1024</pixelSize>
+    <overrideTexSettings>0</overrideTexSettings>
+    <wrapMode>clamp</wrapMode>
+    <filterMode>linear</filterMode>
+    <imagePathAtImport></imagePathAtImport>
+    <packInfoFilePath></packInfoFilePath>
+    <texPackSettings>
+        <maxSize>4096 4096</maxSize>
+        <forcePo2>1</forcePo2>
+        <forceSquare>0</forceSquare>
+        <margin>0</margin>
+        <padding>1</padding>
+    </texPackSettings>
+    <cells>
+        <cell>
+            <name>A_F</name>
+            <pos>724 4</pos>
+            <size>66 324</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>A1</name>
+            <pos>434 378</pos>
+            <size>44 286</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>A2</name>
+            <pos>792 156</pos>
+            <size>116 150</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>A3</name>
+            <pos>1008 194</pos>
+            <size>8 188</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>A4</name>
+            <pos>910 180</pos>
+            <size>96 174</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>A0</name>
+            <pos>370 4</pos>
+            <size>116 372</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>A_B</name>
+            <pos>248 4</pos>
+            <size>120 376</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>B_F</name>
+            <pos>724 330</pos>
+            <size>60 268</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>B1</name>
+            <pos>480 378</pos>
+            <size>38 316</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>B2</name>
+            <pos>792 308</pos>
+            <size>116 150</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>B3</name>
+            <pos>560 378</pos>
+            <size>8 188</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>B4</name>
+            <pos>910 4</pos>
+            <size>96 174</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>B0</name>
+            <pos>488 4</pos>
+            <size>116 372</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>B_B</name>
+            <pos>126 4</pos>
+            <size>120 376</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>C_F</name>
+            <pos>370 378</pos>
+            <size>62 210</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>C1</name>
+            <pos>520 378</pos>
+            <size>38 316</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>C2</name>
+            <pos>792 4</pos>
+            <size>116 150</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>C3</name>
+            <pos>1008 4</pos>
+            <size>8 188</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>C4</name>
+            <pos>910 356</pos>
+            <size>96 174</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>C0</name>
+            <pos>606 4</pos>
+            <size>116 372</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>C_B</name>
+            <pos>4 4</pos>
+            <size>120 376</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+    </cells>
+</SpriteStudioCellMap>

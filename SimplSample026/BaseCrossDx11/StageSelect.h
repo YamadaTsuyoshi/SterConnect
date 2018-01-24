@@ -4,6 +4,8 @@
 namespace basecross {
 
 	class StageSelect : public Stage {
+		//描画オブジェクトの追加
+		void CreateDrawObjects();
 		shared_ptr<StageSprite> m_MessageSprite;		///<メッセージを表示するスプライト
 		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
 		shared_ptr<Fade> m_FadeSprite;
@@ -55,6 +57,23 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
+	};
+
+	//--------------------------------------------------------------------------------------
+	//	ステージセレクトスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+	class StageSelectSS : public SS5ssae {
+		Mat4x4 m_ToAnimeMatrixLeft;
+		int StageNum = 0;
+	public:
+		//構築と破棄
+		StageSelectSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir);
+		virtual ~StageSelectSS() {}
+		//初期化
+		virtual void OnCreate() override;
+		//更新
+		virtual void OnUpdate() override;
+		void SetStageNum(int num) { StageNum = num; };
 	};
 
 }

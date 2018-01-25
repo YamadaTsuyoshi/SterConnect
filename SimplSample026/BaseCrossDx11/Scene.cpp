@@ -499,6 +499,29 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"TITLE_TX", strTexture);
 		strTexture = DataDir + L"Texture\\StageSelect_Ver2.0.png";
 		App::GetApp()->RegisterTexture(L"STAGESELECT_TX", strTexture);
+
+		strTexture = DataDir + L"StageSelect\\StageSelect_S1_Back.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_S1BG_TX", strTexture);
+		strTexture = DataDir + L"StageSelect\\StageSelect_S1_L1.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_S1L1_TX", strTexture);
+		strTexture = DataDir + L"StageSelect\\StageSelect_S1_L2.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_S1L2_TX", strTexture);
+		strTexture = DataDir + L"StageSelect\\StageSelect_S1_L3.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_S1L3_TX", strTexture);
+
+		strTexture = DataDir + L"StageSelect\\StageSelect_B.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_S2BG_TX", strTexture);
+		strTexture = DataDir + L"StageSelect\\StageSelect_B1.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_S2L1_TX", strTexture);
+		strTexture = DataDir + L"StageSelect\\StageSelect_B2.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_S2L2_TX", strTexture);
+		strTexture = DataDir + L"StageSelect\\StageSelect_B3.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_S2L3_TX", strTexture);
+		strTexture = DataDir + L"StageSelect\\StageSelect_B4.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_S2L4_TX", strTexture);
+		strTexture = DataDir + L"StageSelect\\StageSelect_B5.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_S2L5_TX", strTexture);
+
 		strTexture = DataDir + L"Texture\\clear.PNG";
 		App::GetApp()->RegisterTexture(L"CLEAR_TX", strTexture);
 		strTexture = DataDir + L"Texture\\gameover_Back.png";
@@ -711,7 +734,7 @@ namespace basecross {
 		CreateResources();
 		//自分自身にイベントを送る
 		//これにより各ステージやCreate時にシーンにアクセスできる
-		PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToStageSelect");
+		PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"ToTitle");
 	}
 
 	void Scene::OnUpdate() {
@@ -730,6 +753,14 @@ namespace basecross {
 		else if (event->m_MsgStr == L"ToStageSelect") {
 			//アクティブステージをEmptyStageに設定
 			ResetActiveStage<StageSelect>();
+		}
+		else if (event->m_MsgStr == L"ToStageSelect_S1") {
+			//アクティブステージをEmptyStageに設定
+			ResetActiveStage<Tikurin>();
+		}
+		else if (event->m_MsgStr == L"ToStageSelect_S2") {
+			//アクティブステージをEmptyStageに設定
+			ResetActiveStage<Yama>();
 		}
 		else if (event->m_MsgStr == L"ToGameStage") {
 			//アクティブステージをGameStageに設定

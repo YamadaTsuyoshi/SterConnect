@@ -173,19 +173,19 @@ namespace basecross {
 		EnemyNum->SetNum(m_EnemyBreak);
 		switch (Selecter) {
 		case 0:
-			L1->ScaleControl(1.0f);
-			L2->ScaleControl(0.0f);
-			L3->ScaleControl(0.0f);
+			L1->Result_ScaleControl(1.0f);
+			L2->Result_ScaleControl(0.0f);
+			L3->Result_ScaleControl(0.0f);
 			break;
 		case 1:
-			L1->ScaleControl(0.0f);
-			L2->ScaleControl(1.0f);
-			L3->ScaleControl(0.0f);
+			L1->Result_ScaleControl(0.0f);
+			L2->Result_ScaleControl(1.0f);
+			L3->Result_ScaleControl(0.0f);
 			break;
 		case 2:
-			L1->ScaleControl(0.0f);
-			L2->ScaleControl(0.0f);
-			L3->ScaleControl(1.0f);
+			L1->Result_ScaleControl(0.0f);
+			L2->Result_ScaleControl(0.0f);
+			L3->Result_ScaleControl(1.0f);
 			break;
 		}
 		//コントローラの取得
@@ -386,19 +386,19 @@ namespace basecross {
 	void Gameover::OnUpdate() {
 		switch (Selecter) {
 		case 0:
-			L1->ScaleControl(1.0f);
-			L2->ScaleControl(0.0f);
-			L3->ScaleControl(0.0f);
+			L1->Result_ScaleControl(1.0f);
+			L2->Result_ScaleControl(0.0f);
+			L3->Result_ScaleControl(0.0f);
 			break;
 		case 1:
-			L1->ScaleControl(0.0f);
-			L2->ScaleControl(1.0f);
-			L3->ScaleControl(0.0f);
+			L1->Result_ScaleControl(0.0f);
+			L2->Result_ScaleControl(1.0f);
+			L3->Result_ScaleControl(0.0f);
 			break;
 		case 2:
-			L1->ScaleControl(0.0f);
-			L2->ScaleControl(0.0f);
-			L3->ScaleControl(1.0f);
+			L1->Result_ScaleControl(0.0f);
+			L2->Result_ScaleControl(0.0f);
+			L3->Result_ScaleControl(1.0f);
 			break;
 		}
 		//コントローラの取得

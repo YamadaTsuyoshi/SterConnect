@@ -1043,7 +1043,9 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		virtual void UpdateVertex(float ElapsedTime, VertexPositionColorTexture* vertices) override;
 		virtual void SetPos(Vec2& pos);
-		virtual void ScaleControl(float r);
+		virtual void S1_ScaleControl(float r);
+		virtual void S2_ScaleControl(float r);
+		virtual void Result_ScaleControl(float r);
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief コンストラクタ

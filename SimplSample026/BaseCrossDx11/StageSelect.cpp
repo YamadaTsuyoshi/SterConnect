@@ -121,7 +121,17 @@ namespace basecross {
 		if (m_FadeSprite->GetChangeFlag())
 		{
 			App::GetApp()->GetScene<Scene>()->SetStageNumber(Selecter+1);
-			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+			switch (Selecter) {
+			case 0:
+				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToStageSelect_S1");
+				break;
+			case 1:
+				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToStageSelect_S2");
+				break;
+			case 2:
+				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+				break;
+			}
 		}
 	}
 
@@ -146,6 +156,360 @@ namespace basecross {
 
 
 	void StageSelect::OnDraw() {
+		//何もしない
+	}
+
+	//--------------------------------------------------------------------------------------
+	///	1つ目のステージ
+	//--------------------------------------------------------------------------------------
+	void Tikurin::OnCreate() {
+		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
+		m_AudioObjectPtr->AddAudioResource(L"STAGESELECT_BGM");
+		m_AudioObjectPtr->Start(L"STAGESELECT_BGM", XAUDIO2_LOOP_INFINITE, 0.3f);
+		//描画オブジェクトの追加
+		CreateDrawObjects();
+		//メッセージスプライト
+		m_MessageSprite = ObjectFactory::Create<StageSprite>(
+			GetThis<Stage>(),
+			L"STAGESELECT_S1BG_TX",
+			Vec2(1280, 800),
+			0.0f,
+			Vec2(0, 0),
+			1, 1);
+		L1 = AddGameObject<DefSp>(
+			L"STAGESELECT_S1L1_TX",
+			Vec2(410.0f, 600.0f),
+			0.0f,
+			Vec2(-405, -20.0f),
+			1, 1
+			);
+		L2 = AddGameObject<DefSp>(
+			L"STAGESELECT_S1L2_TX",
+			Vec2(410.0f, 600.0f),
+			0.0f,
+			Vec2(0, -20.0f),
+			1, 1
+			);
+		L3 = AddGameObject<DefSp>(
+			L"STAGESELECT_S1L3_TX",
+			Vec2(410.0f, 600.0f),
+			0.0f,
+			Vec2(405, -20.0f),
+			1, 1
+			);
+
+		m_FadeSprite = ObjectFactory::Create<Fade>(
+			GetThis<Stage>(),
+			L"FADE_TX",
+			Vec2(1280, 830),
+			0.0f,
+			Vec2(0, 0),
+			1, 1);
+
+	}
+
+	void Tikurin::CreateDrawObjects() {
+		//SimplePCTStaticRenderer描画オブジェクトの作成
+		AddGameObject<SimplePCTStaticRenderer>(L"SimplePCTStaticRenderer");
+	}
+
+	void Tikurin::OnUpdateStage() {
+		//スプライトの更新
+		m_MessageSprite->OnUpdate();
+		for (auto& v : GetGameObjectVec()) {
+			//各オブジェクトの更新
+			v->OnUpdate();
+		}
+		for (auto& v : GetGameObjectVec()) {
+			//各オブジェクトの最終更新
+			v->OnUpdate2();
+		}
+		m_FadeSprite->OnUpdate();
+		//自分自身の更新
+		this->OnUpdate();
+	}
+	void Tikurin::OnUpdate() {
+		switch (Selecter) {
+		case 0:
+			L1->S1_ScaleControl(1.0f);
+			L2->S1_ScaleControl(0.0f);
+			L3->S1_ScaleControl(0.0f);
+			break;
+		case 1:
+			L1->S1_ScaleControl(0.0f);
+			L2->S1_ScaleControl(1.0f);
+			L3->S1_ScaleControl(0.0f);
+			break;
+		case 2:
+			L1->S1_ScaleControl(0.0f);
+			L2->S1_ScaleControl(0.0f);
+			L3->S1_ScaleControl(1.0f);
+			break;
+		}
+		//コントローラの取得
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (CntlVec[0].bConnected) {
+			if (!FadeFlag) {
+				if (CntlVec[0].fThumbLX < -0.5) {
+					if (onectrl == false)
+					{
+						onectrl = true;
+						Selecter += -1;
+					}
+				}
+				else if (CntlVec[0].fThumbLX > 0.5) {
+					if (onectrl == false)
+					{
+						onectrl = true;
+						Selecter += 1;
+					}
+				}
+				else
+				{
+					onectrl = false;
+				}
+				if (Selecter < 0) {
+					Selecter = 2;
+				}
+				else if (Selecter > 2) {
+					Selecter = 0;
+				}
+				//Bボタン
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+					m_AudioObjectPtr->AddAudioResource(L"PRESS_SE");
+					m_AudioObjectPtr->Start(L"PRESS_SE", 0, 0.5f);
+					m_AudioObjectPtr->Stop(L"STAGESELECT_BGM");
+					FadeFlag = true;
+					//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+				}
+			}
+		}
+		if (FadeFlag)
+		{
+			m_FadeSprite->SetFadeFlag(true);
+		}
+		if (m_FadeSprite->GetChangeFlag())
+		{
+			App::GetApp()->GetScene<Scene>()->SetStageNumber(Selecter + 1);
+			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+		}
+	}
+
+	void Tikurin::OnDrawStage() {
+		//描画デバイスの取得
+		auto Dev = App::GetApp()->GetDeviceResources();
+		Dev->ClearDefaultViews(Col4(0, 0, 0, 1.0f));
+		//デフォルト描画の開始
+		Dev->StartDefaultDraw();
+		//スプライト描画
+		m_MessageSprite->OnDraw();
+		for (auto& v : GetGameObjectVec()) {
+			//各オブジェクトの描画
+			v->OnDraw();
+		}
+		m_FadeSprite->OnDraw();
+		//自分自身の描画
+		this->OnDraw();
+		//デフォルト描画の終了
+		Dev->EndDefaultDraw();
+	}
+
+
+	void Tikurin::OnDraw() {
+		//何もしない
+	}
+
+	//--------------------------------------------------------------------------------------
+	///	2つ目のステージ
+	//--------------------------------------------------------------------------------------
+	void Yama::OnCreate() {
+		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
+		m_AudioObjectPtr->AddAudioResource(L"STAGESELECT_BGM");
+		m_AudioObjectPtr->Start(L"STAGESELECT_BGM", XAUDIO2_LOOP_INFINITE, 0.3f);
+		//描画オブジェクトの追加
+		CreateDrawObjects();
+		//メッセージスプライト
+		m_MessageSprite = ObjectFactory::Create<StageSprite>(
+			GetThis<Stage>(),
+			L"STAGESELECT_S2BG_TX",
+			Vec2(1280, 800),
+			0.0f,
+			Vec2(0, 0),
+			1, 1);
+		L1 = AddGameObject<DefSp>(
+			L"STAGESELECT_S2L1_TX",
+			Vec2(410.0f, 600.0f),
+			0.0f,
+			Vec2(-400, -50.0f),
+			1, 1
+			);
+		L2 = AddGameObject<DefSp>(
+			L"STAGESELECT_S2L2_TX",
+			Vec2(410.0f, 600.0f),
+			0.0f,
+			Vec2(-200, -25.0f),
+			1, 1
+			);
+		L3 = AddGameObject<DefSp>(
+			L"STAGESELECT_S2L3_TX",
+			Vec2(410.0f, 600.0f),
+			0.0f,
+			Vec2(0, 0.0f),
+			1, 1
+			);
+		L4 = AddGameObject<DefSp>(
+			L"STAGESELECT_S2L4_TX",
+			Vec2(410.0f, 600.0f),
+			0.0f,
+			Vec2(200, 25.0f),
+			1, 1
+			);
+		L5 = AddGameObject<DefSp>(
+			L"STAGESELECT_S2L5_TX",
+			Vec2(410.0f, 600.0f),
+			0.0f,
+			Vec2(400, 50.0f),
+			1, 1
+			);
+
+		m_FadeSprite = ObjectFactory::Create<Fade>(
+			GetThis<Stage>(),
+			L"FADE_TX",
+			Vec2(1280, 830),
+			0.0f,
+			Vec2(0, 0),
+			1, 1);
+
+	}
+
+	void Yama::CreateDrawObjects() {
+		//SimplePCTStaticRenderer描画オブジェクトの作成
+		AddGameObject<SimplePCTStaticRenderer>(L"SimplePCTStaticRenderer");
+	}
+
+	void Yama::OnUpdateStage() {
+		//スプライトの更新
+		m_MessageSprite->OnUpdate();
+		for (auto& v : GetGameObjectVec()) {
+			//各オブジェクトの更新
+			v->OnUpdate();
+		}
+		for (auto& v : GetGameObjectVec()) {
+			//各オブジェクトの最終更新
+			v->OnUpdate2();
+		}
+		m_FadeSprite->OnUpdate();
+		//自分自身の更新
+		this->OnUpdate();
+	}
+	void Yama::OnUpdate() {
+		switch (Selecter) {
+		case 0:
+			L1->S2_ScaleControl(1.0f);
+			L2->S2_ScaleControl(0.0f);
+			L3->S2_ScaleControl(0.0f);
+			L4->S2_ScaleControl(0.0f);
+			L5->S2_ScaleControl(0.0f);
+			break;
+		case 1:
+			L1->S2_ScaleControl(0.0f);
+			L2->S2_ScaleControl(1.0f);
+			L3->S2_ScaleControl(0.0f);
+			L4->S2_ScaleControl(0.0f);
+			L5->S2_ScaleControl(0.0f);
+			break;
+		case 2:
+			L1->S2_ScaleControl(0.0f);
+			L2->S2_ScaleControl(0.0f);
+			L3->S2_ScaleControl(1.0f);
+			L4->S2_ScaleControl(0.0f);
+			L5->S2_ScaleControl(0.0f);
+			break;
+		case 3:
+			L1->S2_ScaleControl(0.0f);
+			L2->S2_ScaleControl(0.0f);
+			L3->S2_ScaleControl(0.0f);
+			L4->S2_ScaleControl(1.0f);
+			L5->S2_ScaleControl(0.0f);
+			break;
+		case 4:
+			L1->S2_ScaleControl(0.0f);
+			L2->S2_ScaleControl(0.0f);
+			L3->S2_ScaleControl(0.0f);
+			L4->S2_ScaleControl(0.0f);
+			L5->S2_ScaleControl(1.0f);
+			break;
+		}
+		//コントローラの取得
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		if (CntlVec[0].bConnected) {
+			if (!FadeFlag) {
+				if (CntlVec[0].fThumbLX < -0.5) {
+					if (onectrl == false)
+					{
+						onectrl = true;
+						Selecter += -1;
+					}
+				}
+				else if (CntlVec[0].fThumbLX > 0.5) {
+					if (onectrl == false)
+					{
+						onectrl = true;
+						Selecter += 1;
+					}
+				}
+				else
+				{
+					onectrl = false;
+				}
+				if (Selecter < 0) {
+					Selecter = 4;
+				}
+				else if (Selecter > 4) {
+					Selecter = 0;
+				}
+				//Bボタン
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+					m_AudioObjectPtr->AddAudioResource(L"PRESS_SE");
+					m_AudioObjectPtr->Start(L"PRESS_SE", 0, 0.5f);
+					m_AudioObjectPtr->Stop(L"STAGESELECT_BGM");
+					FadeFlag = true;
+					//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+				}
+			}
+		}
+		if (FadeFlag)
+		{
+			m_FadeSprite->SetFadeFlag(true);
+		}
+		if (m_FadeSprite->GetChangeFlag())
+		{
+			App::GetApp()->GetScene<Scene>()->SetStageNumber(Selecter + 1);
+			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameStage");
+		}
+	}
+
+	void Yama::OnDrawStage() {
+		//描画デバイスの取得
+		auto Dev = App::GetApp()->GetDeviceResources();
+		Dev->ClearDefaultViews(Col4(0, 0, 0, 1.0f));
+		//デフォルト描画の開始
+		Dev->StartDefaultDraw();
+		//スプライト描画
+		m_MessageSprite->OnDraw();
+		for (auto& v : GetGameObjectVec()) {
+			//各オブジェクトの描画
+			v->OnDraw();
+		}
+		m_FadeSprite->OnDraw();
+		//自分自身の描画
+		this->OnDraw();
+		//デフォルト描画の終了
+		Dev->EndDefaultDraw();
+	}
+
+
+	void Yama::OnDraw() {
 		//何もしない
 	}
 

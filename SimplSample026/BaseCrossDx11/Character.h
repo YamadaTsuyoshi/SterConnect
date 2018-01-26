@@ -1583,7 +1583,7 @@ namespace basecross {
 		float time = 0;
 	public:
 		//\’z‚Æ”jŠü
-		JumpEffectSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);
+		JumpEffectSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos,const wstring& Anime_Name);
 		virtual ~JumpEffectSS() {}
 		//‰Šú‰»
 		virtual void OnCreate() override;

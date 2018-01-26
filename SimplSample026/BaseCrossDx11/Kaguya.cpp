@@ -316,14 +316,14 @@ namespace basecross {
 						m_HitObj = L"yellow";
 						m_Attackflag = false;
 						shared_ptr<BarSS> a = dynamic_pointer_cast<BarSS>(shptr);
-						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos);
+						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos,L"E_Y");
 						a->SetD_flag(true);
 					}
 					else if (shptr && shptr->FindTag(L"Red")) {
 						m_HitObj = L"red";
 						m_Attackflag = true;
 						shared_ptr<BarSS> a = dynamic_pointer_cast<BarSS>(shptr);
-						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos);
+						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos, L"E_R");
 						GetStage<GameStage>()->AddGameObject<RedEffectSS>(EffectMap, m_Rigidbody->m_Pos);
 						a->SetD_flag(true);
 					}
@@ -369,7 +369,7 @@ namespace basecross {
 						m_HitObj = L"yellow";
 						m_Attackflag = false;
 						shared_ptr<BarSS> a = dynamic_pointer_cast<BarSS>(shptr);
-						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos);
+						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos,L"E_Y");
 						a->SetD_flag(true);
 
 					}
@@ -377,7 +377,7 @@ namespace basecross {
 						m_HitObj = L"red";
 						m_Attackflag = true;
 						shared_ptr<BarSS> a = dynamic_pointer_cast<BarSS>(shptr);
-						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos);
+						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos,L"E_R");
 						GetStage<GameStage>()->AddGameObject<RedEffectSS>(EffectMap, m_Rigidbody->m_Pos);
 						a->SetD_flag(true);
 					}
@@ -587,8 +587,9 @@ namespace basecross {
 		{
 			ChangeAnimation(L"Damage");
 			SetLooped(false);
-			SetFps(3.0f);
+			SetFps(15.0f);
 			DamageTime += ElapsedTime;
+
 			if (DamageTime <= 3)
 			{
 				DamageFlag = false;

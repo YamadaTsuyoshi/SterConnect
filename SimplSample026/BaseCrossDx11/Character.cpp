@@ -2355,8 +2355,8 @@ namespace basecross {
 	//	Starスプライトスタジオ
 	//--------------------------------------------------------------------------------------
 	//構築と破棄
-	JumpEffectSS::JumpEffectSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
-		SS5ssae(StagePtr, BaseDir, L"Effect_jump.ssae", L"E_Y"),
+	JumpEffectSS::JumpEffectSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos,const wstring& Anime_Name) :
+		SS5ssae(StagePtr, BaseDir, L"Effect_jump.ssae", Anime_Name),
 		m_Posision(Pos)
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(

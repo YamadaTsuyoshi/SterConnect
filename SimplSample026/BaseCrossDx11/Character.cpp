@@ -1607,10 +1607,10 @@ namespace basecross {
 		this->m_Pos = Vec2(pos.x,pos.y);
 	}
 	void DefSp::S1_ScaleControl(float r) {
-		this->m_Scale = Vec2(400 * r, 600 * r);
+		this->m_Scale = Vec2(550 * r, 786 * r);
 	}
 	void DefSp::S2_ScaleControl(float r) {
-		this->m_Scale = Vec2(400 * r, 100 * r);
+		this->m_Scale = Vec2(835 * r, 210 * r);
 	}
 	void DefSp::Result_ScaleControl(float r) {
 		this->m_Scale = Vec2(400 * r, 100 * r);

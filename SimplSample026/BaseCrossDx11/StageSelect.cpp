@@ -180,21 +180,21 @@ namespace basecross {
 			L"STAGESELECT_S1L1_TX",
 			Vec2(410.0f, 600.0f),
 			0.0f,
-			Vec2(-405, -20.0f),
+			Vec2(-405, -70.0f),
 			1, 1
 			);
 		L2 = AddGameObject<DefSp>(
 			L"STAGESELECT_S1L2_TX",
 			Vec2(410.0f, 600.0f),
 			0.0f,
-			Vec2(0, -20.0f),
+			Vec2(0, -70.0f),
 			1, 1
 			);
 		L3 = AddGameObject<DefSp>(
 			L"STAGESELECT_S1L3_TX",
 			Vec2(410.0f, 600.0f),
 			0.0f,
-			Vec2(405, -20.0f),
+			Vec2(405, -70.0f),
 			1, 1
 			);
 
@@ -231,19 +231,19 @@ namespace basecross {
 	void Tikurin::OnUpdate() {
 		switch (Selecter) {
 		case 0:
-			L1->S1_ScaleControl(1.0f);
+			L1->S1_ScaleControl(0.75f);
 			L2->S1_ScaleControl(0.0f);
 			L3->S1_ScaleControl(0.0f);
 			break;
 		case 1:
 			L1->S1_ScaleControl(0.0f);
-			L2->S1_ScaleControl(1.0f);
+			L2->S1_ScaleControl(0.75f);
 			L3->S1_ScaleControl(0.0f);
 			break;
 		case 2:
 			L1->S1_ScaleControl(0.0f);
 			L2->S1_ScaleControl(0.0f);
-			L3->S1_ScaleControl(1.0f);
+			L3->S1_ScaleControl(0.75f);
 			break;
 		}
 		//コントローラの取得
@@ -340,35 +340,35 @@ namespace basecross {
 			L"STAGESELECT_S2L1_TX",
 			Vec2(410.0f, 600.0f),
 			0.0f,
-			Vec2(-400, -50.0f),
+			Vec2(-350, -320.0f),
 			1, 1
 			);
 		L2 = AddGameObject<DefSp>(
 			L"STAGESELECT_S2L2_TX",
 			Vec2(410.0f, 600.0f),
 			0.0f,
-			Vec2(-200, -25.0f),
+			Vec2(-180, -190.0f),
 			1, 1
 			);
 		L3 = AddGameObject<DefSp>(
 			L"STAGESELECT_S2L3_TX",
 			Vec2(410.0f, 600.0f),
 			0.0f,
-			Vec2(0, 0.0f),
+			Vec2(20, -55.0f),
 			1, 1
 			);
 		L4 = AddGameObject<DefSp>(
 			L"STAGESELECT_S2L4_TX",
 			Vec2(410.0f, 600.0f),
 			0.0f,
-			Vec2(200, 25.0f),
+			Vec2(205, 80.5f),
 			1, 1
 			);
 		L5 = AddGameObject<DefSp>(
 			L"STAGESELECT_S2L5_TX",
 			Vec2(410.0f, 600.0f),
 			0.0f,
-			Vec2(400, 50.0f),
+			Vec2(360, 220.0f),
 			1, 1
 			);
 
@@ -405,7 +405,7 @@ namespace basecross {
 	void Yama::OnUpdate() {
 		switch (Selecter) {
 		case 0:
-			L1->S2_ScaleControl(1.0f);
+			L1->S2_ScaleControl(0.65f);
 			L2->S2_ScaleControl(0.0f);
 			L3->S2_ScaleControl(0.0f);
 			L4->S2_ScaleControl(0.0f);
@@ -413,7 +413,7 @@ namespace basecross {
 			break;
 		case 1:
 			L1->S2_ScaleControl(0.0f);
-			L2->S2_ScaleControl(1.0f);
+			L2->S2_ScaleControl(0.65f);
 			L3->S2_ScaleControl(0.0f);
 			L4->S2_ScaleControl(0.0f);
 			L5->S2_ScaleControl(0.0f);
@@ -421,7 +421,7 @@ namespace basecross {
 		case 2:
 			L1->S2_ScaleControl(0.0f);
 			L2->S2_ScaleControl(0.0f);
-			L3->S2_ScaleControl(1.0f);
+			L3->S2_ScaleControl(0.65f);
 			L4->S2_ScaleControl(0.0f);
 			L5->S2_ScaleControl(0.0f);
 			break;
@@ -429,7 +429,7 @@ namespace basecross {
 			L1->S2_ScaleControl(0.0f);
 			L2->S2_ScaleControl(0.0f);
 			L3->S2_ScaleControl(0.0f);
-			L4->S2_ScaleControl(1.0f);
+			L4->S2_ScaleControl(0.65f);
 			L5->S2_ScaleControl(0.0f);
 			break;
 		case 4:
@@ -437,7 +437,7 @@ namespace basecross {
 			L2->S2_ScaleControl(0.0f);
 			L3->S2_ScaleControl(0.0f);
 			L4->S2_ScaleControl(0.0f);
-			L5->S2_ScaleControl(1.0f);
+			L5->S2_ScaleControl(0.65f);
 			break;
 		}
 		//コントローラの取得

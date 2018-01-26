@@ -482,7 +482,7 @@ namespace basecross {
 		//メッセージを表示するスプライトの作成
 		m_MessageSprite = AddGameObject<MessageSprite>(
 			L"PUSH_A_TX",
-			Vec2(350, 100),
+			Vec2(600, 100),
 			0.0f,
 			Vec2(-150, -250),
 			1, 1);
@@ -799,23 +799,23 @@ namespace basecross {
 				m_Time_Min += 1;
 			}
 
-			auto fps = App::GetApp()->GetStepTimer().GetFramesPerSecond();
+			/*auto fps = App::GetApp()->GetStepTimer().GetFramesPerSecond();
 			wstring FPS(L"FPS: ");
 			FPS += Util::FloatToWStr(CntlVec[0].fThumbRX);
 			FPS += L"\nTime: ";
-			FPS += Util::FloatToWStr(m_Time_Sec);
+			FPS += Util::FloatToWStr(m_Time_Sec);*/
 			TimeNum_1->SetNum(m_Time_Sec);
 			TimeNum_2->SetNum(m_Time_Sec);
 			TimeNum_3->SetNum(m_Time_Min);
 			TimeNum_4->SetNum(m_Time_Min);
 			//FPS += FindTagGameObject<Kaguya>(L"Kaguya")->GetHitObj();
-			FPS += L"\n";
+			/*FPS += L"\n";
 			FPS += Util::FloatToWStr(EnemyBreak);
 			FPS += L"\n";
 			if (!m_StringDrawObject) {
 				m_StringDrawObject = FindTagGameObject<StringDrawObject>(L"StringDrawObject");
 			}
-			m_StringDrawObject->SetText(FPS);
+			m_StringDrawObject->SetText(FPS);*/
 
 			/*//子供がついてくる
 			auto Player = FindTagGameObject<GameObject>(L"Player");

@@ -22,9 +22,9 @@ namespace basecross {
 		m_HutonSprite = ObjectFactory::Create<MessageSprite>(
 			GetThis<Stage>(),
 			L"PUSH_A_TX",
-			Vec2(350, 100),
+			Vec2(600, 100),
 			0.0f,
-			Vec2(0, -250),
+			Vec2(0, -260),
 			1, 1);
 		m_FadeSprite = ObjectFactory::Create<Fade>(
 			GetThis<Stage>(),

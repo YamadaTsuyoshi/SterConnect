@@ -490,4 +490,195 @@ namespace basecross {
 		GetStage<GameStage>()->RemoveGameObject<BossBullet>(GetThis<BossBullet>());
 		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<BossBullet>());
 	}
+
+	//--------------------------------------------------------------------------------------
+	// Bosuusaスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+	//構築と破棄
+	BossusaSS::BossusaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
+		SS5ssae(StagePtr, BaseDir, L"bosuusa.ssae", L"anime_1"),
+		m_Posision(Pos),
+		m_BaseX(5.5f),
+		m_BaseY(0.25f / 2.0f)
+	{
+		m_ToAnimeMatrixLeft.affineTransformation(
+			Vec3(0.1f, 0.1f, 1.0f),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0.0f)
+		);
+
+	}
+
+	//初期化
+	void BossusaSS::OnCreate() {
+
+		//タグの追加
+		AddTag(L"Enemy");
+		//Rigidbodyの初期化
+		auto PtrGameStage = GetStage<GameStage>();
+		Rigidbody body;
+		body.m_Owner = GetThis<GameObject>();
+		body.m_Mass = 1.0f;
+		body.m_Scale = Vec3(0.0f);
+		body.m_Quat = Quat();
+		body.m_Pos = m_Posision;
+		body.m_CollType = CollType::typeSPHERE;
+		//body.m_IsDrawActive = true;
+		body.SetToBefore();
+
+		m_Rigidbody = PtrGameStage->AddRigidbody(body);
+
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			body.m_Scale,
+			Vec3(0, 0, 0),
+			body.m_Quat,
+			body.m_Pos
+		);
+
+		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
+		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
+
+		auto PtrT = GetTransform();
+		PtrT->SetScale(1.0f, 1.0f, 1.0f);
+		PtrT->SetPosition(m_Posision);
+		//親クラスのクリエイトを呼ぶ
+		SS5ssae::OnCreate();
+		//値は秒あたりのフレーム数
+		SetFps(30.0f);
+
+		//ChangeAnimation(L"run");
+		SetLooped(true);
+
+
+	}
+
+	//更新
+	void BossusaSS::OnUpdate() {
+
+		Startflag = GetStage<GameStage>()->getStartFlag();
+		if (Startflag) {
+			m_Rigidbody->m_Velocity.y = 1.0f;
+			/*if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
+			if (rightMove)
+			m_Rigidbody->m_Velocity.x = Speed.x;
+			if (!rightMove)
+			m_Rigidbody->m_Velocity.x = -Speed.x;
+			}*/
+			/*if (IsAnimeEnd())
+			{
+			ChangeAnimation(L"Jump");
+			SetLooped(false);
+			}
+			if (IsAnimeEnd()&&A)
+			{
+			ChangeAnimation(L"attack");
+			SetLooped(true);
+			}*/
+		}
+
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		auto PtrT = GetTransform();
+		PtrT->SetPosition(m_Rigidbody->m_Pos);
+		//アニメーションを更新する
+		UpdateAnimeTime(ElapsedTime);
+	}
+
+	void BossusaSS::OnUpdate2() {
+		if (Startflag) {
+			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
+				/*if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+				rightMove = false;
+				}
+				if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
+				rightMove = true;
+				}*/
+			}
+		}
+
+		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
+		for (auto& v : StateVec) {
+			if (v.m_Src == m_Rigidbody.get()) {
+				//Destにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Dest->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
+						auto gamestage = GetStage<GameStage>();
+						gamestage->StartDestroySE();
+						gamestage->AddEnemyBreak();
+						ThisDelete();
+					}
+				}
+				if (shptr && shptr->FindTag(L"Yellow")) {
+				}
+				if (shptr && shptr->FindTag(L"Blue")) {
+				}
+				if (shptr && shptr->FindTag(L"Red")) {
+				}
+				if (shptr && shptr->FindTag(L"Bamboo")) {
+				}
+				if (shptr && shptr->FindTag(L"BambooB")) {
+				}
+				if (shptr && shptr->FindTag(L"Enemy")) {
+				}
+				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					auto gamestage = GetStage<GameStage>();
+					gamestage->StartDestroySE();
+					gamestage->AddEnemyBreak();
+					ThisDelete();
+				}
+				break;
+			}
+			if (v.m_Dest == m_Rigidbody.get()) {
+				//Srcにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Src->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
+						auto gamestage = GetStage<GameStage>();
+						gamestage->StartDestroySE();
+						gamestage->AddEnemyBreak();
+						ThisDelete();
+					}
+				}
+				if (shptr && shptr->FindTag(L"Yellow")) {
+				}
+				if (shptr && shptr->FindTag(L"Blue")) {
+				}
+				if (shptr && shptr->FindTag(L"Red")) {
+				}
+				if (shptr && shptr->FindTag(L"Bamboo")) {
+				}
+				if (shptr && shptr->FindTag(L"BambooB")) {
+				}
+				if (shptr && shptr->FindTag(L"Enemy")) {
+				}
+				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+					auto gamestage = GetStage<GameStage>();
+					gamestage->StartDestroySE();
+					gamestage->AddEnemyBreak();
+					ThisDelete();
+				}
+				break;
+			}
+		}
+
+		if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) - 7) {
+			//auto gamestage = GetStage<GameStage>();
+			//gamestage->StartDestroySE();
+			//ThisDelete();
+		}
+
+	}
+
+	void BossusaSS::ThisDelete()
+	{
+		Vec3 Emitter = m_Rigidbody->m_Pos;
+		//Spaerkの送出
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
+		GetStage<GameStage>()->RemoveGameObject<BossusaSS>(GetThis<BossusaSS>());
+		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<BossusaSS>());
+	}
 }

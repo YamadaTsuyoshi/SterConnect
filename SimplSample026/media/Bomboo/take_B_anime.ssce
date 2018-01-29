@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SpriteStudioCellMap version="1.00.00">
+    <name>take_B_anime</name>
+    <exportPath></exportPath>
+    <imagePath>take_B_anime.png</imagePath>
+    <pixelSize>1024 1024</pixelSize>
+    <overrideTexSettings>0</overrideTexSettings>
+    <wrapMode>clamp</wrapMode>
+    <filterMode>linear</filterMode>
+    <imagePathAtImport></imagePathAtImport>
+    <packInfoFilePath></packInfoFilePath>
+    <texPackSettings>
+        <maxSize>4096 4096</maxSize>
+        <forcePo2>1</forcePo2>
+        <forceSquare>0</forceSquare>
+        <margin>0</margin>
+        <padding>1</padding>
+    </texPackSettings>
+    <cells>
+        <cell>
+            <name>star 2</name>
+            <pos>728 270</pos>
+            <size>178 172</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>star</name>
+            <pos>402 338</pos>
+            <size>178 172</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>9</name>
+            <pos>402 4</pos>
+            <size>174 332</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>8</name>
+            <pos>4 402</pos>
+            <size>174 158</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>7</name>
+            <pos>728 4</pos>
+            <size>124 264</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>6</name>
+            <pos>578 4</pos>
+            <size>148 276</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>5</name>
+            <pos>180 402</pos>
+            <size>100 220</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>4</name>
+            <pos>908 218</pos>
+            <size>96 282</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>3</name>
+            <pos>582 444</pos>
+            <size>252 102</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>2</name>
+            <pos>282 402</pos>
+            <size>68 208</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>1</name>
+            <pos>854 4</pos>
+            <size>142 212</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+        <cell>
+            <name>take_Base</name>
+            <pos>4 4</pos>
+            <size>396 396</size>
+            <pivot>0.000000 0.000000</pivot>
+            <rotated>0</rotated>
+            <orgImageName></orgImageName>
+            <posStable>0</posStable>
+        </cell>
+    </cells>
+</SpriteStudioCellMap>

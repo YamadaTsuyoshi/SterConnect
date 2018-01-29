@@ -46,6 +46,8 @@ namespace basecross {
 		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
 
 		bool StartFlag=false;
+		float Ttime = 0;
+		bool ClearFlag = false;
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	コントローラから方向ベクトルを得る
@@ -131,6 +133,7 @@ namespace basecross {
 		{
 			return m_Rigidbody;
 		}
+		float GetTtime() { return Ttime; };
 	};
 
 	//--------------------------------------------------------------------------------------
@@ -140,6 +143,7 @@ namespace basecross {
 		Mat4x4 m_ToAnimeMatrixLeft;
 		bool DamageFlag = false;
 		float DamageTime;
+		bool ClearFlag = false;
 	public:
 		//構築と破棄
 		KaguyaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir);
@@ -149,6 +153,7 @@ namespace basecross {
 		//更新
 		virtual void OnUpdate() override;
 		void SetDamageFlag(bool Flag) { DamageFlag = Flag; };
+		void SetClearFlag(bool Flag) { ClearFlag = Flag; };
 	};
 
 	//--------------------------------------------------------------------------------------

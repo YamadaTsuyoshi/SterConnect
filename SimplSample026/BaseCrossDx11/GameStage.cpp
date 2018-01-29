@@ -691,6 +691,18 @@ namespace basecross {
 				//maxPosition = camera.m_CamerAt.y;
 			}
 		}
+		else if (ClearFlag){
+			if (camera.m_CamerAt.y >= GoalPos + 3) {
+				camera.m_CamerAt.y = GoalPos + 3;
+			}
+			else if (camera.m_CamerAt.y > maxPosition) {
+				maxPosition = camera.m_CamerAt.y;
+			}
+			else if (camera.m_CamerAt.y < maxPosition) {
+				camera.m_CamerAt.y = maxPosition;
+				//maxPosition = camera.m_CamerAt.y;
+			}
+		}
 		else {
 			if (camera.m_CamerAt.y >= 84) {
 				camera.m_CamerAt.y = 84;
@@ -917,7 +929,15 @@ namespace basecross {
 			if (FadeFlag)
 			{
 				m_FadeSprite->SetFadeFlag(true);
+				m_FadeSprite->SetClearFlag(ClearFlag);
+				FadeFlag = false;
 			}
+
+			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A&&ClearFlag&&FindTagGameObject<Kaguya>(L"Kaguya")->GetTtime()>=3) {
+				m_FadeSprite->SetClearFlag(false);
+			}
+
+
 			if (m_FadeSprite->GetChangeFlag())
 			{
 				if (ClearFlag)

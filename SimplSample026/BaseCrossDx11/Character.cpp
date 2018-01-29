@@ -1767,7 +1767,7 @@ namespace basecross {
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 0.75f;
-		body.m_Scale = Vec3(1.0f);
+		body.m_Scale = Vec3(0.35f,0.7f,1);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;
@@ -1813,6 +1813,11 @@ namespace basecross {
 	}
 
 	void Bamboo::OnUpdate2() {
+
+		if (D_flag)
+		{
+			ThisDelete();
+		}
 
 		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
 		if (this->FindTag(L"BambooB")) {
@@ -2334,9 +2339,8 @@ namespace basecross {
 		}
 		float sin_val = sin(m_TotalTime) * 0.5f + 0.5f;
 		Col4 UpdateCol(1.0f, 1.0f, 1.0f, a);
-		if (Fadeflag) {
+		if (Fadeflag&&!Clearflag) {
 			a += 0.015;
-			
 		}
 		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
 			vertices[i] = VertexPositionColorTexture(

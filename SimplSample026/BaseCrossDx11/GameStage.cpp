@@ -286,13 +286,24 @@ namespace basecross {
 
 			if (MapVec[0] == L"Boss")
 			{
-				BossNull = false;
+				//BossNull = false;
 				stringflag = true;
-				AddGameObject<BossEnemy>(
+				/*AddGameObject<BossEnemy>(
 					L"KAGUYA_TX",
 					true,
 					Pos
-					);
+					);*/
+			}
+
+			if (MapVec[0] == L"Bossusa")
+			{
+				stringflag = true;
+				wstring Path = App::GetApp()->GetDataDirWString();
+
+				//ÉtÉ@ÉCÉãñºÇÃê›íË
+				wstring Map = Path + L"\\Enemy\\";
+
+				AddGameObject<BossusaSS>(Map, Pos);
 			}
 
 			if (!stringflag)

@@ -1186,6 +1186,8 @@ namespace basecross {
 		shared_ptr<ShadowmapObject> m_PtrShadowmapObj;
 		//シャドウマップ描画オブジェクト(weak_ptr)
 		weak_ptr<ShadowmapRenderer> m_ShadowmapRenderer;
+
+		bool D_flag = false;
 	protected:
 	public:
 		//--------------------------------------------------------------------------------------
@@ -1248,6 +1250,7 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
 		void ThisDelete();
+		void SetD_flag(bool a) { D_flag = true; }
 	};
 
 	//--------------------------------------------------------------------------------------

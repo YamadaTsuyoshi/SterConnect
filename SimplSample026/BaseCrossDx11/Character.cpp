@@ -1761,7 +1761,7 @@ namespace basecross {
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 0.75f;
-		body.m_Scale = Vec3(1.0f);
+		body.m_Scale = Vec3(0.35f,0.7f,1);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;
@@ -1807,6 +1807,11 @@ namespace basecross {
 	}
 
 	void Bamboo::OnUpdate2() {
+
+		if (D_flag)
+		{
+			ThisDelete();
+		}
 
 		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
 		if (this->FindTag(L"BambooB")) {

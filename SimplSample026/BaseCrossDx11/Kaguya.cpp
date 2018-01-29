@@ -66,7 +66,7 @@ namespace basecross {
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 0.75f;
-		body.m_Scale = Vec3(1.8f);
+		body.m_Scale = Vec3(1.8f*0.8f, 1.8f*0.8f,1);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;
@@ -350,6 +350,8 @@ namespace basecross {
 					}
 					else if (shptr && shptr->FindTag(L"BambooB")) {
 						m_HitObj = L"bamboo";
+						shared_ptr<Bamboo> a = dynamic_pointer_cast<Bamboo>(shptr);
+						a->SetD_flag(true);
 						//m_Attackflag = false;
 					}
 					if (shptr && shptr->FindTag(L"Enemy")) {
@@ -404,6 +406,8 @@ namespace basecross {
 					}
 					else if (shptr && shptr->FindTag(L"BambooB")) {
 						m_HitObj = L"yellow";
+						shared_ptr<Bamboo> a = dynamic_pointer_cast<Bamboo>(shptr);
+						a->SetD_flag(true);
 						//m_Attackflag = false;
 					}
 					else if (shptr && shptr->FindTag(L"Enemy")) {
@@ -579,7 +583,7 @@ namespace basecross {
 		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
 		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
 		auto PtrT = GetTransform();
-		PtrT->SetScale(0.6f,0.6f, 1.0f);
+		PtrT->SetScale(0.6f*0.8f,0.6f*0.8f, 1.0f);
 		PtrT->SetPosition(Vec3(0, 5.0f, 1.0f));
 		//親クラスのクリエイトを呼ぶ
 		SS5ssae::OnCreate();

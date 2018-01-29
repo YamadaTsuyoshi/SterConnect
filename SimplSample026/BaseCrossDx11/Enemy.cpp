@@ -357,7 +357,7 @@ namespace basecross {
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 1.0f;
-		body.m_Scale = Vec3(0.3f*m_Scale);
+		body.m_Scale = Vec3(0.3f*m_Scale*0.8f);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;
@@ -861,7 +861,7 @@ namespace basecross {
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 1.0f;
-		body.m_Scale = Vec3(1.0f);
+		body.m_Scale = Vec3(1.0f*0.8f);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;
@@ -1189,7 +1189,7 @@ namespace basecross {
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 1.0f;
-		body.m_Scale = Vec3(1.0f);
+		body.m_Scale = Vec3(1.0f*0.8f);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;
@@ -1473,7 +1473,7 @@ namespace basecross {
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 1.0f;
-		body.m_Scale = Vec3(1.1f);
+		body.m_Scale = Vec3(1.1f*0.8f);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;
@@ -1513,12 +1513,12 @@ namespace basecross {
 
 		Startflag = GetStage<GameStage>()->getStartFlag();
 		if (Startflag) {
-			/*if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
+			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
 			if (rightMove)
 			m_Rigidbody->m_Velocity.x = Speed.x;
 			if (!rightMove)
 			m_Rigidbody->m_Velocity.x = -Speed.x;
-			}*/
+			}
 			/*if (IsAnimeEnd())
 			{
 			ChangeAnimation(L"Jump");
@@ -1541,12 +1541,12 @@ namespace basecross {
 	void WispSS::OnUpdate2() {
 		if (Startflag) {
 			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
-				/*if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+				if (m_Rigidbody->m_Pos.x >= m_BaseX) {
 				rightMove = false;
 				}
 				if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
 				rightMove = true;
-				}*/
+				}
 			}
 		}
 
@@ -1564,16 +1564,52 @@ namespace basecross {
 					}
 				}
 				if (shptr && shptr->FindTag(L"Yellow")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 				}
 				if (shptr && shptr->FindTag(L"Blue")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 				}
 				if (shptr && shptr->FindTag(L"Red")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 				}
 				if (shptr && shptr->FindTag(L"Bamboo")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 				}
 				if (shptr && shptr->FindTag(L"BambooB")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 				}
 				if (shptr && shptr->FindTag(L"Enemy")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 				}
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					auto gamestage = GetStage<GameStage>();
@@ -1595,16 +1631,52 @@ namespace basecross {
 					}
 				}
 				if (shptr && shptr->FindTag(L"Yellow")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 				}
 				if (shptr && shptr->FindTag(L"Blue")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 				}
 				if (shptr && shptr->FindTag(L"Red")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 				}
 				if (shptr && shptr->FindTag(L"Bamboo")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 				}
 				if (shptr && shptr->FindTag(L"BambooB")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 				}
 				if (shptr && shptr->FindTag(L"Enemy")) {
+					if (rightMove) {
+						rightMove = false;
+					}
+					else if (!rightMove) {
+						rightMove = true;
+					}
 				}
 				if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 					auto gamestage = GetStage<GameStage>();

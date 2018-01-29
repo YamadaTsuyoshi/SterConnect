@@ -295,7 +295,7 @@ namespace basecross {
 		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
 
 		auto PtrT = GetTransform();
-		PtrT->SetScale(1.4f, 1.4f, 1.0f);
+		PtrT->SetScale(1.4f*0.8f, 1.4f*0.8f, 1.0f);
 		//PtrT->SetPosition(Vec3(0, 5.0f, 1.0f));
 		//親クラスのクリエイトを呼ぶ
 		SS5ssae::OnCreate();

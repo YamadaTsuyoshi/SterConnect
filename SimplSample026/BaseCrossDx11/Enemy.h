@@ -259,6 +259,7 @@ namespace basecross {
 		Vec3 Speed = Vec3(1.5f, 1.5f, 1.5f);
 		float Time = 0;
 		bool Startflag = false;
+		bool rightMove = true;
 	public:
 		//\’z‚Æ”jŠü
 		WispSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);

@@ -1188,6 +1188,8 @@ namespace basecross {
 		shared_ptr<ShadowmapObject> m_PtrShadowmapObj;
 		//シャドウマップ描画オブジェクト(weak_ptr)
 		weak_ptr<ShadowmapRenderer> m_ShadowmapRenderer;
+
+		bool D_flag = false;
 	protected:
 	public:
 		//--------------------------------------------------------------------------------------
@@ -1250,6 +1252,7 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
 		void ThisDelete();
+		void SetD_flag(bool a) { D_flag = true; }
 	};
 
 	//--------------------------------------------------------------------------------------
@@ -1527,6 +1530,7 @@ namespace basecross {
 		float m_TotalTime;	//頂点変更に使用するタイム
 		bool Fadeflag = false;
 		bool Fadeflag2 = false;
+		bool Clearflag = false;
 		float a = 0;
 	public:
 		//--------------------------------------------------------------------------------------
@@ -1571,6 +1575,7 @@ namespace basecross {
 		virtual ~Fade() {}
 		void SetFadeFlag(bool f) { Fadeflag = f; };
 		bool GetChangeFlag() { return Fadeflag2; };
+		void SetClearFlag(bool f) { Clearflag = f; };
 	};
 
 	//--------------------------------------------------------------------------------------

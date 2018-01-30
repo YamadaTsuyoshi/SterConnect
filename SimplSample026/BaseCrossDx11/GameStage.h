@@ -63,6 +63,7 @@ namespace basecross {
 		shared_ptr<NumSprite> TimeNum_2;
 		shared_ptr<NumSprite> TimeNum_3;
 		shared_ptr<NumSprite> TimeNum_4;
+		shared_ptr<StageSprite> Collon;
 		shared_ptr<Fade> m_FadeSprite;
 		
 		bool Startflag = false;
@@ -78,6 +79,8 @@ namespace basecross {
 		float EnemyBreak = 0;
 
 		shared_ptr<MessageSprite> m_MessageSprite;
+
+		bool startF = false;
 
 	public:
 		bool FadeFlag = false;

@@ -48,7 +48,7 @@ namespace basecross {
 		if (CntlVec[0].bConnected) {
 			if (!FadeFlag) {
 				//Bƒ{ƒ^ƒ“
-				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
 					m_AudioObjectPtr->AddAudioResource(L"PRESS_SE");
 					m_AudioObjectPtr->Start(L"PRESS_SE", 0, 0.5f);
 					m_AudioObjectPtr->Stop(L"TITLE_BGM");

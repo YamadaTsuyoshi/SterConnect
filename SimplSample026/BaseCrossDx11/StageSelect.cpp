@@ -20,18 +20,24 @@ namespace basecross {
 			0.0f,
 			Vec2(0, 0),
 			1, 1);
-		m_kaguya = AddGameObject<DefSp>(
+		/*m_kaguya = AddGameObject<DefSp>(
 			L"KAGUYA_TX",
 			Vec2(100.0f, 100.0f),
 			0.0f,
 			Vec2(-400, -300.0f),
 			1, 1
-			);
+			);*/
 		wstring Path = App::GetApp()->GetDataDirWString();
 		//ファイル名の設定
-		wstring Map = Path + L"\\StageSelect\\";
+		wstring Map = Path + L"\\Kaguya\\";
 		//Chaera1の作成
-		AddGameObject<StageSelectSS>(Map);
+		AddGameObject<StageSelectKaguyaSS>(Map);
+
+		wstring Path2 = App::GetApp()->GetDataDirWString();
+		//ファイル名の設定
+		wstring Map2 = Path2 + L"\\StageSelect\\";
+		//Chaera1の作成
+		AddGameObject<StageSelectSS>(Map2);
 
 		m_FadeSprite = ObjectFactory::Create<Fade>(
 			GetThis<Stage>(),
@@ -49,31 +55,36 @@ namespace basecross {
 	}
 
 	void StageSelect::OnUpdateStage() {
-		//スプライトの更新
-		m_MessageSprite->OnUpdate();
+		//ターン毎の初期化
+		GetRigidbodyManager()->InitRigidbody();
 		for (auto& v : GetGameObjectVec()) {
 			//各オブジェクトの更新
 			v->OnUpdate();
 		}
+		//Rigidbodyマネージャの更新（衝突判定など）
+		GetRigidbodyManager()->OnUpdate();
 		for (auto& v : GetGameObjectVec()) {
 			//各オブジェクトの最終更新
 			v->OnUpdate2();
 		}
-		m_FadeSprite->OnUpdate();
-		//自分自身の更新
+		//自分自身の更新(カメラ)
 		this->OnUpdate();
+		//Rigidbodyマネージャの最終更新（衝突判定情報のクリア）
+		GetRigidbodyManager()->OnUpdate2();
+		m_FadeSprite->OnUpdate();
 	}
 	void StageSelect::OnUpdate() {
 		FindTagGameObject<StageSelectSS>(L"StageSelectSS")->SetStageNum(Selecter);
+		FindTagGameObject<StageSelectKaguyaSS>(L"StageSelectKaguya")->SetStageNum(Selecter);
 		switch (Selecter) {
 		case 0:
-			m_kaguya->SetPos(Vec2(-400, -350));
+			//m_kaguya->SetPos(Vec2(-400, -350));
 			break;
 		case 1:
-			m_kaguya->SetPos(Vec2(0, -250));
+			//m_kaguya->SetPos(Vec2(0, -250));
 			break;
 		case 2:
-			m_kaguya->SetPos(Vec2(380, 0));
+			//m_kaguya->SetPos(Vec2(380, 0));
 			break;
 		}
 		//コントローラの取得
@@ -105,7 +116,7 @@ namespace basecross {
 					Selecter = 0;
 				}
 				//Bボタン
-				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
 					m_AudioObjectPtr->AddAudioResource(L"PRESS_SE");
 					m_AudioObjectPtr->Start(L"PRESS_SE", 0, 0.5f);
 					m_AudioObjectPtr->Stop(L"STAGESELECT_BGM");
@@ -275,7 +286,7 @@ namespace basecross {
 					Selecter = 0;
 				}
 				//Bボタン
-				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
 					m_AudioObjectPtr->AddAudioResource(L"PRESS_SE");
 					m_AudioObjectPtr->Start(L"PRESS_SE", 0, 0.5f);
 					m_AudioObjectPtr->Stop(L"STAGESELECT_BGM");
@@ -469,7 +480,7 @@ namespace basecross {
 					Selecter = 0;
 				}
 				//Bボタン
-				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+				if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
 					m_AudioObjectPtr->AddAudioResource(L"PRESS_SE");
 					m_AudioObjectPtr->Start(L"PRESS_SE", 0, 0.5f);
 					m_AudioObjectPtr->Stop(L"STAGESELECT_BGM");

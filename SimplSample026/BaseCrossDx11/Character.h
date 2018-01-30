@@ -974,6 +974,8 @@ namespace basecross {
 		float m_TotalTime;	//頂点変更に使用するタイム
 		float m_Num;
 		float m_waru;
+		bool ClearFlag = false;
+		float Alpha = 1;
 
 	public:
 		//--------------------------------------------------------------------------------------
@@ -1018,6 +1020,7 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		void SetNum(float t) { m_Num = t; };
 		virtual ~NumSprite() {}
+		virtual void SetPos(Vec2& pos);
 	};
 
 	//--------------------------------------------------------------------------------------

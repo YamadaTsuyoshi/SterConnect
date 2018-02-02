@@ -22,21 +22,18 @@ namespace basecross {
 		);
 
 	}
-	Vec3 BossEnemy::GetPosition() {
-		return m_Rigidbody->m_Pos;
-	}
 
 	//初期化
 	void BossEnemy::OnCreate() {
 
 		//タグの追加
-		AddTag(L"Enemy");
+		AddTag(L"Boss");
 		//Rigidbodyの初期化
 		auto PtrGameStage = GetStage<GameStage>();
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 1.0f;
-		body.m_Scale = Vec3(0.0f);
+		body.m_Scale = Vec3(3.0f);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;
@@ -71,10 +68,17 @@ namespace basecross {
 		Def = m_Rigidbody->m_Pos;
 	}
 
+	Vec3 BossEnemy::GetPosition() {
+		return m_Rigidbody->m_Pos;
+	}
+
 	void BossEnemy::SetMutekiTime(float time, int CntNum)
 	{
 		if (!m_isNullHit[CntNum])
 		{
+			ChangeAnimation(L"Damege");
+			SetFps(20.0f);
+			SetLooped(true);
 			m_Life += -1;
 			m_isNullHit[CntNum] = true;
 			m_Interval[CntNum] = time;
@@ -124,26 +128,29 @@ namespace basecross {
 			float ElapsedTime = App::GetApp()->GetElapsedTime();
 			Time += ElapsedTime;
 			if (Time > 6.0f&&Startflag) {
+				Attackflg = true;
 				m_Rigidbody->m_Pos.x = Def.x;
 				Speed.x = 0.0f;
 				Vec3 v = m_Rigidbody->m_Pos;
-				v.y -= 5.0f;
-				if (IsAnimeEnd())
-				{
-					ChangeAnimation(L"Attack");
-				}
-				GetStage<Stage>()->AddGameObject<BossBullet>(
-					L"BARB_TX",
-					true,
-					v
-					);
+				ChangeAnimation(L"Attack");
+				SetFps(30.0f);
+				SetLooped(false);
+				//if (IsAnimeEnd()) {
+					wstring Path = App::GetApp()->GetDataDirWString();
+
+					//ファイル名の設定
+					wstring Map = Path + L"\\Enemy\\";
+					GetStage<Stage>()->AddGameObject<BossBullet>(
+						Map, v
+						);
+				//}
 				Time = 0;
-				if (IsAnimeEnd())
-				{
-					ChangeAnimation(L"Wait");
-				}
 			}
-			else if (Time>3.0f) {
+			else if (Time>5.0f) {
+				Attackflg = false;
+				ChangeAnimation(L"Wait");
+				SetFps(30.0f);
+				SetLooped(true);
 				Speed.x = 1.5f;
 			}
 		}
@@ -165,8 +172,10 @@ namespace basecross {
 					}
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
-						gamestage->StartDestroySE();
-						SetMutekiTime(3.0f);
+						if (Attackflg) {
+							gamestage->StartDestroySE();
+							SetMutekiTime(2.0f);
+						}
 					}
 				}
 				if (shptr && shptr->FindTag(L"Yellow")) {
@@ -237,8 +246,10 @@ namespace basecross {
 					}
 					if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
 						auto gamestage = GetStage<GameStage>();
-						gamestage->StartDestroySE();
-						SetMutekiTime(3.0f);
+						if (Attackflg) {
+							gamestage->StartDestroySE();
+							SetMutekiTime(2.0f);
+						}
 					}
 				}
 				if (shptr && shptr->FindTag(L"Yellow")) {
@@ -341,40 +352,48 @@ namespace basecross {
 
 	void BossEnemy::ThisDelete()
 	{
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		Time += ElapsedTime;
+		ChangeAnimation(L"Die");
+		SetFps(20.0f);
+		SetLooped(false);
 		GetStage<GameStage>()->SetBossNulltrue();
 		Vec3 Emitter = m_Rigidbody->m_Pos;
 		//Spaerkの送出
 		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
 		SpaerkPtr->InsertSpark(Emitter);
-		GetStage<GameStage>()->RemoveGameObject<BossEnemy>(GetThis<BossEnemy>());
-		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<BossEnemy>());
+		if (Time > 1.0f) {
+			GetStage<GameStage>()->RemoveGameObject<BossEnemy>(GetThis<BossEnemy>());
+			GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<BossEnemy>());
+		}
 	}
 
 	//--------------------------------------------------------------------------------------
 	//	class BossBullet : public Bullet;
 	//	用途: ボスが撃つ弾
 	//--------------------------------------------------------------------------------------
-	BossBullet::BossBullet(const shared_ptr<Stage>& StagePtr,
-		const wstring& TextureResName, bool Trace, const Vec3& Pos) :
-		Bullet(StagePtr),
-		m_TextureResName(TextureResName),
-		m_Trace(Trace),
-		m_BaseX(5.65f),
-		m_BaseY(0.25f / 2.0f),
-		m_Posision(Pos)
-	{}
-	BossBullet::~BossBullet() {}
+	BossBullet::BossBullet(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
+		SS5ssae(StagePtr, BaseDir, L"Beem.ssae", L"Charge_Rainbow"),
+		m_Posision(Pos),
+		m_BaseX(5.5f),
+		m_BaseY(0.25f / 2.0f)
+	{
+		m_ToAnimeMatrixLeft.affineTransformation(
+			Vec3(0.1f, 0.2f, 1.0f),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0),
+			Vec3(0, 0.35f, 0.0f)
+		);
+
+	}
 
 	Vec3 BossBullet::GetPosition() {
 		return m_Rigidbody->m_Pos;
 	}
 
+	//初期化
 	void BossBullet::OnCreate() {
-		vector<VertexPositionNormalTexture> vertices;
-		vector<uint16_t> indices;
-		MeshUtill::CreateSquare(1.0f, vertices, indices);
-		//メッシュの作成（変更できない）
-		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
+		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
 		//タグの追加
 		AddTag(L"Enemy_Bullet");
 		//Rigidbodyの初期化
@@ -382,12 +401,14 @@ namespace basecross {
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 1.0f;
-		body.m_Scale = Vec3(1.0f,10.0f,1.0f);
+		body.m_Scale = Vec3(2.0f,10.0f,2.0f);
 		body.m_Quat = Quat();
-		body.m_Pos = m_Posision;
+		body.m_Pos = Vec3(m_Posision.x, m_Posision.y-5, m_Posision.z+0.5f);
 		body.m_CollType = CollType::typeOBB;
-		body.m_IsDrawActive = true;
+		//body.m_IsDrawActive = true;
+		body.m_IsCollisionActive = false;
 		body.SetToBefore();
+
 		m_Rigidbody = PtrGameStage->AddRigidbody(body);
 
 		//行列の定義
@@ -399,28 +420,41 @@ namespace basecross {
 			body.m_Pos
 		);
 
-		m_PtrObj = make_shared<BcDrawObject>();
-		auto TexPtr = App::GetApp()->GetResource<TextureResource>(m_TextureResName);
-		m_PtrObj->m_MeshRes = m_SphereMesh;
-		m_PtrObj->m_TextureRes = TexPtr;
-		m_PtrObj->m_WorldMatrix = World;
-		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
-		m_PtrObj->m_OwnShadowmapActive = false;
-		m_PtrObj->m_ShadowmapUse = true;
-		m_PtrObj->m_BlendState = BlendState::AlphaBlend;
-		m_PtrObj->m_RasterizerState = RasterizerState::DoubleDraw;
+		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
+		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
 
-		//シャドウマップ描画データの構築
-		m_PtrShadowmapObj = make_shared<ShadowmapObject>();
-		m_PtrShadowmapObj->m_MeshRes = m_SphereMesh;
-		//描画データの行列をコピー
-		m_PtrShadowmapObj->m_WorldMatrix = World;
+		auto PtrT = GetTransform();
+		PtrT->SetScale(10.0f, 10.0f, 10.0f);
+		PtrT->SetPosition(m_Posision.x, m_Posision.y, m_Posision.z);
+		//親クラスのクリエイトを呼ぶ
+		SS5ssae::OnCreate();
+		//値は秒あたりのフレーム数
+		SetFps(15.0f);
 
-		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		//ChangeAnimation(L"run");
+		SetLooped(false);
+
 		Def = m_Rigidbody->m_Pos;
+
 	}
+
+	//更新
 	void BossBullet::OnUpdate() {
+		if (Time > 2.0f) {
+			m_Rigidbody->m_IsCollisionActive = true;
+			m_AudioObjectPtr->AddAudioResource(L"BEEM_SE");
+			m_AudioObjectPtr->Start(L"BEEM_SE", 0, 0.5f);
+		}
 		m_Rigidbody->m_Pos = Def;
+		if (IsAnimeEnd()) {
+			ChangeAnimation(L"Fire_Rainbow");
+			SetLooped(true);
+		}
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		auto PtrT = GetTransform();
+		PtrT->SetPosition(m_Rigidbody->m_Pos);
+		//アニメーションを更新する
+		UpdateAnimeTime(ElapsedTime);
 	}
 
 	void BossBullet::OnUpdate2() {
@@ -430,48 +464,6 @@ namespace basecross {
 		if (Time > 3.0f) {
 			ThisDelete();
 		}
-	}
-
-	void BossBullet::OnDrawShadowmap() {
-		//行列の定義
-		Mat4x4 World;
-		World.affineTransformation(
-			m_Rigidbody->m_Scale,
-			Vec3(0, 0, 0),
-			m_Rigidbody->m_Quat,
-			m_Rigidbody->m_Pos
-		);
-		//描画データの行列をコピー
-		m_PtrShadowmapObj->m_WorldMatrix = World;
-		m_PtrShadowmapObj->m_Camera = GetStage<Stage>()->GetCamera();
-
-		auto shptr = m_ShadowmapRenderer.lock();
-		if (!shptr) {
-			shptr = GetStage<Stage>()->FindTagGameObject<ShadowmapRenderer>(L"ShadowmapRenderer");
-			m_ShadowmapRenderer = shptr;
-		}
-		shptr->AddDrawObject(m_PtrShadowmapObj);
-	}
-
-
-	void BossBullet::OnDraw() {
-		//行列の定義
-		Mat4x4 World;
-		World.affineTransformation(
-			m_Rigidbody->m_Scale,
-			Vec3(0, 0, 0),
-			m_Rigidbody->m_Quat,
-			m_Rigidbody->m_Pos
-		);
-		m_PtrObj->m_WorldMatrix = World;
-		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
-		auto shptr = m_Renderer.lock();
-		if (!shptr) {
-			auto PtrGameStage = GetStage<GameStage>();
-			shptr = PtrGameStage->FindTagGameObject<BcPNTStaticRenderer>(L"BcPNTStaticRenderer");
-			m_Renderer = shptr;
-		}
-		shptr->AddDrawObject(m_PtrObj);
 	}
 
 	void BossBullet::ThisDelete()

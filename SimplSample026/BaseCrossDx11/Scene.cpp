@@ -741,6 +741,7 @@ namespace basecross {
 
 
 	void Scene::OnCreate() {
+		ShowCursor(false);
 		CreateResources();
 		//自分自身にイベントを送る
 		//これにより各ステージやCreate時にシーンにアクセスできる

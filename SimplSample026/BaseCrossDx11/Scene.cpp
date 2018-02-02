@@ -694,6 +694,9 @@ namespace basecross {
 		//ゲームオーバーBGM
 		strMusic = DataDir + L"BGM\\Gameover.wav";
 		App::GetApp()->RegisterWav(L"GAMEOVER_BGM", strMusic);
+		//ボスBGM
+		strMusic = DataDir + L"BGM\\Boss.wav";
+		App::GetApp()->RegisterWav(L"BOSS_BGM", strMusic);
 		//反射時のSE
 		wstring SeWav = DataDir + L"SE\\Refrect.wav";
 		App::GetApp()->RegisterWav(L"REF_SE", SeWav);
@@ -709,6 +712,9 @@ namespace basecross {
 		//線を引いたときのSE
 		SeWav = DataDir + L"SE\\decision25.wav";
 		App::GetApp()->RegisterWav(L"SEN_SE", SeWav);
+		//ビームのSE
+		SeWav = DataDir + L"SE\\Beem.wav";
+		App::GetApp()->RegisterWav(L"BEEM_SE", SeWav);
 		//ボイス：えい！
 		wstring VoiceWav = DataDir + L"Voice\\line-girl1_ei1.wav";
 		App::GetApp()->RegisterWav(L"VOICE_EI", VoiceWav);

@@ -318,13 +318,14 @@ namespace basecross {
 
 			if (MapVec[0] == L"Boss")
 			{
-				//BossNull = false;
+				BossNull = false;
 				stringflag = true;
-				/*AddGameObject<BossEnemy>(
-					L"KAGUYA_TX",
-					true,
-					Pos
-					);*/
+				wstring Path = App::GetApp()->GetDataDirWString();
+
+				//ファイル名の設定
+				wstring Map = Path + L"\\Enemy\\";
+
+				AddGameObject<BossEnemy>(Map, Pos);
 			}
 
 			if (MapVec[0] == L"Bossusa")
@@ -379,9 +380,14 @@ namespace basecross {
 
 	void GameStage::OnCreate() {
 		m_AudioObjectPtr = ObjectFactory::Create<MultiAudioObject>();
-		m_AudioObjectPtr->AddAudioResource(L"GAMESTAGE_BGM");
-		m_AudioObjectPtr->Start(L"GAMESTAGE_BGM", XAUDIO2_LOOP_INFINITE, 0.3f);
-
+		if (App::GetApp()->GetScene<Scene>()->GetStageNumber() == 9) {
+			m_AudioObjectPtr->AddAudioResource(L"BOSS_BGM");
+			m_AudioObjectPtr->Start(L"BOSS_BGM", XAUDIO2_LOOP_INFINITE, 0.3f);
+		}
+		else {
+			m_AudioObjectPtr->AddAudioResource(L"GAMESTAGE_BGM");
+			m_AudioObjectPtr->Start(L"GAMESTAGE_BGM", XAUDIO2_LOOP_INFINITE, 0.3f);
+		}
 		float v = 0;
 		int BGS = 5;
 
@@ -837,7 +843,12 @@ namespace basecross {
 			if (FindTagGameObject<GameObject>(L"Kaguya")->GetPosition().y <= (maxPosition - 7.0f)) {
 				m_AudioObjectPtr->AddAudioResource(L"VOICE_SONNAA");
 				m_AudioObjectPtr->Start(L"VOICE_SONNAA", 0, 0.5f);
-				m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
+				if (App::GetApp()->GetScene<Scene>()->GetStageNumber() == 9) {
+					m_AudioObjectPtr->Stop(L"BOSS_BGM");
+				}
+				else {
+					m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
+				}
 				FadeFlag = true;
 				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 			}
@@ -845,7 +856,12 @@ namespace basecross {
 
 			//Bボタン
 			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_Y) {
-				m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
+				if (App::GetApp()->GetScene<Scene>()->GetStageNumber() == 9) {
+					m_AudioObjectPtr->Stop(L"BOSS_BGM");
+				}
+				else {
+					m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
+				}
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToTitle");
 			}
 
@@ -1081,7 +1097,12 @@ namespace basecross {
 	}
 
 	void GameStage::StopBGM() {
-		m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
+		if (App::GetApp()->GetScene<Scene>()->GetStageNumber() == 9) {
+			m_AudioObjectPtr->Stop(L"BOSS_BGM");
+		}
+		else {
+			m_AudioObjectPtr->Stop(L"GAMESTAGE_BGM");
+		}
 	}
 
 

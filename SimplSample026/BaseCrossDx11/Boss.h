@@ -26,14 +26,14 @@ namespace basecross {
 		Vec3 Speed = Vec3(1.5f, 1.5f, 1.5f);
 		float Time = 0;
 		bool Startflag = false;
-
+		bool Attackflg = false;
 		bool rightMove = true;
 
 		bool m_Alphaflag;
 
 		Vec3 Def;
 
-		int m_Life = 5;
+		int m_Life = 3;
 
 	protected:
 		float m_Count[4] = {};
@@ -55,50 +55,30 @@ namespace basecross {
 	//	class BossBullet : public Bullet;
 	//	用途: ボスが撃つ弾
 	//--------------------------------------------------------------------------------------
-	class BossBullet : public Bullet {
-		///メッシュ
-		shared_ptr<MeshResource> m_SphereMesh;
-		///テクスチャリソース名
-		wstring m_TextureResName;
+	class BossBullet : public SS5ssae {
+		Mat4x4 m_ToAnimeMatrixLeft;
+		Vec3 m_Posision;
 		//壁
 		float m_BaseX;
 		///スケーリングベースの最下地点
 		float m_BaseY;
-		///位置
-		Vec3 m_Posision;
-		///透明処理するかどうか
-		bool m_Trace;
 		//Rigidbodyのshared_ptr
 		shared_ptr<Rigidbody> m_Rigidbody;
-		///描画データ
-		shared_ptr<BcDrawObject> m_PtrObj;
-		//描画オブジェクト(weak_ptr)
-		weak_ptr<BcPNTStaticRenderer> m_Renderer;
-		///シャドウマップ用描画データ
-		shared_ptr<ShadowmapObject> m_PtrShadowmapObj;
-		//シャドウマップ描画オブジェクト(weak_ptr)
-		weak_ptr<ShadowmapRenderer> m_ShadowmapRenderer;
-
 		Vec3 Speed = Vec3(1.5f, 1.5f, 1.5f);
-
-		bool rightMove = true;
-
 		float Time = 0;
-
+		bool Startflag = false;
 		Vec3 Def;
-
+		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
 	public:
 		//構築と破棄
-		BossBullet(const shared_ptr<Stage>& StagePtr,
-			const wstring& TextureResName, bool Trace, const Vec3& Pos);
-
-		virtual ~BossBullet();
+		BossBullet(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);
+		virtual ~BossBullet() {}
 		virtual Vec3 GetPosition() override;
+		//初期化
 		virtual void OnCreate() override;
-		virtual void OnUpdate()override;
+		//更新
+		virtual void OnUpdate() override;
 		virtual void OnUpdate2()override;
-		virtual void OnDrawShadowmap() override;
-		virtual void OnDraw()override;
 		void ThisDelete();
 	};
 

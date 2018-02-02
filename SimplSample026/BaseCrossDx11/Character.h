@@ -520,6 +520,7 @@ namespace basecross {
 	class MessageSprite : public SpriteBase {
 		float m_TotalTime;	//頂点変更に使用するタイム
 		float A=1.0f;
+		bool FlashingFlag = false;
 	public:
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -562,6 +563,7 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		virtual ~MessageSprite() {}
 		void SetAlpha(float a) { A = a; };
+		void SetFlashingFlag(bool T) { FlashingFlag = T; };
 	};
 
 	//--------------------------------------------------------------------------------------

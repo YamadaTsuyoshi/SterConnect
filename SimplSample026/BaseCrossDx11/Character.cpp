@@ -779,15 +779,31 @@ namespace basecross {
 		if (m_TotalTime >= XM_2PI) {
 			m_TotalTime = 0;
 		}
-		float sin_val = sin(m_TotalTime) * 0.5f + 0.5f;
-		Col4 UpdateCol(1.0f, 1.0f, 1.0f, sin_val*A);
-		for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
-			vertices[i] = VertexPositionColorTexture(
-				m_BackupVertices[i].position,
-				UpdateCol,
-				m_BackupVertices[i].textureCoordinate
-			);
+		Col4 UpdateCol;
+		if (FlashingFlag)
+		{
+			float sin_val = sin(m_TotalTime) * 0.5f + 0.5f;
+			Col4 UpdateCol(1.0f, 1.0f, 1.0f, sin_val*A);
 
+			for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
+				vertices[i] = VertexPositionColorTexture(
+					m_BackupVertices[i].position,
+					UpdateCol,
+					m_BackupVertices[i].textureCoordinate
+				);
+			}
+		}
+		else
+		{
+			Col4 UpdateCol(1.0f, 1.0f, 1.0f, A);
+
+			for (size_t i = 0; i < m_SquareMesh->GetNumVertices(); i++) {
+				vertices[i] = VertexPositionColorTexture(
+					m_BackupVertices[i].position,
+					UpdateCol,
+					m_BackupVertices[i].textureCoordinate
+				);
+			}
 		}
 	}
 

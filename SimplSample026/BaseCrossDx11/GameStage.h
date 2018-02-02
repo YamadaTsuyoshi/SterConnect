@@ -79,9 +79,10 @@ namespace basecross {
 		float EnemyBreak = 0;
 
 		shared_ptr<MessageSprite> m_MessageSprite;
+		shared_ptr<MessageSprite> m_HintSprite;
 
 		bool startF = false;
-
+		bool HintFlag = false;
 	public:
 		bool FadeFlag = false;
 		bool FadeFlag2 = false;

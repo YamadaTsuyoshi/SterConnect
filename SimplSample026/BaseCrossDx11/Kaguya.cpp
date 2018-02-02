@@ -129,6 +129,15 @@ namespace basecross {
 		//前回のターンからの経過時間を求める
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		
+		if (m_Attackflag)
+		{
+			m_AttackTime += ElapsedTime;
+			if (m_AttackTime >= 3)
+			{
+				m_Attackflag = false;
+				m_AttackTime = 0;
+			}
+		}
 
 		//コントローラの取得
 		if (StartFlag) {
@@ -350,6 +359,7 @@ namespace basecross {
 					else if (shptr && shptr->FindTag(L"Red")) {
 						m_HitObj = L"red";
 						m_Attackflag = true;
+						m_AttackTime = 0;
 						shared_ptr<BarSS> a = dynamic_pointer_cast<BarSS>(shptr);
 						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos, L"E_R");
 						GetStage<GameStage>()->AddGameObject<RedEffectSS>(EffectMap, m_Rigidbody->m_Pos);
@@ -406,6 +416,7 @@ namespace basecross {
 					else if (shptr && shptr->FindTag(L"Red")) {
 						m_HitObj = L"red";
 						m_Attackflag = true;
+						m_AttackTime = 0;
 						shared_ptr<BarSS> a = dynamic_pointer_cast<BarSS>(shptr);
 						GetStage<GameStage>()->AddGameObject<JumpEffectSS>(EffectMap, m_Rigidbody->m_Pos,L"E_R");
 						GetStage<GameStage>()->AddGameObject<RedEffectSS>(EffectMap, m_Rigidbody->m_Pos);
@@ -695,7 +706,7 @@ namespace basecross {
 	//	かぐやスプライトスタジオ（ステセレ）
 	//--------------------------------------------------------------------------------------
 	StageSelectKaguyaSS::StageSelectKaguyaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir) :
-		SS5ssae(StagePtr, BaseDir, L"kaguyaanimeyou.ssae", L"Fly")
+		SS5ssae(StagePtr, BaseDir, L"kaguyaanimeyou.ssae", L"walk")
 	{
 		m_ToAnimeMatrixLeft.affineTransformation(
 			Vec3(0.1f, 0.1f, 1.0f),

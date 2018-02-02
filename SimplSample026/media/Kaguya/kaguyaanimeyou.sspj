@@ -104,8 +104,8 @@
 		<value>kaguyaanimeyou.ssae</value>
 	</animepackNames>
 	<lastAnimeFile>kaguyaanimeyou.ssae</lastAnimeFile>
-	<lastAnimeName>Damage</lastAnimeName>
+	<lastAnimeName>walk</lastAnimeName>
 	<lastCellMapFile>kaguyaanimeyou.ssce</lastCellMapFile>
-	<lastCell>Bangs_L</lastCell>
-	<lastPart>Bangs_L</lastPart>
+	<lastCell>Ribbon_Herd_Up</lastCell>
+	<lastPart>root</lastPart>
 </SpriteStudioProject>

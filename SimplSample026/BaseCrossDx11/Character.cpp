@@ -1826,23 +1826,36 @@ namespace basecross {
 		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
 		if (this->FindTag(L"BambooB")) {
 			if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()){
-			for (auto& v : StateVec) {
-				if (v.m_Src == m_Rigidbody.get()) {
-					//Destにボックスタグがあるかどうか調べる
-					auto shptr = v.m_Dest->m_Owner.lock();
-					if (shptr && shptr->FindTag(L"Kaguya")) {
-						ThisDelete();
-					}
-					break;
-				}
-				if (v.m_Dest == m_Rigidbody.get()) {
-					//Srcにボックスタグがあるかどうか調べる
-					auto shptr = v.m_Src->m_Owner.lock();
-					if (shptr && shptr->FindTag(L"Kaguya")) {
-						ThisDelete();
-						}
-					break;
-					}
+			//for (auto& v : StateVec) {
+			//	if (v.m_Src == m_Rigidbody.get()) {
+			//		//Destにボックスタグがあるかどうか調べる
+			//		auto shptr = v.m_Dest->m_Owner.lock();
+			//		if (shptr && shptr->FindTag(L"Kaguya")) {
+			//			ThisDelete();
+			//		}
+			//		break;
+			//	}
+			//	if (v.m_Dest == m_Rigidbody.get()) {
+			//		//Srcにボックスタグがあるかどうか調べる
+			//		auto shptr = v.m_Src->m_Owner.lock();
+			//		if (shptr && shptr->FindTag(L"Kaguya")) {
+			//			ThisDelete();
+			//			}
+			//		break;
+			//		}
+			//	}
+				SPHERE t;
+				t.m_Center = m_Rigidbody->m_Pos;
+				t.m_Center.z = 0;
+				t.m_Radius = 0.25;
+
+				SPHERE p;
+				p.m_Center = GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetPosition();
+				p.m_Center.z = 0;
+				p.m_Radius = 1;
+
+				if (HitTest::SPHERE_SPHERE(t, p)){
+					ThisDelete();
 				}
 			}
 		}
@@ -2792,6 +2805,120 @@ namespace basecross {
 			m_Renderer = shptr;
 		}
 		shptr->AddDrawObject(m_PtrObj);
+	}
+
+	//--------------------------------------------------------------------------------------
+	//	Hellスプライトスタジオ
+	//--------------------------------------------------------------------------------------
+	//構築と破棄
+	TamanoedaSS::TamanoedaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
+		SS5ssae(StagePtr, BaseDir, L"TAMA.ssae", L"Flash"),
+		m_Posision(Pos)
+	{
+		m_ToAnimeMatrixLeft.affineTransformation(
+			Vec3(0.1f, 0.1f, 0.1f),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0.0f)
+		);
+
+	}
+
+	//初期化
+	void TamanoedaSS::OnCreate() {
+		//タグの追加
+		AddTag(L"Item");
+		//Rigidbodyの初期化
+		auto PtrGameStage = GetStage<GameStage>();
+		Rigidbody body;
+		body.m_Owner = GetThis<GameObject>();
+		body.m_Mass = 1.0f;
+		body.m_Scale = Vec3(1.0f);
+		body.m_Quat = Quat();
+		body.m_Pos = m_Posision;
+		body.m_CollType = CollType::typeSPHERE;
+		//		body.m_IsDrawActive = true;
+		body.SetToBefore();
+
+		m_Rigidbody = PtrGameStage->AddRigidbody(body);
+
+		//行列の定義
+		Mat4x4 World;
+		World.affineTransformation(
+			body.m_Scale,
+			Vec3(0, 0, 0),
+			body.m_Quat,
+			body.m_Pos
+		);
+		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
+		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
+
+		auto PtrT = GetTransform();
+		PtrT->SetScale(1.5f, 1.5f, 1.0f);
+		PtrT->SetPosition(m_Posision);
+		//親クラスのクリエイトを呼ぶ
+		SS5ssae::OnCreate();
+		//値は秒あたりのフレーム数
+		SetFps(30.0f);
+		//ChangeAnimation(L"Fly");
+		SetLooped(true);
+	}
+
+	//更新
+	void TamanoedaSS::OnUpdate() {
+		SPHERE t;
+		t.m_Center = m_Rigidbody->m_Pos;
+		t.m_Center.z = 0;
+		t.m_Radius = 0.5;
+
+		SPHERE p;
+		p.m_Center = GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetPosition();
+		p.m_Center.z = 0;
+		p.m_Radius = 1;
+
+		if (HitTest::SPHERE_SPHERE(t, p))
+		{
+			auto kaguya = GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya");
+			kaguya->SetStarFlag(true);
+			ThisDelete();
+		}
+
+		auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
+		for (auto& v : StateVec) {
+			if (v.m_Src == m_Rigidbody.get()) {
+				//Destにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Dest->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					ThisDelete();
+				}
+				break;
+			}
+			if (v.m_Dest == m_Rigidbody.get()) {
+				//Srcにボックスタグがあるかどうか調べる
+				auto shptr = v.m_Src->m_Owner.lock();
+				if (shptr && shptr->FindTag(L"Kaguya")) {
+					ThisDelete();
+				}
+				break;
+			}
+			//m_Rigidbody->m_Pos = m_Posision;
+		}
+		//プレイヤーのＺ位置は強制的に0.0にする
+		m_Rigidbody->m_Pos.z = 10;
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		//アニメーションを更新する
+		UpdateAnimeTime(ElapsedTime);
+		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+	}
+
+	void TamanoedaSS::ThisDelete()
+	{
+		Vec3 Emitter = m_Rigidbody->m_Pos;
+		//Spaerkの送出
+		auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+		SpaerkPtr->InsertSpark(Emitter);
+		GetStage<GameStage>()->RemoveGameObject<TamanoedaSS>(GetThis<TamanoedaSS>());
+		GetStage<GameStage>()->RemoveOwnRigidbody(GetThis<TamanoedaSS>());
 	}
 }
 //end basecross

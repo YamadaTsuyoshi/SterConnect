@@ -1752,5 +1752,24 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		virtual void OnDraw()override;
 	};
+
+	//--------------------------------------------------------------------------------------
+	//	玉の枝スプライトスタジオ
+	//--------------------------------------------------------------------------------------
+
+	class TamanoedaSS : public SS5ssae {
+		Mat4x4 m_ToAnimeMatrixLeft;
+		Vec3 m_Posision;
+		shared_ptr<Rigidbody> m_Rigidbody;
+	public:
+		//構築と破棄
+		TamanoedaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos);
+		virtual ~TamanoedaSS() {}
+		//初期化
+		virtual void OnCreate() override;
+		//更新
+		virtual void OnUpdate() override;
+		void ThisDelete();
+	};
 }
 //end basecross

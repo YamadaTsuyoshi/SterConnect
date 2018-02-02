@@ -19,6 +19,13 @@ namespace basecross {
 			Vec2(1280, 800),
 			0.0f,
 			Vec2(0, 0),
+			1, 1); 
+		m_T = ObjectFactory::Create<StageSprite>(
+			GetThis<Stage>(),
+			L"TUTORIAL_TX",
+			Vec2(50, 200),
+			0.0f,
+			Vec2(-250, -170),
 			1, 1);
 		/*m_kaguya = AddGameObject<DefSp>(
 			L"KAGUYA_TX",
@@ -158,7 +165,9 @@ namespace basecross {
 			//各オブジェクトの描画
 			v->OnDraw();
 		}
+		m_T->OnDraw();
 		m_FadeSprite->OnDraw();
+		
 		//自分自身の描画
 		this->OnDraw();
 		//デフォルト描画の終了

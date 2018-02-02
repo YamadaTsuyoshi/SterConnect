@@ -56,6 +56,8 @@ namespace basecross {
 		*/
 		//--------------------------------------------------------------------------------------
 		Vec3 GetMoveVector();
+		bool StarFlag = false;
+		float StarTime = 10;
 	protected:
 		float m_Count[4] = {};
 		float m_Interval[4] = {};
@@ -135,6 +137,8 @@ namespace basecross {
 			return m_Rigidbody;
 		}
 		float GetTtime() { return Ttime; };
+		void SetStarFlag(bool Flag) { StarFlag = Flag; };
+		bool GetStarFlag() { return StarFlag; };
 	};
 
 	//--------------------------------------------------------------------------------------
@@ -157,6 +161,7 @@ namespace basecross {
 		void SetDamageFlag(bool Flag) { DamageFlag = Flag; };
 		void SetClearFlag(bool Flag) { ClearFlag = Flag; };
 		void SetGameOverFlag(bool Flag) { GameOverFlag = Flag; };
+
 	};
 
 	//--------------------------------------------------------------------------------------

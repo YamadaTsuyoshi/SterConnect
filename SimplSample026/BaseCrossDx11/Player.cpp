@@ -209,6 +209,13 @@ namespace basecross {
 			m_PtrObj->m_TextureRes = TexPtr;
 
 		}
+			if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetStarFlag())
+			{
+				Vec3 Emitter = m_Rigidbody->m_Pos;
+				//Spaerk‚Ì‘—o
+				auto SpaerkPtr = GetStage<GameStage>()->FindTagGameObject<MultiSpark>(L"MultiSpark");
+				SpaerkPtr->InsertSpark(Emitter);
+			}
 
 	}
 

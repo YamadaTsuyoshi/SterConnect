@@ -520,7 +520,11 @@ namespace basecross {
 		strTexture = DataDir + L"StageSelect\\StageSelect_B4.png";
 		App::GetApp()->RegisterTexture(L"STAGESELECT_S2L4_TX", strTexture);
 		strTexture = DataDir + L"StageSelect\\StageSelect_B5.png";
-		App::GetApp()->RegisterTexture(L"STAGESELECT_S2L5_TX", strTexture);
+		App::GetApp()->RegisterTexture(L"STAGESELECT_S2L5_TX", strTexture); 
+		strTexture = DataDir + L"StageSelect\\StageSelect_Ver3.0.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_S3BG_TX", strTexture);
+		strTexture = DataDir + L"StageSelect\\StageSelect_Ver3.0K.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_S3L1_TX", strTexture);
 
 		strTexture = DataDir + L"Texture\\clear.PNG";
 		App::GetApp()->RegisterTexture(L"CLEAR_TX", strTexture);
@@ -761,6 +765,10 @@ namespace basecross {
 		else if (event->m_MsgStr == L"ToStageSelect_S2") {
 			//アクティブステージをEmptyStageに設定
 			ResetActiveStage<Yama>();
+		}
+		else if (event->m_MsgStr == L"ToStageSelect_S3") {
+			//アクティブステージをEmptyStageに設定
+			ResetActiveStage<Moon>();
 		}
 		else if (event->m_MsgStr == L"ToGameStage") {
 			//アクティブステージをGameStageに設定

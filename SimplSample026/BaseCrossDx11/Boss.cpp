@@ -7,40 +7,40 @@ namespace basecross {
 	//	class BossEnemy : public Boss;
 	//	用途: ボス
 	//--------------------------------------------------------------------------------------
-	BossEnemy::BossEnemy(const shared_ptr<Stage>& StagePtr,
-		const wstring& TextureResName, bool Trace, const Vec3& Pos) :
-		Boss(StagePtr),
-		m_TextureResName(TextureResName),
-		m_Trace(Trace),
-		m_BaseX(5.5f),
-		m_BaseY(0.25f / 2.0f),
-		m_Life(5),
-		m_Posision(Pos)
-	{}
-	BossEnemy::~BossEnemy() {}
 
+	BossEnemy::BossEnemy(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir, const Vec3& Pos) :
+		SS5ssae(StagePtr, BaseDir, L"rasubosu.ssae", L"Wait"),
+		m_Posision(Pos),
+		m_BaseX(5.5f),
+		m_BaseY(0.25f / 2.0f)
+	{
+		m_ToAnimeMatrixLeft.affineTransformation(
+			Vec3(0.1f, 0.1f, 1.0f),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0.0f)
+		);
+
+	}
 	Vec3 BossEnemy::GetPosition() {
 		return m_Rigidbody->m_Pos;
 	}
 
+	//初期化
 	void BossEnemy::OnCreate() {
-		vector<VertexPositionNormalTexture> vertices;
-		vector<uint16_t> indices;
-		MeshUtill::CreateSquare(1.0f, vertices, indices);
-		//メッシュの作成（変更できない）
-		m_SphereMesh = MeshResource::CreateMeshResource(vertices, indices, false);
+
 		//タグの追加
-		AddTag(L"Boss");
+		AddTag(L"Enemy");
 		//Rigidbodyの初期化
 		auto PtrGameStage = GetStage<GameStage>();
 		Rigidbody body;
 		body.m_Owner = GetThis<GameObject>();
 		body.m_Mass = 1.0f;
-		body.m_Scale = Vec3(5.0f);
+		body.m_Scale = Vec3(0.0f);
 		body.m_Quat = Quat();
 		body.m_Pos = m_Posision;
 		body.m_CollType = CollType::typeSPHERE;
-		//		body.m_IsDrawActive = true;
+		//body.m_IsDrawActive = true;
 		body.SetToBefore();
 
 		m_Rigidbody = PtrGameStage->AddRigidbody(body);
@@ -54,27 +54,23 @@ namespace basecross {
 			body.m_Pos
 		);
 
-		m_PtrObj = make_shared<BcDrawObject>();
-		auto TexPtr = App::GetApp()->GetResource<TextureResource>(m_TextureResName);
-		m_PtrObj->m_MeshRes = m_SphereMesh;
-		m_PtrObj->m_TextureRes = TexPtr;
-		m_PtrObj->m_WorldMatrix = World;
-		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
-		m_PtrObj->m_OwnShadowmapActive = false;
-		m_PtrObj->m_ShadowmapUse = true;
-		m_PtrObj->m_BlendState = BlendState::AlphaBlend;
-		m_PtrObj->m_RasterizerState = RasterizerState::DoubleDraw;
+		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
+		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
 
-		//シャドウマップ描画データの構築
-		m_PtrShadowmapObj = make_shared<ShadowmapObject>();
-		m_PtrShadowmapObj->m_MeshRes = m_SphereMesh;
-		//描画データの行列をコピー
-		m_PtrShadowmapObj->m_WorldMatrix = World;
+		auto PtrT = GetTransform();
+		PtrT->SetScale(1.0f, 1.0f, 1.0f);
+		PtrT->SetPosition(m_Posision);
+		//親クラスのクリエイトを呼ぶ
+		SS5ssae::OnCreate();
+		//値は秒あたりのフレーム数
+		SetFps(30.0f);
 
-		auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+		//ChangeAnimation(L"run");
+		SetLooped(true);
 
 		Def = m_Rigidbody->m_Pos;
 	}
+
 	void BossEnemy::SetMutekiTime(float time, int CntNum)
 	{
 		if (!m_isNullHit[CntNum])
@@ -84,6 +80,8 @@ namespace basecross {
 			m_Interval[CntNum] = time;
 		}
 	}
+
+	//更新
 	void BossEnemy::OnUpdate() {
 		Startflag = GetStage<GameStage>()->getStartFlag();
 		Def.x = m_Rigidbody->m_Pos.x;
@@ -94,35 +92,59 @@ namespace basecross {
 				if (!rightMove)
 					m_Rigidbody->m_Velocity.x = -Speed.x;
 			}
+			/*if (IsAnimeEnd())
+			{
+			ChangeAnimation(L"Jump");
+			SetLooped(false);
+			}
+			if (IsAnimeEnd()&&A)
+			{
+			ChangeAnimation(L"Attack");
+			SetLooped(true);
+			}*/
 		}
+
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		auto PtrT = GetTransform();
+		PtrT->SetPosition(m_Rigidbody->m_Pos);
+		//アニメーションを更新する
+		UpdateAnimeTime(ElapsedTime);
 	}
 
 	void BossEnemy::OnUpdate2() {
 		if (Startflag) {
 			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
 				if (m_Rigidbody->m_Pos.x >= m_BaseX) {
-					rightMove = false;
+				rightMove = false;
 				}
 				if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
-					rightMove = true;
+				rightMove = true;
 				}
-				float ElapsedTime = App::GetApp()->GetElapsedTime();
-				Time += ElapsedTime;
-				if (Time > 6.0f&&Startflag) {
-					m_Rigidbody->m_Pos.x = Def.x;
-					Speed.x = 0.0f;
-					Vec3 v = m_Rigidbody->m_Pos;
-					v.y -= 5.0f;
-					GetStage<Stage>()->AddGameObject<BossBullet>(
-						L"BARB_TX",
-						true,
-						v
-						);
-					Time = 0;
+			}
+			float ElapsedTime = App::GetApp()->GetElapsedTime();
+			Time += ElapsedTime;
+			if (Time > 6.0f&&Startflag) {
+				m_Rigidbody->m_Pos.x = Def.x;
+				Speed.x = 0.0f;
+				Vec3 v = m_Rigidbody->m_Pos;
+				v.y -= 5.0f;
+				if (IsAnimeEnd())
+				{
+					ChangeAnimation(L"Attack");
 				}
-				else if(Time>3.0f) {
-					Speed.x = 1.5f;
+				GetStage<Stage>()->AddGameObject<BossBullet>(
+					L"BARB_TX",
+					true,
+					v
+					);
+				Time = 0;
+				if (IsAnimeEnd())
+				{
+					ChangeAnimation(L"Wait");
 				}
+			}
+			else if (Time>3.0f) {
+				Speed.x = 1.5f;
 			}
 		}
 
@@ -195,6 +217,12 @@ namespace basecross {
 						rightMove = true;
 					}
 				}
+				//if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+				//	auto gamestage = GetStage<GameStage>();
+				//	gamestage->StartDestroySE();
+				//	gamestage->AddEnemyBreak();
+				//	ThisDelete();
+				//}
 				break;
 			}
 			if (v.m_Dest == m_Rigidbody.get()) {
@@ -261,6 +289,12 @@ namespace basecross {
 						rightMove = true;
 					}
 				}
+				//if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+				//	auto gamestage = GetStage<GameStage>();
+				//	gamestage->StartDestroySE();
+				//	gamestage->AddEnemyBreak();
+				//	ThisDelete();
+				//}
 				break;
 			}
 		}
@@ -280,70 +314,29 @@ namespace basecross {
 				float delta = App::GetApp()->GetElapsedTime();
 				m_Count[i] += delta;
 
-				if (m_Alphaflag) {
-					m_PtrObj->m_Alpha += -0.3f;
-				}
-				else if (!m_Alphaflag) {
-					m_PtrObj->m_Alpha += 0.3f;
-				}
+				//if (m_Alphaflag) {
+				//	m_PtrObj->m_Alpha += -0.3f;
+				//}
+				//else if (!m_Alphaflag) {
+				//	m_PtrObj->m_Alpha += 0.3f;
+				//}
 
-				if (m_PtrObj->m_Alpha >= 1.0f) {
-					m_Alphaflag = true;
-				}
-				else if (m_PtrObj->m_Alpha <= 0.4f) {
-					m_Alphaflag = false;
-				}
+				//if (m_PtrObj->m_Alpha >= 1.0f) {
+				//	m_Alphaflag = true;
+				//}
+				//else if (m_PtrObj->m_Alpha <= 0.4f) {
+				//	m_Alphaflag = false;
+				//}
 
 				if (m_Count[i] > m_Interval[i])
 				{
-					m_PtrObj->m_Alpha =1.0f;
+					//m_PtrObj->m_Alpha = 1.0f;
 					m_isNullHit[i] = false;
 					m_Count[i] = 0;
 				}
 			}
 		}
-	}
 
-	void BossEnemy::OnDrawShadowmap() {
-		//行列の定義
-		Mat4x4 World;
-		World.affineTransformation(
-			m_Rigidbody->m_Scale,
-			Vec3(0, 0, 0),
-			m_Rigidbody->m_Quat,
-			m_Rigidbody->m_Pos
-		);
-		//描画データの行列をコピー
-		m_PtrShadowmapObj->m_WorldMatrix = World;
-		m_PtrShadowmapObj->m_Camera = GetStage<Stage>()->GetCamera();
-
-		auto shptr = m_ShadowmapRenderer.lock();
-		if (!shptr) {
-			shptr = GetStage<Stage>()->FindTagGameObject<ShadowmapRenderer>(L"ShadowmapRenderer");
-			m_ShadowmapRenderer = shptr;
-		}
-		shptr->AddDrawObject(m_PtrShadowmapObj);
-	}
-
-
-	void BossEnemy::OnDraw() {
-		//行列の定義
-		Mat4x4 World;
-		World.affineTransformation(
-			m_Rigidbody->m_Scale,
-			Vec3(0, 0, 0),
-			m_Rigidbody->m_Quat,
-			m_Rigidbody->m_Pos
-		);
-		m_PtrObj->m_WorldMatrix = World;
-		m_PtrObj->m_Camera = GetStage<Stage>()->GetCamera();
-		auto shptr = m_Renderer.lock();
-		if (!shptr) {
-			auto PtrGameStage = GetStage<GameStage>();
-			shptr = PtrGameStage->FindTagGameObject<BcPNTStaticRenderer>(L"BcPNTStaticRenderer");
-			m_Renderer = shptr;
-		}
-		shptr->AddDrawObject(m_PtrObj);
 	}
 
 	void BossEnemy::ThisDelete()

@@ -129,7 +129,18 @@ namespace basecross {
 		//前回のターンからの経過時間を求める
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		
-		if (m_Attackflag)
+		if (StarFlag)
+		{
+			auto player = GetStage<GameStage>()->FindTagGameObject<Player>(L"Player");
+			player->setP_LightGage(200);
+			StarTime -= ElapsedTime;
+			if (StarTime <= 0)
+			{
+				StarFlag = false;
+			}
+		}
+
+		if (m_Attackflag&&!StarFlag)
 		{
 			m_AttackTime += ElapsedTime;
 			if (m_AttackTime >= 3)
@@ -375,7 +386,7 @@ namespace basecross {
 						a->SetD_flag(true);
 						//m_Attackflag = false;
 					}
-					if (shptr && shptr->FindTag(L"Enemy")) {
+					else if (shptr && shptr->FindTag(L"Enemy")) {
 						m_HitObj = L"enemy";
 						if (m_Attackflag) {
 							break;

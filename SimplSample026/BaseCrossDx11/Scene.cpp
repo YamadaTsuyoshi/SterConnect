@@ -508,6 +508,8 @@ namespace basecross {
 		App::GetApp()->RegisterTexture(L"STAGESELECT_S1L2_TX", strTexture);
 		strTexture = DataDir + L"StageSelect\\StageSelect_S1_L3.png";
 		App::GetApp()->RegisterTexture(L"STAGESELECT_S1L3_TX", strTexture);
+		strTexture = DataDir + L"StageSelect\\Tutorial.png";
+		App::GetApp()->RegisterTexture(L"TUTORIAL_TX", strTexture);
 
 		strTexture = DataDir + L"StageSelect\\StageSelect_B.png";
 		App::GetApp()->RegisterTexture(L"STAGESELECT_S2BG_TX", strTexture);

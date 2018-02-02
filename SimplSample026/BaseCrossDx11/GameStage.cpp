@@ -299,6 +299,22 @@ namespace basecross {
 				AddGameObject<HeelSS>(Map, Pos);
 				
 			}
+			if (MapVec[0] == L"Tamanoeda")
+			{
+				stringflag = true;
+				/*AddGameObject<LightHeel>(
+				L"STAR_TX",
+				true,
+				Pos
+				);*/
+				wstring Path = App::GetApp()->GetDataDirWString();
+
+				//ƒtƒ@ƒCƒ‹–¼‚Ìİ’è
+				wstring Map = Path + L"\\Item\\";
+
+				AddGameObject<TamanoedaSS>(Map, Pos);
+
+			}
 
 			if (MapVec[0] == L"Boss")
 			{
@@ -1051,7 +1067,7 @@ namespace basecross {
 					SquareDrawOption::Normal);*/
 				a->AddTag(L"Yellow");
 				if (startF) {
-					lightbar -= Scale * 5;
+					lightbar -= Scale * 5*1.5f;
 				}
 				startF = true;
 				player->setP_LightGage(lightbar);
@@ -1069,7 +1085,7 @@ namespace basecross {
 					qt,
 					SquareDrawOption::Normal);*/
 				a->AddTag(L"Red");
-				lightbar -= Scale * 10;
+				lightbar -= Scale * 10*1.5f;
 				player->setP_LightGage(lightbar);
 			}
 		}

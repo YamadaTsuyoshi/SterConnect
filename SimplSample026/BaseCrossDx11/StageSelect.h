@@ -7,6 +7,7 @@ namespace basecross {
 		//描画オブジェクトの追加
 		void CreateDrawObjects();
 		shared_ptr<StageSprite> m_MessageSprite;		///<メッセージを表示するスプライト
+		shared_ptr<StageSprite> m_T;
 		shared_ptr<MultiAudioObject> m_AudioObjectPtr;
 		shared_ptr<Fade> m_FadeSprite;
 		shared_ptr<DefSp> m_kaguya;

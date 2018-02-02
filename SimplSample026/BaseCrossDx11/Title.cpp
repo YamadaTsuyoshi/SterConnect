@@ -26,6 +26,7 @@ namespace basecross {
 			0.0f,
 			Vec2(0, -260),
 			1, 1);
+		m_PushSprite->SetFlashingFlag(true);
 		m_FadeSprite = ObjectFactory::Create<Fade>(
 			GetThis<Stage>(),
 			L"FADE_TX",

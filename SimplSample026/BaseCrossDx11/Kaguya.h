@@ -140,7 +140,7 @@ namespace basecross {
 		void SetStarFlag(bool Flag) { StarFlag = Flag; };
 		bool GetStarFlag() { return StarFlag; };
 		bool GetClearFlag() { return ClearFlag; };
-
+		void SetLife(int L) { m_Life = L; };
 	};
 
 	//--------------------------------------------------------------------------------------

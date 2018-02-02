@@ -545,7 +545,7 @@ namespace basecross {
 
 		Startflag = GetStage<GameStage>()->getStartFlag();
 		if (Startflag) {
-			m_Rigidbody->m_Velocity.y = 1.5f;
+			
 			/*if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
 			if (rightMove)
 			m_Rigidbody->m_Velocity.x = Speed.x;
@@ -562,6 +562,27 @@ namespace basecross {
 			ChangeAnimation(L"attack");
 			SetLooped(true);
 			}*/
+			SPHERE t;
+			t.m_Center = m_Rigidbody->m_Pos;
+			t.m_Center.z = 0;
+			t.m_Radius = 1;
+
+			SPHERE p;
+			p.m_Center = GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetPosition();
+			p.m_Center.z = 0;
+			p.m_Radius = 4.5f;
+
+			if (t.m_Center.y >= p.m_Center.y)
+			{
+				auto kaguya = GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya");
+				kaguya->SetLife(0);
+			}
+
+			if (HitTest::SPHERE_SPHERE(t, p))
+			{
+				auto kaguya = GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya");
+				kaguya->SetLife(0);
+			}
 			if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetClearFlag())
 			{
 				ThisDelete();
@@ -576,85 +597,91 @@ namespace basecross {
 	}
 
 	void BossusaSS::OnUpdate2() {
-		//if (Startflag) {
-		//	if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
-		//		/*if (m_Rigidbody->m_Pos.x >= m_BaseX) {
-		//		rightMove = false;
-		//		}
-		//		if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
-		//		rightMove = true;
-		//		}*/
-		//	}
-		//}
+		if (Startflag) {
+			//	if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) + 7) {
+			//		/*if (m_Rigidbody->m_Pos.x >= m_BaseX) {
+			//		rightMove = false;
+			//		}
+			//		if (m_Rigidbody->m_Pos.x <= -m_BaseX) {
+			//		rightMove = true;
+			//		}*/
+			//	}
+			//}
 
-		//auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
-		//for (auto& v : StateVec) {
-		//	if (v.m_Src == m_Rigidbody.get()) {
-		//		//Destにボックスタグがあるかどうか調べる
-		//		auto shptr = v.m_Dest->m_Owner.lock();
-		//		if (shptr && shptr->FindTag(L"Kaguya")) {
-		//			if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
-		//				auto gamestage = GetStage<GameStage>();
-		//				gamestage->StartDestroySE();
-		//				gamestage->AddEnemyBreak();
-		//				ThisDelete();
-		//			}
-		//		}
-		//		if (shptr && shptr->FindTag(L"Yellow")) {
-		//		}
-		//		if (shptr && shptr->FindTag(L"Blue")) {
-		//		}
-		//		if (shptr && shptr->FindTag(L"Red")) {
-		//		}
-		//		if (shptr && shptr->FindTag(L"Bamboo")) {
-		//		}
-		//		if (shptr && shptr->FindTag(L"BambooB")) {
-		//		}
-		//		if (shptr && shptr->FindTag(L"Enemy")) {
-		//		}
-		//		if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
-		//			auto gamestage = GetStage<GameStage>();
-		//			gamestage->StartDestroySE();
-		//			gamestage->AddEnemyBreak();
-		//			ThisDelete();
-		//		}
-		//		break;
-		//	}
-		//	if (v.m_Dest == m_Rigidbody.get()) {
-		//		//Srcにボックスタグがあるかどうか調べる
-		//		auto shptr = v.m_Src->m_Owner.lock();
-		//		if (shptr && shptr->FindTag(L"Kaguya")) {
-		//			if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
-		//				auto gamestage = GetStage<GameStage>();
-		//				gamestage->StartDestroySE();
-		//				gamestage->AddEnemyBreak();
-		//				ThisDelete();
-		//			}
-		//		}
-		//		if (shptr && shptr->FindTag(L"Yellow")) {
-		//		}
-		//		if (shptr && shptr->FindTag(L"Blue")) {
-		//		}
-		//		if (shptr && shptr->FindTag(L"Red")) {
-		//		}
-		//		if (shptr && shptr->FindTag(L"Bamboo")) {
-		//		}
-		//		if (shptr && shptr->FindTag(L"BambooB")) {
-		//		}
-		//		if (shptr && shptr->FindTag(L"Enemy")) {
-		//		}
-		//		if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
-		//			auto gamestage = GetStage<GameStage>();
-		//			gamestage->StartDestroySE();
-		//			gamestage->AddEnemyBreak();
-		//			ThisDelete();
-		//		}
-		//		break;
+			//auto& StateVec = GetStage<GameStage>()->GetCollisionStateVec();
+			//for (auto& v : StateVec) {
+			//	if (v.m_Src == m_Rigidbody.get()) {
+			//		//Destにボックスタグがあるかどうか調べる
+			//		auto shptr = v.m_Dest->m_Owner.lock();
+			//		if (shptr && shptr->FindTag(L"Kaguya")) {
+			//			if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
+			//				auto gamestage = GetStage<GameStage>();
+			//				gamestage->StartDestroySE();
+			//				gamestage->AddEnemyBreak();
+			//				ThisDelete();
+			//			}
+			//		}
+			//		if (shptr && shptr->FindTag(L"Yellow")) {
+			//		}
+			//		if (shptr && shptr->FindTag(L"Blue")) {
+			//		}
+			//		if (shptr && shptr->FindTag(L"Red")) {
+			//		}
+			//		if (shptr && shptr->FindTag(L"Bamboo")) {
+			//		}
+			//		if (shptr && shptr->FindTag(L"BambooB")) {
+			//		}
+			//		if (shptr && shptr->FindTag(L"Enemy")) {
+			//		}
+			//		if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+			//			auto gamestage = GetStage<GameStage>();
+			//			gamestage->StartDestroySE();
+			//			gamestage->AddEnemyBreak();
+			//			ThisDelete();
+			//		}
+			//		break;
+			//	}
+			//	if (v.m_Dest == m_Rigidbody.get()) {
+			//		//Srcにボックスタグがあるかどうか調べる
+			//		auto shptr = v.m_Src->m_Owner.lock();
+			//		if (shptr && shptr->FindTag(L"Kaguya")) {
+			//			if (GetStage<GameStage>()->FindTagGameObject<Kaguya>(L"Kaguya")->GetAttack()) {
+			//				auto gamestage = GetStage<GameStage>();
+			//				gamestage->StartDestroySE();
+			//				gamestage->AddEnemyBreak();
+			//				ThisDelete();
+			//			}
+			//		}
+			//		if (shptr && shptr->FindTag(L"Yellow")) {
+			//		}
+			//		if (shptr && shptr->FindTag(L"Blue")) {
+			//		}
+			//		if (shptr && shptr->FindTag(L"Red")) {
+			//		}
+			//		if (shptr && shptr->FindTag(L"Bamboo")) {
+			//		}
+			//		if (shptr && shptr->FindTag(L"BambooB")) {
+			//		}
+			//		if (shptr && shptr->FindTag(L"Enemy")) {
+			//		}
+			//		if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
+			//			auto gamestage = GetStage<GameStage>();
+			//			gamestage->StartDestroySE();
+			//			gamestage->AddEnemyBreak();
+			//			ThisDelete();
+			//		}
+			//		break;
 
-		if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) - 7) {
-			//auto gamestage = GetStage<GameStage>();
-			//gamestage->StartDestroySE();
-			//ThisDelete();
+			if (m_Rigidbody->m_Pos.y <= (GetStage<GameStage>()->GetmaxPosition()) - 10) {
+				m_Rigidbody->m_Velocity.y = 3.0f;
+				//auto gamestage = GetStage<GameStage>();
+				//gamestage->StartDestroySE();
+				//ThisDelete();
+			}
+			else
+			{
+				m_Rigidbody->m_Velocity.y = 1.3f;
+			}
 		}
 
 	}

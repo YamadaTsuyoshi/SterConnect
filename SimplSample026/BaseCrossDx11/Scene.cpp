@@ -654,7 +654,42 @@ namespace basecross {
 
 		strTexture = DataDir + L"UI\\PushA.png";
 		App::GetApp()->RegisterTexture(L"PUSH_A_TX", strTexture);
-		
+		strTexture = DataDir + L"Hinto\\Hint1.png";
+		App::GetApp()->RegisterTexture(L"HINT_1_TX", strTexture);
+		strTexture = DataDir + L"Hinto\\Hint2.png";
+		App::GetApp()->RegisterTexture(L"HINT_2_TX", strTexture);
+		strTexture = DataDir + L"Hinto\\Hint3.png";
+		App::GetApp()->RegisterTexture(L"HINT_3_TX", strTexture);
+		strTexture = DataDir + L"Hinto\\Hint5.png";
+		App::GetApp()->RegisterTexture(L"HINT_5_TX", strTexture);
+		strTexture = DataDir + L"Hinto\\Hint8.png";
+		App::GetApp()->RegisterTexture(L"HINT_8_TX", strTexture);
+		strTexture = DataDir + L"Hinto\\Hint9.png";
+		App::GetApp()->RegisterTexture(L"HINT_9_TX", strTexture);
+
+		strTexture = DataDir + L"Evaluation\\Syou.png";
+		App::GetApp()->RegisterTexture(L"SYOU_TX", strTexture);
+		strTexture = DataDir + L"Evaluation\\Tiku.png";
+		App::GetApp()->RegisterTexture(L"TIKU_TX", strTexture);
+		strTexture = DataDir + L"Evaluation\\BAi.png";
+		App::GetApp()->RegisterTexture(L"BAI_TX", strTexture);
+
+		strTexture = DataDir + L"Result\\Re01_StageClear.png";
+		App::GetApp()->RegisterTexture(L"STAGECLAER_TX", strTexture);
+		strTexture = DataDir + L"Result\\Re02_ResultTime.png";
+		App::GetApp()->RegisterTexture(L"CLEARTIME_TX", strTexture);
+		strTexture = DataDir + L"Result\\Re03_NextStage_N.png";
+		App::GetApp()->RegisterTexture(L"NEXTSTAGE_N_TX", strTexture);
+		strTexture = DataDir + L"Result\\Re04_NextStage_A.png";
+		App::GetApp()->RegisterTexture(L"NEXTSTAGE_A_TX", strTexture);
+		strTexture = DataDir + L"Result\\Re05_Retry_N.png";
+		App::GetApp()->RegisterTexture(L"RETRY_N_TX", strTexture);
+		strTexture = DataDir + L"Result\\Re06_Retry_A.png";
+		App::GetApp()->RegisterTexture(L"RETRY_A_TX", strTexture);
+		strTexture = DataDir + L"Result\\Re07_StageSelect_N.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_N_TX", strTexture);
+		strTexture = DataDir + L"Result\\Re08_StageSelect_A.png";
+		App::GetApp()->RegisterTexture(L"STAGESELECT_A_TX", strTexture);
 
 		//ボーンモデルのリソース
 //		auto ModelMesh = MeshResource::CreateBoneModelMesh(DataDir, L"temp\\Chara_R.bmf");

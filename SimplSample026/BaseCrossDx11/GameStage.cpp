@@ -534,6 +534,7 @@ namespace basecross {
 			0.0f,
 			Vec2(-150, -250),
 			1, 1);
+		m_MessageSprite->SetFlashingFlag(true);
 
 		//文字列描画オブジェクトの作成
 		AddGameObject<StringDrawObject>();
@@ -584,6 +585,68 @@ namespace basecross {
 			10.0f,
 			1, 1
 			);
+
+		auto ScenePtr = App::GetApp()->GetScene<Scene>();
+		if (ScenePtr->GetStageNumber()==1)
+		{
+			m_HintSprite = AddGameObject<MessageSprite>(
+				L"HINT_1_TX",
+				Vec2(600, 150),
+				0.0f,
+				Vec2(-150, 250),
+				1, 1);
+			HintFlag = true;
+		}
+		if (ScenePtr->GetStageNumber() == 2)
+		{
+			m_HintSprite = AddGameObject<MessageSprite>(
+				L"HINT_2_TX",
+				Vec2(600, 150),
+				0.0f,
+				Vec2(-150, 250),
+				1, 1);
+			HintFlag = true;
+		}
+		if (ScenePtr->GetStageNumber() == 3)
+		{
+			m_HintSprite = AddGameObject<MessageSprite>(
+				L"HINT_3_TX",
+				Vec2(600, 150),
+				0.0f,
+				Vec2(-150, 250),
+				1, 1);
+			HintFlag = true;
+		}
+		if (ScenePtr->GetStageNumber() == 5)
+		{
+			m_HintSprite = AddGameObject<MessageSprite>(
+				L"HINT_5_TX",
+				Vec2(600, 150),
+				0.0f,
+				Vec2(-150, 250),
+				1, 1);
+			HintFlag = true;
+		}
+		if (ScenePtr->GetStageNumber() == 8)
+		{
+			m_HintSprite = AddGameObject<MessageSprite>(
+				L"HINT_8_TX",
+				Vec2(600, 150),
+				0.0f,
+				Vec2(-150, 250),
+				1, 1);
+			HintFlag = true;
+		}
+		if (ScenePtr->GetStageNumber() == 9)
+		{
+			m_HintSprite = AddGameObject<MessageSprite>(
+				L"HINT_9_TX",
+				Vec2(600, 150),
+				0.0f,
+				Vec2(-150, 250),
+				1, 1);
+			HintFlag = true;
+		}
 
 		m_FadeSprite = ObjectFactory::Create<Fade>(
 			GetThis<Stage>(),
@@ -705,6 +768,9 @@ namespace basecross {
 			/*Startbar->AddTag(L"Yellow");*/
 			Startflag = true;
 			m_MessageSprite->SetAlpha(0);
+			if (HintFlag) {
+				m_HintSprite->SetAlpha(0);
+			}
 		}
 
 		

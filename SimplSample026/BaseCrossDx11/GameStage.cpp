@@ -87,8 +87,24 @@ namespace basecross {
 				auto a = AddGameObject<Player>(
 					L"SUBARU_Y_TX", 
 					false, 
-					Pos
+					Vec3(Pos.x - 3.0f, Pos.y - 1.5f,0)
 					);
+				wstring Path2 = App::GetApp()->GetDataDirWString();
+				//ファイル名の設定
+				wstring StarMap = Path2 + L"\\Star\\";
+				wstring TextureResName;
+				AnimeName = L"Star_Y";
+				TextureResName = L"SUBARU_Y_TX";
+				PointDeleteflag = false;
+				AddGameObject<StarSS>(StarMap, AnimeName, Vec3(Pos.x + 3.0f, Pos.y - 1.5f, 0));
+				auto b = AddGameObject<P_child>(
+					TextureResName,
+					true,
+					Vec3(0.1f, 1.0f, 0.0f)
+					);
+				b->setPos(Vec3(Pos.x + 3.0f, Pos.y - 1.5f, 0));
+				PointPos1 = Vec3(Pos.x + 3.0f, Pos.y - 1.5f, 0);
+				PointCount++;
 			}
 
 			if (MapVec[0] == L"Kaguya")
@@ -524,7 +540,7 @@ namespace basecross {
 			10.0f,
 			1, 1
 			);
-		AddGameObject<StageSprite>(
+		Collon = AddGameObject<StageSprite>(
 			L"CORRON_TX",
 			Vec2(20, 60),
 			0.0f,
@@ -649,15 +665,15 @@ namespace basecross {
 			Startflag = false;
 		}
 		
-		if (!Startflag&&CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B)
+		if (!Startflag&&CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A)
 		{
-			wstring Path
-				= App::GetApp()->GetDataDirWString();
-			//ファイル名の設定
-			wstring LineMap = Path + L"\\Line\\";
-			auto Startbar=AddGameObject<BarSS>(LineMap, L"Yellow_line", Vec3(0.0f, -1.5f, 0.0f),
-				Vec3(2.0f, 0.1f, 2.0f),
-				Quat(0.0f, 0.0f, 0.0f, 1.0f));
+			//wstring Path
+			//	= App::GetApp()->GetDataDirWString();
+			////ファイル名の設定
+			//wstring LineMap = Path + L"\\Line\\";
+			//auto Startbar=AddGameObject<BarSS>(LineMap, L"Yellow_line", Vec3(0.0f, -1.5f, 0.0f),
+			//	Vec3(2.0f, 0.1f, 2.0f),
+			//	Quat(0.0f, 0.0f, 0.0f, 1.0f));
 			/*auto Startbar = AddGameObject<Bar>(
 				L"BARY_TX",
 				Vec3(2.0f, 0.1f, 2.0f),
@@ -665,7 +681,7 @@ namespace basecross {
 				Quat(0.0f, 0.0f, 0.0f, 1.0f),
 				SquareDrawOption::Normal
 				);*/
-			Startbar->AddTag(L"Yellow");
+			/*Startbar->AddTag(L"Yellow");*/
 			Startflag = true;
 			m_MessageSprite->SetAlpha(0);
 		}
@@ -994,7 +1010,7 @@ namespace basecross {
 		auto player = FindTagGameObject<Player>(L"Player");
 		lightbar = player->getP_LightGage();
 		Vec3 P_Pos = player->GetPosition();
-		float vec = atan2(PointPos1.y- PointPos2.y, PointPos1.x-PointPos2.x);
+		float vec = atan2(PointPos1.y - PointPos2.y, PointPos1.x-PointPos2.x);
 		Quat qt(Vec3(0, 0, 1), vec);
 
 		float s = ((PointPos2.x - PointPos1.x)*(PointPos2.x - PointPos1.x)) + ((PointPos2.y - PointPos1.y)*(PointPos2.y - PointPos1.y));
@@ -1018,7 +1034,10 @@ namespace basecross {
 					qt,
 					SquareDrawOption::Normal);*/
 				a->AddTag(L"Yellow");
-				lightbar -= Scale*5;
+				if (startF) {
+					lightbar -= Scale * 5;
+				}
+				startF = true;
 				player->setP_LightGage(lightbar);
 			}
 			else if (P_color == Red && lightbar >= Scale * 10) {

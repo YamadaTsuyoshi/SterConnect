@@ -110,10 +110,16 @@ namespace basecross {
 		if (!m_isNullHit[CntNum])
 		{
 			auto PtrGameStage = GetStage<GameStage>();
-			PtrGameStage->FindTagGameObject<KaguyaSS>(L"KaguyaSS")->SetDamageFlag(true);
+			m_Life += -1;
+			if (m_Life <= 0) {
+				PtrGameStage->FindTagGameObject<KaguyaSS>(L"KaguyaSS")->SetGameOverFlag(true);
+			}
+			else{
+				PtrGameStage->FindTagGameObject<KaguyaSS>(L"KaguyaSS")->SetDamageFlag(true);
+			}
 			RndDamageVo();
 			Vibration::Instance()->SetVibration(0.25f, 1.0f, 1.0f);
-			m_Life += -1;
+			//m_Life += -1;
 			m_isNullHit[CntNum] = true;
 			m_Interval[CntNum] = time;
 		}
@@ -232,6 +238,7 @@ namespace basecross {
 					m_Rigidbody->m_Velocity.x = TempVelo.x;
 					m_Rigidbody->m_Velocity.z = TempVelo.y;
 				}
+				
 			}
 			m_Rigidbody->m_Force += m_Rigidbody->m_Gravity * m_Rigidbody->m_Mass;
 
@@ -241,11 +248,14 @@ namespace basecross {
 				/*m_Rigidbody->m_Pos.y = GetStage<GameStage>()->GetGoalPos()+2;
 				m_Rigidbody->m_Pos.x = 0;*/
 				Vec3 GoalPos = Vec3(0, GetStage<GameStage>()->GetGoalPos()+2, 0);
-				if (Ttime >= 3) {
+				if (Ttime >= 2) {
 					m_Rigidbody->m_Pos = ((GoalPos + m_Rigidbody->m_Pos) / 2);
 					m_Rigidbody->m_Velocity = Vec3(0);
 				}
-				if (Ttime <= 3) {
+				if (Ttime >= 1.8) {
+					m_Rigidbody->m_Pos.x = ((GoalPos.x + m_Rigidbody->m_Pos.x) / 2);
+				}
+				if (Ttime <= 2) {
 					m_Rigidbody->m_Velocity += Vec3(0, 0.15, 0);
 				}
 				
@@ -264,6 +274,7 @@ namespace basecross {
 				m_AudioObjectPtr->AddAudioResource(L"VOICE_SONNAA");
 				m_AudioObjectPtr->Start(L"VOICE_SONNAA", 0, 0.5f);
 				gamestage->FadeFlag = true;
+				gamestage->FindTagGameObject<KaguyaSS>(L"KaguyaSS")->SetGameOverFlag(true);
 				//PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"ToGameover");
 			}
 			for (int i = 0; i < ARRAYSIZE(m_isNullHit); i++)
@@ -360,7 +371,7 @@ namespace basecross {
 							break;
 						}
 						auto PtrGameStage = GetStage<GameStage>();
-						SetMutekiTime(3.0f);
+						SetMutekiTime(2.0f);
 					}
 					else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 						m_HitObj = L"enemy";
@@ -368,7 +379,7 @@ namespace basecross {
 							break;
 						}
 						auto PtrGameStage = GetStage<GameStage>();
-						SetMutekiTime(3.0f);
+						SetMutekiTime(2.0f);
 					}
 					else if (shptr && shptr->FindTag(L"Boss")) {
 						m_HitObj = L"enemy";
@@ -376,7 +387,7 @@ namespace basecross {
 							break;
 						}
 						auto PtrGameStage = GetStage<GameStage>();
-						SetMutekiTime(3.0f);
+						SetMutekiTime(2.0f);
 					}
 					m_JumpLock = false;
 					break;
@@ -416,7 +427,7 @@ namespace basecross {
 							break;
 						}
 						auto PtrGameStage = GetStage<GameStage>();
-						SetMutekiTime(3.0f);
+						SetMutekiTime(2.0f);
 					}
 					else if (shptr && shptr->FindTag(L"Enemy_Bullet")) {
 						m_HitObj = L"enemy";
@@ -424,7 +435,7 @@ namespace basecross {
 							break;
 						}
 						auto PtrGameStage = GetStage<GameStage>();
-						SetMutekiTime(3.0f);
+						SetMutekiTime(2.0f);
 					}
 					else if (shptr && shptr->FindTag(L"Boss")) {
 						m_HitObj = L"enemy";
@@ -432,7 +443,7 @@ namespace basecross {
 							break;
 						}
 						auto PtrGameStage = GetStage<GameStage>();
-						SetMutekiTime(3.0f);
+						SetMutekiTime(2.0f);
 					}
 					m_JumpLock = false;
 					break;
@@ -588,7 +599,7 @@ namespace basecross {
 		//親クラスのクリエイトを呼ぶ
 		SS5ssae::OnCreate();
 		//値は秒あたりのフレーム数
-		SetFps(10.0f);
+		SetFps(30.0f);
 		//ChangeAnimation(L"Fly");
 		SetLooped(false);
 	}
@@ -600,20 +611,26 @@ namespace basecross {
 		if (ClearFlag&&IsAnimeEnd())
 		{
 			SetFps(10.0f);
-				ChangeAnimation(L"clear");
+			ChangeAnimation(L"clear");
+			SetLooped(false);
+		}
+		else if (GameOverFlag&&IsAnimeEnd())
+		{
+			SetFps(10.0f);
+			ChangeAnimation(L"gameover");
 			SetLooped(false);
 		}
 		else if (!DamageFlag&&IsAnimeEnd())
 		{ 
-			SetFps(10.0f);
+			SetFps(30.0f);
 			ChangeAnimation(L"Fly");
 			SetLooped(false);
 		}
-		else if (DamageFlag)
+		else if (DamageFlag&&!GameOverFlag)
 		{
 			ChangeAnimation(L"Damage");
 			SetLooped(false);
-			SetFps(15.0f);
+			SetFps(5.0f);
 			DamageTime += ElapsedTime;
 
 			if (DamageTime <= 3)
@@ -670,6 +687,73 @@ namespace basecross {
 		float ElapsedTime = App::GetApp()->GetElapsedTime();
 		//アニメーションを更新する
 		GetTransform()->SetPosition(Vec3(2.0f, 0.0f, 1.0f));
+		UpdateAnimeTime(ElapsedTime);
+	}
+
+
+	//--------------------------------------------------------------------------------------
+	//	かぐやスプライトスタジオ（ステセレ）
+	//--------------------------------------------------------------------------------------
+	StageSelectKaguyaSS::StageSelectKaguyaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir) :
+		SS5ssae(StagePtr, BaseDir, L"kaguyaanimeyou.ssae", L"Fly")
+	{
+		m_ToAnimeMatrixLeft.affineTransformation(
+			Vec3(0.1f, 0.1f, 1.0f),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0),
+			Vec3(0, 0, 0.0f)
+		);
+
+	}
+
+	//初期化
+	void StageSelectKaguyaSS::OnCreate() {
+		AddTag(L"StageSelectKaguya");
+		//元となるオブジェクトからアニメーションオブジェクトへの行列の設定
+		SetToAnimeMatrix(m_ToAnimeMatrixLeft);
+
+		auto PtrT = GetTransform();
+		PtrT->SetScale(0.6f*0.8f, 0.6f*0.8f, 1.0f);
+		//PtrT->SetPosition(Vec3(0, 5.0f, 1.0f));
+		//親クラスのクリエイトを呼ぶ
+		SS5ssae::OnCreate();
+		//値は秒あたりのフレーム数
+		SetFps(30.0f);
+
+		//ChangeAnimation(L"run");
+		SetLooped(true);
+
+
+	}
+
+	//更新
+	void StageSelectKaguyaSS::OnUpdate() {
+		float ElapsedTime = App::GetApp()->GetElapsedTime();
+		
+			switch (StageNum)
+			{
+			case 0:
+				GetTransform()->SetPosition(Vec3(-1.65f, -5.15f, 1.0f));
+				break;
+			case 1:
+				GetTransform()->SetPosition(Vec3(4.66f, -3.85f, 1.0f));
+				break;
+			case 2:
+				GetTransform()->SetPosition(Vec3(8.24f, -0.49f, 1.0f));
+				break;
+			default:
+				GetTransform()->SetPosition(Vec3(-1.65f, -5.15f, 1.0f));
+				break;
+			}
+			auto CntlVec = App::GetApp()->GetInputDevice().GetControlerVec();
+			if (!StartFlag && CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) 
+			{
+				ChangeAnimation(L"clear");
+				SetLooped(false);
+				StartFlag = true;
+			}
+
+		
 		UpdateAnimeTime(ElapsedTime);
 	}
 

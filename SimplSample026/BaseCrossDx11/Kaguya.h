@@ -144,6 +144,7 @@ namespace basecross {
 		bool DamageFlag = false;
 		float DamageTime;
 		bool ClearFlag = false;
+		bool GameOverFlag = false;
 	public:
 		//構築と破棄
 		KaguyaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir);
@@ -154,6 +155,7 @@ namespace basecross {
 		virtual void OnUpdate() override;
 		void SetDamageFlag(bool Flag) { DamageFlag = Flag; };
 		void SetClearFlag(bool Flag) { ClearFlag = Flag; };
+		void SetGameOverFlag(bool Flag) { GameOverFlag = Flag; };
 	};
 
 	//--------------------------------------------------------------------------------------
@@ -169,6 +171,25 @@ namespace basecross {
 		virtual void OnCreate() override;
 		//更新
 		virtual void OnUpdate() override;
+	};
+
+	//--------------------------------------------------------------------------------------
+	//	かぐやスプライトスタジオ（ステセレ）
+	//--------------------------------------------------------------------------------------
+	class StageSelectKaguyaSS : public SS5ssae {
+		Mat4x4 m_ToAnimeMatrixLeft;
+		int StageNum = 0;
+		bool StartFlag = false;
+	public:
+		//構築と破棄
+		StageSelectKaguyaSS(const shared_ptr<Stage>& StagePtr, const wstring& BaseDir);
+		virtual ~StageSelectKaguyaSS() {}
+		//初期化
+		virtual void OnCreate() override;
+		//更新
+		virtual void OnUpdate() override;
+
+		void SetStageNum(int num) { StageNum = num; };
 	};
 
 

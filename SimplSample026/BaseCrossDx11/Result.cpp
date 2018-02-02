@@ -217,7 +217,7 @@ namespace basecross {
 					Selecter = 0;
 				}
 			}
-			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
 				m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");
 				FadeFlag = true;
 			}
@@ -430,7 +430,7 @@ namespace basecross {
 					Selecter = 0;
 				}
 			}
-			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_B) {
+			if (CntlVec[0].wPressedButtons & XINPUT_GAMEPAD_A) {
 				m_AudioObjectPtr->Stop(L"GAMEOVER_BGM");
 				FadeFlag = true;
 			}

@@ -139,6 +139,8 @@ namespace basecross {
 		float GetTtime() { return Ttime; };
 		void SetStarFlag(bool Flag) { StarFlag = Flag; };
 		bool GetStarFlag() { return StarFlag; };
+		bool GetClearFlag() { return ClearFlag; };
+
 	};
 
 	//--------------------------------------------------------------------------------------

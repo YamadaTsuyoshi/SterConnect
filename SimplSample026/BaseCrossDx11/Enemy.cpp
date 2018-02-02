@@ -964,7 +964,7 @@ namespace basecross {
 						BulletCount++;
 					}
 				}
-				else if (Bulletflag&&BulletTime >= 5)
+				else if (Bulletflag&&BulletTime >= 3)
 				{
 					BulletTime = 0;
 					wstring Anime = L"Throw_";

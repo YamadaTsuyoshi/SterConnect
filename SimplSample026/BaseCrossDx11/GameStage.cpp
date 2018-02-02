@@ -335,7 +335,6 @@ namespace basecross {
 
 				//ƒtƒ@ƒCƒ‹–¼‚Ìİ’è
 				wstring Map = Path + L"\\Enemy\\";
-
 				AddGameObject<BossusaSS>(Map, Pos);
 			}
 
@@ -1067,7 +1066,7 @@ namespace basecross {
 					SquareDrawOption::Normal);*/
 				a->AddTag(L"Yellow");
 				if (startF) {
-					lightbar -= Scale * 5*1.5f;
+					lightbar -= Scale * 5*1.2f;
 				}
 				startF = true;
 				player->setP_LightGage(lightbar);
@@ -1085,7 +1084,7 @@ namespace basecross {
 					qt,
 					SquareDrawOption::Normal);*/
 				a->AddTag(L"Red");
-				lightbar -= Scale * 10*1.5f;
+				lightbar -= Scale * 10*1.2f;
 				player->setP_LightGage(lightbar);
 			}
 		}
